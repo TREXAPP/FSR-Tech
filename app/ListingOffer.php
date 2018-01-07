@@ -28,6 +28,14 @@ class ListingOffer extends Model
     }
 
     /**
+     * Get the comments for this listing_offer.
+     */
+    public function comments()
+    {
+        return $this->hasMany('FSR\Comment');
+    }
+
+    /**
      * Get the cso for this listing_offer.
      */
     public function cso()
@@ -42,7 +50,7 @@ class ListingOffer extends Model
     {
         return $this->belongsTo('FSR\Listing');
     }
-    
+
     /**
      * Get the location for this cso.
      */
