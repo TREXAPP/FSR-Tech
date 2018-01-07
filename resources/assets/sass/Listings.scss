@@ -1,0 +1,194 @@
+.content-header > h1 {
+  margin-left: 15px;
+}
+
+.listing-box {
+  margin-bottom: 10px;
+}
+
+.box-error, {
+  border: red solid;
+}
+
+.listing-box-header {
+  padding-bottom: 0px;
+}
+
+.header-elements-wrapper {
+  font-size: 14px;
+}
+
+.listing-box-body-wrapper {
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px inset;
+  background: rgba(238, 238, 238, 0.3);
+}
+
+.listing-image {
+  float: left;
+  padding-right: 10px;
+}
+
+.listing-image img {
+  width: 80px;
+}
+
+.header-wrapper {
+  margin-left: 90px;
+}
+
+.listing-title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.donor-listing-title-panel {
+  margin-bottom: 0px;
+}
+
+.donor-accepted-header-element {
+    margin-bottom: 10px;
+}
+
+.listing-box-anchor {
+  overflow: auto;
+  padding: 0px;
+}
+
+.quantity-needed-input {
+  margin-right: -100px;
+  float: left;
+  width: 100%;
+}
+
+.beneficiaries-no-input {
+  margin-right: -60px;
+  float: left;
+  width: 100%;
+}
+
+.quantity-type-inside, .beneficiaries-no-inside {
+  margin-top: 7px;
+  display: block;
+}
+
+.btn-box-tool, .btn-box-tool:hover {
+  color: #222d32;
+}
+
+.listing-input-wrapper div, .listing-input-wrapper span,
+.listing-pickup-volunteer div, .listing-pickup-volunteer span {
+  padding-right: 0px;
+  margin-bottom: 10px;
+}
+
+.listing-input-wrapper input,
+.listing-pickup-volunteer input {
+  margin-left: 7px;
+}
+
+/*---- popup -----*/
+.popup-element-label {
+  text-align: right;
+}
+
+.popup-info {
+  font-weight: bold;
+  text-align: center;
+}
+
+.popup-element-value {
+    font-weight: bold;
+}
+
+.help-block {
+  font-size: 12px;
+}
+
+.edit-volunteer-button {
+  margin-right: 10px;
+}
+
+.cso-accepted-listing-box {
+  background: #b6f7cd;
+}
+
+.cso-active-listing-box {
+/*  background: #ffdede; */
+  background: #cde4f6;
+}
+
+.donor-my-active-listings-box {
+  background: #cde4f6;
+}
+
+.donor-listing-box-header {
+  padding-bottom: 10px;
+}
+
+.donor-listing-offer-button {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.volunteer-image-wrapper {
+/*  width: 150px; */
+}
+
+.volunteer-image-wrapper img {
+  width: 100%;
+  max-width: 225px;
+}
+
+.profile-info {
+  margin-top: 15px;
+}
+
+.profile-image img, .volunteer-image img {
+  width: 100%;
+  max-width: 225px;
+}
+
+#edit-profile-form input#profile-image,
+#edit-volunteer-form input#volunteer-image {
+  max-width: 225px;
+}
+
+.volunteer-listing-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.volunteer-image-preview {
+  float: left;
+  margin-right: 10px;
+}
+
+.volunteer-image-preview img {
+  width: 50px;
+}
+
+.volunteer-info-wrapper {
+  margin-top: 30px;
+  font-size: 16px;
+}
+
+.volunteer-image-preview {
+  margin-bottom: 10px;
+}
+
+.volunteer-box {
+  margin-bottom: 10px;
+}
+
+.section-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.volunteer-box-body-wrapper {
+  padding-top: 20px;
+}
