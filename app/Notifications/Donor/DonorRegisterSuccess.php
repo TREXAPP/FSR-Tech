@@ -2,30 +2,17 @@
 
 namespace FSR\Notifications\Donor;
 
-use FSR\Listing;
+use FSR\Volunteer;
 use FSR\Custom\CarbonFix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewListing extends Notification implements ShouldQueue
+class DonorRegisterSuccess extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
-    protected $listing;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @param Listing $listing
-     * @return void
-     */
-    public function __construct(Listing $listing)
-    {
-        $this->listing = $listing;
-    }
 
     /**
      * Get the notification's delivery channels.
@@ -47,10 +34,10 @@ class NewListing extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Нова донација')
-                    ->line('Додадена е нова донација од ' . $this->listing->donor->organization->name . '.')
-                    ->line('Донацијата ќе биде активна ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans() . '.')
-                    ->action('Прифати ја донацијата', url('/cso/active_listings/' . $this->listing->id));
+                    ->subject('Успешна регистрација!')
+                    ->line('Успешно сте регистрирани во системот за донирање храна')
+                    ->line('Вашиот профил се уште не е активен. Ќе добиете потврден меил кога профилот ќе биде одобрен.');
+        // ->action('Види ги промените', url('/cso/profile'));
     }
 
     /**

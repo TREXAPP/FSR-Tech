@@ -66,8 +66,8 @@
                       <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
-                      <span class="col-xs-12">Количина:</span>
-                      <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->listing->quantity_type->description}} за {{$listing_offer->beneficiaries_no}} луѓе</strong></span>
+                      <span class="col-xs-12">Прифатена количина:</span>
+                      <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->listing->quantity_type->description}}</strong></span>
 
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
@@ -129,7 +129,7 @@
 
 
                 <!-- Comments -->
-                <div class="comments-wrapper">
+                <div id='comments-{{$listing_offer->id}}' class="comments-wrapper">
                   <div class="new-comment-wrapper">
                     <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
                     <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>

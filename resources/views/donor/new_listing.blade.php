@@ -42,7 +42,7 @@
             <!-- food type -->
             <br/>
             <div class="form-group{{ $errors->has('food_type') ? ' has-error' : '' }} row">
-              <label for="food_type" class="col-md-2 col-md-offset-2 control-label">Тип на храна</label>
+              <label for="food_type" class="col-md-2 col-md-offset-2 control-label">Категорија на храна</label>
               <div class="col-md-6">
                 <select id="food_type_select" class="form-control" name="food_type">
                   <option value="">-- Избери --</option>
@@ -129,7 +129,7 @@
             </div>
 
 
-
+{{--
 
             <!-- Upload image -->
             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} row">
@@ -143,8 +143,22 @@
                 </span>
                 @endif
               </div>
-            </div>
+            </div> --}}
 
+            <!-- sell_by_date -->
+            <div class="form-group{{ $errors->has('sell_by_date') ? ' has-error' : '' }} row">
+              <label for="sell_by_date" class="col-md-2 col-md-offset-2 control-label">Рок на важност на храната</label>
+
+              <div class="col-md-6">
+                <input id="sell_by_date" type="date" class="form-control" name="sell_by_date" min="2017-01-01" max="9999-01-01"
+                      value="{{(old('sell_by_date')) ? old('sell_by_date') : $now}}" style="text-align: center;" required >
+                @if ($errors->has('sell_by_date'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sell_by_date') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
 
             <hr>
 
@@ -152,7 +166,7 @@
 
             <!-- date_listed -->
             <div class="form-group{{ $errors->has('date_listed') ? ' has-error' : '' }} row">
-              <label for="date_listed" class="col-md-2 col-md-offset-2 control-label">Важи од</label>
+              <label for="date_listed" class="col-md-2 col-md-offset-2 control-label">Донацијата важи од</label>
 
               <div class="col-md-6">
                 {{-- <input id="date_listed" type="datetime-local" class="form-control" name="date_listed" value="{{(old('date_listed')) ? old('date_listed') : $now}}" style="text-align: center;" required > --}}
@@ -168,7 +182,7 @@
 
             <!-- expires_in -->
             <div class="form-group{{ $errors->has('expires_in') ? ' has-error' : '' }} row">
-              <label for="expires_in" class="col-md-2 col-md-offset-2 control-label">Рок на важност</label>
+              <label for="expires_in" class="col-md-2 col-md-offset-2 control-label">Донацијата ќе биде активна</label>
 
               <div class="col-md-6">
                 <div class="col-xs-6" style="padding-left: 0px;">
@@ -200,7 +214,8 @@
               <div class="col-md-4 col-lg-5">
                 <div class="col-xs-6" style="padding-left: 0px;">
                   {{-- <input id="pickup_time_from" type="time" class="form-control" name="pickup_time_from" value="{{old('pickup_time_from')}}"  style="text-align: center;" required > --}}
-                  <input id="pickup_time_from" type="time" class="form-control" name="pickup_time_from" value="{{old('pickup_time_from')}}"
+                  <input id="pickup_time_from" type="time" class="form-control" step='3600' name="pickup_time_from"
+                        value="{{(old('pickup_time_from')) ? old('pickup_time_from') : Auth::user()->organization->working_hours_from}}"
                         style="text-align: center;" required >
                 </div>
                 <div class="col-xs-6" style="padding-right: 0px;">
@@ -221,7 +236,8 @@
               <div class="col-md-4 col-lg-5">
                 <div class="col-xs-6" style="padding-left: 0px;">
                   {{-- <input id="pickup_time_to" type="time" class="form-control" name="pickup_time_to" value="{{old('pickup_time_to')}}" style="text-align: center;" required > --}}
-                  <input id="pickup_time_to" type="time" class="form-control" name="pickup_time_to" value="{{old('pickup_time_to')}}"
+                  <input id="pickup_time_to" type="time" class="form-control" step='3600' name="pickup_time_to"
+                        value="{{(old('pickup_time_to')) ? old('pickup_time_to') : Auth::user()->organization->working_hours_to}}"
                         style="text-align: center;" required >
                 </div>
                 <div class="col-xs-6" style="padding-right: 0px;">

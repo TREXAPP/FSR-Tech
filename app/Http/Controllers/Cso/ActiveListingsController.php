@@ -212,7 +212,7 @@ class ActiveListingsController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email',
             'image' => 'image|max:2048',
         ];
 

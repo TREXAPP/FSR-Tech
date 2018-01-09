@@ -112,7 +112,7 @@
           <div class="box-footer text-center">
 
             <!-- Comments -->
-            <div class="comments-wrapper">
+            <div id="comments" class="comments-wrapper">
               <div class="new-comment-wrapper">
                 <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
                 <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>

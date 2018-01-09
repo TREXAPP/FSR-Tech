@@ -68,8 +68,8 @@
                   <div class="header-elements-wrapper donor-header-elements">
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
-                      <span class="col-xs-12">Количина:</span>
-                      <span class="col-xs-12" id="quantity-offered-{{$active_listing->id}}"><strong>{{$active_listing->quantity}} {{$active_listing->quantity_type->description}}</strong></span>
+                      <span class="col-xs-12">Преостаната количина:</span>
+                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->listing_offers->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                       <div class="col-xs-12 row">Прифатени:</div>

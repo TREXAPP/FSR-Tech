@@ -71,7 +71,7 @@
 							</span>
 						</div>
 						<div class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-xs-12">Количина:</span>
+							<span class="col-xs-12">Достапна количина:</span>
 							<span class="col-xs-12" id="quantity-offered-{{$active_listing->id}}">
 								<strong>{{$active_listing->quantity - $quantity_counter}} {{$active_listing->quantity_type->description}}</strong>
 							</span>

@@ -2,14 +2,17 @@
 
 namespace FSR\Http\Controllers\Donor;
 
+use FSR\Cso;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\ListingOffer;
 use FSR\Http\Controllers\Controller;
+use FSR\Notifications\Cso\CsoNewComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 
 class MyAcceptedListingsController extends Controller
 {
@@ -64,7 +67,7 @@ class MyAcceptedListingsController extends Controller
         //catch input-comment post
         if ($request->has('submit-comment')) {
             $comment = $this->create_comment($request->all(), $listing_offer_id);
-            //  $comment->listing->donor->notify(new AcceptListing($listing_offer));
+
             return back();
         }
 
@@ -91,6 +94,9 @@ class MyAcceptedListingsController extends Controller
      */
     protected function create_comment(array $data, int $listing_offer_id)
     {
+        //send notification to the cso
+        ListingOffer::find($listing_offer_id)->cso->notify(new CsoNewComment($listing_offer_id));
+
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,

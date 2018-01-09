@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
-    public $timestamps = false;
 
     /**
      * Get the csos for this organization.
@@ -33,6 +32,15 @@ class Organization extends Model
     }
 
     protected $fillable = [
-      'name', 'description', 'type'
+      'name',
+      'description',
+      'type',
+      'working_hours_from',
+      'working_hours_to',
+      'image_id',
+      'status',
+      'created_at',
+      'updated_at',
+
   ];
 }

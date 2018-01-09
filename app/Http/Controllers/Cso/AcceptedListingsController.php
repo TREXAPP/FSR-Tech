@@ -7,6 +7,7 @@ use FSR\Listing;
 use FSR\ListingOffer;
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
+use FSR\Notifications\Donor\DonorNewComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -229,7 +230,7 @@ class AcceptedListingsController extends Controller
         //catch input-comment post
         if ($request->has('submit-comment')) {
             $comment = $this->create_comment($request->all(), $listing_offer_id);
-            //  $comment->listing->donor->notify(new AcceptListing($listing_offer));
+
             return back();
         }
 
@@ -256,6 +257,9 @@ class AcceptedListingsController extends Controller
      */
     protected function create_comment(array $data, int $listing_offer_id)
     {
+        //send notification to the donor
+        ListingOffer::find($listing_offer_id)->listing->donor->notify(new DonorNewComment($listing_offer_id));
+      
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,

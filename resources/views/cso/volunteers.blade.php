@@ -38,7 +38,7 @@
 	<!-- Default box -->
 <div class="section-wrapper volunteers-section-wrapper col-md-6">
 <div id="volunteerbox{{$volunteer->id}}" name="volunteerbox{{$volunteer->id}}"></div>
-	<div class="cso-volunteer-box box volunteer-box volunteer-box-{{$volunteer->id}} {{($volunteer->id == old('volunteer_id')) ? 'box-error' : 'collapsed-box' }}">
+	<div class="cso-volunteer-box box volunteer-box volunteer-box-{{$volunteer->id}} {{($volunteer->id == old('volunteer_id')) ? 'box-error' : 'collapsed-box' }} {{($volunteer->is_user) ? ' volunteer-is-user' : ''}}">
 		<div class="box-header with-border listing-box-header">
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
@@ -119,14 +119,16 @@
 				</div>
 
 			</div>
+			@if (!$volunteer->is_user)
 			<div class="box-footer">
-				<div class="pull-right">
-					<a href="{{url('cso/volunteers/' . $volunteer->id)}}" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
-					class="btn btn-success edit-volunteer-button">Измени ги податоците</a>
-					<button id="delete-volunteer-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-volunteer-popup"
-									name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го волонтерот</button>
-				</div>
+					<div class="pull-right">
+						<a href="{{url('cso/volunteers/' . $volunteer->id)}}" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
+							class="btn btn-success edit-volunteer-button">Измени ги податоците</a>
+							<button id="delete-volunteer-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-volunteer-popup"
+								name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го волонтерот</button>
+							</div>
 			</div>
+			@endif
 		</div>
 
 		<!-- /.box-footer-->

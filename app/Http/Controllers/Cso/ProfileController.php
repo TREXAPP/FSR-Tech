@@ -5,6 +5,7 @@ namespace FSR\Http\Controllers\Cso;
 use FSR\File;
 use FSR\Listing;
 use FSR\Location;
+use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
@@ -69,6 +70,7 @@ class ProfileController extends Controller
             }
 
             $file_id = $this->edit_handle_upload($request);
+            $volunteer = $this->update_volunteer($request->all(), $file_id);
             $user = $this->update_user($request->all(), $file_id);
 
             $user->notify(new EditProfile());
@@ -170,5 +172,30 @@ class ProfileController extends Controller
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * updates the information for the volunteer
+     *
+     * @param  array  $data
+     * @param  int  $file_id
+     * @return FSR\Volunteer $volunteer
+     */
+    protected function update_volunteer($data, $file_id)
+    {
+        $volunteer = Volunteer::where('is_user', '1')
+                              ->where('added_by_user_id', Auth::user()->id)->first();
+
+        if ($volunteer) {
+            if ($file_id) {
+                $volunteer->image_id = $file_id;
+            }
+            $volunteer->first_name = $data['profile-first-name'];
+            $volunteer->last_name = $data['profile-last-name'];
+            $volunteer->phone = $data['profile-phone'];
+
+            $volunteer->save();
+        }
+        return $volunteer;
     }
 }

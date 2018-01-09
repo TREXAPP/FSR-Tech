@@ -13,10 +13,34 @@
 
 //welcome
 Route::get('/', 'WelcomeController@index')->name('welcome');
+Route::get('home', function () {
+    if (Auth::user()) {
+        switch (Auth::user()->type()) {
+      case 'cso':
+          return redirect(route('cso.home'));
+        break;
+      case 'donor':
+          return redirect(route('donor.home'));
+        break;
+      case 'admin':
+          return redirect(route('admin.home'));
+        break;
+
+      default:
+        return redirect(route('login'));
+        break;
+  }
+    } else {
+        return redirect(route('login'));
+    }
+})->name('home');
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', function () {
+    return redirect(route('home'));
+})->name('logout');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...

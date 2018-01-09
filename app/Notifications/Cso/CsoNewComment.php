@@ -1,30 +1,28 @@
 <?php
 
-namespace FSR\Notifications\Donor;
+namespace FSR\Notifications\Cso;
 
-use FSR\Listing;
+use FSR\Volunteer;
 use FSR\Custom\CarbonFix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewListing extends Notification implements ShouldQueue
+class CsoNewComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
-    protected $listing;
+    protected $listing_offer_id;
 
     /**
      * Create a new notification instance.
-     *
-     * @param Listing $listing
+     * @param int $listing_offer_id
      * @return void
      */
-    public function __construct(Listing $listing)
+    public function __construct(int $listing_offer_id)
     {
-        $this->listing = $listing;
+        $this->listing_offer_id = $listing_offer_id;
     }
 
     /**
@@ -47,10 +45,10 @@ class NewListing extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Нова донација')
-                    ->line('Додадена е нова донација од ' . $this->listing->donor->organization->name . '.')
-                    ->line('Донацијата ќе биде активна ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans() . '.')
-                    ->action('Прифати ја донацијата', url('/cso/active_listings/' . $this->listing->id));
+                    ->subject('Нов коментар на прифатена донација!')
+                    ->line('Имате нов коментар на вашата прифатена донација.')
+                    ->line('Кликнете подолу за да го прочитате:')
+                    ->action('Кон коментарот', route('cso.accepted_listings.single_accepted_listing', $this->listing_offer_id) . '#comments');
     }
 
     /**

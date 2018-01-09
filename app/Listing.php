@@ -23,6 +23,7 @@ class Listing extends Model
           'pickup_time_to',
           'listing_status',
           'image_id',
+          'sell_by_date',
       ];
 
     /**

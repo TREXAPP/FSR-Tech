@@ -20177,6 +20177,10 @@ button.close {
   color: white !important;
 }
 
+.master-info span {
+  margin-right: 5px;
+}
+
 .fa-1-5x {
   font-size: 1.5em;
 }
@@ -20385,6 +20389,10 @@ button.close {
 
 .volunteer-box-body-wrapper {
   padding-top: 20px;
+}
+
+.volunteer-is-user {
+  background: #ddd;
 }
 
 .comments-wrapper {

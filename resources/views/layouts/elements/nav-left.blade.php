@@ -13,8 +13,12 @@
           <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
         @endif
       </div>
-      <div class="pull-left info">
-        <p>{{Auth::user()->email}}</p>
+      <div class="pull-left info master-info">
+        <p>
+          <small>
+            <span>{{Auth::user()->first_name}}</span><span>{{Auth::user()->last_name}}</span>
+          </small>
+        </p>
         <p><small>{{Auth::user()->organization->name}}</small></p>
       </div>
     </div>
@@ -178,14 +182,17 @@
 
           </ul>
       </li>
-
-
+      
       <li>
-        <a href="#">
+        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                 document.getElementById('logout-form').submit();">
           <i class="fa fa-sign-out"></i> <span>Одјави се</span>
           <span class="pull-right-container">
           </span>
         </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
       </li>
 
     </ul>

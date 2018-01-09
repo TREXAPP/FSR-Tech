@@ -110,7 +110,7 @@ class VolunteersController extends Controller
         $validation = $this->volunteer_validator($request->all());
 
         if ($validation->fails()) {
-            return redirect(route('cso.new_volunteer'))->withErrors($validation->errors())
+            return back()->withErrors($validation->errors())
                                              ->withInput();
         }
 
@@ -166,7 +166,7 @@ class VolunteersController extends Controller
                 'volunteer-first-name'    => 'required',
                 'volunteer-last-name'     => 'required',
                 'volunteer-image'         => 'image|max:2048',
-                'volunteer-email'         => 'required',
+                'volunteer-email'         => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email',
                 'volunteer-phone'         => 'required',
             ];
 

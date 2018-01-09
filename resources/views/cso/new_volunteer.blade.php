@@ -49,12 +49,12 @@
 					<div class="col-xs-12 form-group">
 							<img class="img-rounded" alt="Слика за волонтер" src="{{url('img/avatar5.png')}}" />
 					</div>
-					<div class="col-xs-12 form-group {{ ($errors->has('new-volunteer-image')) ? ' has-error' : '' }}">
+					<div class="col-xs-12 form-group {{ ($errors->has('volunteer-image')) ? ' has-error' : '' }}">
 							<label for="new-volunteer-image">Внеси слика:</label>
-              <input id="new-volunteer-image" type="file" class="form-control" name="volunteer-image" value="{{ old('new-volunteer-image') }}">
-							@if ($errors->has('new-volunteer-image'))
+              <input id="new-volunteer-image" type="file" class="form-control" name="volunteer-image" value="{{ old('volunteer-image') }}">
+							@if ($errors->has('volunteer-image'))
 						 <span class="help-block">
-								 <strong>{{ $errors->first('new-volunteer-image') }}</strong>
+								 <strong>{{ $errors->first('volunteer-image') }}</strong>
 						 </span>
 		 				 @endif
 					</div>
@@ -63,59 +63,59 @@
 				<div id="new-volunteer-info" class="col-md-8 col-xs-12 new-volunteer-info">
 
 					<!-- First name -->
-					<div class="row form-group{{ ($errors->has('new-volunteer-first-name') || $errors->has('new-volunteer-first-name')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-first-name') || $errors->has('volunteer-first-name')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-first-name-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-first-name">Име:</label>
 						</div>
 						<div class="new-volunteer-first-name-value col-sm-8 col-xs-12">
-							<input type="text" name="volunteer-first-name" class="form-control" value="{{ (old('new-volunteer-first-name')) ? old('new-volunteer-first-name') : '' }}" required>
-							@if ($errors->has('new-volunteer-first-name'))
+							<input type="text" name="volunteer-first-name" class="form-control" value="{{ (old('volunteer-first-name')) ? old('volunteer-first-name') : '' }}" required>
+							@if ($errors->has('volunteer-first-name'))
 								<span class="help-block">
-									<strong>{{ $errors->first('new-volunteer-first-name') }}</strong>
+									<strong>{{ $errors->first('volunteer-first-name') }}</strong>
 								</span>
 							@endif
 						</div>
 					</div>
 
 					<!-- Last name -->
-					<div class="row  form-group{{ ($errors->has('new-volunteer-last-name') || $errors->has('new-volunteer-last-name')) ? ' has-error' : '' }}">
+					<div class="row  form-group{{ ($errors->has('volunteer-last-name') || $errors->has('volunteer-last-name')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-last-name-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-last-name">Презиме:</label>
 						</div>
 						<div class="new-volunteer-last-name-value col-sm-8 col-xs-12">
-							<input type="text" name="volunteer-last-name" class="form-control" value="{{ (old('new-volunteer-last-name')) ? old('new-volunteer-last-name') : '' }}" required>
-							@if ($errors->has('new-volunteer-last-name'))
+							<input type="text" name="volunteer-last-name" class="form-control" value="{{ (old('volunteer-last-name')) ? old('volunteer-last-name') : '' }}" required>
+							@if ($errors->has('volunteer-last-name'))
 								<span class="help-block">
-									<strong>{{ $errors->first('new-volunteer-last-name') }}</strong>
+									<strong>{{ $errors->first('volunteer-last-name') }}</strong>
 								</span>
 							@endif
 						</div>
 					</div>
 
 
-					<div class="row form-group{{ ($errors->has('new-volunteer-email') || $errors->has('new-volunteer-email')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-email') || $errors->has('volunteer-email')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-email-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-email">Емаил:</label>
 						</div>
 						<div class="new-volunteer-email-value col-sm-8 col-xs-12">
-							<input type="email" name="volunteer-email" class="form-control" value="{{ (old('new-volunteer-email')) ? old('new-volunteer-email') : '' }}" required>
-							@if ($errors->has('new-volunteer-email'))
+							<input type="email" name="volunteer-email" class="form-control" value="{{ (old('volunteer-email')) ? old('volunteer-email') : '' }}" required>
+							@if ($errors->has('volunteer-email'))
 								<span class="help-block">
-									<strong>{{ $errors->first('new-volunteer-email') }}</strong>
+									<strong>{{ $errors->first('volunteer-email') }}</strong>
 								</span>
 							@endif
 						</div>
 					</div>
 
-					<div class="row form-group{{ ($errors->has('new-volunteer-phone') || $errors->has('new-volunteer-phone')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-phone') || $errors->has('volunteer-phone')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-phone-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-phone">Телефон:</label>
 						</div>
 						<div class="new-volunteer-phone-value col-sm-8 col-xs-12">
-							<input type="text" name="volunteer-phone" class="form-control" value="{{ (old('new-volunteer-phone')) ? old('new-volunteer-phone') : '' }}" required>
-							@if ($errors->has('new-volunteer-phone'))
+							<input type="text" name="volunteer-phone" class="form-control" value="{{ (old('volunteer-phone')) ? old('volunteer-phone') : '' }}" required>
+							@if ($errors->has('volunteer-phone'))
 								<span class="help-block">
-									<strong>{{ $errors->first('new-volunteer-phone') }}</strong>
+									<strong>{{ $errors->first('volunteer-phone') }}</strong>
 								</span>
 							@endif
 						</div>

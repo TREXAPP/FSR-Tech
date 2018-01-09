@@ -7,11 +7,15 @@ use FSR\Cso;
 use FSR\Donor;
 use FSR\Location;
 use FSR\DonorType;
+use FSR\Volunteer;
 use FSR\Organization;
 use FSR\File;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
+use FSR\Notifications\Cso\CsoRegisterSuccess;
+use FSR\Notifications\Donor\DonorRegisterSuccess;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
@@ -44,9 +48,10 @@ class RegisterController extends Controller
     {
         $selectedType = old('type');
         if ($selectedType) {
-            $organizations = Organization::where('type', '=', $selectedType)->get();
+            $organizations = Organization::where('type', '=', $selectedType)
+                                          ->where('status', 'active')->get();
         } else {
-            $organizations = Organization::all();
+            $organizations = Organization::where('status', 'active')->get();
         }
 
         $locations = Location::all();
@@ -68,15 +73,21 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        //  DB::transaction(function(Request $request) {
         $file_id = $this->register_handle_upload($request);
         event(new Registered($user = $this->create($request->all(), $file_id)));
-        //  });
+
+        if ($user->type() == 'donor') {
+            $user->notify(new DonorRegisterSuccess());
+        } elseif ($user->type() == 'cso') {
+            $user->notify(new CsoRegisterSuccess());
+        }
+
         $request->session()->put('status', Lang::get('login.not_approved'));
-        //Auth::guard($user->type())->login($user);
+
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());
     }
+
 
     /**
      * Retrieve Organizations with ajax to populate the <select> control
@@ -86,7 +97,8 @@ class RegisterController extends Controller
      */
     public function getOrganizations(Request $request)
     {
-        return $organizations = Organization::where('type', '=', $request->input('type'))->get();
+        return $organizations = Organization::where('status', 'active')
+                                              ->where('type', $request->input('type'))->get();
     }
 
 
@@ -113,7 +125,7 @@ class RegisterController extends Controller
             'organization'          => 'required',
             'donor_type'            => '',
             'location'              => 'required',
-            'email'                 => 'required|string|email|max:255|unique:donors|unique:csos',
+            'email'                 => 'required|string|email|max:255|unique:donors|unique:csos|unique:volunteers',
             'password'              => 'required|string|min:6|confirmed',
             'profile_image'         => 'image|max:2048',
         ];
@@ -151,7 +163,7 @@ class RegisterController extends Controller
           break;
           case 'cso':
           $redirectTo = '/cso/home';
-          return  Cso::create([
+          $cso = Cso::create([
               'email' => $data['email'],
               'password' => bcrypt($data['password']),
               'first_name' => $data['first_name'],
@@ -163,6 +175,8 @@ class RegisterController extends Controller
               'profile_image_id' => $file_id,
               'notifications' => '1',
             ]);
+          $volunteer = $this->create_volunteer($data, $file_id, $cso->id);
+          return $cso;
           break;
 
         default:
@@ -170,6 +184,31 @@ class RegisterController extends Controller
           break;
       }
     }
+
+
+    /**
+     * inserts a new volunteer to the model
+     *
+     * @param  array  $data
+     * @param  int  $file_id
+     * @param  int  $cso_id
+     * @return FSR\Volunteer $volunteer
+     */
+    protected function create_volunteer($data, $file_id, $cso_id)
+    {
+        return Volunteer::create([
+                  'first_name' => $data['first_name'],
+                  'last_name' => $data['last_name'],
+                  'email' => $data['email'],
+                  'phone' => $data['phone'],
+                  'image_id' => $file_id,
+                  'organization_id' => $data['organization'],
+                  'added_by_user_id' => $cso_id,
+                  'is_user' => '1',
+                  'status' => 'pending',
+              ]);
+    }
+
 
 
     /**
