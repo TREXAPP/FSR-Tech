@@ -47,6 +47,8 @@ class AcceptedListingsController extends Controller
                                       ->whereHas('listing', function ($query) {
                                           $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'));
                                       });
+        $comments = Comment::where('status', 'active')
+                            ->orderBy('created_at', 'DESC')->get();
         //$listing_offers = ListingOffer::all();
         $listing_offers_no = 0;
         foreach ($listing_offers->get() as $listing_offer) {
@@ -62,6 +64,7 @@ class AcceptedListingsController extends Controller
         return view('cso.accepted_listings')->with([
           'listing_offers' => $listing_offers,
           'listing_offers_no' => $listing_offers_no,
+          'comments' => $comments,
         ]);
     }
 
@@ -75,6 +78,10 @@ class AcceptedListingsController extends Controller
     {
         if ($request->has('submit-comment')) {
             return $this->handle_insert_comment($request);
+        } elseif ($request->has('delete-comment')) {
+            return $this->handle_delete_comment($request);
+        } elseif ($request->has('edit-comment')) {
+            return $this->handle_edit_comment($request);
         } elseif ($request->has('delete-offer-popup')) {
             return $this->handle_delete_offer($request);
         }
@@ -116,15 +123,43 @@ class AcceptedListingsController extends Controller
 
 
     /**
-     * Handle insert new comment.
+     * Handle insert new comment. (accepted listings list)
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function handle_insert_comment(Request $request)
     {
-        $listing_offer = $this->single_accepted_listing_post($request, $request->all()['listing-offer-id']);
-        return back()->with('listingbox', $request->all()['listing-offer-id']);
+        $listing_offer = $this->create_comment($request->all(), $request->all()['listing_offer_id']);
+        return back()->with(['listingbox' => $request->all()['listing_offer_id'],
+                             'status' => 'Коментарот е внесен!']);
+    }
+
+    /**
+     * Handle edit comment. (accepted listings list)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_edit_comment(Request $request)
+    {
+        $listing_offer = $this->edit_comment($request->all());
+        return back()->with(['listingbox' => $request->all()['listing_offer_id'],
+                             'status' => 'Коментарот е изменет!']);
+    }
+
+    /**
+     * Handle delete comment.(accepted listings list)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete_comment(Request $request)
+    {
+        $listing_offer = $this->delete_comment($request->all());
+        return back()->with(['listingbox' => $request->all()['listing_offer_id'],
+                             'status' => 'Коментарот е избришан!']);
+        ;
     }
 
     /**
@@ -183,7 +218,7 @@ class AcceptedListingsController extends Controller
     }
 
     /**
-     * Open a single listing offer page
+     * Handles post to this page
      *
      * @param  Request  $request
      * @param  int  $listing_offer_id
@@ -191,7 +226,6 @@ class AcceptedListingsController extends Controller
      */
     public function single_accepted_listing_post(Request $request, int $listing_offer_id = null)
     {
-
         //catch input-comment post
         if ($request->has('submit-comment')) {
             $comment = $this->create_comment($request->all(), $listing_offer_id);

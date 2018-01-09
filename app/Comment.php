@@ -19,7 +19,7 @@ class Comment extends Model
           'sender_type',
           'text',
           'created_at',
-          'updated_at',,
+          'updated_at',
       ];
 
     /**

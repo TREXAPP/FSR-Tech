@@ -53,3 +53,23 @@ $("#update-volunteer-form").submit(function (e) {
     });
   }
 });
+
+//single accepted listing - delete comment
+$('.delete-comment-button').on('click', function() {
+    var comment_id = this.id.replace('delete-comment-button-','');
+    var controls = $(this).closest('.comment-controls');
+    var listing_offer = $(this).closest('.comment-controls')[0].id.replace('comment-controls-','');
+    $("#popup-hidden-delete-comment-id").val(comment_id);
+    $("#popup-hidden-delete-listing-offer-id").val(listing_offer);
+});
+
+//single accepted listing - edit comment
+$('.edit-comment-button').on('click', function() {
+    var comment_id = this.id.replace('edit-comment-button-','');
+    var controls = $(this).closest('.comment-controls');
+    var listing_offer = $(this).closest('.comment-controls')[0].id.replace('comment-controls-','');
+    //alert(listing_offer);
+    $("#popup-hidden-edit-comment-id").val(comment_id);
+    $("#popup-hidden-edit-listing-offer-id").val(listing_offer);
+    $('#edit-comment-text').text($('#comment-text-' + comment_id).text().trim());
+});

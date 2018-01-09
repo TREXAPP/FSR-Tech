@@ -16,7 +16,6 @@ class ListingOffer extends Model
     'listing_id',
     'offer_status',
     'quantity',
-    'beneficiaries_no',
     'volunteer_id',
   ];
     /**

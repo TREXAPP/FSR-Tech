@@ -18,4 +18,11 @@
       |
       */
     'prevent_listing_delete_time' => '12',
+      /*
+      | How many comments should be shown in the cso/active_listings page
+      | If more than this number of comments exist, a link will be shown below
+      | to go to the single listings page with all the comments
+      |
+      */
+    'max_comments_in_active_listings' => '3',
 ];
