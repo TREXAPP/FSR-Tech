@@ -43,7 +43,11 @@ class Methods
     public static function isUserApproved($user)
     {
         if ($user) {
-            return $user->first()->approved;
+            if ($user->first()->status == 'active') {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

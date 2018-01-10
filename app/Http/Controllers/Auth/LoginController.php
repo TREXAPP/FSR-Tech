@@ -120,7 +120,7 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request, String $guard)
     {
         $credentials = $this->credentials($request);
-        $credentials['approved'] = '1';
+        $credentials['status'] = 'active';
         return  Auth::guard($guard)->attempt(
             $credentials,
             $request->filled('remember')

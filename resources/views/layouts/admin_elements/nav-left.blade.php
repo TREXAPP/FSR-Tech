@@ -34,92 +34,141 @@
         </a>
       </li> --}}
 
-      <li class="header">ДОНАЦИИ</li>
-
-      @if (Auth::user()->type() == 'donor')
-        <li>
-          <a href="/{{Auth::user()->type()}}/my_active_listings">
-            <i class="fa fa-bookmark"></i> <span>Мои донации</span>
-            <span class="pull-right-container">
-              {{-- <small class="label pull-right bg-blue">2</small> --}}
-            </span>
-          </a>
-        </li>
+      {{-- <li class="header">ДОНАЦИИ</li> --}}
 
 
-        <li>
-          <a href="/{{Auth::user()->type()}}/new_listing">
-            <i class="fa fa-plus-circle"></i> <span>Додади нова донација</span>
-            <span class="pull-right-container">
-            </span>
-          </a>
-        </li>
-      @elseif (Auth::user()->type() == 'cso')
-        <li>
-          <a href="/{{Auth::user()->type()}}/accepted_listings">
-            <i class="fa fa-bookmark"></i> <span>Прифатени донации</span>
-              @yield('cso_accepted_listings_no')
-          </a>
-        </li>
-
-        <li>
-          <a href="/{{Auth::user()->type()}}/active_listings">
-            <i class="fa fa-cutlery"></i> <span>Активни донации</span>
-            <span class="pull-right-container">
-            </span>
-          </a>
-        </li>
-      @endif
-
-
-      <li class="header">ИЗВЕСТУВАЊА</li>
-
-      <li class="inactive-menu">
-        <a href="#">
-          <i class="fa fa-commenting"></i> <span>Пораки</span>
+      <li>
+        <a href="{{route('admin.approve_users')}}">
+          <i class="fa fa-bookmark"></i> <span>Одобри корисници</span>
           <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-green">4</small> --}}
+            {{-- <small class="label pull-right bg-blue">2</small> --}}
           </span>
         </a>
       </li>
 
-      <li class="inactive-menu">
-        <a href="#">
-          <i class="fa fa-bell"></i> <span>Нови известувања</span>
-          <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-orange">10</small> --}}
-          </span>
-        </a>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Корисници</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Приматели</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers/new">
+                <i class="fa fa-user-plus"></i> <span>Донори</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
       </li>
 
-      @if (Auth::user()->type() == 'cso')
-        <li class="treeview">
-            <a href="#">
-              <i class="fa fa-universal-access"></i> <span>Волонтери</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li>
-                <a href="/{{Auth::user()->type()}}/volunteers">
-                  <i class="fa fa-users"></i> <span>Преглед</span>
-                  <span class="pull-right-container">
-                  </span>
-                </a>
-              </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Организации</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Додади нова</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
 
-              <li>
-                <a href="/{{Auth::user()->type()}}/volunteers/new">
-                  <i class="fa fa-user-plus"></i> <span>Додади нов</span>
-                  <span class="pull-right-container">
-                  </span>
-                </a>
-              </li>
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Приматели</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
 
-            </ul>
-        </li>
-      @endif
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers/new">
+                <i class="fa fa-user-plus"></i> <span>Донори</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Храна</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Категории</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Производи</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers/new">
+                <i class="fa fa-user-plus"></i> <span>Количини</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Известувања</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Пораки</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Нови известувања</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
 
       <li class="treeview">
           <a href="#">
@@ -129,7 +178,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li>
+            <li class="inactive-menu">
               <a href="/{{Auth::user()->type()}}/profile">
                 <i class="fa fa-user-circle"></i> <span>Мој профил</span>
                 <span class="pull-right-container">
@@ -165,7 +214,7 @@
           <ul class="treeview-menu">
             <li class="inactive-menu">
               <a href="#">
-                <i class="fa fa-star-half-full"></i> <span>Рејтинг</span>
+                <i class="fa fa-star-half-full"></i> <span>Рејтинзи</span>
                 <span class="pull-right-container">
                   {{-- <small class="label pull-right bg-green">4.74</small> --}}
                 </span>

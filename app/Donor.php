@@ -65,7 +65,7 @@ class Donor extends Authenticatable
       'donor_type_id',
       'location_id',
       'notifications',
-      'approved',
+      'status',
 
     ];
 

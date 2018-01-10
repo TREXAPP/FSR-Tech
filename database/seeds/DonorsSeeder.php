@@ -23,7 +23,7 @@ class DonorsSeeder extends Seeder
           'donor_type_id' => '1',
           'profile_image_id' => null,
           'notifications' => '1',
-          'approved' => '1',
+          'status' => 'active',
         ]);
     }
 }

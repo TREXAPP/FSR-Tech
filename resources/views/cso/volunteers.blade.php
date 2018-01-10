@@ -38,11 +38,11 @@
 	<!-- Default box -->
 <div class="section-wrapper volunteers-section-wrapper col-md-6">
 <div id="volunteerbox{{$volunteer->id}}" name="volunteerbox{{$volunteer->id}}"></div>
-	<div class="cso-volunteer-box box volunteer-box volunteer-box-{{$volunteer->id}} {{($volunteer->id == old('volunteer_id')) ? 'box-error' : 'collapsed-box' }} {{($volunteer->is_user) ? ' volunteer-is-user' : ''}}">
+	<div class="cso-volunteer-box box volunteer-box two-col-layout-box volunteer-box-{{$volunteer->id}} {{($volunteer->id == old('volunteer_id')) ? 'box-error' : 'collapsed-box' }} {{($volunteer->is_user) ? ' volunteer-is-user' : ''}}">
 		<div class="box-header with-border listing-box-header">
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
-				<div id="volunteer-image-preview-{{$volunteer->id}}" class="volunteer-image-preview">
+				<div id="volunteer-image-preview-{{$volunteer->id}}" class="volunteer-image-preview two-col-layout-image-preview">
 					@if ($volunteer->image_id)
 						<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteer->image_id)->filename)}}" />
 					@else
@@ -51,7 +51,7 @@
 				</div>
 				<div class="header-wrapper">
 					<div id="volunteer-name-{{$volunteer->id}}" class="volunteer-name">
-						<span class="volunteer-listing-title">{{$volunteer->first_name}} {{$volunteer->last_name}}</span>
+						<span class="volunteer-listing-title two-col-layout-listing-title">{{$volunteer->first_name}} {{$volunteer->last_name}}</span>
 					</div>
 					<div class="box-tools pull-right">
 							<i class="fa fa-caret-down pull-right"></i>
@@ -62,7 +62,7 @@
 		</div>
 		<div class="listing-box-body-wrapper">
 			<div class="box-body">
-				<div id="volunteer-image-wrapper-{{$volunteer->id}}" class="volunteer-image-wrapper col-md-4">
+				<div id="volunteer-image-wrapper-{{$volunteer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
 
 
 									@if ($volunteer->image_id)
@@ -73,7 +73,7 @@
 
 				</div>
 
-				<div id="volunteer-info-wrapper-{{$volunteer->id}}" class="volunteer-info-wrapper col-md-8">
+				<div id="volunteer-info-wrapper-{{$volunteer->id}}" class="volunteer-info-wrapper two-col-layout-info-wrapper col-md-8">
 
 					<!-- First Name -->
 					<div id="volunteer-info-first-name-{{$volunteer->id}}" class="row volunteer-info-first-name row">

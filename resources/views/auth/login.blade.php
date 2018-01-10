@@ -13,7 +13,7 @@
                           {{ $status }}
                       </div>
                   @endif
-                    <form class="form-horizontal" method="POST" action="{{ route('admin.login') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -59,7 +59,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     @lang('login.login')
                                 </button>
-{{-- 
+{{--
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     @lang('login.forgot')
                                 </a> --}}

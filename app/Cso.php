@@ -57,7 +57,7 @@ class Cso extends Authenticatable
       'organization_id',
       'location_id',
       'notifications',
-      'approved',
+      'status',
     ];
 
     /**

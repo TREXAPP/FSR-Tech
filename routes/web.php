@@ -12,7 +12,7 @@
 */
 
 //welcome
-Route::get('/', function () {
+Route::get('login', function () {
     return redirect(route('home'));
 })->name('welcome');
 Route::get('home', function () {
@@ -38,8 +38,8 @@ Route::get('home', function () {
 })->name('home');
 
 // Authentication Routes...
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/', 'Auth\LoginController@login');
 Route::get('logout', function () {
     return redirect(route('home'));
 })->name('logout');
@@ -73,6 +73,11 @@ Route::get('admin/logout', function () {
 })->name('admin/logout');
 Route::post('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
+
+Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('admin.approve_users');
+Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->name('admin.approve_users');
+Route::get('admin/users/cso', 'Admin\CsoUserController@index')->name('admin.cso_users');
+Route::get('admin/users/donor', 'Admin\DonorUserController@index')->name('admin.donor_users');
 
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');

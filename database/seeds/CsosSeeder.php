@@ -22,7 +22,7 @@ class CsosSeeder extends Seeder
           'location_id' => '2',
           'profile_image_id' => null,
           'notifications' => '1',
-          'approved' => '1',
+          'status' => 'active',
         ]);
     }
 }

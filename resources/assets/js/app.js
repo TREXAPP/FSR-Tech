@@ -13,6 +13,8 @@ require('./donor_my_active_listings');
 require('./volunteers');
 require('./new_listing');
 
+require('./admin/approve_users');
+
 require('admin-lte');
 //
 // window.Vue = require('vue');
