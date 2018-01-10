@@ -36,10 +36,10 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
-
         Schema::table('comments', function (Blueprint $table) {
             $table->dropForeign(['listing_offer_id']);
         });
+
+        Schema::dropIfExists('comments');
     }
 }

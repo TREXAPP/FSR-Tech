@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
-        //return redirect(route('donor.my_active_listings'));
+        //return view('admin.home');
+        return redirect(route('admin.approve_users'));
     }
 }

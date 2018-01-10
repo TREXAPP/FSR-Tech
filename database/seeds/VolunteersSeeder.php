@@ -1,8 +1,8 @@
 <?php
-use FSR\Cso;
+use FSR\Volunteer;
 use Illuminate\Database\Seeder;
 
-class CsosSeeder extends Seeder
+class VolunteersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,19 +11,17 @@ class CsosSeeder extends Seeder
      */
     public function run()
     {
-        Cso::create([
+        Volunteer::create([
           'id' => '1',
-          'email' => 'cso1@cso.mk',
-          'password' => '$2y$10$VTkMD9uOZHYCqqlFg5Y.q.5Us6GOp93ieJW/SdNmTtR.JiP739Whu', //csocso
           'first_name' => 'Игор',
           'last_name' => 'Пирковски',
+          'email' => 'cso1@cso.mk',
           'phone' => '071234567',
-          'address' => 'Женевска 34/6',
+          'image_id' => null,
           'organization_id' => '3',
-          'location_id' => '2',
-          'profile_image_id' => null,
-          'notifications' => '1',
+          'added_by_user_id' => '1',
           'status' => 'active',
+          'is_user' => '1',
         ]);
     }
 }
