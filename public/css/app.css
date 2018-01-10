@@ -20341,7 +20341,8 @@ button.close {
   /*  width: 150px; */
 }
 
-.two-col-layout-image-wrapper img {
+.two-col-layout-image-wrapper img,
+.volunteer-image-wrapper img {
   width: 100%;
   max-width: 225px;
 }

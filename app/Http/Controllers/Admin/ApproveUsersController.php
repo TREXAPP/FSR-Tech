@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Volunteer;
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications\Cso\CsoApproved;
 use FSR\Notifications\Donor\DonorApproved;
@@ -70,6 +71,7 @@ class ApproveUsersController extends Controller
         if ($cso) {
             $cso->status = 'active';
             $cso->save();
+            $this->approve_volunteer($data['cso_id']);
             $cso->notify(new CsoApproved());
 
             return back()->with([
@@ -138,5 +140,22 @@ class ApproveUsersController extends Controller
           ]);
         }
         return back();
+    }
+
+
+    /**
+     * Approve the volunteer instance for the cso
+     *
+     * @param  int $id
+     * @return void
+     */
+    public function approve_volunteer($id)
+    {
+        $volunteer = Volunteer::where('is_user', '1')
+                                ->where('added_by_user_id', $id)->first();
+        if ($volunteer) {
+            $volunteer->status = 'active';
+            $volunteer->save();
+        }
     }
 }
