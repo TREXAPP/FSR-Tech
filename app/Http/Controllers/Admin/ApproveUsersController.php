@@ -5,6 +5,8 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Http\Controllers\Controller;
+use FSR\Notifications\Cso\CsoApproved;
+use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +70,7 @@ class ApproveUsersController extends Controller
         if ($cso) {
             $cso->status = 'active';
             $cso->save();
+            $cso->notify(new CsoApproved());
 
             return back()->with([
             'status' => 'Примателот е успешно одобрен!'
@@ -88,6 +91,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'active';
             $donor->save();
+            $donor->notify(new DonorApproved());
 
             return back()->with([
             'status' => 'Донорот е успешно одобрен!'
