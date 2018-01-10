@@ -20181,6 +20181,12 @@ button.close {
   margin-right: 5px;
 }
 
+.inactive-menu {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.35;
+}
+
 .fa-1-5x {
   font-size: 1.5em;
 }
@@ -20565,5 +20571,9 @@ button.close {
 
 .other-comment-hr {
   border-color: gray;
+}
+
+.admin-body {
+  background: green;
 }
 

@@ -47,6 +47,11 @@ return [
             'provider' => 'donors',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -81,6 +86,10 @@ return [
             'driver' => 'eloquent',
             'model' => FSR\Donor::class,
         ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => FSR\Admin::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -112,6 +121,11 @@ return [
         ],
         'donors' => [
             'provider' => 'donors',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
         ],

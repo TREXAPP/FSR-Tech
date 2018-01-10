@@ -13,7 +13,7 @@ class Donor extends Authenticatable
 
     public function type()
     {
-        return 'donor';
+        return $this->type;
     }
 
     /**

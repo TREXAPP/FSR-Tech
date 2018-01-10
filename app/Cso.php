@@ -13,7 +13,7 @@ class Cso extends Authenticatable
 
     public function type()
     {
-        return 'cso';
+        return $this->type;
     }
 
     /**

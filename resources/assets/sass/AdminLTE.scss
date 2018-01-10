@@ -1,3 +1,4 @@
+
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header {
   height: initial;
 }
@@ -23,4 +24,10 @@
 
 .master-info span{
   margin-right: 5px;
+}
+
+.inactive-menu {
+   pointer-events: none;
+   cursor: default;
+   opacity: 0.35;
 }

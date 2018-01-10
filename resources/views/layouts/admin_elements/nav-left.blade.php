@@ -19,7 +19,6 @@
             <span>{{Auth::user()->first_name}}</span><span>{{Auth::user()->last_name}}</span>
           </small>
         </p>
-        <p><small>{{Auth::user()->organization->name}}</small></p>
       </div>
     </div>
 
@@ -190,7 +189,7 @@
           <span class="pull-right-container">
           </span>
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
       </li>

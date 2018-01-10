@@ -96,9 +96,6 @@
                 <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
               @endif
               <p> {{Auth::user()->first_name}} {{Auth::user()->last_name}}<br>
-                  {{Auth::user()->organization->name}}
-                <small>{{Auth::user()->phone}}</small>
-                <small>{{Auth::user()->address}}</small>
               </p>
             </li>
 
@@ -109,10 +106,10 @@
                 <a href="/{{Auth::user()->type()}}/profile" class="btn btn-default btn-flat">Профил</a>
               </div>
               <div class="pull-right">
-                <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
+                <a class="btn btn-default btn-flat" href="{{ route('admin.logout') }}"
                     onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">Одјави се</a>
-                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                      {{ csrf_field() }}
                  </form>
               </div>

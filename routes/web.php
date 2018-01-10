@@ -12,9 +12,11 @@
 */
 
 //welcome
-Route::get('/', 'WelcomeController@index')->name('welcome');
+Route::get('/', function () {
+    return redirect(route('home'));
+})->name('welcome');
 Route::get('home', function () {
-    if (Auth::user()) {
+    if (!empty(Auth::user())) {
         switch (Auth::user()->type()) {
       case 'cso':
           return redirect(route('cso.home'));
@@ -54,6 +56,23 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+//admin routes
+Route::get('admin', function () {
+    if (Auth::user()) {
+        if (Auth::user()->type() == "admin") {
+            return redirect(route('admin.home'));
+        }
+    }
+    return redirect(route('admin.login'));
+})->name('admin');
+Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login');
+Route::get('admin/logout', function () {
+    return redirect(route('home'));
+})->name('admin/logout');
+Route::post('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
 
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');
