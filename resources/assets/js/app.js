@@ -14,6 +14,7 @@ require('./volunteers');
 require('./new_listing');
 
 require('./admin/approve_users');
+require('./admin/new_organization');
 
 require('admin-lte');
 //

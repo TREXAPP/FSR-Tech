@@ -50,8 +50,8 @@
 					@if ($active_listing->image_id)
 					{{-- <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="../../storage{{config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename}}" --}}
 					<img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename)}}"
-					/> @elseif ($active_listing->product->food_type->default_image)
-					<img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url($active_listing->product->food_type->default_image)}}"
+					/> @elseif ($active_listing->product->food_type->image_id)
+					<img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->product->food_type->image_id)->filename)}}"
 					/> @else
 					<img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" /> @endif
 

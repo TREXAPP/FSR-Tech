@@ -33,8 +33,8 @@
               {{-- <img src="../img/avatar5.png" /> --}}
               @if ($listing_offer->listing->image_id)
                 <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->image_id)->filename)}}" />
-              @elseif ($listing_offer->listing->product->food_type->default_image)
-                <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url($listing_offer->listing->product->food_type->default_image)}}" />
+              @elseif ($listing_offer->listing->product->food_type->image_id)
+                <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->product->food_type->image_id)->filename)}}" />
               @else
                 <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" />
               @endif

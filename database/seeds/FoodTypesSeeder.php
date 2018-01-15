@@ -15,25 +15,25 @@ class FoodTypesSeeder extends Seeder
           'id' => '1',
           'name' => 'Овошје',
           'comment' => '',
-          'default_image' => '../img/food_types/fruits.jpg',
+          'image_id' => '1001',
         ]);
         FoodType::create([
           'id' => '2',
           'name' => 'Зеленчук',
           'comment' => '',
-          'default_image' => '../img/food_types/vegetables.jpg',
+          'image_id' => '1002',
         ]);
         FoodType::create([
           'id' => '3',
           'name' => 'Млечни производи',
           'comment' => '',
-          'default_image' => '../img/food_types/dairy.jpg',
+          'image_id' => '1003',
         ]);
         FoodType::create([
           'id' => '4',
           'name' => 'Кондиторски производи',
           'comment' => '',
-          'default_image' => '../img/food_types/conditory.jpg',
+          'image_id' => '1004',
         ]);
     }
 }

@@ -81,8 +81,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
+            <li>
+              <a href="{{route('admin.new_organization')}}">
                 <i class="fa fa-users"></i> <span>Додади нова</span>
                 <span class="pull-right-container">
                 </span>
@@ -108,6 +108,8 @@
           </ul>
       </li>
 
+
+
       <li class="treeview">
           <a href="#">
             <i class="fa fa-universal-access"></i> <span>Храна</span>
@@ -116,28 +118,41 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
-                <i class="fa fa-users"></i> <span>Категории</span>
+
+            <li class="treeview">
+              <a href="#"><i class="fa fa-circle-o"></i> Категории
                 <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
+              <ul class="treeview-menu">
+                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.new_food_type')}}"><i class="fa fa-circle-o"></i> Додади нова</a></li>
+              </ul>
             </li>
 
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
-                <i class="fa fa-users"></i> <span>Производи</span>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-circle-o"></i> Производи
                 <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
+              <ul class="treeview-menu">
+                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.new_product')}}"><i class="fa fa-circle-o"></i> Додади нов</a></li>
+              </ul>
             </li>
 
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers/new">
-                <i class="fa fa-user-plus"></i> <span>Количини</span>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-circle-o"></i> Количини
                 <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
+              <ul class="treeview-menu">
+                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.new_quantity_type')}}"><i class="fa fa-circle-o"></i> Додади нова</a></li>
+              </ul>
             </li>
 
           </ul>

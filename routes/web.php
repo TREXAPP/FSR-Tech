@@ -79,6 +79,18 @@ Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->
 Route::get('admin/users/cso', 'Admin\CsoUserController@index')->name('admin.cso_users');
 Route::get('admin/users/donor', 'Admin\DonorUserController@index')->name('admin.donor_users');
 
+Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
+Route::post('admin/organizations/new', 'Admin\NewOrganizationController@handle_post')->name('admin.new_organization');
+
+Route::get('admin/food_types/new', 'Admin\NewFoodTypeController@index')->name('admin.new_food_type');
+Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->name('admin.new_food_type');
+
+Route::get('admin/products/new', 'Admin\NewProductController@index')->name('admin.new_product');
+Route::post('admin/products/new', 'Admin\NewProductController@handle_post')->name('admin.new_product');
+
+Route::get('admin/quantity_types/new', 'Admin\NewQuantityTypeController@index')->name('admin.new_quantity_type');
+Route::post('admin/quantity_types/new', 'Admin\NewQuantityTypeController@handle_post')->name('admin.new_quantity_type');
+
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');
 Route::get('donor/profile', 'Donor\ProfileController@index')->name('donor.profile');

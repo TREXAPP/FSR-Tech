@@ -59,10 +59,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     @lang('login.login')
                                 </button>
-{{--
+
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     @lang('login.forgot')
-                                </a> --}}
+                                </a>
                             </div>
                         </div>
                     </form>
