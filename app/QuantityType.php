@@ -13,7 +13,7 @@ class QuantityType extends Model
      * @var array
      */
     protected $fillable = [
-    'name', 'description', 'portion_size'
+    'name', 'description'
 ];
 
     /**
@@ -22,5 +22,14 @@ class QuantityType extends Model
     public function listings()
     {
         return $this->hasMany('FSR\Listing');
+    }
+
+
+    /**
+     * Get the products that belong to the quantity_type.
+     */
+    public function products()
+    {
+        return $this->belongsToMany('FSR\Product', 'products_quantity_types')->withPivot('default', 'portion_size');
     }
 }

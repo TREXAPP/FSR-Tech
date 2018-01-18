@@ -12,8 +12,8 @@
       <li><a href="/{{Auth::user()->type()}}/new_listing"><i class="fa fa-plus-circle"></i> Додади нова донација</a></li>
     </ol>
   </section>
-
-
+{{-- 
+{{dd($products->find('10')->quantity_types)}} --}}
 
 <!-- Main content -->
 
@@ -87,15 +87,15 @@
                 <div class="col-xs-6" style="padding-left: 0px;">
                   {{-- <input id="quantity" type="number" name="quantity" min="0" max="99999999" step="1"  class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required > --}}
                   <input id="quantity" type="number" name="quantity" min="0" max="99999999" step="0.1"
-                        class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required >
+                        class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required disabled>
                 </div>
                 <div class="col-xs-6"  style="padding-right: 0px;">
-                  <select id="quantity_type" class="form-control" name="quantity_type">
-                    @foreach ($quantity_types as $quantity_type)
+                  <select id="quantity_type" class="form-control" name="quantity_type" disabled>
+                    {{-- @foreach ($quantity_types as $quantity_type)
                       <option value={{$quantity_type->id}}{{ (old('quantity_type') == $quantity_type->id) ? ' selected' : ''}}>
                         {{$quantity_type->description}}
                       </option>
-                    @endforeach
+                    @endforeach --}}
                   </select>
                 </div>
                 @if ($errors->has('quantity'))

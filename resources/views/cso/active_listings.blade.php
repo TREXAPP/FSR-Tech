@@ -58,33 +58,31 @@
 				</div>
 				<div class="header-wrapper">
 					<div id="listing-title-{{$active_listing->id}}" class="listing-title col-xs-12 panel">
-						<strong>
-							{{$active_listing->product->name}}
-						</strong>
+						<strong>{{$active_listing->product->food_type->name}} | {{$active_listing->product->name}}</strong>
 					</div>
 					<div class="header-elements-wrapper">
-						<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
 							<span class="col-xs-12">Истекува за:</span>
 
 							<span class="col-xs-12" id="expires-in-{{$active_listing->id}}">
 								<strong>{{Carbon::parse($active_listing->date_expires)->diffForHumans()}}</strong>
 							</span>
 						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
 							<span class="col-xs-12">Достапна количина:</span>
 							<span class="col-xs-12" id="quantity-offered-{{$active_listing->id}}">
 								<strong>{{$active_listing->quantity - $quantity_counter}} {{$active_listing->quantity_type->description}}</strong>
 							</span>
 
 						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
 							<span class="col-xs-12">Локација:</span>
 							<span class="col-xs-12" id="donor-location-{{$active_listing->id}}">
 								<strong>{{$active_listing->donor->location->name}}</strong>
 							</span>
 
 						</div>
-						<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
 							<span class="col-xs-12">Донирано од:</span>
 							<span class="col-xs-12" id="donor-info-{{$active_listing->id}}">
 								<strong>{{$active_listing->donor->first_name}} {{$active_listing->donor->last_name}} | {{$active_listing->donor->organization->name}}</strong>
@@ -101,7 +99,7 @@
 		<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div class="row">
-					<div class="col-md-4 col-sm-6 listing-pick-up-time ">
+					<div class="listing-info-box col-md-4 col-sm-6 listing-pick-up-time ">
 						<span class="col-xs-12">Време за подигнување:</span>
 						<span class="col-xs-12" id="pickup-time-{{$active_listing->id}}">
 							<strong>од {{Carbon::parse($active_listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($active_listing->pickup_time_to)->format('H:i')}}
@@ -109,13 +107,13 @@
 							</strong>
 						</span>
 					</div>
-					<div class="col-md-3 col-sm-6 listing-food-type ">
-						<span class="col-xs-12">Тип на храна:</span>
+					<div class="listing-info-box col-md-3 col-sm-6 listing-food-type ">
+						<span class="col-xs-12">Рок на траење на храната:</span>
 						<span class="col-xs-12" id="food-type-{{$active_listing->id}}">
-							<strong>{{$active_listing->product->food_type->name}}</strong>
+							<strong>{{Carbon::parse($active_listing->sell_by_date)->format('d.m.Y')}}</strong>
 						</span>
 					</div>
-					<div class="col-md-5 col-sm-12 listing-description">
+					<div class="listing-info-box col-md-5 col-sm-12 listing-description">
 						@if ($active_listing->description)
 						<span class="col-xs-12">Опис:</span>
 						<span class="col-xs-12" id="description-{{$active_listing->id}}">

@@ -14,25 +14,25 @@ class FoodTypesSeeder extends Seeder
         FoodType::create([
           'id' => '1',
           'name' => 'Овошје',
-          'comment' => '',
+          'description' => '',
           'image_id' => '1001',
         ]);
         FoodType::create([
           'id' => '2',
           'name' => 'Зеленчук',
-          'comment' => '',
+          'description' => '',
           'image_id' => '1002',
         ]);
         FoodType::create([
           'id' => '3',
           'name' => 'Млечни производи',
-          'comment' => '',
+          'description' => '',
           'image_id' => '1003',
         ]);
         FoodType::create([
           'id' => '4',
           'name' => 'Кондиторски производи',
-          'comment' => '',
+          'description' => '',
           'image_id' => '1004',
         ]);
     }

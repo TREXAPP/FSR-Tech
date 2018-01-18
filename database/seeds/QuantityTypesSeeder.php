@@ -12,29 +12,29 @@ class QuantityTypesSeeder extends Seeder
     public function run()
     {
         QuantityType::create([
+          'id' => '1',
           'name' => 'kg',
           'description' => 'килограми',
-          'portion_size' => '0.3',
         ]);
         QuantityType::create([
+          'id' => '2',
           'name' => 'l',
           'description' => 'литри',
-          'portion_size' => '0.24',
         ]);
         QuantityType::create([
+          'id' => '3',
           'name' => 'ml',
           'description' => 'милилитри',
-          'portion_size' => '240',
         ]);
         QuantityType::create([
+          'id' => '4',
           'name' => 't',
           'description' => 'тони',
-          'portion_size' => '0.0003',
         ]);
         QuantityType::create([
+          'id' => '5',
           'name' => 'mg',
           'description' => 'милиграми',
-          'portion_size' => '300',
         ]);
     }
 }

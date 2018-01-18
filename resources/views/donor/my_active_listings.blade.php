@@ -54,9 +54,7 @@
                 <div class="header-wrapper">
                   <div id="listing-title-{{$active_listing->id}}" class="listing-title col-xs-12">
                     <div class="col-md-10 col-xs-12 donor-listing-title-panel panel">
-                      <strong>
-                        {{$active_listing->product->name}}
-                      </strong>
+                      <strong>{{$active_listing->product->food_type->name}} | {{$active_listing->product->name}}</strong>
                     </div>
                     <div class="col-md-2 col-xs-12">
                       <button type="button" id="donor-listing-details-{{$active_listing->id}}"
@@ -69,7 +67,7 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                       <span class="col-xs-12">Преостаната количина:</span>
-                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->listing_offers->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
+                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->listing_offers->where('offer_status','active')->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                       <div class="col-xs-12 row">Прифатени:</div>

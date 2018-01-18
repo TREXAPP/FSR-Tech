@@ -55,27 +55,25 @@
                 </div>
                 <div class="header-wrapper">
                   <div id="listing-title-{{$listing_offer->id}}" class="listing-title col-xs-12 panel">
-                    <strong>
-                      {{$listing_offer->listing->product->name}}
-                    </strong>
+                    <strong>{{$listing_offer->listing->product->food_type->name}} | {{$listing_offer->listing->product->name}}</strong>
                   </div>
                   <div class="header-elements-wrapper">
-                    <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Истекува за:</span>
 
                       <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Прифатена количина:</span>
                       <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->listing->quantity_type->description}}</strong></span>
 
                     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Локација:</span>
                       <span class="col-xs-12" id="donor-location-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->donor->location->name}}</strong></span>
 
                     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Донирано од:</span>
                       <span class="col-xs-12" id="donor-info-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}} | {{$listing_offer->listing->donor->organization->name}}</strong></span>
 
@@ -89,16 +87,15 @@
             </div>
             <div class="listing-box-body-wrapper">
               <div class="box-body">
-                <div class="row">
-                  <div class="col-md-4 col-sm-6 listing-pick-up-time ">
+                  <div class="col-md-4 col-sm-6 listing-info-box listing-pick-up-time ">
                     <span class="col-xs-12">Време за подигнување:</span>
                     <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->listing->pickup_time_to)->format('H:i')}} часот</strong></span>
                   </div>
-                  <div class="col-md-4 col-sm-6 listing-food-type ">
-                    <span class="col-xs-12">Тип на храна:</span>
-                    <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->product->food_type->name}}</strong></span>
+                  <div class="col-md-4 col-sm-6 listing-info-box listing-food-type ">
+                    <span class="col-xs-12">Рок на траење на храната:</span>
+                    <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->sell_by_date)->format('d.m.Y')}}</strong></span>
                   </div>
-                  <div class="col-md-4 col-sm-6 listing-volunteer ">
+                  <div class="col-md-4 col-sm-6 listing-info-box listing-volunteer ">
                     <span class="col-xs-12">Волонтер:</span>
                     <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span>
                     <div class="hidden" id="volunteer-id-{{$listing_offer->id}}">{{$listing_offer->volunteer->id}}</div>
@@ -106,16 +103,19 @@
                       class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени волонтер</button>
 
                   </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-xs-12 listing-description">
+
+                  <div class="col-md-4 col-sm-6 listing-info-box listing-food-type ">
+                    <span class="col-xs-12"><b>За 5 лица*</b></span>
+                    <span class="col-xs-12"><small>*препорачана вредност</small></span>
+                    {{-- <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->product->food_type->name}}</strong></span> --}}
+                  </div>
+                  <div class="col-md-8 col-sm-12 listing-info-box listing-description">
                     @if ($listing_offer->listing->description)
                       <span class="col-xs-12">Опис:</span>
                       <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->description}}</strong></span>
                     @endif
                   </div>
-                </div>
+                {{-- </div> --}}
                 <div class="row">
                   {{-- <div class="col-xs-12 listing-description">
                     @if ($listing_offer->listing->description)

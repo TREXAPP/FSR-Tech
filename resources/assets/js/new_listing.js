@@ -1,4 +1,3 @@
-//register
 $('#food_type_select').on('change', function() {
 
   //enable disable fields

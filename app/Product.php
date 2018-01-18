@@ -32,4 +32,12 @@ class Product extends Model
     {
         return $this->belongsTo('FSR\FoodType');
     }
+
+    /**
+     * Get the quantity_types that belong to the product.
+     */
+    public function quantity_types()
+    {
+        return $this->belongsToMany('FSR\QuantityType', 'products_quantity_types')->withPivot('default', 'portion_size');
+    }
 }

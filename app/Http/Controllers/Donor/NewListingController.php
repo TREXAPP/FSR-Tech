@@ -163,6 +163,20 @@ class NewListingController extends Controller
     }
 
     /**
+     * Retrieve Quantity Types with ajax to populate the <select> control
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return Collection
+     */
+    public function getQuantityTypes(Request $request)
+    {
+        //$response = Product::find($request->input('product'))->quantity_types;
+
+        return $quantity_types = Product::find($request->input('product'))->quantity_types;
+        //return $product = Product::find($request->input('product'))->get();
+    }
+
+    /**
      * Calculates the datetime when a listing expires, from the different input values
      *
      * @param string $date_listed is the starting datetime of the listing

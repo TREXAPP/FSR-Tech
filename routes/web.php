@@ -101,6 +101,7 @@ Route::get('donor/new_listing', 'Donor\NewListingController@index')->name('donor
 Route::post('donor/new_listing', 'Donor\NewListingController@handle_post');
   //get products with ajax
 Route::post('donor/new_listing/products', 'Donor\NewListingController@getProducts')->name('donor.new_listing.products');
+Route::post('donor/new_listing/quantity_types', 'Donor\NewListingController@getQuantityTypes')->name('donor.new_listing.quantity_types');
 Route::get('donor/my_active_listings', 'Donor\MyActiveListingsController@index')->name('donor.my_active_listings');
 Route::post('donor/my_active_listings', 'Donor\MyActiveListingsController@handle_post');
 

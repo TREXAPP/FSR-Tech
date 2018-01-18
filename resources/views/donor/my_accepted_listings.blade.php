@@ -42,9 +42,7 @@
             </div>
             <div class="header-wrapper">
               <div id="listing-title-{{$listing_offer->id}}" class="listing-title col-xs-12 panel">
-                <strong>
-                  {{$listing_offer->listing->product->name}}
-                </strong>
+                <strong>{{$listing_offer->listing->product->food_type->name}} | {{$listing_offer->listing->product->name}}</strong>
               </div>
               <div class="header-elements-wrapper">
                 <div class="col-md-4 col-sm-4 col-xs-12 donor-accepted-header-element">
