@@ -104,8 +104,24 @@
 
                   </div>
 
+                  <?php
+                  $portion_size = 0;
+                  $beneficiaries_no = 0;
+                    foreach ($listing_offer->listing->product->quantity_types as $quantity_type) {
+                        //dump($quantity_type);
+                        if ($quantity_type->pivot->quantity_type_id == $listing_offer->listing->quantity_type->id) {
+                            $portion_size = $quantity_type->pivot->portion_size;
+                        }
+                    }
+                    if ($portion_size) {
+                        $beneficiaries_no = intval($listing_offer->quantity / $portion_size);
+                    } else {
+                        $beneficiaries_no = 0;
+                    }
+
+                  ?>
                   <div class="col-md-4 col-sm-6 listing-info-box listing-food-type ">
-                    <span class="col-xs-12"><b>За 5 лица*</b></span>
+                    <span class="col-xs-12"><b>За {{$beneficiaries_no}} лица*</b></span>
                     <span class="col-xs-12"><small>*препорачана вредност</small></span>
                     {{-- <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->product->food_type->name}}</strong></span> --}}
                   </div>

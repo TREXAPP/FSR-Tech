@@ -132,8 +132,13 @@
   background: #cde4f6;
 }
 
+@media screen and (max-width: 981px) {
+  .listing-info-box {
+    margin-bottom: 10px;
+  }
+}
+
 .listing-info-box {
-  margin-bottom: 10px;
   overflow: auto;
 }
 

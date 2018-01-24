@@ -12,7 +12,7 @@
       <li><a href="/{{Auth::user()->type()}}/new_listing"><i class="fa fa-plus-circle"></i> Додади нова донација</a></li>
     </ol>
   </section>
-{{-- 
+{{--
 {{dd($products->find('10')->quantity_types)}} --}}
 
 <!-- Main content -->
@@ -44,7 +44,7 @@
             <div class="form-group{{ $errors->has('food_type') ? ' has-error' : '' }} row">
               <label for="food_type" class="col-md-2 col-md-offset-2 control-label">Категорија на храна</label>
               <div class="col-md-6">
-                <select id="food_type_select" class="form-control" name="food_type">
+                <select id="food_type_select" class="form-control" name="food_type" required>
                   <option value="">-- Избери --</option>
                   @foreach ($food_types as $food_type)
                     <option value={{$food_type->id}}{{ (old('food_type') == $food_type->id) ? ' selected' : ''}}>{{$food_type->name}}</option>
@@ -64,7 +64,7 @@
               <label for="product_id" class="col-md-2 col-md-offset-2 control-label">Тип на производи</label>
 
               <div class="col-md-6">
-                <select id="product_id_select" class="form-control" name="product_id"  {{ (!old('food_type')) ? ' disabled' : '' }}>
+                <select id="product_id_select" class="form-control" name="product_id"  {{ (!old('food_type')) ? ' disabled' : '' }} required>
                     <option value="">-- Избери --</option>
                 @foreach ($products as $product)
                   <option value={{$product->id}}{{ (old('product_id') == $product->id) ? ' selected' : ''}}>{{$product->name}}</option>

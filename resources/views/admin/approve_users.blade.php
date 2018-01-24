@@ -5,10 +5,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Почетна
+      Одобри корисник
     </h1>
     <ol class="breadcrumb">
-      <li><a href="/{{Auth::user()->type()}}/home"><i class="fa fa-dashboard"></i> Почетна</a></li>
+      <li><a href="/{{Auth::user()->type()}}/home"><i class="fa fa-dashboard"></i> Одобри корисник</a></li>
     </ol>
   </section>
 

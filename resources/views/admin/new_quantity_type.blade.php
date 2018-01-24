@@ -72,7 +72,7 @@
             </div>
 
             <!-- Portion size -->
-            <div class="form-group{{ $errors->has('portion_size') ? ' has-error' : '' }} row">
+            {{-- <div class="form-group{{ $errors->has('portion_size') ? ' has-error' : '' }} row">
               <label for="portion_size" class="col-md-2 col-md-offset-2 control-label">Големина на порција</label>
 
               <div class="col-md-6">
@@ -84,7 +84,7 @@
                 </span>
                 @endif
               </div>
-            </div>
+            </div> --}}
 
           </div>
         </div>

@@ -147,7 +147,7 @@
 						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="col-xs-12 form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
-								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer">
+								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer" required>
 									<option value="">-- Избери --</option>
 									@foreach ($volunteers as $volunteer)
 									<option value="{{$volunteer->id}}" {{ ((old('listing_id')== $active_listing->id) && (old('volunteer') == $volunteer->id)) ? ' selected' : '' }}>{{$volunteer->first_name}} {{$volunteer->last_name}}</option>

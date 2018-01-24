@@ -70,7 +70,6 @@ class NewQuantityTypeController extends Controller
         return  QuantityType::create([
                 'name' => $data['name'],
                 'description' => $data['description'],
-                'portion_size' => $data['portion_size'],
             ]);
     }
 
@@ -84,7 +83,6 @@ class NewQuantityTypeController extends Controller
     {
         $validatorArray = [
             'name'                    => 'required',
-            'portion_size'            => 'required|numeric',
         ];
 
         return Validator::make($data, $validatorArray);
