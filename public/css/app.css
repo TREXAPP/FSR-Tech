@@ -20330,6 +20330,11 @@ button.close {
   }
 }
 
+.listing-info-box-inside {
+  overflow: auto;
+  margin-bottom: 10px;
+}
+
 .listing-info-box {
   overflow: auto;
 }
@@ -20389,10 +20394,15 @@ button.close {
 
 .volunteer-info-wrapper {
   font-size: 16px;
+  margin-top: 30px;
 }
 
-.volunteer-info-wrapper {
-  margin-top: 30px;
+.volunteer-info-change-button {
+  margin-top: 10px;
+}
+
+.volunteer-info-value {
+  font-weight: bold;
 }
 
 .two-col-layout-box {

@@ -28,6 +28,6 @@ class HomeController extends Controller
         //dd(route('cso.accepted_listings'));
         //return view('cso.home');
 
-        return redirect(route('cso.accepted_listings'));
+        return redirect(route('cso.active_listings'));
     }
 }

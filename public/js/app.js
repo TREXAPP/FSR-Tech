@@ -31995,7 +31995,7 @@ $("#add-volunteer-form").submit(function (e) {
 $('.edit-volunteer-button').on('click', function () {
   var listing_offer_id = this.id.replace('edit-volunteer-button-', '');
   $("#popup-hidden-listing-id").val(listing_offer_id);
-  var volunteer_id = $('#volunteer-id-' + listing_offer_id).text();
+  var volunteer_id = $('#volunteer-id-' + listing_offer_id).text().trim();
   //  alert(volunteer_id);
   $("#popup-volunteer-select").val(volunteer_id);
 });
@@ -32031,6 +32031,8 @@ $("#update-volunteer-form").submit(function (e) {
       processData: false, // To send DOMDocument or non processed data file it is set to false
       success: function success(data) // A function to be called if request succeeds
       {
+        console.log(data);
+        console.log(listing_offer_id);
         //disable loading animation
         $('#popup-loading').removeClass('fa');
         $('#popup-loading').removeClass('fa-spinner');
@@ -32040,6 +32042,12 @@ $("#update-volunteer-form").submit(function (e) {
 
         $('#volunteer-' + listing_offer_id).html('<strong>' + new_volunteer_text + '</strong>');
         $('#volunteer-id-' + listing_offer_id).text(new_volunteer_id);
+        $('#volunteer-info-first-name-value-' + listing_offer_id).text(data.volunteer_first_name);
+        $('#volunteer-info-last-name-value-' + listing_offer_id).text(data.volunteer_last_name);
+        $('#volunteer-info-phone-value-' + listing_offer_id).text(data.volunteer_phone);
+        $('#volunteer-info-email-value-' + listing_offer_id).text(data.volunteer_email);
+        $('#volunteer-info-image-' + listing_offer_id).attr("src", data.volunteer_image_url);
+
         //close the popup
         $('#update-volunteer-popup').modal('hide');
       }

@@ -173,6 +173,24 @@ class VolunteersController extends Controller
         return Validator::make($data, $validatorArray);
     }
 
+    /**
+     * Get a validator for update volunteer (when the email is not changed)
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function volunteer_validator_update(array $data)
+    {
+        $validatorArray = [
+                'volunteer-first-name'    => 'required',
+                'volunteer-last-name'     => 'required',
+                'volunteer-image'         => 'image|max:2048',
+                'volunteer-phone'         => 'required',
+            ];
+
+        return Validator::make($data, $validatorArray);
+    }
+
 
     /**
      * inserts a new volunteer to the model
@@ -231,7 +249,12 @@ class VolunteersController extends Controller
         $volunteer = Volunteer::find($volunteer_id);
 
         if ($this->change_detected($request, $volunteer)) {
-            $validation = $this->volunteer_validator($request->all());
+            if ($volunteer->email != $request->all()['volunteer-email']) {
+                $validation = $this->volunteer_validator($request->all());
+            } else {
+                $validation = $this->volunteer_validator_update($request->all());
+            }
+
 
             if ($validation->fails()) {
                 // return redirect(route('cso.edit_volunteer'))->withErrors($validation->errors())

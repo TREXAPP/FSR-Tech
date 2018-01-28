@@ -87,23 +87,15 @@
             </div>
             <div class="listing-box-body-wrapper">
               <div class="box-body">
-                  <div class="col-md-4 col-sm-6 listing-info-box listing-pick-up-time ">
+                <div class="col-md-6">
+                  <div class="listing-info-box-inside listing-pick-up-time ">
                     <span class="col-xs-12">Време за подигнување:</span>
                     <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->listing->pickup_time_to)->format('H:i')}} часот</strong></span>
                   </div>
-                  <div class="col-md-4 col-sm-6 listing-info-box listing-food-type ">
+                  <div class="listing-info-box-inside listing-expires-in ">
                     <span class="col-xs-12">Рок на траење на храната:</span>
-                    <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->sell_by_date)->format('d.m.Y')}}</strong></span>
+                    <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->sell_by_date)->format('d.m.Y')}}</strong></span>
                   </div>
-                  <div class="col-md-4 col-sm-6 listing-info-box listing-volunteer ">
-                    <span class="col-xs-12">Волонтер:</span>
-                    <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span>
-                    <div class="hidden" id="volunteer-id-{{$listing_offer->id}}">{{$listing_offer->volunteer->id}}</div>
-                    <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
-                      class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени волонтер</button>
-
-                  </div>
-
                   <?php
                   $portion_size = 0;
                   $beneficiaries_no = 0;
@@ -120,17 +112,93 @@
                     }
 
                   ?>
-                  <div class="col-md-4 col-sm-6 listing-info-box listing-food-type ">
+                  <div class="listing-info-box-inside listing-beneficiaries-no ">
                     <span class="col-xs-12"><b>За {{$beneficiaries_no}} лица*</b></span>
                     <span class="col-xs-12"><small>*препорачана вредност</small></span>
                     {{-- <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->product->food_type->name}}</strong></span> --}}
                   </div>
-                  <div class="col-md-8 col-sm-12 listing-info-box listing-description">
+                  <div class="listing-info-box-inside listing-description">
                     @if ($listing_offer->listing->description)
                       <span class="col-xs-12">Опис:</span>
                       <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->description}}</strong></span>
                     @endif
                   </div>
+
+                </div>
+
+                <div class="col-md-6 listing-info-box-inside listing-volunteer ">
+                    <span class="col-xs-12">Волонтер:</span>
+                    {{-- <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span> --}}
+                  <div class="row">
+
+                    <div class="hidden" id="volunteer-id-{{$listing_offer->id}}">
+                      {{$listing_offer->volunteer->id}}
+                    </div>
+
+                    <div id="volunteer-image-wrapper-{{$listing_offer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
+                      @if ($listing_offer->volunteer->image_id)
+                        <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->volunteer->image_id)->filename)}}" />
+                      @else
+                        <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
+                      @endif
+                    </div>
+
+                    <div id="volunteer-info-wrapper-{{$listing_offer->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
+
+                      <!-- First Name -->
+                      <div id="volunteer-info-first-name-{{$listing_offer->id}}" class="volunteer-info-first-name row">
+                        <div id="volunteer-info-first-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-first-name-label col-md-4">
+                          <span>Име:</span>
+                        </div>
+                        <div id="volunteer-info-first-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-first-name-value col-md-8">
+                          <span>{{$listing_offer->volunteer->first_name}}</span>
+                        </div>
+                      </div>
+
+                      <!-- Last Name -->
+                      <div id="volunteer-info-last-name-{{$listing_offer->id}}" class="volunteer-info-last-name row">
+                        <div id="volunteer-info-last-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-last-name-label col-md-4">
+                          <span>Презиме:</span>
+                        </div>
+                        <div id="volunteer-info-last-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-last-name-value col-md-8">
+                          <span>{{$listing_offer->volunteer->last_name}}</span>
+                        </div>
+                      </div>
+
+                      <!-- Email -->
+                      <div id="volunteer-info-email-{{$listing_offer->id}}" class="volunteer-info-email row">
+                        <div id="volunteer-info-email-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-email-label col-md-4">
+                          <span>Емаил:</span>
+                        </div>
+                        <div id="volunteer-info-email-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-email-value col-md-8">
+                          <span>{{$listing_offer->volunteer->email}}</span>
+                        </div>
+                      </div>
+
+                      <!-- Phone -->
+                      <div id="volunteer-info-phone-{{$listing_offer->id}}" class="volunteer-info-phone row">
+                        <div id="volunteer-info-phone-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-phone-label col-md-4">
+                          <span>Телефон:</span>
+                        </div>
+                        <div id="volunteer-info-phone-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-phone-value col-md-8">
+                          <span>{{$listing_offer->volunteer->phone}}</span>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+                  <!-- Change volunteer button -->
+                  <div class="volunteer-info-change-button row">
+                    <div class="col-xs-12">
+                      <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
+                        class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени волонтер</button>
+                    </div>
+                  </div>
+                </div>
+
+
                 {{-- </div> --}}
                 <div class="row">
                   {{-- <div class="col-xs-12 listing-description">
@@ -146,88 +214,91 @@
 
                 <!-- Comments -->
                 <div id='comments-{{$listing_offer->id}}' class="comments-wrapper">
-                  <div class="new-comment-wrapper">
-                    <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
-                    <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
-                      <form class="form-group new-comment-form" action="{{ route('cso.accepted_listings') }}" method="post">
-                        {{csrf_field()}}
-                        <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                        <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                        <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                      </form>
-                    </div>
-                  </div>
-                  <div class="existing-comments-wrapper my-existing-comments-wrapper col-xs-12">
+
+                  <div class="existing-comments-wrapper my-existing-comments-wrapper">
                     <?php
-                        $comments_no = $comments->where('listing_offer_id', $listing_offer->id)->count();
-                        $comments_count = 0;
-                     ?>
-                    @foreach ($comments->where('listing_offer_id', $listing_offer->id) as $comment)
-                    @if ($comments_count < config('constants.max_comments_in_active_listings'))
-
-
-                      @if ($comment->sender_type == 'cso')
-                      <div class="row comment-row my-comment-row">
-                        <div class="comment-image my-comment-image">
-                          @if (Auth::user()->profile_image_id)
-                            <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find(Auth::user()->profile_image_id)->filename)}}" />
-                          @else
-                            <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('img/avatar5.png')}}" />
-                          @endif
-                        </div>
-                        <div class="comment-bubble my-comment-bubble">
-                          <div class="comment-header my-comment-header col-xs-12">
-                            <span class="comment-name my-comment-name">{{Auth::user()->first_name}} {{Auth::user()->last_name}} (јас)</span>
-                            <span class="comment-time my-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
-                            @if ($comment->created_at != $comment->updated_at)
-                              <span class="comment-edited my-comment-edited">(изменет)</span>
-                            @endif
-                            <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
-                              <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
-                                      data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
-                              <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
-                                      data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                            </div>
-                          </div>
-                          <hr class="comment-hr my-comment-hr">
-                          <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
-                            <span>{{$comment->text}}</span>
-                          </div>
-                        </div>
-                      </div>
-                      @endif
-
-                      @if ($comment->sender_type == 'donor')
-                      <div class="row comment-row other-comment-row">
-                        <div class="comment-image other-comment-image">
-                          @if ($listing_offer->listing->donor->profile_image_id)
-                            <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->donor->profile_image_id)->filename)}}" />
-                          @else
-                            <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-                          @endif
-                        </div>
-                        <div class="comment-bubble other-comment-bubble">
-                          <div class="comment-header other-comment-header col-xs-12">
-                            <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
-                            <span class="comment-time other-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
-                            @if ($comment->created_at != $comment->updated_at)
-                              <span class="comment-edited other-comment-edited">(изменет)</span>
-                            @endif
-                          </div>
-                          <hr class="comment-hr other-comment-hr">
-                          <div class="comment-text other-comment-text col-xs-12">
-                            <span>{{$comment->text}}</span>
-                          </div>
-                        </div>
-                      </div>
-                      @endif
-                    @endif
-                    <?php $comments_count++ ?>
-                    @endforeach
+                    $comments_no = $comments->where('listing_offer_id', $listing_offer->id)->count();
+                    $comments_count = 0;
+                    ?>
                     @if ($comments_no > config('constants.max_comments_in_active_listings'))
-                      <a href="#">Уште {{$comments_no - config('constants.max_comments_in_active_listings')}} коментари</a>
+                      <a href="{{route('cso.accepted_listings.single_accepted_listing', $listing_offer->id) . '#comments'}}">Уште {{$comments_no - config('constants.max_comments_in_active_listings')}} коментари</a>
                     @endif
-                  </div>
+                    @foreach ($comments->where('listing_offer_id', $listing_offer->id) as $comment)
+                      @if ($comments_count >= ($comments_no - config('constants.max_comments_in_active_listings')))
+
+
+                        @if ($comment->sender_type == 'cso')
+                          <div class="row comment-row my-comment-row">
+                            <div class="comment-image my-comment-image">
+                              @if (Auth::user()->profile_image_id)
+                                <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find(Auth::user()->profile_image_id)->filename)}}" />
+                              @else
+                                <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('img/avatar5.png')}}" />
+                              @endif
+                            </div>
+                            <div class="comment-bubble my-comment-bubble">
+                              <div class="comment-header my-comment-header col-xs-12">
+                                <span class="comment-name my-comment-name">{{Auth::user()->first_name}} {{Auth::user()->last_name}} (јас)</span>
+                                <span class="comment-time my-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
+                                @if ($comment->created_at != $comment->updated_at)
+                                  <span class="comment-edited my-comment-edited">(изменет)</span>
+                                @endif
+                                <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
+                                  <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
+                                    data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
+                                    <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
+                                      data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
+                                    </div>
+                                  </div>
+                                  <hr class="comment-hr my-comment-hr">
+                                  <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
+                                    <span>{{$comment->text}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            @endif
+
+                            @if ($comment->sender_type == 'donor')
+                              <div class="row comment-row other-comment-row">
+                                <div class="comment-image other-comment-image">
+                                  @if ($listing_offer->listing->donor->profile_image_id)
+                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->donor->profile_image_id)->filename)}}" />
+                                  @else
+                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('img/avatar5.png')}}" />
+                                  @endif
+                                </div>
+                                <div class="comment-bubble other-comment-bubble">
+                                  <div class="comment-header other-comment-header col-xs-12">
+                                    <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
+                                    <span class="comment-time other-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
+                                    @if ($comment->created_at != $comment->updated_at)
+                                      <span class="comment-edited other-comment-edited">(изменет)</span>
+                                    @endif
+                                  </div>
+                                  <hr class="comment-hr other-comment-hr">
+                                  <div class="comment-text other-comment-text col-xs-12">
+                                    <span>{{$comment->text}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            @endif
+                          @endif
+                          <?php $comments_count++ ?>
+                        @endforeach
+
+                      </div>
+                  <div class="new-comment-wrapper">
+                        <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
+                          <form class="form-group new-comment-form" action="{{ route('cso.accepted_listings') }}" method="post">
+                            {{csrf_field()}}
+                            <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
+                            <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
+                            <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
+                          </form>
+                        </div>
+                        <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
+                      </div>
+
                 </div>
 
 

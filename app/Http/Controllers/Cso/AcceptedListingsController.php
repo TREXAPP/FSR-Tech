@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Cso;
 
 use FSR\Comment;
 use FSR\Listing;
+use FSR\File;
 use FSR\ListingOffer;
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
@@ -49,7 +50,7 @@ class AcceptedListingsController extends Controller
                                           $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'));
                                       });
         $comments = Comment::where('status', 'active')
-                            ->orderBy('created_at', 'DESC')->get();
+                            ->orderBy('created_at', 'ASC')->get();
         //$listing_offers = ListingOffer::all();
         $listing_offers_no = 0;
         foreach ($listing_offers->get() as $listing_offer) {
@@ -119,7 +120,21 @@ class AcceptedListingsController extends Controller
         $listing_offer->volunteer_id = $data['volunteer'];
         $listing_offer->save();
 
-        return response()->json(['listing-offer-id' => $listing_offer->id]);
+        if ($listing_offer->volunteer->image_id) {
+            $image_url = url('storage' . config('app.upload_path') . '/' .  File::find($listing_offer->volunteer->image_id)->filename);
+        } else {
+            $image_url = url('img/avatar5.png');
+        }
+        // $image_url = File::find($listing_offer->volunteer->image_id)->filename;
+
+        return response()->json([
+          'listing-offer-id' => $listing_offer->id,
+          'volunteer_first_name' => $listing_offer->volunteer->first_name,
+          'volunteer_last_name' => $listing_offer->volunteer->last_name,
+          'volunteer_phone' => $listing_offer->volunteer->phone,
+          'volunteer_email' => $listing_offer->volunteer->email,
+          'volunteer_image_url' => $image_url,
+        ]);
     }
 
 
@@ -196,7 +211,7 @@ class AcceptedListingsController extends Controller
      * @param  int  $listing_offer_id
      * @return \Illuminate\Http\Response
      */
-    public function single_accepted_listing(Request $request, int $listing_offer_id)
+    public function single_accepted_listing(Request $request, $listing_offer_id)
     {
         $listing_offer = ListingOffer::where('offer_status', 'active')
                                    ->where('cso_id', Auth::user()->id)
@@ -210,7 +225,7 @@ class AcceptedListingsController extends Controller
         } else {
             $comments = Comment::where('listing_offer_id', $listing_offer_id)
                                 ->where('status', 'active')
-                                ->orderBy('created_at', 'DESC')->get();
+                                ->orderBy('created_at', 'ASC')->get();
             return view('cso.single_accepted_listing')->with([
             'listing_offer' => $listing_offer,
             'comments' => $comments,
@@ -259,7 +274,7 @@ class AcceptedListingsController extends Controller
     {
         //send notification to the donor
         ListingOffer::find($listing_offer_id)->listing->donor->notify(new DonorNewComment($listing_offer_id));
-      
+
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,

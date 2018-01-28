@@ -134,7 +134,7 @@ class ActiveListingsController extends Controller
 
         $validatorArray = [
             'listing_id' => 'required',
-            'quantity' => 'required|numeric|min:1|max:' . $max_quantity,
+            'quantity' => 'required|numeric|min:0.0001|max:' . $max_quantity,
             'volunteer' => 'required',
         ];
 

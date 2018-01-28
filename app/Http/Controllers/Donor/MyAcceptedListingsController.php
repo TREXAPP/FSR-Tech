@@ -43,7 +43,7 @@ class MyAcceptedListingsController extends Controller
 
         $comments = Comment::where('listing_offer_id', $listing_offer_id)
                             ->where('status', 'active')
-                            ->orderBy('created_at', 'DESC')->get();
+                            ->orderBy('created_at', 'ASC')->get();
 
         if ($listing_offer) {
             return view('donor.my_accepted_listings')->with([

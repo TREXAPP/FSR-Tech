@@ -5,12 +5,12 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Volunteer;
-use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use FSR\Http\Controllers\Controller;
+use FSR\Notifications\Cso\CsoApproved;
+use FSR\Notifications\Donor\DonorApproved;
 
 class ApproveUsersController extends Controller
 {

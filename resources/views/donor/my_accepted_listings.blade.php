@@ -111,18 +111,8 @@
 
             <!-- Comments -->
             <div id="comments" class="comments-wrapper">
-              <div class="new-comment-wrapper">
-                <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
-                <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>
-                  <form class="form-group new-comment-form" action="{{ route('donor.single_listing_offer', $listing_offer->id) }}" method="post">
-                    {{csrf_field()}}
-                    <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                    <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                    <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                  </form>
-                </div>
-              </div>
-              <div class="existing-comments-wrapper my-existing-comments-wrapper col-xs-12">
+
+              <div class="existing-comments-wrapper my-existing-comments-wrapper">
                 @foreach ($comments as $comment)
 
                   @if ($comment->sender_type == 'donor')
@@ -183,6 +173,17 @@
 
 
                 @endforeach
+              </div>
+              <div class="new-comment-wrapper">
+                <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>
+                  <form class="form-group new-comment-form" action="{{ route('donor.single_listing_offer', $listing_offer->id) }}" method="post">
+                    {{csrf_field()}}
+                    <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
+                    <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
+                    <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
+                  </form>
+                </div>
+                <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
               </div>
             </div>
 
