@@ -47,7 +47,7 @@ $('#product_id_select').on('change', function() {
         } else {
           $('#quantity_type').append('<option value=' + value.id + '>' + value.description + '</option>');
         }
-        if (data.length <= 1) {
+        if (data.length == 0) {
           $("#quantity_type").prop('disabled', true);
         } else {
           $("#quantity_type").prop('disabled', false);

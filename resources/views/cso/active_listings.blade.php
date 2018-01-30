@@ -34,11 +34,16 @@
 			<button type="button" class="btn btn-default">Иди до донацијата</button>
 		</a>
 	</div>
-	@endif @foreach ($active_listings->get() as $active_listing)
-	<?php $quantity_counter = 0; ?> @foreach ($active_listing->listing_offers as $listing_offer)
-	<?php if ($listing_offer->offer_status == 'active') {
+	@endif
+
+	@foreach ($active_listings->get() as $active_listing)
+		<?php $quantity_counter = 0; ?> @foreach ($active_listing->listing_offers as $listing_offer)
+		<?php if ($listing_offer->offer_status == 'active') {
     $quantity_counter += $listing_offer->quantity;
-} ?> @endforeach @if ($active_listing->quantity > $quantity_counter)
+} ?>
+	@endforeach
+
+	@if ($active_listing->quantity > $quantity_counter)
 	<div id="listingbox{{$active_listing->id}}" name="listingbox{{$active_listing->id}}"></div>
 	<!-- Default box -->
 	<div class="cso-active-listing-box box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
@@ -143,8 +148,8 @@
 						</div>
 					</div>
 					<div id="listing-pickup-volunteer-{{$active_listing->id}}" class="col-md-6 listing-pickup-volunteer">
-						<div class="panel col-xs-12" style="text-align: center;">Волонтер за подигнување</div>
-						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="col-xs-12 form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
+						<div class="panel" style="text-align: center;">Волонтер за подигнување</div>
+						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
 								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer" required>
@@ -163,6 +168,59 @@
 								<strong>{{ $errors->first('volunteer') }}</strong>
 							</span>
 							@endif
+						</div>
+						<div id="active-listings-volunteer-show" class="row hidden">
+							<div class="hidden" id="volunteer-id-{{$active_listing->id}}"></div>
+
+							<div id="volunteer-image-wrapper-{{$active_listing->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
+									<img id="volunteer-info-image-{{$active_listing->id}}" class="img-rounded" alt="" src="{{url('img/avatar5.png')}}" />
+							</div>
+
+							<div id="volunteer-info-wrapper-{{$active_listing->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
+
+								<!-- First Name -->
+								<div id="volunteer-info-first-name-{{$active_listing->id}}" class="volunteer-info-first-name row">
+									<div id="volunteer-info-first-name-label-{{$active_listing->id}}" class="volunteer-info-label volunteer-info-first-name-label col-md-4">
+										<span>Име:</span>
+									</div>
+									<div id="volunteer-info-first-name-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-first-name-value col-md-8">
+										<span></span>
+									</div>
+								</div>
+
+								<!-- Last Name -->
+								<div id="volunteer-info-last-name-{{$active_listing->id}}" class="volunteer-info-last-name row">
+									<div id="volunteer-info-last-name-label-{{$active_listing->id}}" class="volunteer-info-label volunteer-info-last-name-label col-md-4">
+										<span>Презиме:</span>
+									</div>
+									<div id="volunteer-info-last-name-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-last-name-value col-md-8">
+										<span></span>
+									</div>
+								</div>
+
+								<!-- Email -->
+								<div id="volunteer-info-email-{{$active_listing->id}}" class="volunteer-info-email row">
+									<div id="volunteer-info-email-label-{{$active_listing->id}}" class="volunteer-info-label volunteer-info-email-label col-md-4">
+										<span>Емаил:</span>
+									</div>
+									<div id="volunteer-info-email-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-email-value col-md-8">
+										<span></span>
+									</div>
+								</div>
+
+								<!-- Phone -->
+								<div id="volunteer-info-phone-{{$active_listing->id}}" class="volunteer-info-phone row">
+									<div id="volunteer-info-phone-label-{{$active_listing->id}}" class="volunteer-info-label volunteer-info-phone-label col-md-4">
+										<span>Телефон:</span>
+									</div>
+									<div id="volunteer-info-phone-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-phone-value col-md-8">
+										<span></span>
+									</div>
+								</div>
+
+
+							</div>
+
 						</div>
 					</div>
 				</div>
