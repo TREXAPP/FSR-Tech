@@ -66,9 +66,11 @@
               <div class="col-md-6">
                 <select id="product_id_select" class="form-control" name="product_id"  {{ (!old('food_type')) ? ' disabled' : '' }} required>
                     <option value="">-- Избери --</option>
+                @if ($products)
                 @foreach ($products as $product)
                   <option value={{$product->id}}{{ (old('product_id') == $product->id) ? ' selected' : ''}}>{{$product->name}}</option>
                 @endforeach
+                @endif
               </select>
 
                 @if ($errors->has('product_id'))
@@ -87,15 +89,17 @@
                 <div class="col-xs-6" style="padding-left: 0px;">
                   {{-- <input id="quantity" type="number" name="quantity" min="0" max="99999999" step="1"  class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required > --}}
                   <input id="quantity" type="number" name="quantity" min="0" max="99999999" step="0.1"
-                        class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required disabled>
+                        class="form-control" name="quantity"  value="{{ old('quantity') }}" style="text-align: center;" required {{ (!old('product_id')) ? ' disabled' : '' }}>
                 </div>
                 <div class="col-xs-6"  style="padding-right: 0px;">
-                  <select id="quantity_type" class="form-control" name="quantity_type" disabled>
-                    {{-- @foreach ($quantity_types as $quantity_type)
+                  <select id="quantity_type" class="form-control" name="quantity_type" {{ (!old('product_id')) ? ' disabled' : '' }}>
+                    @if($quantity_types)
+                    @foreach ($quantity_types as $quantity_type)
                       <option value={{$quantity_type->id}}{{ (old('quantity_type') == $quantity_type->id) ? ' selected' : ''}}>
                         {{$quantity_type->description}}
                       </option>
-                    @endforeach --}}
+                    @endforeach
+                    @endif
                   </select>
                 </div>
                 @if ($errors->has('quantity'))
@@ -151,7 +155,7 @@
 
               <div class="col-md-6">
                 <input id="sell_by_date" type="date" class="form-control" name="sell_by_date" min="2017-01-01" max="9999-01-01"
-                      value="{{(old('sell_by_date')) ? old('sell_by_date') : $now}}" style="text-align: center;" required >
+                      value="{{(old('sell_by_date')) ? old('sell_by_date') : ''}}" style="text-align: center;" required >
                 @if ($errors->has('sell_by_date'))
                 <span class="help-block">
                     <strong>{{ $errors->first('sell_by_date') }}</strong>

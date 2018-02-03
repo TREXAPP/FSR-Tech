@@ -31788,6 +31788,24 @@ $('.quantity-needed-input').on('input', function () {
   $('#beneficiaries-no-' + id).val(parseInt(this.value / portion_size));
 });
 
+/* on selected volunteer, show his info */
+$('.pickup-volunteer-name').on('change', function () {
+  var listing_id = this.id.replace('pickup-volunteer-', '');
+  var volunteer_info = $('#active-listings-volunteer-show-' + listing_id);
+  if (this.value) {
+    if (volunteer_info.hasClass('hidden')) {
+      volunteer_info.removeClass('hidden');
+    }
+    //TODO:
+    //  zemi so ajax vrednosti za volonterot
+    //  popolni gi soodvetnite polinja
+  } else {
+    if (!volunteer_info.hasClass('hidden')) {
+      volunteer_info.addClass('hidden');
+    }
+  }
+});
+
 /* When a listing is accepted, fill in the data in a popup for appearence, and fill in the form with hidden fields for sending */
 $('.listing-submit-button').on('click', function () {
   var id = this.id.replace("listing-submit-button-", "");
@@ -32120,37 +32138,34 @@ $('.modal').on('hide.bs.modal', function () {
 /***/ (function(module, exports) {
 
 $('#food_type_select').on('change', function () {
-
-  //enable disable fields
-  if (this.value) {
-    $("#product_id_select").prop('disabled', false);
-  } else {
-    $("#product_id_select").prop('disabled', true);
-  }
+  $("#product_id_select").prop('disabled', true);
+  $("#quantity").val('');
+  $("#quantity").prop('disabled', true);
+  $("#quantity_type").prop('disabled', true);
 
   //remove all from organizations select box (except the default one)
   $('#product_id_select').children('option:not(:first)').remove();
+  $('#quantity_type').children().remove();
 
-  //get the organizations retrieved from the database with ajax
+  //get the products retrieved from the database with ajax
   $.post('new_listing/products', { 'food_type': this.value, '_token': $('meta[name="csrf-token"]').attr('content') }, function (data) {
     if (data) {
       //append the other options retrieved from database
       $.each(data, function (key, value) {
         $('#product_id_select').append('<option value=' + value.id + '>' + value.name + '</option>');
       });
+      if ($('#food_type_select').val()) {
+        $("#product_id_select").prop('disabled', false);
+      }
     }
   });
 });
 
 $('#product_id_select').on('change', function () {
 
-  //enable disable fields
-  if (this.value) {
-    $("#product_id_select").prop('disabled', false);
-  } else {
-    $("#quantity").prop('disabled', true);
-    $("#quantity_type").prop('disabled', true);
-  }
+  $("#quantity").prop('disabled', true);
+  $("#quantity").val('');
+  $("#quantity_type").prop('disabled', true);
 
   //remove all from quantity_type select box (except the default one)
   $('#quantity_type').children().remove();
@@ -32172,7 +32187,10 @@ $('#product_id_select').on('change', function () {
             $("#quantity_type").prop('disabled', false);
           }
         });
-        $("#quantity").prop('disabled', false);
+        if ($('#product_id_select').val()) {
+          $("#quantity").prop('disabled', false);
+          $("#quantity_type").prop('disabled', false);
+        }
       }
     });
   }

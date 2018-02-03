@@ -1,24 +1,17 @@
-@extends('layouts.master') @section('content')
-<!-- Content Header (Page header) -->
-<section class="content-header new-volunteer-content-header">
-	<h1>
-		<i class="fa fa-user-circle"></i>
-		<span>Додади волонтер</span>
-	</h1>
-	<ol class="breadcrumb hidden-sm hidden-xs">
-		<li>
-			<a href="/{{Auth::user()->type()}}/home"> Примател</a>
-		</li>
-		<li>
-			<a href="/{{Auth::user()->type()}}/volunteers">
-				<i class="fa fa-user-circle"></i> Волонтери</a>
-		</li>
-		<li>
-			<a href="/{{Auth::user()->type()}}/volunteers/new">Додади нов</a>
-		</li>
-	</ol>
-</section>
+@extends('layouts.admin_master')
 
+@section('content')
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1><i class="fa fa-plus-circle"></i>
+      Додади нов волонтер
+    </h1>
+    <ol class="breadcrumb hidden-sm hidden-xs">
+      <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
+      <li><a href="/{{Auth::user()->type()}}/new_location"><i class="fa fa-plus-circle"></i> Додади нов волонтер</a></li>
+    </ol>
+  </section>
 
 <!-- Main content -->
 <section class="content new-volunteer-content">
@@ -41,7 +34,7 @@
 
 		</div>
 	-->
-	<form id="new-volunteer-form" class="" action="{{ route('cso.new_volunteer') }}" method="post" enctype="multipart/form-data">
+	<form id="new-volunteer-form" class="" action="{{ route('admin.new_volunteer') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 		<div class="volunteer-box-body-wrapper">
 			<div class="box-body">
@@ -62,8 +55,29 @@
 
 				<div id="new-volunteer-info" class="col-md-8 col-xs-12 new-volunteer-info">
 
+					<!-- CSO Organization -->
+					<div class="row form-group{{$errors->has('volunteer-organization') ? ' has-error' : '' }}">
+						<div class="new-volunteer-organization-label col-sm-4 col-xs-12">
+							<label for="new-volunteer-organization">Организација:</label>
+						</div>
+						<div class="new-volunteer-organization-value col-sm-8 col-xs-12">
+              <select class="form-control" name="volunteer-organization" required>
+                <option value="">-- Избери --</option>
+                @foreach ($organizations as $organization)
+                  <option value="{{$organization->id}}" {{ (old('volunteer-organization')== $organization->id) ? ' selected' : '' }}>{{$organization->name}}</option>
+                @endforeach
+              </select>
+              <!-- TUKA TREBA DA SE STAVI CHECKBOX ZA GLOBALEN VOLONTER! -->
+							@if ($errors->has('volunteer-organization'))
+								<span class="help-block">
+									<strong>{{ $errors->first('volunteer-organization') }}</strong>
+								</span>
+							@endif
+						</div>
+					</div>
+
 					<!-- First name -->
-					<div class="row form-group{{ ($errors->has('volunteer-first-name') || $errors->has('volunteer-first-name')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-first-name')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-first-name-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-first-name">Име:</label>
 						</div>
@@ -78,7 +92,7 @@
 					</div>
 
 					<!-- Last name -->
-					<div class="row  form-group{{ ($errors->has('volunteer-last-name') || $errors->has('volunteer-last-name')) ? ' has-error' : '' }}">
+					<div class="row  form-group{{ ($errors->has('volunteer-last-name')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-last-name-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-last-name">Презиме:</label>
 						</div>
@@ -93,7 +107,7 @@
 					</div>
 
 
-					<div class="row form-group{{ ($errors->has('volunteer-email') || $errors->has('volunteer-email')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-email')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-email-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-email">Емаил:</label>
 						</div>
@@ -107,7 +121,7 @@
 						</div>
 					</div>
 
-					<div class="row form-group{{ ($errors->has('volunteer-phone') || $errors->has('volunteer-phone')) ? ' has-error' : '' }}">
+					<div class="row form-group{{ ($errors->has('volunteer-phone')) ? ' has-error' : '' }}">
 						<div class="new-volunteer-phone-label col-sm-4 col-xs-12">
 							<label for="new-volunteer-phone">Телефон:</label>
 						</div>
@@ -128,9 +142,7 @@
 		</div>
 		<div class="box-footer text-center">
 			<div class="pull-right">
-				<button id="new-volunteer-submit" type="submit" name="new-volunteer-submit" class="btn btn-primary" >Потврди</button>
-				<a href="{{route('cso.volunteers')}}" id="cancel-new-volunteer" name="cancel-new-volunteer"
-				class="btn btn-default">Откажи</a>
+				<button id="new-volunteer-submit" type="submit" name="new-volunteer-submit" class="btn btn-primary" >Внеси</button>
 			</div>
 		</div>
 	</form>
@@ -142,5 +154,6 @@
 
 </section>
 <!-- /.content -->
+
 
 @endsection

@@ -169,7 +169,7 @@
 							</span>
 							@endif
 						</div>
-						<div id="active-listings-volunteer-show" class="row hidden">
+						<div id="active-listings-volunteer-show-{{$active_listing->id}}" class="row hidden">
 							<div class="hidden" id="volunteer-id-{{$active_listing->id}}"></div>
 
 							<div id="volunteer-image-wrapper-{{$active_listing->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">

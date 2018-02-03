@@ -91,6 +91,12 @@ Route::post('admin/products/new', 'Admin\NewProductController@handle_post')->nam
 Route::get('admin/quantity_types/new', 'Admin\NewQuantityTypeController@index')->name('admin.new_quantity_type');
 Route::post('admin/quantity_types/new', 'Admin\NewQuantityTypeController@handle_post')->name('admin.new_quantity_type');
 
+Route::get('admin/volunteers/new', 'Admin\NewVolunteerController@index')->name('admin.new_volunteer');
+Route::post('admin/volunteers/new', 'Admin\NewVolunteerController@handle_post')->name('admin.new_volunteer');
+
+Route::get('admin/locations/new', 'Admin\NewLocationController@index')->name('admin.new_location');
+Route::post('admin/locations/new', 'Admin\NewLocationController@handle_post')->name('admin.new_location');
+
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');
 Route::get('donor/profile', 'Donor\ProfileController@index')->name('donor.profile');

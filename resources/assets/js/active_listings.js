@@ -23,6 +23,24 @@ $('.quantity-needed-input').on('input', function () {
   $('#beneficiaries-no-' + id).val(parseInt(this.value / portion_size));
 });
 
+/* on selected volunteer, show his info */
+$('.pickup-volunteer-name').on('change', function() {
+  var listing_id = this.id.replace('pickup-volunteer-', '');
+  var volunteer_info = $('#active-listings-volunteer-show-' + listing_id);
+  if (this.value) {
+    if (volunteer_info.hasClass('hidden')) {
+      volunteer_info.removeClass('hidden');
+    }
+    //TODO:
+    //  zemi so ajax vrednosti za volonterot
+    //  popolni gi soodvetnite polinja
+  } else {
+    if (!volunteer_info.hasClass('hidden')) {
+      volunteer_info.addClass('hidden');
+    }
+  }
+});
+
 /* When a listing is accepted, fill in the data in a popup for appearence, and fill in the form with hidden fields for sending */
 $('.listing-submit-button').on('click', function () {
   var id = this.id.replace("listing-submit-button-", "");

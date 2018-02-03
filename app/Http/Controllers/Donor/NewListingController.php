@@ -43,11 +43,16 @@ class NewListingController extends Controller
         if ($food_type) {
             $products = Product::where('food_type_id', $food_type)->get();
         } else {
-            $products = Product::all();
+            $products = null;
+        }
+        $product = old('product_id');
+        if ($product) {
+            $quantity_types = Product::find($product)->quantity_types;
+        } else {
+            $quantity_types = null;
         }
 
         $food_types = FoodType::all();
-        $quantity_types = QuantityType::all();
         $now = Carbon::now()->format('Y-m-d') . 'T' . Carbon::now()->format('H:i');
         return view('donor.new_listing')->with([
           'quantity_types' => $quantity_types,
@@ -72,7 +77,7 @@ class NewListingController extends Controller
             'quantity'          => 'required|numeric',
             'quantity_type'     => 'required',
             'date_listed'       => 'required',
-            'expires_in'        => 'required|numeric',
+            'expires_in'        => 'required|numeric|greater_than_date:sell_by_date,time_type',
             'sell_by_date'      => 'required|date',
             'time_type'         => 'required',
             'pickup_time_from'  => 'required',
@@ -91,6 +96,11 @@ class NewListingController extends Controller
      */
     public function handle_post(Request $request)
     {
+
+        // $date_expires_validator = $this->validate_date_expires($request->all());
+        // if ($date_expires_validator) {
+        //
+        // }
         $validation = $this->validator($request->all());
         //$this->validator($request->all())->validate();
         if ($validation->fails()) {

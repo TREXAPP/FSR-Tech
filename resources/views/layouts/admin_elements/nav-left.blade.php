@@ -160,6 +160,60 @@
 
       <li class="treeview">
           <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Волонтери</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Преглед</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/{{Auth::user()->type()}}/volunteers/new">
+                <i class="fa fa-user-plus"></i> <span>Додади нов</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Локации</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="/{{Auth::user()->type()}}/volunteers">
+                <i class="fa fa-users"></i> <span>Преглед</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/{{Auth::user()->type()}}/locations/new">
+                <i class="fa fa-user-plus"></i> <span>Додади нова</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li class="treeview">
+          <a href="#">
             <i class="fa fa-universal-access"></i> <span>Известувања</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
