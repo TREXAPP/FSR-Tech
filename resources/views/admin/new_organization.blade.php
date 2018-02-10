@@ -59,8 +59,8 @@
               <label for="name" class="col-md-2 col-md-offset-2 control-label">Име</label>
 
               <div class="col-md-6">
-                <input id="name" type="text" class="form-control" name="name"
-                      value="{{old('name')}}" required {{ (!old('type')) ? ' disabled' : '' }}>
+                <input id="name" type="text" class="form-control" name="name" required
+                      value="{{old('name')}}"  {{ (!old('type')) ? ' disabled' : '' }}>
                 @if ($errors->has('name'))
                 <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -88,14 +88,16 @@
             </div>
 
             <!-- working_hours_from -->
-            <div class="form-group{{ $errors->has('working_hours_from') ? ' has-error' : '' }} row">
+            <div class="form-group{{ $errors->has('working_hours_from') ? ' has-error' : '' }} row working-hours-from"
+                  {!! (old('type') != 'donor') ? ' style="display: none; visibility: hidden;"' : '' !!}  >
               <label for="working_hours_from" class="col-md-4 col-lg-3 col-md-offset-2 control-label">Работно време - Од</label>
 
               <div class="col-md-4 col-lg-5">
                 <div class="col-xs-6" style="padding-left: 0px;">
                   <input id="working_hours_from" type="time" class="form-control" step='3600' name="working_hours_from"
                         value="{{old('working_hours_from')}}"
-                        required {{ (!old('type')) ? ' disabled' : '' }} >
+                         {!! (old('type') == 'donor') ? ' required' : '' !!}
+                         {{ (!old('type')) ? ' disabled' : '' }} >
                 </div>
                 <div class="col-xs-6" style="padding-right: 0px;">
                   <span>часот</span>
@@ -109,14 +111,16 @@
             </div>
 
             <!-- working_hours_to -->
-            <div class="form-group{{ $errors->has('working_hours_to') ? ' has-error' : '' }} row">
+            <div class="form-group{{ $errors->has('working_hours_to') ? ' has-error' : '' }} row working-hours-to"
+                  {!! (old('type') != 'donor') ? ' style="display: none; visibility: hidden;"' : '' !!} >
               <label for="working_hours_to" class="col-md-4 col-lg-3 col-md-offset-2 control-label">Работно време - Од</label>
 
               <div class="col-md-4 col-lg-5">
                 <div class="col-xs-6" style="padding-left: 0px;">
                   <input id="working_hours_to" type="time" class="form-control" step='3600' name="working_hours_to"
                         value="{{old('working_hours_to')}}"
-                        required {{ (!old('type')) ? ' disabled' : '' }} >
+                        {!! (old('type') == 'donor') ? ' required' : '' !!}
+                        {{ (!old('type')) ? ' disabled' : '' }} >
                 </div>
                 <div class="col-xs-6" style="padding-right: 0px;">
                   <span>часот</span>

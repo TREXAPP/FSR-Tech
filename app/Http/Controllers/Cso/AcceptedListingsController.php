@@ -2,12 +2,14 @@
 
 namespace FSR\Http\Controllers\Cso;
 
+use FSR\Donor;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\File;
 use FSR\ListingOffer;
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
+use FSR\Notifications\Cso\DeleteListingOffer;
 use FSR\Notifications\Donor\DonorNewComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -187,6 +189,8 @@ class AcceptedListingsController extends Controller
     public function handle_delete_offer(Request $request)
     {
         $listing_offer = $this->delete_offer($request->all());
+        $donor = Donor::find($listing_offer->listing->donor_id);
+        $donor->notify(new DeleteListingOffer($listing_offer));
         return back()->with('status', "Донацијата е успешно избришана!");
     }
 

@@ -230,4 +230,31 @@ class ActiveListingsController extends Controller
         return Volunteer::where('organization_id', Auth::user()->organization_id)
                         ->where('status', 'active')->get();
     }
+
+    /**
+     * Retrieve Volunteer with ajax to show info
+     *
+     * @param  Illuminate\Http\Request $request
+     * @return Collection
+     */
+    public function get_volunteer(Request $request)
+    {
+        $volunteer = Volunteer::find($request->input('volunteer_id'));
+        if ($volunteer->image_id) {
+            if ($file = File::find($volunteer->image_id)) {
+                $image_url = url('storage' . $file->path_to_file . '/' . $file->filename);
+            } else {
+                $image_url = url('img/avatar5.png');
+            }
+        } else {
+            $image_url = url('img/avatar5.png');
+        }
+        return $response = response()->json([
+                      'first_name' => $volunteer->first_name,
+                      'last_name' => $volunteer->last_name,
+                      'email' => $volunteer->email,
+                      'phone' => $volunteer->phone,
+                      'image_url' => $image_url,
+                  ]);
+    }
 }

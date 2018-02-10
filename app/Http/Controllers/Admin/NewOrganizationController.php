@@ -84,12 +84,20 @@ class NewOrganizationController extends Controller
      */
     protected function validator(array $data)
     {
-        $validatorArray = [
+        if ($data['type'] == 'donor') {
+            $validatorArray = [
             'name'                    => 'required',
             'working_hours_from'      => 'required',
             'working_hours_to'        => 'required',
             'image'                   => 'image|max:2048',
         ];
+        } else {
+            $validatorArray = [
+            'name'                    => 'required',
+            'image'                   => 'image|max:2048',
+        ];
+        }
+
 
         return Validator::make($data, $validatorArray);
     }

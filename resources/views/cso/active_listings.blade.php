@@ -152,7 +152,7 @@
 						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
-								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer" required>
+								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer-{{$active_listing->id}}" required>
 									<option value="">-- Избери --</option>
 									@foreach ($volunteers as $volunteer)
 									<option value="{{$volunteer->id}}" {{ ((old('listing_id')== $active_listing->id) && (old('volunteer') == $volunteer->id)) ? ' selected' : '' }}>{{$volunteer->first_name}} {{$volunteer->last_name}}</option>
@@ -169,11 +169,18 @@
 							</span>
 							@endif
 						</div>
-						<div id="active-listings-volunteer-show-{{$active_listing->id}}" class="row hidden">
+
+						<div id="active-listings-volunteer-show-{{$active_listing->id}}"
+									class="row {{ (old('listing_id') == $active_listing->id) ? ((old('volunteer')) ? '' : 'hidden') : 'hidden' }} ">
 							<div class="hidden" id="volunteer-id-{{$active_listing->id}}"></div>
 
 							<div id="volunteer-image-wrapper-{{$active_listing->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
-									<img id="volunteer-info-image-{{$active_listing->id}}" class="img-rounded" alt="" src="{{url('img/avatar5.png')}}" />
+									<img id="volunteer-info-image-{{$active_listing->id}}" class="img-rounded" alt=""
+											src="{{ ((old('listing_id') == $active_listing->id) && (old('volunteer')))
+												? (($volunteers->find(old('volunteer'))->image_id)
+														? url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteers->find(old('volunteer'))->image_id)->filename)
+														: url('img/avatar5.png'))
+												: url('img/avatar5.png') }}" />
 							</div>
 
 							<div id="volunteer-info-wrapper-{{$active_listing->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
@@ -184,7 +191,7 @@
 										<span>Име:</span>
 									</div>
 									<div id="volunteer-info-first-name-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-first-name-value col-md-8">
-										<span></span>
+										<span>{{ ((old('listing_id') == $active_listing->id) && (old('volunteer'))) ? $volunteers->find(old('volunteer'))->first_name : '' }}</span>
 									</div>
 								</div>
 
@@ -194,7 +201,7 @@
 										<span>Презиме:</span>
 									</div>
 									<div id="volunteer-info-last-name-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-last-name-value col-md-8">
-										<span></span>
+										<span>{{ ((old('listing_id') == $active_listing->id) && (old('volunteer'))) ? $volunteers->find(old('volunteer'))->last_name : '' }}</span>
 									</div>
 								</div>
 
@@ -204,7 +211,7 @@
 										<span>Емаил:</span>
 									</div>
 									<div id="volunteer-info-email-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-email-value col-md-8">
-										<span></span>
+										<span>{{ ((old('listing_id') == $active_listing->id) && (old('volunteer'))) ? $volunteers->find(old('volunteer'))->email : '' }}</span>
 									</div>
 								</div>
 
@@ -214,7 +221,7 @@
 										<span>Телефон:</span>
 									</div>
 									<div id="volunteer-info-phone-value-{{$active_listing->id}}" class="volunteer-info-value volunteer-info-phone-value col-md-8">
-										<span></span>
+										<span>{{ ((old('listing_id') == $active_listing->id) && (old('volunteer'))) ? $volunteers->find(old('volunteer'))->phone : '' }}</span>
 									</div>
 								</div>
 

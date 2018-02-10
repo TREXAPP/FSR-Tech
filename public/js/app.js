@@ -31798,7 +31798,26 @@ $('.pickup-volunteer-name').on('change', function () {
     }
     //TODO:
     //  zemi so ajax vrednosti za volonterot
-    //  popolni gi soodvetnite polinja
+    $.post('active_listings/get_volunteer', { 'volunteer_id': this.value, '_token': $('meta[name="csrf-token"]').attr('content') }, function (data) {
+      if (data) {
+        console.log(data);
+        //append the other options retrieved from database
+        // $.each(data,function(key, value) {
+        //   $('#product_id_select').append('<option value=' + value.id + '>' + value.name + '</option>');
+        // });
+        // if ($('#food_type_select').val()) {
+        //   $("#product_id_select").prop('disabled', false);
+        // }
+
+        //  popolni gi soodvetnite polinja
+
+        $('#volunteer-info-first-name-value-' + listing_id).text(data.first_name);
+        $('#volunteer-info-last-name-value-' + listing_id).text(data.last_name);
+        $('#volunteer-info-email-value-' + listing_id).text(data.email);
+        $('#volunteer-info-phone-value-' + listing_id).text(data.phone);
+        $('#volunteer-info-image-' + +listing_id).prop('src', data.image_url);
+      }
+    });
   } else {
     if (!volunteer_info.hasClass('hidden')) {
       volunteer_info.addClass('hidden');
@@ -32248,6 +32267,26 @@ $('#organization_type_select').on('change', function () {
     $("#working_hours_to").prop('disabled', true);
     $("#image").prop('disabled', true);
     $("button").prop('disabled', true);
+  }
+
+  //show hide working hours
+  if (this.value == 'donor') {
+
+    $('.working-hours-from').css('display', 'initial');
+    $('.working-hours-from').css('visibility', 'initial');
+    $('#working_hours_from').prop('required', true);
+
+    $('.working-hours-to').css('display', 'initial');
+    $('.working-hours-to').css('visibility', 'initial');
+    $('#working_hours_to').prop('required', true);
+  } else {
+    $('.working-hours-from').css('display', 'none');
+    $('.working-hours-from').css('visibility', 'hidden');
+    $('#working_hours_from').prop('required', false);
+
+    $('.working-hours-to').css('display', 'none');
+    $('.working-hours-to').css('visibility', 'hidden');
+    $('#working_hours_to').prop('required', false);
   }
 });
 

@@ -133,6 +133,7 @@ Route::get('cso/active_listings', 'Cso\ActiveListingsController@index')->name('c
 Route::post('cso/active_listings', 'Cso\ActiveListingsController@handle_post');
 Route::post('cso/active_listings/add_volunteer', 'Cso\ActiveListingsController@add_volunteer')->name('cso.active_listings.add_volunteer');
 Route::post('cso/active_listings/get_volunteers', 'Cso\ActiveListingsController@get_volunteers')->name('cso.active_listings.get_volunteers');
+Route::post('cso/active_listings/get_volunteer', 'Cso\ActiveListingsController@get_volunteer')->name('cso.active_listings.get_volunteer');
 
 Route::get('cso/accepted_listings', 'Cso\AcceptedListingsController@index')->name('cso.accepted_listings');
 Route::post('cso/accepted_listings', 'Cso\AcceptedListingsController@handle_post');

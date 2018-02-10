@@ -20,4 +20,25 @@ $('#organization_type_select').on('change', function() {
     $("button").prop('disabled', true);
   }
 
+  //show hide working hours
+  if (this.value == 'donor') {
+
+    $('.working-hours-from').css('display', 'initial');
+    $('.working-hours-from').css('visibility', 'initial');
+    $('#working_hours_from').prop('required',true);
+
+    $('.working-hours-to').css('display', 'initial');
+    $('.working-hours-to').css('visibility', 'initial');
+    $('#working_hours_to').prop('required',true);
+
+  } else {
+    $('.working-hours-from').css('display','none');
+    $('.working-hours-from').css('visibility', 'hidden');
+    $('#working_hours_from').prop('required',false);
+
+    $('.working-hours-to').css('display','none');
+    $('.working-hours-to').css('visibility', 'hidden');
+    $('#working_hours_to').prop('required',false);
+  }
+
 });
