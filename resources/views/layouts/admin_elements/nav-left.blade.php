@@ -89,16 +89,16 @@
               </a>
             </li>
 
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
+            <li>
+              <a href="{{route('admin.cso_organizations')}}">
                 <i class="fa fa-users"></i> <span>Приматели</span>
                 <span class="pull-right-container">
                 </span>
               </a>
             </li>
 
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers/new">
+            <li>
+              <a href="{{route('admin.donor_organizations')}}">
                 <i class="fa fa-user-plus"></i> <span>Донори</span>
                 <span class="pull-right-container">
                 </span>
@@ -126,7 +126,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.food_types')}}"><i class="fa fa-circle-o"></i> Преглед</a></li>
                 <li><a href="{{route('admin.new_food_type')}}"><i class="fa fa-circle-o"></i> Додади нова</a></li>
               </ul>
             </li>

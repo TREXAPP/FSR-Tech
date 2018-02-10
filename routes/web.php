@@ -81,7 +81,10 @@ Route::get('admin/users/donor', 'Admin\DonorUserController@index')->name('admin.
 
 Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
 Route::post('admin/organizations/new', 'Admin\NewOrganizationController@handle_post')->name('admin.new_organization');
+Route::get('admin/organizations/cso', 'Admin\CsoOrganizationsController@index')->name('admin.cso_organizations');
+Route::get('admin/organizations/donor', 'Admin\DonorOrganizationsController@index')->name('admin.donor_organizations');
 
+Route::get('admin/food_types', 'Admin\FoodTypesController@index')->name('admin.food_types');
 Route::get('admin/food_types/new', 'Admin\NewFoodTypeController@index')->name('admin.new_food_type');
 Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->name('admin.new_food_type');
 
