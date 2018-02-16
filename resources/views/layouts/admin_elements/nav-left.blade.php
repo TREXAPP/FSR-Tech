@@ -138,7 +138,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.products')}}"><i class="fa fa-circle-o"></i> Преглед</a></li>
                 <li><a href="{{route('admin.new_product')}}"><i class="fa fa-circle-o"></i> Додади нов</a></li>
               </ul>
             </li>
@@ -150,7 +150,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="inactive-menu"><a href="#"><i class="fa fa-circle-o"></i> Преглед</a></li>
+                <li><a href="{{route('admin.quantity_types')}}"><i class="fa fa-circle-o"></i> Преглед</a></li>
                 <li><a href="{{route('admin.new_quantity_type')}}"><i class="fa fa-circle-o"></i> Додади нова</a></li>
               </ul>
             </li>
@@ -166,7 +166,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
+            <li>
               <a href="/{{Auth::user()->type()}}/volunteers">
                 <i class="fa fa-users"></i> <span>Преглед</span>
                 <span class="pull-right-container">

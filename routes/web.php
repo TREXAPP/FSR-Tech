@@ -88,12 +88,17 @@ Route::get('admin/food_types', 'Admin\FoodTypesController@index')->name('admin.f
 Route::get('admin/food_types/new', 'Admin\NewFoodTypeController@index')->name('admin.new_food_type');
 Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->name('admin.new_food_type');
 
+Route::get('admin/products', 'Admin\ProductsController@index')->name('admin.products');
+Route::post('admin/products', 'Admin\ProductsController@handle_post')->name('admin.products');
 Route::get('admin/products/new', 'Admin\NewProductController@index')->name('admin.new_product');
 Route::post('admin/products/new', 'Admin\NewProductController@handle_post')->name('admin.new_product');
 
+Route::get('admin/quantity_types', 'Admin\QuantityTypesController@index')->name('admin.quantity_types');
 Route::get('admin/quantity_types/new', 'Admin\NewQuantityTypeController@index')->name('admin.new_quantity_type');
 Route::post('admin/quantity_types/new', 'Admin\NewQuantityTypeController@handle_post')->name('admin.new_quantity_type');
 
+Route::get('admin/volunteers', 'Admin\VolunteersController@index')->name('admin.volunteers');
+Route::post('admin/volunteers', 'Admin\VolunteersController@handle_post')->name('admin.volunteers');
 Route::get('admin/volunteers/new', 'Admin\NewVolunteerController@index')->name('admin.new_volunteer');
 Route::post('admin/volunteers/new', 'Admin\NewVolunteerController@handle_post')->name('admin.new_volunteer');
 

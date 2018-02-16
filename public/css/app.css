@@ -20605,6 +20605,10 @@ button.close {
   padding: 10px;
 }
 
+.filter-wrapper {
+  margin-top: 10px;
+}
+
 .admin-body {
   background: #00a65a;
 }
