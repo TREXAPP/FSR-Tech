@@ -102,6 +102,7 @@ Route::post('admin/volunteers', 'Admin\VolunteersController@handle_post')->name(
 Route::get('admin/volunteers/new', 'Admin\NewVolunteerController@index')->name('admin.new_volunteer');
 Route::post('admin/volunteers/new', 'Admin\NewVolunteerController@handle_post')->name('admin.new_volunteer');
 
+Route::get('admin/locations', 'Admin\LocationsController@index')->name('admin.locations');
 Route::get('admin/locations/new', 'Admin\NewLocationController@index')->name('admin.new_location');
 Route::post('admin/locations/new', 'Admin\NewLocationController@handle_post')->name('admin.new_location');
 

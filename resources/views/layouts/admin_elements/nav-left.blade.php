@@ -193,8 +193,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
+            <li>
+              <a href="{{route('admin.locations')}}">
                 <i class="fa fa-users"></i> <span>Преглед</span>
                 <span class="pull-right-container">
                 </span>
