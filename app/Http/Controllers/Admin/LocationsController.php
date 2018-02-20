@@ -39,7 +39,7 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        $locations = Location::all();
+        $locations = Location::where('status', 'active')->get();
         return view('admin.locations')->with([
           'locations' => $locations,
         ]);

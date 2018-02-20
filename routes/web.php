@@ -76,8 +76,10 @@ Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
 
 Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('admin.approve_users');
 Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->name('admin.approve_users');
-Route::get('admin/users/cso', 'Admin\CsoUserController@index')->name('admin.cso_users');
-Route::get('admin/users/donor', 'Admin\DonorUserController@index')->name('admin.donor_users');
+Route::get('admin/users/cso', 'Admin\CsoUsersController@index')->name('admin.cso_users');
+Route::post('admin/users/cso', 'Admin\CsoUsersController@handle_post')->name('admin.cso_users');
+Route::get('admin/users/donor', 'Admin\DonorUsersController@index')->name('admin.donor_users');
+Route::post('admin/users/donor', 'Admin\DonorUsersController@handle_post')->name('admin.donor_users');
 
 Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
 Route::post('admin/organizations/new', 'Admin\NewOrganizationController@handle_post')->name('admin.new_organization');

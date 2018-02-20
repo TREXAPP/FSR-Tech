@@ -77,7 +77,7 @@
             </div>
 
             <hr>
-
+{{--
             <div id="register_donor_type_wrapper" class="form-group{{ $errors->has('donor_type') ? ' has-error' : '' }}{{ (old('type') == 'donor') ? '' : ' hidden' }}">
               <label for="donor_type" class="col-md-4 control-label">@lang('register.donor_type')</label>
               <div class="col-md-6">
@@ -91,7 +91,7 @@
                     <strong>{{ $errors->first('donor_type') }}</strong>
                 </span> @endif
               </div>
-            </div>
+            </div> --}}
 
             <div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }}">
               <label for="organization" class="col-md-4 control-label">@lang('register.organization')</label>

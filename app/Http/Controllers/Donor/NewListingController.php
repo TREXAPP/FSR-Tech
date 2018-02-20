@@ -41,7 +41,8 @@ class NewListingController extends Controller
     {
         $food_type = old('food_type');
         if ($food_type) {
-            $products = Product::where('food_type_id', $food_type)->get();
+            $products = Product::where('food_type_id', $food_type)
+                               ->where('status', 'active')->get();
         } else {
             $products = null;
         }
@@ -52,7 +53,7 @@ class NewListingController extends Controller
             $quantity_types = null;
         }
 
-        $food_types = FoodType::all();
+        $food_types = FoodType::where('status', 'active')->get();
         $now = Carbon::now()->format('Y-m-d') . 'T' . Carbon::now()->format('H:i');
         return view('donor.new_listing')->with([
           'quantity_types' => $quantity_types,
@@ -169,7 +170,8 @@ class NewListingController extends Controller
      */
     public function getProducts(Request $request)
     {
-        return $products = Product::where('food_type_id', $request->input('food_type'))->get();
+        return $products = Product::where('food_type_id', $request->input('food_type'))
+                                  ->where('status', 'active')->get();
     }
 
     /**

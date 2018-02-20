@@ -54,16 +54,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
+            <li>
+              <a href="{{route('admin.cso_users')}}">
                 <i class="fa fa-users"></i> <span>Приматели</span>
                 <span class="pull-right-container">
                 </span>
               </a>
             </li>
 
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers/new">
+            <li>
+              <a href="{{route('admin.donor_users')}}">
                 <i class="fa fa-user-plus"></i> <span>Донори</span>
                 <span class="pull-right-container">
                 </span>

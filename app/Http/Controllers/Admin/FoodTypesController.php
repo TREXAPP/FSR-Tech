@@ -39,7 +39,7 @@ class FoodTypesController extends Controller
      */
     public function index()
     {
-        $food_types = FoodType::all();
+        $food_types = FoodType::where('status', 'active')->get();
         return view('admin.food_types')->with([
           'food_types' => $food_types,
         ]);

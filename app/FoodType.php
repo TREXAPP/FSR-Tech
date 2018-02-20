@@ -13,7 +13,7 @@ class FoodType extends Model
      * @var array
      */
     protected $fillable = [
-      'name', 'description', 'image_id'
+      'name', 'description', 'image_id', 'status'
   ];
     /**
      * Get the products for this food_type.

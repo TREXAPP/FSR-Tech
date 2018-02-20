@@ -40,7 +40,7 @@ class QuantityTypesController extends Controller
      */
     public function index()
     {
-        $quantity_types = QuantityType::all();
+        $quantity_types = QuantityType::where('status', 'active')->get();
         return view('admin.quantity_types')->with([
           'quantity_types' => $quantity_types,
         ]);

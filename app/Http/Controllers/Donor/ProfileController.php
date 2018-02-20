@@ -47,7 +47,7 @@ class ProfileController extends Controller
      */
     public function edit_profile(Request $request)
     {
-        $locations = Location::all();
+        $locations = Location::where('status', 'active')->get();
         return view('donor.edit_profile')->with([
           'user' => Auth::user(),
         'locations' => $locations,

@@ -15,6 +15,7 @@ class Product extends Model
           'name',
           'description',
           'food_type_id',
+          'status',
       ];
 
     /**

@@ -33,14 +33,6 @@ class Donor extends Authenticatable
     }
 
     /**
-     * Get the donor_type for this donor.
-     */
-    public function donor_type()
-    {
-        return $this->belongsTo('FSR\DonorType');
-    }
-
-    /**
      * Get the listings for this donor.
      */
     public function listings()
@@ -62,7 +54,6 @@ class Donor extends Authenticatable
       'address',
       'profile_image_id',
       'organization_id',
-      'donor_type_id',
       'location_id',
       'notifications',
       'status',

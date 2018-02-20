@@ -8,8 +8,8 @@
       Додади нова организација
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
-      <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
-      <li><a href="/{{Auth::user()->type()}}/new_organization"><i class="fa fa-plus-circle"></i> Додади нова организација</a></li>
+      <li><a href="{{route('admin.home')}}"> Админ</a></li>
+      <li><a href="{{route('admin.new_organization')}}"><i class="fa fa-plus-circle"></i> Додади нова организација</a></li>
     </ol>
   </section>
 

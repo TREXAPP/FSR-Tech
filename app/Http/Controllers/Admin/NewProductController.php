@@ -38,8 +38,8 @@ class NewProductController extends Controller
      */
     public function index()
     {
-        $food_types = FoodType::all();
-        $quantity_types = QuantityType::all();
+        $food_types = FoodType::where('status', 'active')->get();
+        $quantity_types = QuantityType::where('status', 'active')->get();
 
         return view('admin.new_product')->with([
           'food_types' => $food_types,

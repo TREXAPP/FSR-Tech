@@ -6,7 +6,6 @@ use FSR\User;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Location;
-use FSR\DonorType;
 use FSR\Volunteer;
 use FSR\Organization;
 use FSR\File;
@@ -54,12 +53,10 @@ class RegisterController extends Controller
             $organizations = Organization::where('status', 'active')->get();
         }
 
-        $locations = Location::all();
-        $donor_types = DonorType::all();
+        $locations = Location::where('status', 'active')->get();
         return view('auth.register')->with([
           'organizations' => $organizations,
           'locations' => $locations,
-          'donor_types' => $donor_types,
         ]);
     }
 
@@ -123,15 +120,12 @@ class RegisterController extends Controller
         $validatorArray = [
             'type'                  => 'required',
             'organization'          => 'required',
-            'donor_type'            => '',
             'location'              => 'required',
             'email'                 => 'required|string|email|max:255|unique:donors|unique:csos|unique:volunteers',
             'password'              => 'required|string|min:6|confirmed',
             'profile_image'         => 'image|max:2048',
         ];
-        if ($data['type'] == 'donor') {
-            $validatorArray['donor_type'] = 'required';
-        }
+
         return Validator::make($data, $validatorArray);
     }
 
@@ -155,7 +149,6 @@ class RegisterController extends Controller
                 'address' => $data['address'],
                 'organization_id' => $data['organization'],
                 'location_id' => $data['location'],
-                'donor_type_id' => $data['donor_type'],
                 'profile_image_id' => $file_id,
                 'notifications' => '1',
             ]);

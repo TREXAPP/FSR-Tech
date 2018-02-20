@@ -31,6 +31,14 @@ class Organization extends Model
         return $this->hasMany('FSR\Volunteer');
     }
 
+    /**
+     * Get the donor_type for this donor.
+     */
+    public function donor_type()
+    {
+        return $this->belongsTo('FSR\DonorType');
+    }
+
     protected $fillable = [
       'name',
       'description',
@@ -39,6 +47,7 @@ class Organization extends Model
       'working_hours_to',
       'image_id',
       'status',
+      'donor_type_id',
       'created_at',
       'updated_at',
 

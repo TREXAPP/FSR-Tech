@@ -4,16 +4,15 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR;
 use FSR\File;
+use FSR\Donor;
 use FSR\Listing;
-use FSR\Product;
 use FSR\FoodType;
 use FSR\Location;
-use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Organization;
+use FSR\QuantityType;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\NewVolunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class ProductsController extends Controller
+class DonorUsersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -41,12 +40,14 @@ class ProductsController extends Controller
     public function index()
     {
         $filters = [
-        'food_type' => '0'
+        'organization' => '0'
       ];
-        $food_types = FoodType::where('status', 'active')->get();
-        $products = Product::where('status', 'active')->get();
-        return $this->return_view($food_types, $products, $filters);
+        $organizations = Organization::where('status', 'active')
+                                     ->where('type', 'donor')->get();
+        $donors = donor::where('status', 'active')->get();
+        return $this->return_view($donors, $organizations, $filters);
     }
+
     /**
      * return view
      *
@@ -55,12 +56,12 @@ class ProductsController extends Controller
      * @param Integer
      * @return \Illuminate\Http\Response
      */
-    protected function return_view($food_types, $products, $filters)
+    protected function return_view($donors, $organizations, $filters)
     {
-        return view('admin.products')->with([
+        return view('admin.donor_users')->with([
         'filters' => $filters,
-        'products' => $products,
-        'food_types' => $food_types,
+        'donors' => $donors,
+        'organizations' => $organizations,
       ]);
     }
 
@@ -70,7 +71,7 @@ class ProductsController extends Controller
         if (!empty($data['post-type'])) {
             switch ($data['post-type']) {
           case 'filter':
-            if ($data['food-types-filter-select']) {
+            if ($data['organizations-filter-select']) {
                 return $this->handle_filter($data);
             } else {
                 return $this->index();
@@ -85,6 +86,7 @@ class ProductsController extends Controller
         }
     }
 
+
     /**
      * handle post from filter
      *
@@ -94,11 +96,12 @@ class ProductsController extends Controller
     protected function handle_filter(array $data)
     {
         $filters = [
-        'food_type' => $data['food-types-filter-select']
-      ];
-        $food_types = FoodType::where('status', 'active')->get();
-        $products = Product::where('food_type_id', $data['food-types-filter-select'])
-                           ->where('status', 'active')->get();
-        return $this->return_view($food_types, $products, $filters);
+            'organization' => $data['organizations-filter-select']
+          ];
+        $organizations = Organization::where('status', 'active')
+                                       ->where('type', 'donor')->get();
+        $donors = Donor::where('status', 'active')
+                               ->where('organization_id', $data['organizations-filter-select'])->get();
+        return $this->return_view($donors, $organizations, $filters);
     }
 }
