@@ -40,11 +40,7 @@
 		<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div id="profile-image" class="col-md-4 col-xs-12 profile-image">
-					@if ($user->profile_image_id)
-						<img class="img-rounded" alt="{{$user->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($user->profile_image_id)->filename)}}" />
-					@else
-						<img class="img-rounded" alt="{{$user->first_name}}" src="{{url('img/avatar5.png')}}" />
-					@endif
+						<img class="img-rounded" alt="{{$user->first_name}}" src="{{Methods::get_user_image_url(Auth::user())}}" />
 				</div>
 				<div id="profile-info" class="col-md-8 col-xs-12 profile-info">
 

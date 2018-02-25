@@ -11,8 +11,7 @@ use FSR\Organization;
 use FSR\File;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoRegisterSuccess;
-use FSR\Notifications\Donor\DonorRegisterSuccess;
+use FSR\Notifications\UserRegistrationSuccess;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -74,9 +73,9 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all(), $file_id)));
 
         if ($user->type() == 'donor') {
-            $user->notify(new DonorRegisterSuccess());
+            $user->notify(new UserRegistrationSuccess());
         } elseif ($user->type() == 'cso') {
-            $user->notify(new CsoRegisterSuccess());
+            $user->notify(new UserRegistrationSuccess());
         }
 
         $request->session()->put('status', Lang::get('login.not_approved'));
@@ -96,6 +95,22 @@ class RegisterController extends Controller
     {
         return $organizations = Organization::where('status', 'active')
                                               ->where('type', $request->input('type'))->get();
+    }
+
+    /**
+     * Retrieve Address with ajax for the selected organization
+     *
+     * @param  Illuminate\Http\Request $request
+     * @param  $id
+     * @return String
+     */
+    public function getAddress(Request $request, $id = null)
+    {
+        if ($id) {
+            return Organization::find($id)->address;
+        } else {
+            return "";
+        }
     }
 
 

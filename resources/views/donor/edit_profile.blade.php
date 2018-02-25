@@ -45,12 +45,7 @@
 			<div class="box-body">
 				<div id="profile-image-wrapper" class="col-md-4 col-xs-12 profile-image">
 					<div class="col-xs-12 form-group">
-						@if ($user->profile_image_id)
-							<img class="img-rounded" alt="{{$user->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($user->profile_image_id)->filename)}}" />
-						@else
-							<img class="img-rounded" alt="{{$user->first_name}}" src="{{url('img/avatar5.png')}}" />
-						@endif
-
+							<img class="img-rounded" alt="{{$user->first_name}}" src="{{Methods::get_user_image_url(Auth::user())}}" />
 					</div>
 					<div class="col-xs-12 form-group {{ ($errors->has('profile-image') || $errors->has('profile-image')) ? ' has-error' : '' }}">
 							<label for="profile-image">Промени слика:</label>
@@ -100,15 +95,6 @@
 						</div>
 						<div class="profile-email-value col-sm-8 col-xs-12">
 							<input type="text" name="profile-email" class="form-control" value="{{$user->email}}" disabled>
-						</div>
-					</div>
-
-					<div class="row form-group">
-						<div class="profile-donor-type-label col-sm-4 col-xs-12">
-							<span class=""><strong>Тип на донор:</strong></span>
-						</div>
-						<div class="profile-donor-type-value col-sm-8 col-xs-12">
-							<input type="text" name="profile-donor-type" class="form-control" value="{{$user->donor_type->name}}" disabled>
 						</div>
 					</div>
 

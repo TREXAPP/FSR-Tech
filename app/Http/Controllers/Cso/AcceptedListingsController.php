@@ -7,10 +7,12 @@ use FSR\Comment;
 use FSR\Listing;
 use FSR\File;
 use FSR\ListingOffer;
+use FSR\Custom\Methods;
+
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
-use FSR\Notifications\Cso\DeleteListingOffer;
-use FSR\Notifications\Donor\DonorNewComment;
+use FSR\Notifications\CsoToDonorCancelDonation;
+use FSR\Notifications\CsoToDonorComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -121,13 +123,7 @@ class AcceptedListingsController extends Controller
         $listing_offer = ListingOffer::find($data['listing_offer_id']);
         $listing_offer->volunteer_id = $data['volunteer'];
         $listing_offer->save();
-
-        if ($listing_offer->volunteer->image_id) {
-            $image_url = url('storage' . config('app.upload_path') . '/' .  File::find($listing_offer->volunteer->image_id)->filename);
-        } else {
-            $image_url = url('img/avatar5.png');
-        }
-        // $image_url = File::find($listing_offer->volunteer->image_id)->filename;
+        $image_url = Methods::get_volunteer_image_url($listing_offer->volunteer);
 
         return response()->json([
           'listing-offer-id' => $listing_offer->id,
@@ -190,7 +186,7 @@ class AcceptedListingsController extends Controller
     {
         $listing_offer = $this->delete_offer($request->all());
         $donor = Donor::find($listing_offer->listing->donor_id);
-        $donor->notify(new DeleteListingOffer($listing_offer));
+        $donor->notify(new CsoToDonorCancelDonation($listing_offer));
         return back()->with('status', "Донацијата е успешно избришана!");
     }
 
@@ -277,7 +273,7 @@ class AcceptedListingsController extends Controller
     protected function create_comment(array $data, int $listing_offer_id)
     {
         //send notification to the donor
-        ListingOffer::find($listing_offer_id)->listing->donor->notify(new DonorNewComment($listing_offer_id));
+        ListingOffer::find($listing_offer_id)->listing->donor->notify(new CsoToDonorComment($listing_offer_id));
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,

@@ -10,7 +10,7 @@ use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\NewVolunteer;
+use FSR\Notifications\CsoToVolunteerNewVolunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -117,7 +117,7 @@ class VolunteersController extends Controller
         $file_id = $this->new_handle_upload($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
 
-        $volunteer->notify(new NewVolunteer($volunteer));
+        $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer));
 
         return redirect(route('cso.volunteers'))->with('status', "Волонтерот е внесен успешно!");
     }
@@ -265,9 +265,6 @@ class VolunteersController extends Controller
 
             $file_id = $this->edit_handle_upload($request);
             $volunteer = $this->update_volunteer($volunteer, $request->all(), $file_id);
-
-            // $volunteer->notify(new EditProfile());
-
             return redirect(route('cso.volunteers'))->with('status', "Измените се успешно зачувани!");
         } else {
             return back();

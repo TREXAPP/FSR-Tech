@@ -7,7 +7,8 @@ use FSR\File;
 use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\AcceptListing;
+use FSR\Notifications\CsoToVolunteerAcceptDonation;
+use FSR\Notifications\CsoToDonorAcceptDonation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -86,14 +87,14 @@ class ActiveListingsController extends Controller
                 ->withInput();
         }
 
-        // $csos = Cso::where('location_id', Auth::user()->location_id)
-        //            ->where('notifications', 1)->get();
-        //
-        // Notification::send($csos, new NewListing($listing));
-
         $listing_offer = $this->create($request->all());
+        $cso = Auth::user();
+        $donor = $listing_offer->listing->donor;
 
-        $listing_offer->listing->donor->notify(new AcceptListing($listing_offer));
+        $donor->notify(new CsoToDonorAcceptDonation($listing_offer));
+        if ($listing_offer->volunteer->email != Auth::user()->email) {
+            $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
+        }
         return back()->with('status', "Донацијата е успешно прифатена!");
     }
 
@@ -159,7 +160,6 @@ class ActiveListingsController extends Controller
         $file_id = $this->handle_upload_ajax($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
 
-        //  Notification::send($csos, new NewListing($listing));
         return response()->json(['id' => $volunteer->id]);
     }
 
@@ -240,15 +240,7 @@ class ActiveListingsController extends Controller
     public function get_volunteer(Request $request)
     {
         $volunteer = Volunteer::find($request->input('volunteer_id'));
-        if ($volunteer->image_id) {
-            if ($file = File::find($volunteer->image_id)) {
-                $image_url = url('storage' . $file->path_to_file . '/' . $file->filename);
-            } else {
-                $image_url = url('img/avatar5.png');
-            }
-        } else {
-            $image_url = url('img/avatar5.png');
-        }
+        $image_url = Methods::get_volunteer_image_url($volunteer);
         return $response = response()->json([
                       'first_name' => $volunteer->first_name,
                       'last_name' => $volunteer->last_name,

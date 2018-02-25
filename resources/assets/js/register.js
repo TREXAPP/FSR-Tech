@@ -1,10 +1,11 @@
-//register
+//disable enable fields and fill organizations with ajax
 $('#register_type_select').on('change', function() {
+
+  $("#register_organization_select").prop('disabled', true);
 
   //enable disable fields
   if (this.value) {
       $("input").prop('disabled', false);
-      $("#register_organization_select").prop('disabled', false);
       $("#register_location_select").prop('disabled', false);
       $("button").prop('disabled', false);
 
@@ -26,5 +27,24 @@ $('#register_type_select').on('change', function() {
         $('#register_organization_select').append('<option value=' + value.id + '>' + value.name + '</option>');
       });
     }
+    if ($('#register_type_select').val()) {
+      $("#register_organization_select").prop('disabled', false);
+    }
+  });
+});
+
+
+//fill address field
+$('#register_organization_select').on('change', function() {
+$('#address').val('');
+  //get the address for this organization retrieved from the database with ajax
+  $.post('register/organizations/address/' + this.value, {'type': this.value, '_token':$('meta[name="csrf-token"]').attr('content')}, function(data) {
+    if (data) {
+      //append the other options retrieved from database
+        $('#address').val(data);
+      //  $('#register_organization_select').append('<option value=' + value.id + '>' + value.name + '</option>');
+
+    }
+
   });
 });

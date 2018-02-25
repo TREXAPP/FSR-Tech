@@ -6,8 +6,10 @@ use FSR\Cso;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\ListingOffer;
+use FSR\Notifications\DonorToVolunteerComment;
+
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoNewComment;
+use FSR\Notifications\DonorToCsoComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -94,14 +96,22 @@ class MyAcceptedListingsController extends Controller
      */
     protected function create_comment(array $data, int $listing_offer_id)
     {
+        $comment_text = $data['comment'];
+        $cso = ListingOffer::find($listing_offer_id)->cso;
+        $volunteer = ListingOffer::find($listing_offer_id)->volunteer;
         //send notification to the cso
-        ListingOffer::find($listing_offer_id)->cso->notify(new CsoNewComment($listing_offer_id));
+        $cso->notify(new DonorToCsoComment($listing_offer_id, $comment_text));
+
+        //send notification to the volunteer
+        if ($cso->email != $volunteer->email) {
+            $volunteer->notify(new DonorToVolunteerComment($listing_offer_id, $comment_text, $cso, Auth::user()));
+        }
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,
             'sender_type' => Auth::user()->type(),
-            'text' => $data['comment'],
+            'text' => $comment_text,
         ]);
     }
 

@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Donor\DonorApproved;
+use FSR\Notifications\AdminToUserApproveRegistration;
 
 class ApproveUsersController extends Controller
 {
@@ -72,7 +71,7 @@ class ApproveUsersController extends Controller
             $cso->status = 'active';
             $cso->save();
             $this->approve_volunteer($data['cso_id']);
-            $cso->notify(new CsoApproved());
+            $cso->notify(new AdminToUserApproveRegistration());
 
             return back()->with([
             'status' => 'Примателот е успешно одобрен!'
@@ -93,7 +92,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'active';
             $donor->save();
-            $donor->notify(new DonorApproved());
+            $donor->notify(new AdminToUserApproveRegistration());
 
             return back()->with([
             'status' => 'Донорот е успешно одобрен!'

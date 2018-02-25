@@ -48,11 +48,7 @@
 			<div class="box-body">
 				<div id="volunteer-image" class="col-md-4 col-xs-12 volunteer-image">
 					<div class="col-xs-12 form-group">
-						@if ($volunteer->image_id)
-							<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteer->image_id)->filename)}}" />
-						@else
-							<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
-						@endif
+							<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($volunteer)}}" />
 					</div>
 					<div class="col-xs-12 form-group {{ ($errors->has('volunteer-image')) ? ' has-error' : '' }}">
 							<label for="volunteer-image">Измени слика:</label>

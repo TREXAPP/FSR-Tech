@@ -8,7 +8,7 @@ use FSR\Location;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Donor\EditProfile;
+use FSR\Notifications\UserEditProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +71,7 @@ class ProfileController extends Controller
             $file_id = $this->edit_handle_upload($request);
             $user = $this->update_user($request->all(), $file_id);
 
-            $user->notify(new EditProfile());
+            $user->notify(new UserEditProfile());
 
             return back()->with('status', "Измените се успешно зачувани!");
         } else {

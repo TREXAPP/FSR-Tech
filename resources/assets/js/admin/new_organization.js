@@ -4,6 +4,7 @@ $('#organization_type_select').on('change', function() {
   if (this.value) {
       $("input").prop('disabled', false);
       $("#name").prop('disabled', false);
+      $("#address").prop('disabled', false);
       $("#description").prop('disabled', false);
       $("#working_hours_from").prop('disabled', false);
       $("#working_hours_to").prop('disabled', false);
@@ -13,6 +14,7 @@ $('#organization_type_select').on('change', function() {
   } else {
     $("input").prop('disabled', true);
     $("#name").prop('disabled', true);
+    $("#address").prop('disabled', true);
     $("#description").prop('disabled', true);
     $("#working_hours_from").prop('disabled', true);
     $("#working_hours_to").prop('disabled', true);

@@ -11,7 +11,6 @@ use FSR\ListingOffer;
 use FSR\Organization;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\NewVolunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;

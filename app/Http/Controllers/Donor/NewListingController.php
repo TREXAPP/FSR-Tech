@@ -10,7 +10,7 @@ use FSR\Product;
 use FSR\FoodType;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
-use FSR\Notifications\Donor\NewListing;
+use FSR\Notifications\DonorToCsosNewDonation;
 use Illuminate\Http\Request;
 use FSR\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -115,7 +115,7 @@ class NewListingController extends Controller
         $csos = Cso::where('location_id', Auth::user()->location_id)->get();
         //     ->where('notifications', 1)->get();
 
-        Notification::send($csos, new NewListing($listing));
+        Notification::send($csos, new DonorToCsosNewDonation($listing));
 
         return back()->with('status', "Донацијата е додадена успешно!");
     }

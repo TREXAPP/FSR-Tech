@@ -5,13 +5,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        @if (Auth::user()->profile_image_id == null)
-          <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
-        @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-          <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
-        @else
-          <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
-        @endif
+          <img src="{{Methods::get_user_image_url(Auth::user())}}" class="img-rounded" alt="User Image">
       </div>
       <div class="pull-left info master-info">
         <p>

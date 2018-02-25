@@ -43,6 +43,7 @@ class Organization extends Model
       'name',
       'description',
       'type',
+      'address',
       'working_hours_from',
       'working_hours_to',
       'image_id',

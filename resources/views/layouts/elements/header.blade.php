@@ -76,25 +76,13 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            @if (Auth::user()->profile_image_id == null)
-              <img src="{{url('img/avatar5.png')}}" class="user-image" alt="User Image">
-            @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-              <img src="{{url('img/avatar5.png')}}" class="user-image" alt="User Image">
-            @else
-              <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="user-image" alt="User Image">
-            @endif
+              <img src="{{Methods::get_user_image_url(Auth::user())}}" class="user-image" alt="User Image">
             <span class="hidden-xs">{{Auth::user()->email}}</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              @if (Auth::user()->profile_image_id == null)
-                <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
-              @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-                <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
-              @else
-                <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
-              @endif
+                <img src="{{Methods::get_user_image_url(Auth::user())}}" class="img-rounded" alt="User Image">
               <p> {{Auth::user()->first_name}} {{Auth::user()->last_name}}<br>
                   {{Auth::user()->organization->name}}
                 <small>{{Auth::user()->phone}}</small>

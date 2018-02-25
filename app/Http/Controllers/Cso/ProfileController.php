@@ -9,7 +9,7 @@ use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\EditProfile;
+use FSR\Notifications\UserEditProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +73,7 @@ class ProfileController extends Controller
             $volunteer = $this->update_volunteer($request->all(), $file_id);
             $user = $this->update_user($request->all(), $file_id);
 
-            $user->notify(new EditProfile());
+            $user->notify(new UserEditProfile());
 
             return redirect(route('cso.profile'))->with('status', "Измените се успешно зачувани!");
         } else {

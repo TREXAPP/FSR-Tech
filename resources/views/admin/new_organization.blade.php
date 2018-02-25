@@ -69,6 +69,21 @@
               </div>
             </div>
 
+            <!-- Address -->
+            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }} row">
+              <label for="address" class="col-md-2 col-md-offset-2 control-label">Адреса</label>
+
+              <div class="col-md-6">
+                <input id="address" type="text" class="form-control" name="address" required
+                      value="{{old('address')}}"  {{ (!old('type')) ? ' disabled' : '' }}>
+                @if ($errors->has('address'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('address') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
+
 
             <!-- Description -->
             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} row">

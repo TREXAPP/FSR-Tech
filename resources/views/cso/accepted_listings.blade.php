@@ -136,11 +136,7 @@
                     </div>
 
                     <div id="volunteer-image-wrapper-{{$listing_offer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
-                      @if ($listing_offer->volunteer->image_id)
-                        <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->volunteer->image_id)->filename)}}" />
-                      @else
-                        <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
-                      @endif
+                        <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($listing_offer->volunteer)}}" />
                     </div>
 
                     <div id="volunteer-info-wrapper-{{$listing_offer->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
@@ -230,11 +226,7 @@
                         @if ($comment->sender_type == 'cso')
                           <div class="row comment-row my-comment-row">
                             <div class="comment-image my-comment-image">
-                              @if (Auth::user()->profile_image_id)
-                                <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find(Auth::user()->profile_image_id)->filename)}}" />
-                              @else
-                                <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('img/avatar5.png')}}" />
-                              @endif
+                                <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{Methods::get_user_image_url(Auth::user())}}" />
                             </div>
                             <div class="comment-bubble my-comment-bubble">
                               <div class="comment-header my-comment-header col-xs-12">
@@ -261,11 +253,7 @@
                             @if ($comment->sender_type == 'donor')
                               <div class="row comment-row other-comment-row">
                                 <div class="comment-image other-comment-image">
-                                  @if ($listing_offer->listing->donor->profile_image_id)
-                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->donor->profile_image_id)->filename)}}" />
-                                  @else
-                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-                                  @endif
+                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{Methods::get_user_image_url($listing_offer->listing->donor)}}" />
                                 </div>
                                 <div class="comment-bubble other-comment-bubble">
                                   <div class="comment-header other-comment-header col-xs-12">

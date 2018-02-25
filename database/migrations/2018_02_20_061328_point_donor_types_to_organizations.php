@@ -13,23 +13,23 @@ class PointDonorTypesToOrganizations extends Migration
      */
     public function up()
     {
-      Schema::table('donors', function (Blueprint $table) {
-          $table->dropForeign(['donor_type_id']);
-      });
+        Schema::table('donors', function (Blueprint $table) {
+            $table->dropForeign(['donor_type_id']);
+        });
 
-      if (Schema::hasColumn('donors', 'donor_type_id')) {
-          Schema::table('donors', function (Blueprint $table) {
-              $table->dropColumn('donor_type_id');
-          });
-      }
+        if (Schema::hasColumn('donors', 'donor_type_id')) {
+            Schema::table('donors', function (Blueprint $table) {
+                $table->dropColumn('donor_type_id');
+            });
+        }
 
-      Schema::table('organizations', function (Blueprint $table) {
-          $table->integer('donor_type_id')->nullable()->unsigned();
-      });
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->integer('donor_type_id')->nullable()->unsigned();
+        });
 
-      Schema::table('organizations', function (Blueprint $table) {
-          $table->foreign('donor_type_id')->references('id')->on('donor_types');
-      });
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->foreign('donor_type_id')->references('id')->on('donor_types');
+        });
     }
 
     /**
@@ -39,22 +39,22 @@ class PointDonorTypesToOrganizations extends Migration
      */
     public function down()
     {
-      Schema::table('organizations', function (Blueprint $table) {
-          $table->dropForeign(['donor_type_id']);
-      });
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->dropForeign(['donor_type_id']);
+        });
 
-      if (Schema::hasColumn('organizations', 'donor_type_id')) {
-          Schema::table('organizations', function (Blueprint $table) {
-              $table->dropColumn('donor_type_id');
-          });
-      }
+        if (Schema::hasColumn('organizations', 'donor_type_id')) {
+            Schema::table('organizations', function (Blueprint $table) {
+                $table->dropColumn('donor_type_id');
+            });
+        }
 
-      Schema::table('donors', function (Blueprint $table) {
-          $table->integer('donor_type_id')->nullable()->unsigned();
-      });
+        Schema::table('donors', function (Blueprint $table) {
+            $table->integer('donor_type_id')->nullable()->unsigned();
+        });
 
-      Schema::table('donors', function (Blueprint $table) {
-          $table->foreign('donor_type_id')->references('id')->on('donor_types');
-      });
+        Schema::table('donors', function (Blueprint $table) {
+            $table->foreign('donor_type_id')->references('id')->on('donor_types');
+        });
     }
 }

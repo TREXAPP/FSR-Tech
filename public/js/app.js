@@ -31844,13 +31844,14 @@ module.exports = function spread(callback) {
 /* 35 */
 /***/ (function(module, exports) {
 
-//register
+//disable enable fields and fill organizations with ajax
 $('#register_type_select').on('change', function () {
+
+  $("#register_organization_select").prop('disabled', true);
 
   //enable disable fields
   if (this.value) {
     $("input").prop('disabled', false);
-    $("#register_organization_select").prop('disabled', false);
     $("#register_location_select").prop('disabled', false);
     $("button").prop('disabled', false);
   } else {
@@ -31869,6 +31870,22 @@ $('#register_type_select').on('change', function () {
       $.each(data, function (key, value) {
         $('#register_organization_select').append('<option value=' + value.id + '>' + value.name + '</option>');
       });
+    }
+    if ($('#register_type_select').val()) {
+      $("#register_organization_select").prop('disabled', false);
+    }
+  });
+});
+
+//fill address field
+$('#register_organization_select').on('change', function () {
+  $('#address').val('');
+  //get the address for this organization retrieved from the database with ajax
+  $.post('register/organizations/address/' + this.value, { 'type': this.value, '_token': $('meta[name="csrf-token"]').attr('content') }, function (data) {
+    if (data) {
+      //append the other options retrieved from database
+      $('#address').val(data);
+      //  $('#register_organization_select').append('<option value=' + value.id + '>' + value.name + '</option>');
     }
   });
 });
@@ -32368,6 +32385,7 @@ $('#organization_type_select').on('change', function () {
   if (this.value) {
     $("input").prop('disabled', false);
     $("#name").prop('disabled', false);
+    $("#address").prop('disabled', false);
     $("#description").prop('disabled', false);
     $("#working_hours_from").prop('disabled', false);
     $("#working_hours_to").prop('disabled', false);
@@ -32376,6 +32394,7 @@ $('#organization_type_select').on('change', function () {
   } else {
     $("input").prop('disabled', true);
     $("#name").prop('disabled', true);
+    $("#address").prop('disabled', true);
     $("#description").prop('disabled', true);
     $("#working_hours_from").prop('disabled', true);
     $("#working_hours_to").prop('disabled', true);

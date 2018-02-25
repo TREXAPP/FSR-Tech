@@ -12,8 +12,6 @@ use FSR\QuantityType;
 use FSR\ProductsQuantityType;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;

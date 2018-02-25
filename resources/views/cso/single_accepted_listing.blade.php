@@ -130,11 +130,7 @@
               </div>
 
               <div id="volunteer-image-wrapper-{{$listing_offer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
-                @if ($listing_offer->volunteer->image_id)
-                  <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->volunteer->image_id)->filename)}}" />
-                @else
-                  <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
-                @endif
+                  <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($listing_offer->volunteer)}}" />
               </div>
 
               <div id="volunteer-info-wrapper-{{$listing_offer->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
@@ -204,83 +200,7 @@
           </div>
         </div>
         <div class="box-footer text-center">
-          <!-- Comments -->
-          {{-- <div id="comments" class="comments-wrapper">
-            <div class="new-comment-wrapper">
-              <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
-              <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>
-                <form class="form-group new-comment-form" action="{{ route('cso.accepted_listings.single_accepted_listing', $listing_offer->id) }}" method="post">
-                  {{csrf_field()}}
-                  <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                  <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                  <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                </form>
-              </div>
-            </div>
-            <div class="existing-comments-wrapper my-existing-comments-wrapper col-xs-12">
-              @foreach ($comments as $comment)
 
-                @if ($comment->sender_type == 'cso')
-                <div class="row comment-row my-comment-row">
-                  <div class="comment-image my-comment-image">
-                    @if (Auth::user()->profile_image_id)
-                      <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find(Auth::user()->profile_image_id)->filename)}}" />
-                    @else
-                      <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('img/avatar5.png')}}" />
-                    @endif
-                  </div>
-                  <div class="comment-bubble my-comment-bubble">
-                    <div class="comment-header my-comment-header col-xs-12">
-                      <span class="comment-name my-comment-name">{{Auth::user()->first_name}} {{Auth::user()->last_name}} (јас)</span>
-                      <span class="comment-time my-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
-                      @if ($comment->created_at != $comment->updated_at)
-                        <span class="comment-edited my-comment-edited">(изменет)</span>
-                      @endif
-                      <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
-                        <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
-                                data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
-                        <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
-                                data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                      </div>
-                    </div>
-                    <hr class="comment-hr my-comment-hr">
-                    <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
-                      <span>{{$comment->text}}</span>
-                    </div>
-                  </div>
-                </div>
-                @endif
-
-                @if ($comment->sender_type == 'donor')
-                <div class="row comment-row other-comment-row">
-                  <div class="comment-image other-comment-image">
-                    @if ($listing_offer->listing->donor->profile_image_id)
-                      <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->donor->profile_image_id)->filename)}}" />
-                    @else
-                      <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-                    @endif
-                  </div>
-                  <div class="comment-bubble other-comment-bubble">
-                    <div class="comment-header other-comment-header col-xs-12">
-                      <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
-                      <span class="comment-time other-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
-                      @if ($comment->created_at != $comment->updated_at)
-                        <span class="comment-edited other-comment-edited">(изменет)</span>
-                      @endif
-                    </div>
-                    <hr class="comment-hr other-comment-hr">
-                    <div class="comment-text other-comment-text col-xs-12">
-                      <span>{{$comment->text}}</span>
-                    </div>
-                  </div>
-                </div>
-                @endif
-
-
-              @endforeach
-            </div>
-          </div>
- --}}
 
           <!-- Comments -->
           <div id='comments-{{$listing_offer->id}}' class="comments-wrapper">
@@ -294,11 +214,7 @@
                   @if ($comment->sender_type == 'cso')
                     <div class="row comment-row my-comment-row">
                       <div class="comment-image my-comment-image">
-                        @if (Auth::user()->profile_image_id)
-                          <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find(Auth::user()->profile_image_id)->filename)}}" />
-                        @else
-                          <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{url('img/avatar5.png')}}" />
-                        @endif
+                          <img class="img-rounded" alt="{{Auth::user()->first_name}}" src="{{Methods::get_user_image_url(Auth::user())}}" />
                       </div>
                       <div class="comment-bubble my-comment-bubble">
                         <div class="comment-header my-comment-header col-xs-12">
@@ -325,11 +241,7 @@
                       @if ($comment->sender_type == 'donor')
                         <div class="row comment-row other-comment-row">
                           <div class="comment-image other-comment-image">
-                            @if ($listing_offer->listing->donor->profile_image_id)
-                              <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->donor->profile_image_id)->filename)}}" />
-                            @else
-                              <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-                            @endif
+                              <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{Methods::get_user_image_url($listing_offer->listing->donor)}}" />
                           </div>
                           <div class="comment-bubble other-comment-bubble">
                             <div class="comment-header other-comment-header col-xs-12">

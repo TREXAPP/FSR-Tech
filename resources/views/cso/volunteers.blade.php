@@ -43,11 +43,7 @@
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
 				<div id="volunteer-image-preview-{{$volunteer->id}}" class="volunteer-image-preview two-col-layout-image-preview">
-					@if ($volunteer->image_id)
-						<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteer->image_id)->filename)}}" />
-					@else
-						<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
-					@endif
+						<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($volunteer)}}" />
 				</div>
 				<div class="header-wrapper">
 					<div id="volunteer-name-{{$volunteer->id}}" class="volunteer-name">
@@ -63,14 +59,7 @@
 		<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div id="volunteer-image-wrapper-{{$volunteer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
-
-
-									@if ($volunteer->image_id)
-										<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteer->image_id)->filename)}}" />
-									@else
-										<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{url('img/avatar5.png')}}" />
-									@endif
-
+					<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($volunteer)}}" />
 				</div>
 
 				<div id="volunteer-info-wrapper-{{$volunteer->id}}" class="volunteer-info-wrapper two-col-layout-info-wrapper col-md-8">

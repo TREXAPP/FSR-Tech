@@ -8,8 +8,6 @@ use FSR\Volunteer;
 use FSR\Organization;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -62,12 +60,14 @@ class NewOrganizationController extends Controller
      * Create a new organization instance.
      *
      * @param  array  $data
+     * @param  int  $file_id
      * @return \FSR\Organization
      */
     protected function create(array $data, $file_id)
     {
         return  Organization::create([
                 'name' => $data['name'],
+                'address' => $data['address'],
                 'description' => $data['description'],
                 'type' => $data['type'],
                 'working_hours_from' => $data['working_hours_from'],

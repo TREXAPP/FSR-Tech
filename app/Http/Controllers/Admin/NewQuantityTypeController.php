@@ -10,8 +10,6 @@ use FSR\Organization;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;

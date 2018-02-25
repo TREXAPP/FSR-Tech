@@ -142,4 +142,39 @@ class Methods
             return null;
         }
     }
+
+
+    /**
+     * Get image url for the user display
+     *
+     * @param Cso or Donor $user
+     * @return string
+     */
+    public static function get_user_image_url($user)
+    {
+        if ($user->profile_image_id) {
+            return Methods::getFileUrl(File::find($user->profile_image_id)->filename);
+        } elseif ($user->organization->image_id) {
+            return Methods::getFileUrl(File::find($user->organization->image_id)->filename);
+        } else {
+            return url('img/avatar5.png');
+        }
+    }
+
+    /**
+     * Get image url for the volunteer display
+     *
+     * @param Volunteer $volunteer
+     * @return string
+     */
+    public static function get_volunteer_image_url($volunteer)
+    {
+        if ($volunteer->image_id) {
+            return Methods::getFileUrl(File::find($volunteer->image_id)->filename);
+        } elseif ($volunteer->organization->image_id) {
+            return Methods::getFileUrl(File::find($volunteer->organization->image_id)->filename);
+        } else {
+            return url('img/avatar5.png');
+        }
+    }
 }

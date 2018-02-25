@@ -50,6 +50,8 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
   //get organizations with ajax
 Route::post('register/organizations', 'Auth\RegisterController@getOrganizations')->name('register.organizations');
+  //get organization address with ajax
+Route::post('register/organizations/address/{id}', 'Auth\RegisterController@getAddress')->name('register.address');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

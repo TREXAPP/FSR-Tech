@@ -10,10 +10,8 @@ use FSR\Volunteer;
 use FSR\Organization;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
+use FSR\Notifications\AdminToVolunteerNewVolunteer;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\Cso\CsoApproved;
-use FSR\Notifications\Cso\NewVolunteer;
-use FSR\Notifications\Donor\DonorApproved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +58,7 @@ class NewVolunteerController extends Controller
         }
         $file_id = $this->new_handle_upload($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
-        $volunteer->notify(new NewVolunteer($volunteer));
+        $volunteer->notify(new AdminToVolunteerNewVolunteer($volunteer));
 
         return back()->with('status', "Волонтерот е додаден успешно!");
     }

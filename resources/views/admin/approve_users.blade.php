@@ -39,11 +39,7 @@
   			<a href="#" class=" btn-box-tool listing-box-anchor admin-approve-cso-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
   				<div id="admin-approve-cso-image-preview-{{$cso->id}}" class="admin-approve-cso-image-preview two-col-layout-image-preview">
-  					@if ($cso->profile_image_id)
-  						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->profile_image_id)->filename)}}" />
-  					@else
-  						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('img/avatar5.png')}}" />
-  					@endif
+  					<img class="img-rounded" alt="{{$cso->first_name}}" src="{{Methods::get_user_image_url($cso)}}" />
   				</div>
   				<div class="header-wrapper">
   					<div id="admin-approve-cso-name-{{$cso->id}}" class="admin-approve-cso-name">
@@ -59,14 +55,7 @@
   		<div class="listing-box-body-wrapper">
   			<div class="box-body">
   				<div id="admin-approve-cso-image-wrapper-{{$cso->id}}" class="admin-approve-cso-image-wrapper two-col-layout-image-wrapper col-md-4">
-
-
-  					@if ($cso->profile_image_id)
-  						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->profile_image_id)->filename)}}" />
-  					@else
-  						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('img/avatar5.png')}}" />
-  					@endif
-
+  						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{Methods::get_user_image_url($cso)}}" />
   				</div>
 
   				<div id="admin-approve-cso-info-wrapper-{{$cso->id}}" class="admin-approve-cso-info-wrapper two-col-layout-info-wrapper col-md-8">
@@ -174,11 +163,7 @@
   			<a href="#" class=" btn-box-tool listing-box-anchor admin-approve-donor-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
   				<div id="admin-approve-donor-image-preview-{{$donor->id}}" class="admin-approve-donor-image-preview two-col-layout-image-preview">
-  					@if ($donor->profile_image_id)
-  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
-  					@else
-  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-  					@endif
+  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{Methods::get_user_image_url($donor)}}" />
   				</div>
   				<div class="header-wrapper">
   					<div id="admin-approve-donor-name-{{$donor->id}}" class="admin-approve-donor-name">
@@ -194,14 +179,7 @@
   		<div class="listing-box-body-wrapper">
   			<div class="box-body">
   				<div id="admin-approve-donor-image-wrapper-{{$donor->id}}" class="admin-approve-donor-image-wrapper two-col-layout-image-wrapper col-md-4">
-
-
-  					@if ($donor->profile_image_id)
-  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
-  					@else
-  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-  					@endif
-
+  						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{Methods::get_user_image_url($donor)}}" />
   				</div>
 
   				<div id="admin-approve-donor-info-wrapper-{{$donor->id}}" class="admin-approve-donor-info-wrapper two-col-layout-info-wrapper col-md-8">
