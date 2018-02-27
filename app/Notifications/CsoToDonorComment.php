@@ -13,16 +13,19 @@ class CsoToDonorComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $listing_offer_id;
+    private $listing_offer_id;
+    private $comment_text;
 
     /**
      * Create a new notification instance.
      * @param int $listing_offer_id
+     * @param string $comment_text
      * @return void
      */
-    public function __construct(int $listing_offer_id)
+    public function __construct(int $listing_offer_id, string $comment_text)
     {
         $this->listing_offer_id = $listing_offer_id;
+        $this->comment_text = $comment_text;
     }
 
     /**
@@ -46,8 +49,8 @@ class CsoToDonorComment extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->subject('Нов коментар на Вашата донација!')
-                    ->line('Имате нов коментар на вашата донација.')
-                    ->line('Кликнете подолу за да го прочитате:')
+                    ->line('Имате нов коментар на вашата донација:')
+                    ->line('"' . $this->comment_text . '"')
                     ->action('Кон коментарот', route('donor.single_listing_offer', $this->listing_offer_id) . '#comments');
     }
 

@@ -6,8 +6,15 @@ use FSR\Donor;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\File;
+use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
+
+use FSR\Notifications\CsoToVolunteerComment;
+use FSR\Notifications\CsoToNewVolunteerChanged;
+use FSR\Notifications\CsoToOldVolunteerChanged;
+use FSR\Notifications\CsoToDonorVolunteerChanged;
+use FSR\Notifications\CsoToVolunteerCancelDonation;
 
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
@@ -37,14 +44,6 @@ class AcceptedListingsController extends Controller
      */
     public function index()
     {
-
-
-        // $listing_offers = ListingOffer::where('offer_status', 'active')
-        //                               ->where('cso_id', Auth::user()->id)
-        //                               ->whereHas('listing', function ($query) {
-        //                                   $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
-        //                               });
-
         $listing_offers = ListingOffer::select(DB::raw('listing_offers.*'))
                                       ->join('listings', 'listing_offers.listing_id', '=', 'listings.id')
                                       ->where('offer_status', 'active')
@@ -58,13 +57,7 @@ class AcceptedListingsController extends Controller
         //$listing_offers = ListingOffer::all();
         $listing_offers_no = 0;
         foreach ($listing_offers->get() as $listing_offer) {
-            //     $quantity_counter = 0;
-            //     foreach ($active_listing->listing_offers as $listing_offer) {
-            //         $quantity_counter += $listing_offer->quantity;
-            //     }
-            //     if ($active_listing->quantity > $quantity_counter) {
             $listing_offers_no++;
-            //     }
         }
 
         return view('cso.accepted_listings')->with([
@@ -119,10 +112,22 @@ class AcceptedListingsController extends Controller
         //     return redirect($route)->withErrors($validation->errors())
         //                          ->withInput();
         // }
+
+
         $data = $request->all();
         $listing_offer = ListingOffer::find($data['listing_offer_id']);
+        $cso = Auth::user();
+        $old_volunteer = Volunteer::find($listing_offer->volunteer_id);
         $listing_offer->volunteer_id = $data['volunteer'];
+        $new_volunteer = Volunteer::find($data['volunteer']);
+        $donor = $listing_offer->listing->donor;
         $listing_offer->save();
+
+        //TODO 3 email notifications: donor, new volunteer and old volunteer
+        $donor->notify(new CsoToDonorVolunteerChanged($listing_offer, $new_volunteer));
+        $new_volunteer->notify(new CsoToNewVolunteerChanged($listing_offer, $cso, $donor));
+        $old_volunteer->notify(new CsoToOldVolunteerChanged($listing_offer, $cso, $donor));
+
         $image_url = Methods::get_volunteer_image_url($listing_offer->volunteer);
 
         return response()->json([
@@ -184,9 +189,13 @@ class AcceptedListingsController extends Controller
      */
     public function handle_delete_offer(Request $request)
     {
+        $cso = Auth::user();
         $listing_offer = $this->delete_offer($request->all());
+        $volunteer = $listing_offer->volunteer;
         $donor = Donor::find($listing_offer->listing->donor_id);
         $donor->notify(new CsoToDonorCancelDonation($listing_offer));
+        //TODO volunteer notification
+        $volunteer->notify(new CsoToVolunteerCancelDonation($listing_offer, $cso, $donor));
         return back()->with('status', "Донацијата е успешно избришана!");
     }
 
@@ -272,8 +281,16 @@ class AcceptedListingsController extends Controller
      */
     protected function create_comment(array $data, int $listing_offer_id)
     {
+        $listing_offer = ListingOffer::find($listing_offer_id);
+        $donor = $listing_offer->listing->donor;
+        $volunteer = Volunteer::find($listing_offer->volunteer_id);
+        $comment_text = $data['comment'];
+        $cso = Auth::user();
+
         //send notification to the donor
-        ListingOffer::find($listing_offer_id)->listing->donor->notify(new CsoToDonorComment($listing_offer_id));
+        $donor->notify(new CsoToDonorComment($listing_offer_id, $data['comment']));
+        //send to the volunteer
+        $volunteer->notify(new CsoToVolunteerComment($listing_offer_id, $comment_text, $cso, $donor));
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,

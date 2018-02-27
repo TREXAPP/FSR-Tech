@@ -52,8 +52,8 @@ class CsoToVolunteerComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Нов коментар од донорот!')
-                    ->line('Има нов коментар на донацијата за која сте повикан да ја подигнете:')
+                    ->subject('Нов коментар од примателот!')
+                    ->line('Има нов коментар од примателот на донацијата за која сте повикан да ја подигнете:')
                     ->line('"' . $this->comment_text . '"')
                     ->line('----------------')
                     ->line('Податоци за донорот:')
