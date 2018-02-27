@@ -49,7 +49,7 @@ class CsoToOldVolunteerChanged extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Не сте задолжени за подигање на донацијата!')
+                  ->subject('Веќе не сте задолжени за подигање на донацијата!')
                   ->line('Ве известуваме дека веќе не сте задолжени за подигање на донацијата од ' .
                            $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description . ' ' .
                            $this->listing_offer->listing->product->name .

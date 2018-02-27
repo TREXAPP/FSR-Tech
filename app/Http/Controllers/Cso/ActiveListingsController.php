@@ -6,6 +6,8 @@ use FSR\Listing;
 use FSR\File;
 use FSR\Volunteer;
 use FSR\ListingOffer;
+use FSR\Notifications\CsoToVolunteerNewVolunteer;
+
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications\CsoToVolunteerAcceptDonation;
 use FSR\Notifications\CsoToDonorAcceptDonation;
@@ -159,7 +161,7 @@ class ActiveListingsController extends Controller
 
         $file_id = $this->handle_upload_ajax($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
-
+        $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer, Auth::user()));
         return response()->json(['id' => $volunteer->id]);
     }
 

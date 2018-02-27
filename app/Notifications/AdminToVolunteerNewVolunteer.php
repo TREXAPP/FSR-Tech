@@ -2,19 +2,19 @@
 
 namespace FSR\Notifications;
 
+use FSR\File;
 use FSR\Volunteer;
 use FSR\Custom\CarbonFix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AdminToVolunteerNewVolunteer extends Notification implements ShouldQueue
+class AdminToVolunteerNewVolunteer extends Notification
 {
     use Queueable;
 
 
-    protected $volunteer;
+    private $volunteer;
 
     /**
      * Create a new notification instance.
@@ -44,10 +44,21 @@ class AdminToVolunteerNewVolunteer extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Додадени сте како волонтер!')
-                    ->line('Успешно сте додадени во системот за донирање храна како волонтер на организацијата ' . $this->volunteer->organization->name);
-        // ->action('Види ги промените', url('/cso/profile'));
+        $message = (new MailMessage)
+                  ->subject('Додадени сте како волонтер!')
+                  ->line('Успешно сте додадени во системот за донирање храна како волонтер на организацијата ' .
+                          $this->volunteer->organization->name . '.')
+                  ->line('Вашите податоци во системот: ')
+                  ->line('Име: ' . $this->volunteer->first_name)
+                  ->line('Презиме: ' . $this->volunteer->last_name)
+                  ->line('Телефон: ' . $this->volunteer->phone)
+                  ->line('Емаил: ' . $this->volunteer->email);
+
+        if ($this->volunteer->image_id) {
+            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+        }
+
+        return $message;
     }
 
     /**

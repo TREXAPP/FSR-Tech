@@ -31,26 +31,16 @@ $('.pickup-volunteer-name').on('change', function() {
     if (volunteer_info.hasClass('hidden')) {
       volunteer_info.removeClass('hidden');
     }
-    //TODO:
     //  zemi so ajax vrednosti za volonterot
     $.post('active_listings/get_volunteer', {'volunteer_id': this.value, '_token':$('meta[name="csrf-token"]').attr('content')}, function(data) {
       if (data) {
-        console.log(data);
-        //append the other options retrieved from database
-        // $.each(data,function(key, value) {
-        //   $('#product_id_select').append('<option value=' + value.id + '>' + value.name + '</option>');
-        // });
-        // if ($('#food_type_select').val()) {
-        //   $("#product_id_select").prop('disabled', false);
-        // }
+        //  popolni gi soodvetnite polinja
 
-            //  popolni gi soodvetnite polinja
-
-            $('#volunteer-info-first-name-value-' + listing_id).text(data.first_name);
-            $('#volunteer-info-last-name-value-' + listing_id).text(data.last_name);
-            $('#volunteer-info-email-value-' + listing_id).text(data.email);
-            $('#volunteer-info-phone-value-' + listing_id).text(data.phone);
-            $('#volunteer-info-image-' +  + listing_id).prop('src',data.image_url);
+        $('#volunteer-info-first-name-value-' + listing_id).text(data.first_name);
+        $('#volunteer-info-last-name-value-' + listing_id).text(data.last_name);
+        $('#volunteer-info-email-value-' + listing_id).text(data.email);
+        $('#volunteer-info-phone-value-' + listing_id).text(data.phone);
+        $('#volunteer-info-image-' +  + listing_id).prop('src',data.image_url);
       }
     });
 
@@ -252,6 +242,8 @@ $("#add-volunteer-form").submit(function (e) {
                 }
               });
             });
+
+            $('.pickup-volunteer-name').trigger("change");
           }
         });
 
