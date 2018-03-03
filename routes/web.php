@@ -59,6 +59,10 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+//Email confirm routes...
+Route::get('email/confirm/{token}', 'Auth\EmailConfirmController@showConfirmForm')->name('email.confirm');
+Route::get('email/resend_link', 'Auth\EmailConfirmController@resend_link')->name('email.resend_link');
+
 //admin routes
 Route::get('admin', function () {
     if (Auth::user()) {

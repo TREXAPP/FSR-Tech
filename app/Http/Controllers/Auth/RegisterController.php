@@ -4,12 +4,16 @@ namespace FSR\Http\Controllers\Auth;
 
 use FSR\User;
 use FSR\Cso;
+use FSR\Admin;
 use FSR\Donor;
 use FSR\Location;
 use FSR\Volunteer;
 use FSR\Organization;
 use FSR\File;
 use FSR\Custom\Methods;
+use FSR\Notifications\UserToAdminsRegister;
+
+
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications\UserRegistrationSuccess;
 use Illuminate\Auth\Events\Registered;
@@ -18,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -72,11 +77,11 @@ class RegisterController extends Controller
         $file_id = $this->register_handle_upload($request);
         event(new Registered($user = $this->create($request->all(), $file_id)));
 
-        if ($user->type() == 'donor') {
-            $user->notify(new UserRegistrationSuccess());
-        } elseif ($user->type() == 'cso') {
-            $user->notify(new UserRegistrationSuccess());
+        if ($user->type() == 'donor' || $user->type() == 'cso') {
+            $user->notify(new UserRegistrationSuccess($user));
         }
+        $admins = Admin::where('email', '!=', 'admin@admin.mk')->get();
+        Notification::send($admins, new UserToAdminsRegister($user));
 
         $request->session()->put('status', Lang::get('login.not_approved'));
 
@@ -166,6 +171,7 @@ class RegisterController extends Controller
                 'location_id' => $data['location'],
                 'profile_image_id' => $file_id,
                 'notifications' => '1',
+                'email_token' => base64_encode($data['email'])
             ]);
 
           break;
@@ -182,6 +188,7 @@ class RegisterController extends Controller
               'location_id' => $data['location'],
               'profile_image_id' => $file_id,
               'notifications' => '1',
+              'email_token' => base64_encode($data['email'])
             ]);
           $volunteer = $this->create_volunteer($data, $file_id, $cso->id);
           return $cso;

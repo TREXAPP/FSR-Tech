@@ -42,7 +42,7 @@
         </li>
 
 
-        <li>
+        <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
           <a href="/{{Auth::user()->type()}}/new_listing">
             <i class="fa fa-plus-circle"></i> <span>Додади нова донација</span>
             <span class="pull-right-container">
@@ -50,7 +50,7 @@
           </a>
         </li>
       @elseif (Auth::user()->type() == 'cso')
-        <li>
+        <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
           <a href="/{{Auth::user()->type()}}/accepted_listings">
             <i class="fa fa-bookmark"></i> <span>Прифатени донации</span>
               @yield('cso_accepted_listings_no')
@@ -96,7 +96,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li>
+              <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
                 <a href="/{{Auth::user()->type()}}/volunteers">
                   <i class="fa fa-users"></i> <span>Преглед</span>
                   <span class="pull-right-container">
@@ -104,7 +104,7 @@
                 </a>
               </li>
 
-              <li>
+              <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
                 <a href="/{{Auth::user()->type()}}/volunteers/new">
                   <i class="fa fa-user-plus"></i> <span>Додади нов</span>
                   <span class="pull-right-container">

@@ -34,13 +34,14 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        if (session('status')) {
-            $status = session('status');
-            Session::forget('status');
-        } else {
-            $status = '';
-        }
-        return view('auth.login')->with('status', $status);
+        // if (session('status')) {
+        //     $status = session('status');
+        //     Session::forget('status');
+        // } else {
+        //     $status = '';
+        // }
+        // return view('auth.login')->with('status', $status);
+        return view('auth.login');
     }
 
 

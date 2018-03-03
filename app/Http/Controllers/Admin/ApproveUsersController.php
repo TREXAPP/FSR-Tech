@@ -5,6 +5,8 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Volunteer;
+use FSR\Notifications\AdminToUserRejectRegistration;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +73,7 @@ class ApproveUsersController extends Controller
             $cso->status = 'active';
             $cso->save();
             $this->approve_volunteer($data['cso_id']);
-            $cso->notify(new AdminToUserApproveRegistration());
+            $cso->notify(new AdminToUserApproveRegistration($cso));
 
             return back()->with([
             'status' => 'Примателот е успешно одобрен!'
@@ -92,7 +94,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'active';
             $donor->save();
-            $donor->notify(new AdminToUserApproveRegistration());
+            $donor->notify(new AdminToUserApproveRegistration($donor));
 
             return back()->with([
             'status' => 'Донорот е успешно одобрен!'
@@ -113,7 +115,7 @@ class ApproveUsersController extends Controller
         if ($cso) {
             $cso->status = 'rejected';
             $cso->save();
-
+            $cso->notify(new AdminToUserRejectRegistration());
             return back()->with([
             'status' => 'Примателот е одбиен!'
           ]);
@@ -133,7 +135,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'rejected';
             $donor->save();
-
+            $donor->notify(new AdminToUserRejectRegistration());
             return back()->with([
             'status' => 'Донорот е одбиен!'
           ]);

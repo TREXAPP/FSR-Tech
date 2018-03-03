@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserRegistrationSuccess extends Notification implements ShouldQueue
+class UserEmailVerificationRequest extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -48,8 +48,7 @@ class UserRegistrationSuccess extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject('Потврдете го Вашиот емаил!')
                     ->line('Кликнете подолу за да го потврдите Вашиот емаил:')
-                    ->action('Потврди емаил', $confirm_link)
-                    ->line('Ќе добиете потврден меил кога ќе бидете одобрени од администраторот.');
+                    ->action('Потврди емаил', $confirm_link);
         // ->action('Види ги промените', url('/cso/profile'));
     }
 

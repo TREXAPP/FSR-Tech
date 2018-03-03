@@ -8,11 +8,22 @@
                 <div class="panel-heading">@lang('login.login')</div>
 
                 <div class="panel-body">
-                  @if ($status != '')
+                  {{-- @if ($status)
                       <div class="alert alert-success">
                           {{ $status }}
                       </div>
+                  @endif --}}
+                  @if (session('status'))
+                      <div class="alert alert-success">
+                          {{ session('status') }}
+                      </div>
                   @endif
+                  @if (session('status_error'))
+                      <div class="alert alert-danger">
+                          {{ session('status_error') }}
+                      </div>
+                  @endif
+
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 

@@ -20609,6 +20609,10 @@ button.close {
   margin-top: 10px;
 }
 
+.email-not-confirmed-alert {
+  padding: 5px 20px 5px 20px;
+}
+
 .admin-body {
   background: #00a65a;
 }

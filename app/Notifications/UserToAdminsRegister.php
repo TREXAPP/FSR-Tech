@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserRegistrationSuccess extends Notification implements ShouldQueue
+class UserToAdminsRegister extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -44,13 +44,19 @@ class UserRegistrationSuccess extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $confirm_link = route('email.confirm', $this->user->email_token);
+        $approve_link = route('admin.approve_users');
         return (new MailMessage)
-                    ->subject('Потврдете го Вашиот емаил!')
-                    ->line('Кликнете подолу за да го потврдите Вашиот емаил:')
-                    ->action('Потврди емаил', $confirm_link)
-                    ->line('Ќе добиете потврден меил кога ќе бидете одобрени од администраторот.');
-        // ->action('Види ги промените', url('/cso/profile'));
+                    ->subject('Нов корисник')
+                    ->line('Регистриран е нов корисник со следниве податоци:')
+                    ->line('Тип на корисник: ' . $this->user->type())
+                    ->line('Име: ' . $this->user->first_name)
+                    ->line('Презиме: ' . $this->user->last_name)
+                    ->line('Организација: ' . $this->user->organization->name)
+                    ->line('Емаил: ' . $this->user->email)
+                    ->line('Телефон: ' . $this->user->phone)
+                    ->line('Адреса: ' . $this->user->address)
+                    ->line('Локација: ' . $this->user->location->name)
+                    ->action('Одобри/Одбиј', $approve_link);
     }
 
     /**

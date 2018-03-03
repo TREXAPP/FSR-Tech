@@ -57,7 +57,8 @@ class Donor extends Authenticatable
       'location_id',
       'notifications',
       'status',
-
+      'email_token',
+      'email_confirmed'
     ];
 
     /**

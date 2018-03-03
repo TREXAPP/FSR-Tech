@@ -13,6 +13,18 @@ class AdminToUserApproveRegistration extends Notification
 {
     use Queueable;
 
+    private $user;
+
+    /**
+     * Create a new notification instance.
+     * @param object $user
+     * @return void
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Get the notification's delivery channels.
      *
@@ -32,11 +44,18 @@ class AdminToUserApproveRegistration extends Notification
      */
     public function toMail($notifiable)
     {
+        $confirm_link = route('email.confirm', $this->user->email_token);
         $message = (new MailMessage)
                   ->subject('Вашиот профил е активиран!')
-                  ->line('Би сакале да ве известиме дека вашиот профил за примател на храна на платформата за донирање на храна е активиран!')
-                  ->line('Кликнете подолу за да се логирате:')
-                  ->action('Логирај се', route('home'));
+                  ->line('Би сакале да ве известиме дека вашиот профил за примател на храна на платформата за донирање на храна е активиран!');
+
+        if ($this->user->email_confirmed) {
+            $message->line('Кликнете подолу за да се логирате:')
+                            ->action('Логирај се', route('home'));
+        } else {
+            $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')
+                            ->action('Активирај емаил', $confirm_link);
+        }
         return $message;
     }
 

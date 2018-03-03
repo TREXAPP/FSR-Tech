@@ -32131,7 +32131,6 @@ $("#add-volunteer-form").submit(function (e) {
               });
             });
 
-            //TODO - show volunteer info below the dropdown
             $('.pickup-volunteer-name').trigger("change");
           }
         });

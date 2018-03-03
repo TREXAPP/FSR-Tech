@@ -101,7 +101,8 @@
 				</div>
 			</a>
 		</div>
-		<div class="listing-box-body-wrapper">
+		@if (Auth::user()->email_confirmed)
+			<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div class="row">
 					<div class="listing-info-box col-md-4 col-sm-6 listing-pick-up-time ">
@@ -237,7 +238,7 @@
 				 class="btn btn-primary btn-lg listing-submit-button" data-toggle="modal" data-target="#confirm-listing-popup">Прифати</button>
 			</div>
 		</div>
-
+		@endif
 		<!-- /.box-footer-->
 	</div>
 	<!-- /.box -->

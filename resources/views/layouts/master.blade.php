@@ -25,7 +25,14 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-
+  @if (!session('status'))
+    @if (!Auth::user()->email_confirmed)
+      <div class='email-not-confirmed-alert alert alert-success'>
+        <span>Вашиот емаил се уште не е потврден!</span>
+        <a href='{{route('email.resend_link')}}' class="btn btn-danger">Препрати линк за активација</a>
+      </div>
+    @endif
+  @endif
 
 @yield('content')
 
