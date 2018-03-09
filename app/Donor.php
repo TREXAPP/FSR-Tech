@@ -3,6 +3,7 @@
 namespace FSR;
 
 use Illuminate\Notifications\Notifiable;
+use FSR\Notifications\MailResetPasswordToken;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Donor extends Authenticatable
@@ -71,10 +72,10 @@ class Donor extends Authenticatable
     ];
 
     /**
- * Get the phone record associated with the user.
+ * Send a password reset email to the user
  */
-    // public function phone()
-    // {
-    //     return $this->hasMany('App\Phone');
-    // }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordToken($token));
+    }
 }

@@ -96,6 +96,10 @@ Route::get('admin/food_types', 'Admin\FoodTypesController@index')->name('admin.f
 Route::get('admin/food_types/new', 'Admin\NewFoodTypeController@index')->name('admin.new_food_type');
 Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->name('admin.new_food_type');
 
+Route::get('admin/donor_types', 'Admin\DonorTypesController@index')->name('admin.donor_types');
+Route::get('admin/donor_types/new', 'Admin\NewDonorTypeController@index')->name('admin.new_donor_type');
+Route::post('admin/donor_types/new', 'Admin\NewDonorTypeController@handle_post')->name('admin.new_donor_type');
+
 Route::get('admin/products', 'Admin\ProductsController@index')->name('admin.products');
 Route::post('admin/products', 'Admin\ProductsController@handle_post')->name('admin.products');
 Route::get('admin/products/new', 'Admin\NewProductController@index')->name('admin.new_product');

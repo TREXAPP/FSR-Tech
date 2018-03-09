@@ -9,6 +9,8 @@ use FSR\Location;
 use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
+use FSR\Notifications\CsoToVolunteerRemoved;
+
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications\CsoToVolunteerNewVolunteer;
 use Illuminate\Http\Request;
@@ -71,6 +73,7 @@ class VolunteersController extends Controller
     public function handle_delete(Request $request)
     {
         $volunteer = $this->delete($request->all());
+        $volunteer->notify(new CsoToVolunteerRemoved($volunteer->organization));
         return back()->with('status', "Волонтерот е успешно избришан!");
     }
 

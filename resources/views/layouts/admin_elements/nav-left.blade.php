@@ -187,6 +187,33 @@
 
       <li class="treeview">
           <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Типови на донори</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="/{{Auth::user()->type()}}/donor_types">
+                <i class="fa fa-users"></i> <span>Преглед</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/{{Auth::user()->type()}}/donor_types/new">
+                <i class="fa fa-user-plus"></i> <span>Додади нов</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+
+      <li class="treeview">
+          <a href="#">
             <i class="fa fa-universal-access"></i> <span>Локации</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
