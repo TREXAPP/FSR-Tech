@@ -36,7 +36,8 @@ class NewVolunteerController extends Controller
      */
     public function index()
     {
-        $organizations = Organization::where('type', 'cso')->get();
+        $organizations = Organization::where('type', 'cso')
+                                      ->where('status', 'active')->get();
         return view('admin.new_volunteer')->with([
           'organizations' => $organizations,
         ]);

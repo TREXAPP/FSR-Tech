@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\DonorType;
 use FSR\Volunteer;
 use FSR\Organization;
 use FSR\Custom\Methods;
@@ -32,7 +33,10 @@ class NewOrganizationController extends Controller
      */
     public function index()
     {
-        return view('admin.new_organization');
+        $donor_types = DonorType::where('status', 'active')->get();
+        return view('admin.new_organization')->with([
+          'donor_types' => $donor_types
+        ]);
     }
 
     /**
@@ -65,15 +69,26 @@ class NewOrganizationController extends Controller
      */
     protected function create(array $data, $file_id)
     {
-        return  Organization::create([
-                'name' => $data['name'],
-                'address' => $data['address'],
-                'description' => $data['description'],
-                'type' => $data['type'],
-                'working_hours_from' => $data['working_hours_from'],
-                'working_hours_to' => $data['working_hours_to'],
-                'image_id' => $file_id,
-            ]);
+        if ($data['type'] == 'donor') {
+            return  Organization::create([
+              'name' => $data['name'],
+              'address' => $data['address'],
+              'description' => $data['description'],
+              'type' => $data['type'],
+              'working_hours_from' => $data['working_hours_from'],
+              'working_hours_to' => $data['working_hours_to'],
+              'image_id' => $file_id,
+              'donor_type_id' => $data['donor_type'],
+          ]);
+        } else {
+            return  Organization::create([
+              'name' => $data['name'],
+              'address' => $data['address'],
+              'description' => $data['description'],
+              'type' => $data['type'],
+              'image_id' => $file_id,
+          ]);
+        }
     }
 
     /**
@@ -87,6 +102,7 @@ class NewOrganizationController extends Controller
         if ($data['type'] == 'donor') {
             $validatorArray = [
             'name'                    => 'required',
+            'donor_type'              => 'required',
             'working_hours_from'      => 'required',
             'working_hours_to'        => 'required',
             'image'                   => 'image|max:2048',

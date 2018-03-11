@@ -16,6 +16,15 @@ require('./new_listing');
 require('./admin/approve_users');
 require('./admin/new_organization');
 require('./admin/new_product');
+require('./admin/locations');
+require('./admin/donor_types');
+require('./admin/quantity_types');
+require('./admin/products');
+require('./admin/food_types');
+require('./admin/cso_organizations');
+require('./admin/donor_organizations');
+require('./admin/csos');
+require('./admin/donors');
 
 require('admin-lte');
 //

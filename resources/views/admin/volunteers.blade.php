@@ -144,10 +144,10 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-food-type-button-{{$volunteer->id}}" name="edit-food-type-button-{{$volunteer->id}}"
-							class="btn btn-success edit-food-type-button" disabled>Измени ги податоците</a>
-							<button id="delete-food-type-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-food-type-popup"
-								name="delete-food-type-button" class="btn btn-danger delete-food-type-button" disabled >Избриши го волонтерот</button>
+						<a href="#" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
+							class="btn btn-success edit-volunteer-button" disabled>Измени ги податоците</a>
+							<button id="delete-volunteer-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-volunteer-popup"
+								name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го волонтерот</button>
 							</div>
 			</div>
 			@endif
@@ -180,6 +180,7 @@
 					</h5>
 				</div>
 				<div class="modal-footer">
+					<input type="hidden" name="post-type" value="delete" />
 					<input type="submit" name="delete-volunteer-popup" class="btn btn-danger" value="Избриши" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>

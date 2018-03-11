@@ -23,6 +23,36 @@
 </section>
 
 
+<!-- Filter -->
+<section class="filter organizations-filter">
+	<div class="filter-wrapper row">
+	<form id="organizations-filter-form" class="organizations-filter-form" action="{{route('admin.donor_organizations')}}" method="post">
+		<input type="hidden" name="post-type" value="filter" />
+		{{csrf_field()}}
+		<div class="filter-container col-md-6">
+			<div class="filter-label organizations-filter-label col-md-4">
+				<label for="donor-types-filter-select">Тип на донори:</label>
+			</div>
+			<div class="filter-select organizations-filter-select col-md-8">
+				<select onchange="this.form.submit()" id="donor_types_filter_select" class="form-control donor-types-filter-select" name="donor-types-filter-select" required>
+					<option value="">-- Сите --</option>
+					@foreach ($donor_types as $donor_type)
+						<option value="{{$donor_type->id}}" {{ ($filters['donor_type'] == $donor_type->id) ? ' selected' : '' }}>{{$donor_type->name}}</option>
+					@endforeach
+				</select>
+				@if ($errors->has('donor-types-filter-select'))
+					<span class="help-block">
+						<strong>{{ $errors->first('donor-types-filter-select') }}</strong>
+					</span>
+				@endif
+			</div>
+		</div>
+
+</form>
+</div>
+</section>
+
+
 <!-- Main content -->
 <section class="content organizations-content">
 
@@ -32,7 +62,7 @@
 	</div>
 	@endif
 
-	@foreach ($organizations->get() as $organization)
+	@foreach ($organizations as $organization)
 
 
 
@@ -53,6 +83,9 @@
 				<div class="header-wrapper">
 					<div id="organization-name-{{$organization->id}}" class="organization-name">
 						<span class="organization-listing-title two-col-layout-listing-title">{{$organization->name}}</span>
+					</div>
+					<div id="organization-users-no-{{$organization->id}}" class="organization-users-no">
+						<span class="organization-listing-subtitle two-col-layout-listing-subtitle"><span id="users-no-{{$organization->id}}">{{$organization->donors->where('status','active')->count()}}</span> корисници</span>
 					</div>
 					<div class="box-tools pull-right">
 							<i class="fa fa-caret-down pull-right"></i>
@@ -116,16 +149,6 @@
 						</div>
 					</div>
 
-					<!-- Address -->
-					{{-- <div id="organization-info-address-{{$organization->id}}" class="row organization-info-address row">
-						<div id="organization-info-address-label-{{$organization->id}}" class="organization-info-label organization-info-address-label col-md-4">
-							<span>Опис:</span>
-						</div>
-						<div id="organization-info-address-value-{{$organization->id}}" class="organization-info-value organization-info-address-value col-md-8">
-							<span><strong>{{$organization->address}}</strong></span>
-						</div>
-					</div> --}}
-
 
 				</div>
 
@@ -133,10 +156,10 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-organization-button-{{$organization->id}}" name="edit-organization-button-{{$organization->id}}"
-							class="btn btn-success edit-organization-button" disabled>Измени ги податоците</a>
-							<button id="delete-organization-button-{{ $organization->id }}" type="submit" data-toggle="modal" data-target="#delete-organization-popup"
-								name="delete-organization-button" class="btn btn-danger delete-organization-button" disabled >Избриши ја организацијата</button>
+						<a href="#" id="edit-donor-organization-button-{{$organization->id}}" name="edit-donor-organization-button-{{$organization->id}}"
+							class="btn btn-success edit-donor-organization-button" disabled>Измени ги податоците</a>
+							<button id="delete-donor-organization-button-{{ $organization->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-organization-popup"
+								name="delete-donor-organization-button" class="btn btn-danger delete-donor-organization-button">Избриши ја организацијата</button>
 							</div>
 			</div>
 
@@ -151,25 +174,27 @@
 @endforeach
 
 <!-- Delete Modal  -->
-<div id="delete-volunteer-popup" class="modal fade" role="dialog">
+<div id="delete-donor-organization-popup" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
-			<form id="delete-volunteer-form" class="delete-volunteer-form" action="{{ route('cso.volunteers') }}" method="post">
+			<form id="delete-donor-organization-form" class="delete-donor-organization-form" action="{{ route('admin.donor_organizations') }}" method="post">
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 id="popup-title" class="modal-title popup-title">Избриши го волонтерот</h4>
 				</div>
-				<div id="delete-volunteer-body" class="modal-body delete-volunteer-body">
+				<div id="delete-donor-organization-body" class="modal-body delete-donor-organization-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите волонтерот?
+						<div>Дали сте сигурни дека сакате да го избришите организацијата?</div>
+						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници ќе бидат исто така избришани!</div>
 					</h5>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" name="delete-volunteer-popup" class="btn btn-danger" value="Избриши" />
+					<input type="hidden" name="post-type" value="delete" />
+					<input type="submit" name="delete-donor-organization-popup" class="btn btn-danger" value="Избриши" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>
 			</form>

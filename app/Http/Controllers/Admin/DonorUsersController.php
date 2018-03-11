@@ -78,12 +78,41 @@ class DonorUsersController extends Controller
             }
 
           break;
-
+          case 'delete':
+            return $this->handle_delete($request->all());
+          break;
           default:
             return $this->index();
           break;
         }
         }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $donor = $this->delete($data);
+        return back()->with('status', "Корисникот е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\Donor
+     */
+    protected function delete(array $data)
+    {
+        $donor = Donor::find($data['donor_id']);
+        $donor->status = 'deleted';
+        $donor->save();
+        return $donor;
     }
 
 

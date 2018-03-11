@@ -12,6 +12,8 @@ use FSR\ListingOffer;
 use FSR\Organization;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
+use FSR\Notifications\AdminToVolunteerRemoved;
+
 use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -44,7 +46,8 @@ class VolunteersController extends Controller
       ];
         $organizations = Organization::where('status', 'active')
                                      ->where('type', 'cso')->get();
-        $volunteers = Volunteer::where('is_user', '0')->get();
+        $volunteers = Volunteer::where('is_user', '0')
+                                 ->where('status', 'active')->get();
         return $this->return_view($volunteers, $organizations, $filters);
     }
 
@@ -78,12 +81,41 @@ class VolunteersController extends Controller
             }
 
           break;
-
+          case 'delete':
+            return $this->handle_delete($request->all());
           default:
             return $this->index();
           break;
         }
         }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $volunteer = $this->delete($data);
+        $volunteer->notify(new AdminToVolunteerRemoved($volunteer->organization));
+        return back()->with('status', "Волонтерот е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected listing offer as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\Volunteer
+     */
+    protected function delete(array $data)
+    {
+        $volunteer = Volunteer::find($data['volunteer_id']);
+        $volunteer->status = 'deleted';
+        $volunteer->save();
+        return $volunteer;
     }
 
 

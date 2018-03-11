@@ -146,7 +146,7 @@
 						<a href="#" id="edit-product-button-{{$product->id}}" name="edit-product-button-{{$product->id}}"
 							class="btn btn-success edit-product-button" disabled>Измени ги податоците</a>
 							<button id="delete-product-button-{{ $product->id }}" type="submit" data-toggle="modal" data-target="#delete-product-popup"
-								name="delete-product-button" class="btn btn-danger delete-product-button" disabled >Избриши го производот</button>
+								name="delete-product-button" class="btn btn-danger delete-product-button">Избриши го производот</button>
 							</div>
 			</div>
 
@@ -161,25 +161,26 @@
 @endforeach
 
 <!-- Delete Modal  -->
-<div id="delete-volunteer-popup" class="modal fade" role="dialog">
+<div id="delete-product-popup" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
-			<form id="delete-volunteer-form" class="delete-volunteer-form" action="{{ route('cso.volunteers') }}" method="post">
+			<form id="delete-product-form" class="delete-product-form" action="{{ route('admin.products') }}" method="post">
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го волонтерот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го производот</h4>
 				</div>
-				<div id="delete-volunteer-body" class="modal-body delete-volunteer-body">
+				<div id="delete-product-body" class="modal-body delete-product-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите волонтерот?
+						Дали сте сигурни дека сакате да го избришите производот?
 					</h5>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" name="delete-volunteer-popup" class="btn btn-danger" value="Избриши" />
+					<input type="hidden" name="post-type" value="delete" />
+					<input type="submit" name="delete-product-popup" class="btn btn-danger" value="Избриши" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>
 			</form>

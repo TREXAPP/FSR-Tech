@@ -1,7 +1,7 @@
 @extends('layouts.admin_master')
 @section('content')
 <!-- Content Header (Page header) -->
-<section class="content-header volunteer-content-header">
+<section class="content-header location-content-header">
 	<h1>
 		<i class="fa fa-universal-access"></i>
 		<span>Локации </span>
@@ -49,7 +49,7 @@
 
 				<div class="header-wrapper">
 					<div id="location-name-{{$location->id}}" class="location-name">
-						<span class="location-listing-title two-col-layout-listing-title">{{$location->name}}</span>
+						<span class="location-listing-title two-col-layout-listing-title">{{$location->name}} ({{$location->csos->count() + $location->donors->count()}})</span>
 					</div>
 					<div class="box-tools pull-right">
 							<i class="fa fa-caret-down pull-right"></i>
@@ -93,7 +93,8 @@
 						<a href="#" id="edit-location-button-{{$location->id}}" name="edit-location-button-{{$location->id}}"
 							class="btn btn-success edit-location-button" disabled>Измени ги податоците</a>
 							<button id="delete-location-button-{{ $location->id }}" type="submit" data-toggle="modal" data-target="#delete-location-popup"
-								name="delete-location-button" class="btn btn-danger delete-location-button" disabled >Избриши ја локацијата</button>
+								name="delete-location-button" class="btn btn-danger delete-location-button"
+								{{($location->csos->count() || $location->donors->count()) ? ' disabled' : '' }}>Избриши ја локацијата</button>
 							</div>
 			</div>
 
@@ -108,120 +109,32 @@
 @endforeach
 
 <!-- Delete Modal  -->
-<div id="delete-volunteer-popup" class="modal fade" role="dialog">
+<div id="delete-location-popup" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
-			<form id="delete-volunteer-form" class="delete-volunteer-form" action="{{ route('cso.volunteers') }}" method="post">
+			<form id="delete-location-form" class="delete-location-form" action="{{ route('admin.locations') }}" method="post">
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го волонтерот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши ја локацијата</h4>
 				</div>
-				<div id="delete-volunteer-body" class="modal-body delete-volunteer-body">
+				<div id="delete-location-body" class="modal-body delete-location-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите волонтерот?
+						Дали сте сигурни дека сакате да ја избришите локацијата?
 					</h5>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" name="delete-volunteer-popup" class="btn btn-danger" value="Избриши" />
+					<input type="hidden" name="post-type" value="delete" />
+					<input type="submit" name="delete-location-popup" class="btn btn-danger" value="Избриши" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
-
-	<!-- Add volunteer Modal -->
-	<div id="add-volunteer-popup" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<form id="add-volunteer-form" class="add-volunteer-form" action="{{ route('cso.active_listings.add_volunteer') }}" method="post"
-				 enctype="multipart/form-data">
-					{{ csrf_field() }}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Волонтер</h4>
-					</div>
-					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
-						<!-- Form content-->
-						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за волонтерот:
-						</h5>
-
-						<!-- first name -->
-						<div id="first-name-form-group" class="form-group row">
-							<label for="first_name" class="col-md-2 col-md-offset-2 control-label">Име:</label>
-							<div class="col-md-6">
-								<input id="first_name" type="text" class="form-control" name="first_name" {{-- value="" style="text-align: center;" required> --}} value="" style="text-align: center;" >
-								<span id="first-name-error" class="help-block" style="font-weight: bold;">
-									<strong></strong>
-								</span>
-							</div>
-						</div>
-
-						<!-- last name -->
-						<div id="last-name-form-group" class="form-group row">
-							<label for="last_name" class="col-md-2 col-md-offset-2 control-label">Презиме:</label>
-							<div class="col-md-6">
-								<input id="last_name" type="text" class="form-control" name="last_name" value="" style="text-align: center;"> {{-- value="" style="text-align: center;" required > --}}
-								<span id="last-name-error" class="help-block" style="font-weight: bold;">
-									<strong></strong>
-								</span>
-							</div>
-						</div>
-
-						<!-- email -->
-						<div id="email-form-group" class="form-group row">
-							<label for="email" class="col-md-2 col-md-offset-2 control-label">Емаил:</label>
-							<div class="col-md-6">
-								<input id="email" type="email" class="form-control" name="email" {{-- value="" style="text-align: center;" required> --}} value="" style="text-align: center;" >
-								<span id="email-error" class="help-block" style="font-weight: bold;">
-									<strong></strong>
-								</span>
-							</div>
-						</div>
-
-						<!-- email -->
-						<div id="phone-form-group" class="form-group row">
-							<label for="phone" class="col-md-2 col-md-offset-2 control-label">Контакт:</label>
-							<div class="col-md-6">
-								<input id="phone" type="text" class="form-control" name="phone" value="" style="text-align: center;"> {{-- value="" style="text-align: center;" required > --}}
-								<span id="phone-error" class="help-block" style="font-weight: bold;">
-									<strong></strong>
-								</span>
-							</div>
-						</div>
-
-						<!-- Upload image -->
-						<div id="image-form-group" class="form-group{{ $errors->has('image') ? ' has-error' : '' }} row">
-							<label for="image" class="col-md-2 col-md-offset-2 control-label">Слика</label>
-
-							<div class="col-md-6">
-								<input id="image" type="file" class="form-control" name="image" value="{{ old('image') }}">
-								<span id="image-error" class="help-block" style="font-weight: bold;">
-									<strong></strong>
-								</span>
-							</div>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						{{--
-						<i id="popup-loading" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i> --}}
-						<i id="popup-loading" class="popup-loading"></i>
-						<input type="submit" id="add-volunteer-popup-submit" name="add-volunteer-popup-submit" class="btn btn-primary" value="Прифати"
-						/>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 
 
 </section>

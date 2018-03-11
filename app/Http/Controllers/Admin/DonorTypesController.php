@@ -43,4 +43,46 @@ class DonorTypesController extends Controller
           'donor_types' => $donor_types,
         ]);
     }
+
+
+    public function handle_post(Request $request)
+    {
+        $data = $request->all();
+        if (!empty($data['post-type'])) {
+            switch ($data['post-type']) {
+              case 'delete':
+                return $this->handle_delete($request->all());
+              default:
+                return $this->index();
+              break;
+            }
+        }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $donor_type = $this->delete($data);
+        return back()->with('status', "Типот на донор е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\DonorType
+     */
+    protected function delete(array $data)
+    {
+        $donor_type = DonorType::find($data['donor_type_id']);
+        $donor_type->status = 'deleted';
+        $donor_type->save();
+        return $donor_type;
+    }
 }

@@ -183,10 +183,10 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-food-type-button-{{$donor->id}}" name="edit-food-type-button-{{$donor->id}}"
-							class="btn btn-success edit-food-type-button" disabled>Измени ги податоците</a>
-							<button id="delete-food-type-button-{{ $donor->id }}" type="submit" data-toggle="modal" data-target="#delete-food-type-popup"
-								name="delete-food-type-button" class="btn btn-danger delete-food-type-button" disabled >Избриши го донорот</button>
+						<a href="#" id="edit-donor-button-{{$donor->id}}" name="edit-donor-button-{{$donor->id}}"
+							class="btn btn-success edit-donor-button" disabled>Измени ги податоците</a>
+							<button id="delete-donor-button-{{ $donor->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-popup"
+								name="delete-donor-button" class="btn btn-danger delete-donor-button">Избриши го донорот</button>
 							</div>
 			</div>
 			@endif
@@ -210,15 +210,16 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го волонтерот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го донорот</h4>
 				</div>
 				<div id="delete-donor-body" class="modal-body delete-donor-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите волонтерот?
+						Дали сте сигурни дека сакате да го избришите донорот?
 					</h5>
 				</div>
 				<div class="modal-footer">
+					<input type="hidden" name="post-type" value="delete" />
 					<input type="submit" name="delete-donor-popup" class="btn btn-danger" value="Избриши" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>

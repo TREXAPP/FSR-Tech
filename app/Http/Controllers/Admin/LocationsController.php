@@ -43,4 +43,44 @@ class LocationsController extends Controller
           'locations' => $locations,
         ]);
     }
+
+    public function handle_post(Request $request)
+    {
+        $data = $request->all();
+        if (!empty($data['post-type'])) {
+            switch ($data['post-type']) {
+          case 'delete':
+            return $this->handle_delete($request->all());
+          default:
+            return $this->index();
+          break;
+        }
+        }
+    }
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $location = $this->delete($data);
+        return back()->with('status', "Локацијата е успешно избришана!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\Location
+     */
+    protected function delete(array $data)
+    {
+        $location = Location::find($data['location_id']);
+        $location->status = 'deleted';
+        $location->save();
+        return $location;
+    }
 }

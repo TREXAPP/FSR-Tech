@@ -44,4 +44,46 @@ class QuantityTypesController extends Controller
           'quantity_types' => $quantity_types,
         ]);
     }
+
+
+    public function handle_post(Request $request)
+    {
+        $data = $request->all();
+        if (!empty($data['post-type'])) {
+            switch ($data['post-type']) {
+                  case 'delete':
+                    return $this->handle_delete($request->all());
+                  default:
+                    return $this->index();
+                  break;
+                }
+        }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $quantity_type = $this->delete($data);
+        return back()->with('status', "Количината е успешно избришана!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\DonorType
+     */
+    protected function delete(array $data)
+    {
+        $quantity_type = QuantityType::find($data['quantity_type_id']);
+        $quantity_type->status = 'deleted';
+        $quantity_type->save();
+        return $quantity_type;
+    }
 }

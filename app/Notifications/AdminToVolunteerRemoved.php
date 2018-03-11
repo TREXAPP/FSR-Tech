@@ -11,14 +11,16 @@ class AdminToVolunteerRemoved extends Notification
 {
     use Queueable;
 
+    private $organization;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($organization)
     {
-        //
+        $this->organization = $organization;
     }
 
     /**

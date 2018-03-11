@@ -53,6 +53,24 @@
               </div>
             </div>
 
+            <!-- donor type -->
+            <div class="form-group{{ $errors->has('donor_type') ? ' has-error' : '' }} row donor_type"
+              {!! (old('type') != 'donor') ? ' style="display: none; visibility: hidden;"' : '' !!}>
+              <label for="donor_type" class="col-md-2 col-md-offset-2 control-label">Тип на донор</label>
+              <div class="col-md-6">
+                <select id="donor_type" class="form-control" name="donor_type">
+                  <option value="">-- Избери --</option>
+                  @foreach ($donor_types as $donor_type)
+                    <option value={{$donor_type->id}}{{ (old('donor_type') == $donor_type->id) ? ' selected' : ''}}>{{$donor_type->name}}</option>
+                  @endforeach
+                </select>
+                 @if ($errors->has('donor_type'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('donor_type') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
 
             <!-- Name -->
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} row">

@@ -90,13 +90,17 @@ Route::post('admin/users/donor', 'Admin\DonorUsersController@handle_post')->name
 Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
 Route::post('admin/organizations/new', 'Admin\NewOrganizationController@handle_post')->name('admin.new_organization');
 Route::get('admin/organizations/cso', 'Admin\CsoOrganizationsController@index')->name('admin.cso_organizations');
+Route::post('admin/organizations/cso', 'Admin\CsoOrganizationsController@handle_post')->name('admin.cso_organizations');
 Route::get('admin/organizations/donor', 'Admin\DonorOrganizationsController@index')->name('admin.donor_organizations');
+Route::post('admin/organizations/donor', 'Admin\DonorOrganizationsController@handle_post')->name('admin.donor_organizations');
 
 Route::get('admin/food_types', 'Admin\FoodTypesController@index')->name('admin.food_types');
+Route::post('admin/food_types', 'Admin\FoodTypesController@handle_post')->name('admin.food_types');
 Route::get('admin/food_types/new', 'Admin\NewFoodTypeController@index')->name('admin.new_food_type');
 Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->name('admin.new_food_type');
 
 Route::get('admin/donor_types', 'Admin\DonorTypesController@index')->name('admin.donor_types');
+Route::post('admin/donor_types', 'Admin\DonorTypesController@handle_post')->name('admin.donor_types');
 Route::get('admin/donor_types/new', 'Admin\NewDonorTypeController@index')->name('admin.new_donor_type');
 Route::post('admin/donor_types/new', 'Admin\NewDonorTypeController@handle_post')->name('admin.new_donor_type');
 
@@ -106,6 +110,7 @@ Route::get('admin/products/new', 'Admin\NewProductController@index')->name('admi
 Route::post('admin/products/new', 'Admin\NewProductController@handle_post')->name('admin.new_product');
 
 Route::get('admin/quantity_types', 'Admin\QuantityTypesController@index')->name('admin.quantity_types');
+Route::post('admin/quantity_types', 'Admin\QuantityTypesController@handle_post')->name('admin.quantity_types');
 Route::get('admin/quantity_types/new', 'Admin\NewQuantityTypeController@index')->name('admin.new_quantity_type');
 Route::post('admin/quantity_types/new', 'Admin\NewQuantityTypeController@handle_post')->name('admin.new_quantity_type');
 
@@ -115,6 +120,7 @@ Route::get('admin/volunteers/new', 'Admin\NewVolunteerController@index')->name('
 Route::post('admin/volunteers/new', 'Admin\NewVolunteerController@handle_post')->name('admin.new_volunteer');
 
 Route::get('admin/locations', 'Admin\LocationsController@index')->name('admin.locations');
+Route::post('admin/locations', 'Admin\LocationsController@handle_post')->name('admin.locations');
 Route::get('admin/locations/new', 'Admin\NewLocationController@index')->name('admin.new_location');
 Route::post('admin/locations/new', 'Admin\NewLocationController@handle_post')->name('admin.new_location');
 

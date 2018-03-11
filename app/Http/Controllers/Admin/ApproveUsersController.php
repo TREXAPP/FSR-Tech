@@ -32,8 +32,14 @@ class ApproveUsersController extends Controller
      */
     public function index()
     {
-        $csos = Cso::where('status', 'pending')->get();
-        $donors = Donor::where('status', 'pending')->get();
+        $csos = Cso::where('status', 'pending')
+                    ->whereHas('organization', function ($query) {
+                        $query->where('status', 'active');
+                    })->get();
+        $donors = Donor::where('status', 'pending')
+                       ->whereHas('organization', function ($query) {
+                           $query->where('status', 'active');
+                       })->get();
         return view('admin.approve_users')->with([
           'csos' => $csos,
           'donors' => $donors,

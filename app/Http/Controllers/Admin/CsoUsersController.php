@@ -79,11 +79,42 @@ class CsoUsersController extends Controller
 
           break;
 
+          case 'delete':
+            return $this->handle_delete($request->all());
+          break;
+
           default:
             return $this->index();
           break;
         }
         }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $cso = $this->delete($data);
+        return back()->with('status', "Корисникот е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\FoodType
+     */
+    protected function delete(array $data)
+    {
+        $cso = Cso::find($data['cso_id']);
+        $cso->status = 'deleted';
+        $cso->save();
+        return $cso;
     }
 
 

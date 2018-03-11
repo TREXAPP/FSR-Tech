@@ -76,7 +76,9 @@ class ProductsController extends Controller
             }
 
           break;
-
+          case 'delete':
+            return $this->handle_delete($request->all());
+            break;
           default:
             return $this->index();
           break;
@@ -99,5 +101,32 @@ class ProductsController extends Controller
         $products = Product::where('food_type_id', $data['food-types-filter-select'])
                            ->where('status', 'active')->get();
         return $this->return_view($food_types, $products, $filters);
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $product = $this->delete($data);
+        return back()->with('status', "Производот е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected location as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\Product
+     */
+    protected function delete(array $data)
+    {
+        $product = Product::find($data['product_id']);
+        $product->status = 'deleted';
+        $product->save();
+        return $product;
     }
 }
