@@ -46,8 +46,8 @@ class UserEmailVerificationRequest extends Notification implements ShouldQueue
     {
         $confirm_link = route('email.confirm', $this->user->email_token);
         return (new MailMessage)
-                    ->subject('Потврдете го Вашиот емаил!')
-                    ->line('Кликнете подолу за да го потврдите Вашиот емаил:')
+                    ->subject('Ве молиме потврдете ја вашата е-мајл адреса')
+                    ->line('Добивте одобрување за да ја користите платформата. Ве молиме кликнете на линкот за да го потврдите вашиот профил како би можеле да ја користите платформата.')
                     ->action('Потврди емаил', $confirm_link);
         // ->action('Види ги промените', url('/cso/profile'));
     }

@@ -46,11 +46,11 @@ class AdminToUserApproveRegistration extends Notification
     {
         $confirm_link = route('email.confirm', $this->user->email_token);
         $message = (new MailMessage)
-                  ->subject('Вашиот профил е активиран!')
-                  ->line('Би сакале да ве известиме дека вашиот профил за примател на храна на платформата за донирање на храна е активиран!');
+                  ->subject('Добредојдовте на платформата')
+                  ->line('Добивте одобрување за да ја користите платформата.');
 
         if ($this->user->email_confirmed) {
-            $message->line('Кликнете подолу за да се логирате:')
+            $message->line('Кликните тука за да ја внесете вашата прва донација (донатор) или кликните тука за да ја прифатите Вашата прва донација на храна(cso)')
                             ->action('Логирај се', route('home'));
         } else {
             $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')

@@ -46,6 +46,15 @@
         </a>
       </li>
 
+      <li>
+        <a href="{{route('admin.email')}}">
+          <i class="fa fa-bookmark"></i> <span>Прати емаил</span>
+          <span class="pull-right-container">
+            {{-- <small class="label pull-right bg-blue">2</small> --}}
+          </span>
+        </a>
+      </li>
+
       <li class="treeview">
           <a href="#">
             <i class="fa fa-universal-access"></i> <span>Корисници</span>

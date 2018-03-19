@@ -85,11 +85,29 @@ class CsoOrganizationsController extends Controller
     protected function delete(array $data)
     {
         $organization = Organization::find($data['cso_organization_id']);
-
+        //$csos = $organization->csos;
         $csos = Cso::where('organization_id', $data['cso_organization_id'])
-                    ->where('status', 'active')
-                    ->update(['status' => 'deleted']);
+                    ->where('status', 'active')->get();
+        //dd($csos->get());
+        foreach ($csos as $cso) {
+            $listing_offers = ListingOffer::where('cso_id', $cso->id)
+                                          ->where('offer_status', 'active')
+                                          ->whereHas('listing', function ($query) {
+                                              $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+                                                ->where('date_listed', '<', Carbon::now()->format('Y-m-d H:i'));
+                                          })->get();
+            //dd($listing_offers);
+            foreach ($listing_offers as $listing_offer) {
+                $listing_offer->offer_status = 'deleted';
+                $listing_offer->save();
+            }
+
+            $cso->status = 'deleted';
+            $cso->save();
+        }
+
         $volunteers = Volunteer::where('organization_id', $data['cso_organization_id'])
+                                ->where('status', 'active')
                                 ->where('is_user', '0');
         $volunteers->update(['status' => 'deleted']);
         Notification::send($volunteers->get(), new AdminToVolunteerRemoved($organization));

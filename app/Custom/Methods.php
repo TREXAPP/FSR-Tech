@@ -4,6 +4,8 @@ namespace FSR\Custom;
 
 use FSR\Cso;
 use FSR\File;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;

@@ -189,7 +189,7 @@
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
 						<div>Дали сте сигурни дека сакате да го избришите организацијата?</div>
-						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници ќе бидат исто така избришани!</div>
+						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници, заедно со нивните активни донации ќе бидат исто така избришани!</div>
 					</h5>
 				</div>
 				<div class="modal-footer">

@@ -112,10 +112,33 @@ class DonorOrganizationsController extends Controller
     protected function delete(array $data)
     {
         $organization = Organization::find($data['donor_organization_id']);
-
         $donors = Donor::where('organization_id', $data['donor_organization_id'])
-                        ->where('status', 'active')
-                        ->update(['status' => 'deleted']);
+                    ->where('status', 'active')->get();
+
+        foreach ($donors as $donor) {
+            $listings = $donor->listings->where('listing_status', 'active')
+                                      ->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+                                      ->where('date_listed', '<', Carbon::now()->format('Y-m-d H:i'));
+
+            //delete listing_offers
+            foreach ($listings as $listing) {
+                $listing_offers = $listing->listing_offers->where('offer_status', 'active');
+                foreach ($listing_offers as $listing_offer) {
+                    $listing_offer->offer_status = 'deleted';
+                    $listing_offer->save();
+                }
+            }
+
+            //delete listings
+            foreach ($listings as $listing) {
+                $listing->listing_status = 'deleted';
+                $listing->save();
+            }
+
+            //delete donor
+            $donor->status = 'deleted';
+            $donor->save();
+        }
 
         $organization->status = 'deleted';
         $organization->save();

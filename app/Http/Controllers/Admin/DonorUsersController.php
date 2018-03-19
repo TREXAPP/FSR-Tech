@@ -109,7 +109,32 @@ class DonorUsersController extends Controller
      */
     protected function delete(array $data)
     {
+        // - delete the donor
+        // - listings from that donor
+        // - listing offers for the listings from this donor
+
+
         $donor = Donor::find($data['donor_id']);
+        $listings = $donor->listings->where('listing_status', 'active')
+                                    ->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+                                    ->where('date_listed', '<', Carbon::now()->format('Y-m-d H:i'));
+
+        //delete listing_offers
+        foreach ($listings as $listing) {
+            $listing_offers = $listing->listing_offers->where('offer_status', 'active');
+            foreach ($listing_offers as $listing_offer) {
+                $listing_offer->offer_status = 'deleted';
+                $listing_offer->save();
+            }
+        }
+
+        //delete listings
+        foreach ($listings as $listing) {
+            $listing->listing_status = 'deleted';
+            $listing->save();
+        }
+
+        //delete donor
         $donor->status = 'deleted';
         $donor->save();
         return $donor;

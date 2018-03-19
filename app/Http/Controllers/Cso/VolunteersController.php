@@ -110,6 +110,7 @@ class VolunteersController extends Controller
      */
     public function new_volunteer_post(Request $request)
     {
+        $cso = Auth::user();
         $validation = $this->volunteer_validator($request->all());
 
         if ($validation->fails()) {
@@ -120,7 +121,7 @@ class VolunteersController extends Controller
         $file_id = $this->new_handle_upload($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
 
-        $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer));
+        $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer, $cso));
 
         return redirect(route('cso.volunteers'))->with('status', "Волонтерот е внесен успешно!");
     }

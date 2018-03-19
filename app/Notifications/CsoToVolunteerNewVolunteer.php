@@ -49,18 +49,20 @@ class CsoToVolunteerNewVolunteer extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                    ->subject('Додадени сте како волонтер!')
-                    ->line('Успешно сте додадени во системот за донирање храна како волонтер на организацијата ' .
-                            $this->volunteer->organization->name . ', од страна на ' . $this->cso->first_name . ' ' . $this->cso->last_name)
-                    ->line('Вашите податоци во системот: ')
+                    ->subject('Добредојдовте на платформата')
+                    ->line('Додадени сте од ' . $this->volunteer->organization->name .
+                          ', - ' . $this->cso->first_name . ' ' . $this->cso->last_name .
+                          ' како волонтер, и да помогнете во собирање и редистрибуцијата на донација на вишок на храна. ')
+                    ->line('Ви благодариме за учеството. Ве молиме потврдете ја точноста на вашите внесени информации. ')
                     ->line('Име: ' . $this->volunteer->first_name)
                     ->line('Презиме: ' . $this->volunteer->last_name)
                     ->line('Телефон: ' . $this->volunteer->phone)
-                    ->line('Емаил: ' . $this->volunteer->email);
-
-        if ($this->volunteer->image_id) {
-            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Волонтер" />');
-        }
+                    ->line('Емаил: ' . $this->volunteer->email)
+                    ->line('Ако било која од овие информации е неточна или Вие не сте волонтер ве молиме контактирајте ги директно!');
+        //
+        // if ($this->volunteer->image_id) {
+        //     $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+        // }
 
         return $message;
 

@@ -2,14 +2,14 @@
 
 namespace FSR\Notifications;
 
-use FSR\Volunteer;
-use FSR\Custom\CarbonFix;
+use FSR\File;
+use FSR\ListingOffer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserRegistrationSuccess extends Notification implements ShouldQueue
+class AdminToCsoApproveRegistration extends Notification
 {
     use Queueable;
 
@@ -45,12 +45,18 @@ class UserRegistrationSuccess extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $confirm_link = route('email.confirm', $this->user->email_token);
-        return (new MailMessage)
-                    ->subject('Ви благодариме за регистрацијата')
-                    ->line('Кликнете подолу за да го потврдите Вашиот емаил:')
-                    ->action('Потврди емаил', $confirm_link)
-                    ->line('Ќе добиете потврден меил кога ќе бидете одобрени од администраторот.');
-        // ->action('Види ги промените', url('/cso/profile'));
+        $message = (new MailMessage)
+                ->subject('Добредојдовте на платформата')
+                ->line('Добивте одобрување за да ја користите платформата.');
+
+        if ($this->user->email_confirmed) {
+            $message->line('Kликнeте тука за да ја прифатите Вашата прва донација на храна')
+                            ->action('Логирај се', route('home'));
+        } else {
+            $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')
+                            ->action('Активирај емаил', $confirm_link);
+        }
+        return $message;
     }
 
     /**

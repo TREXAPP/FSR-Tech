@@ -144,8 +144,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
-							class="btn btn-success edit-volunteer-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_volunteer', $volunteer->id)}}" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
+							class="btn btn-success edit-volunteer-button">Измени ги податоците</a>
 							<button id="delete-volunteer-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-volunteer-popup"
 								name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го волонтерот</button>
 							</div>

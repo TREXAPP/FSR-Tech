@@ -1,4 +1,4 @@
-@extends('layouts.master') @section('content')
+@extends('layouts.admin_master') @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header volunteer-content-header">
 	<h1>
@@ -7,7 +7,7 @@
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
-			<a href="/{{Auth::user()->type()}}/home"> Примател</a>
+			<a href="/{{Auth::user()->type()}}/home"> Admin</a>
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers">
@@ -41,7 +41,7 @@
 
 		</div>
 	-->
-	<form id="edit-volunteer-form" class="" action="{{ route('cso.edit_volunteer',$volunteer->id) }}" method="post" enctype="multipart/form-data">
+	<form id="edit-volunteer-form" class="" action="{{ route('admin.edit_volunteer',$volunteer->id) }}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="volunteer_id" value="{{$volunteer->id}}">
             {{ csrf_field() }}
 		<div class="volunteer-box-body-wrapper">
@@ -130,7 +130,7 @@
 		<div class="box-footer text-center">
 			<div class="pull-right">
 				<button id="edit-volunteer-submit" type="submit" name="edit-volunteer-submit" class="btn btn-success" >Измени</button>
-				<a href="{{route('cso.volunteers')}}" id="cancel-edit-volunteer" name="cancel-edit-volunteer"
+				<a href="{{route('admin.volunteers')}}" id="cancel-edit-volunteer" name="cancel-edit-volunteer"
 				class="btn btn-default">Откажи</a>
 			</div>
 		</div>

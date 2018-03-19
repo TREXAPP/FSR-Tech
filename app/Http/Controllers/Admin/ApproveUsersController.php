@@ -5,13 +5,14 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Volunteer;
+use FSR\Notifications\AdminToCsoApproveRegistration;
 use FSR\Notifications\AdminToUserRejectRegistration;
+use FSR\Notifications\AdminToDonorApproveRegistration;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\AdminToUserApproveRegistration;
 
 class ApproveUsersController extends Controller
 {
@@ -79,7 +80,7 @@ class ApproveUsersController extends Controller
             $cso->status = 'active';
             $cso->save();
             $this->approve_volunteer($data['cso_id']);
-            $cso->notify(new AdminToUserApproveRegistration($cso));
+            $cso->notify(new AdminToCsoApproveRegistration($cso));
 
             return back()->with([
             'status' => 'Примателот е успешно одобрен!'
@@ -100,7 +101,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'active';
             $donor->save();
-            $donor->notify(new AdminToUserApproveRegistration($donor));
+            $donor->notify(new AdminToDonorApproveRegistration($donor));
 
             return back()->with([
             'status' => 'Донорот е успешно одобрен!'

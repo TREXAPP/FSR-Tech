@@ -118,11 +118,21 @@ Route::get('admin/volunteers', 'Admin\VolunteersController@index')->name('admin.
 Route::post('admin/volunteers', 'Admin\VolunteersController@handle_post')->name('admin.volunteers');
 Route::get('admin/volunteers/new', 'Admin\NewVolunteerController@index')->name('admin.new_volunteer');
 Route::post('admin/volunteers/new', 'Admin\NewVolunteerController@handle_post')->name('admin.new_volunteer');
+Route::get('admin/volunteers/{volunteer_id}', 'Admin\EditVolunteerController@index')->name('admin.edit_volunteer');
+Route::post('admin/volunteers/{volunteer_id}', 'Admin\EditVolunteerController@edit_volunteer_post')->name('admin.edit_volunteer');
 
 Route::get('admin/locations', 'Admin\LocationsController@index')->name('admin.locations');
 Route::post('admin/locations', 'Admin\LocationsController@handle_post')->name('admin.locations');
 Route::get('admin/locations/new', 'Admin\NewLocationController@index')->name('admin.new_location');
 Route::post('admin/locations/new', 'Admin\NewLocationController@handle_post')->name('admin.new_location');
+
+Route::get('admin/email', 'Admin\EmailController@index')->name('admin.email');
+Route::post('admin/email', 'Admin\EmailController@handle_post')->name('admin.email');
+  //ajax routes
+Route::post('admin/email/organizations', 'Admin\EmailController@get_organizations')->name('admin.email.organizations');
+Route::post('admin/email/users', 'Admin\EmailController@get_users')->name('admin.email.users');
+Route::post('admin/email/counters', 'Admin\EmailController@get_counters')->name('admin.email.counters');
+
 
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');

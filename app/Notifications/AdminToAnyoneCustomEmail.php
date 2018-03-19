@@ -2,16 +2,26 @@
 
 namespace FSR\Notifications;
 
-use FSR\Custom\CarbonFix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserEditProfile extends Notification implements ShouldQueue
+class AdminToAnyoneCustomEmail extends Notification
 {
     use Queueable;
-
+    private $subject;
+    private $message;
+    /**
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct($subject, $message)
+    {
+        $this->subject = $subject;
+        $this->message = $message;
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -32,10 +42,16 @@ class UserEditProfile extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Направени се промени на профилот.')
-                    ->line('Приметивме дека направивте измени на вашиот профил.')
-                    ->action('Види ги промените', url('/cso/profile'));
+        $lines = explode("\r\n", $this->message);
+        $email = (new MailMessage)
+                  ->subject($this->subject);
+
+        foreach ($lines as $line) {
+            $email->line($line);
+        }
+
+
+        return $email;
     }
 
     /**

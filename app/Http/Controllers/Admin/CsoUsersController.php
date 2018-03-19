@@ -111,7 +111,23 @@ class CsoUsersController extends Controller
      */
     protected function delete(array $data)
     {
+
+      //delete listing_offers from this cso
+        //then delete cso
         $cso = Cso::find($data['cso_id']);
+        $listing_offers = ListingOffer::where('cso_id', $cso->id)
+                                      ->where('offer_status', 'active')
+                                      ->whereHas('listing', function ($query) {
+                                          $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+                                            ->where('date_listed', '<', Carbon::now()->format('Y-m-d H:i'));
+                                      })->get();
+        //dd($listing_offers);
+        foreach ($listing_offers as $listing_offer) {
+            $listing_offer->offer_status = 'deleted';
+            $listing_offer->save();
+        }
+
+        //delete the cso
         $cso->status = 'deleted';
         $cso->save();
         return $cso;
