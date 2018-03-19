@@ -93,8 +93,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-donor-type-button-{{$donor_type->id}}" name="edit-donor-type-button-{{$donor_type->id}}"
-							class="btn btn-success edit-donor-type-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_donor_type', $donor_type->id)}}" id="edit-donor-type-button-{{$donor_type->id}}" name="edit-donor-type-button-{{$donor_type->id}}"
+							class="btn btn-success edit-donor-type-button">Измени ги податоците</a>
 							<button id="delete-donor-type-button-{{ $donor_type->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-type-popup"
 								name="delete-donor-type-button" class="btn btn-danger delete-donor-type-button"
 								{{($donor_type->organizations->count()) ? ' disabled' : '' }}>Избриши</button>

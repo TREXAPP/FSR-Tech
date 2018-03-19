@@ -179,4 +179,19 @@ class Methods
             return url('img/avatar5.png');
         }
     }
+
+    /**
+     * Get image url for the volunteer display
+     *
+     * @param Organization $volunteer
+     * @return string
+     */
+    public static function get_organization_image_url($organization)
+    {
+        if ($organization->image_id) {
+            return Methods::getFileUrl(File::find($organization->image_id)->filename);
+        } else {
+            return url('img/organizations.png');
+        }
+    }
 }

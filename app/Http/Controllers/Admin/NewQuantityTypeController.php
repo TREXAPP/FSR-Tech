@@ -80,7 +80,7 @@ class NewQuantityTypeController extends Controller
     protected function validator(array $data)
     {
         $validatorArray = [
-            'name'                    => 'required',
+            'description'                    => 'required',
         ];
 
         return Validator::make($data, $validatorArray);

@@ -89,6 +89,16 @@
 						</div>
 					</div>
 
+					<!-- Address -->
+					<div id="organization-info-address-{{$organization->id}}" class="row organization-info-address row">
+						<div id="organization-info-address-label-{{$organization->id}}" class="organization-info-label organization-info-address-label col-md-4">
+							<span>Адреса:</span>
+						</div>
+						<div id="organization-info-address-value-{{$organization->id}}" class="organization-info-value organization-info-address-value col-md-8">
+							<span><strong>{{$organization->address}}</strong></span>
+						</div>
+					</div>
+
 					<!-- Description -->
 					<div id="organization-info-description-{{$organization->id}}" class="row organization-info-description row">
 						<div id="organization-info-description-label-{{$organization->id}}" class="organization-info-label organization-info-description-label col-md-4">
@@ -105,8 +115,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-cso-organization-button-{{$organization->id}}" name="edit-cso-organization-button-{{$organization->id}}"
-							class="btn btn-success edit-cso-organization-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_organization', $organization->id)}}" id="edit-cso-organization-button-{{$organization->id}}" name="edit-cso-organization-button-{{$organization->id}}"
+							class="btn btn-success edit-cso-organization-button">Измени ги податоците</a>
 							<button id="delete-cso-organization-button-{{ $organization->id }}" type="submit" data-toggle="modal" data-target="#delete-cso-organization-popup"
 								name="delete-cso-organization-button" class="btn btn-danger delete-cso-organization-button" >Избриши ја организацијата</button>
 							</div>

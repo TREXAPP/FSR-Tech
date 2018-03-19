@@ -20367,7 +20367,8 @@ button.close {
 }
 
 .profile-image img,
-.volunteer-image img {
+.volunteer-image img,
+.edit-layout-image img {
   width: 100%;
   max-width: 225px;
 }

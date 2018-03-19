@@ -77,7 +77,7 @@ class EditVolunteerController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function volunteer_validator(array $data)
+    protected function validator(array $data)
     {
         $validatorArray = [
                     'volunteer-first-name'    => 'required',
@@ -97,7 +97,7 @@ class EditVolunteerController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function volunteer_validator_update(array $data)
+    protected function validator_update(array $data)
     {
         $validatorArray = [
                     'volunteer-first-name'    => 'required',
@@ -115,28 +115,26 @@ class EditVolunteerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit_volunteer_post(Request $request)
+    public function handle_post(Request $request)
     {
         $volunteer_id = $request->all()['volunteer_id'];
         $volunteer = Volunteer::find($volunteer_id);
 
         if ($this->change_detected($request, $volunteer)) {
             if ($volunteer->email != $request->all()['volunteer-email']) {
-                $validation = $this->volunteer_validator($request->all());
+                $validation = $this->validator($request->all());
             } else {
-                $validation = $this->volunteer_validator_update($request->all());
+                $validation = $this->validator_update($request->all());
             }
 
 
             if ($validation->fails()) {
-                // return redirect(route('cso.edit_volunteer'))->withErrors($validation->errors())
-                //                                  ->withInput();
                 return back()->withErrors($validation->errors())
                                                  ->withInput();
             }
 
             $file_id = $this->edit_handle_upload($request);
-            $volunteer = $this->update_volunteer($volunteer, $request->all(), $file_id);
+            $volunteer = $this->update($volunteer, $request->all(), $file_id);
             return redirect(route('admin.volunteers'))->with('status', "Измените се успешно зачувани!");
         } else {
             return back();
@@ -183,7 +181,7 @@ class EditVolunteerController extends Controller
      * @param  int  $file_id
      * @return FSR\Volunteer $volunteer
      */
-    protected function update_volunteer(Volunteer $volunteer, array $data, $file_id)
+    protected function update(Volunteer $volunteer, array $data, $file_id)
     {
         if ($file_id) {
             $volunteer->image_id = $file_id;

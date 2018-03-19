@@ -109,6 +109,16 @@
 
 				<div id="organization-info-wrapper-{{$organization->id}}" class="organization-info-wrapper two-col-layout-info-wrapper col-md-8">
 
+					<!-- Donor Type -->
+					<div id="organization-info-donor-type-{{$organization->id}}" class="row organization-info-donor-type row">
+						<div id="organization-info-donor-type-label-{{$organization->id}}" class="organization-info-label organization-info-donor-type-label col-md-4">
+							<span>Тип на донор:</span>
+						</div>
+						<div id="organization-info-donor-type-value-{{$organization->id}}" class="organization-info-value organization-info-donor-type-value col-md-8">
+							<span><strong>{{$organization->donor_type->name}}</strong></span>
+						</div>
+					</div>
+
 					<!-- Name -->
 					<div id="organization-info-name-{{$organization->id}}" class="row organization-info-name row">
 						<div id="organization-info-name-label-{{$organization->id}}" class="organization-info-label organization-info-name-label col-md-4">
@@ -116,6 +126,17 @@
 						</div>
 						<div id="organization-info-name-value-{{$organization->id}}" class="organization-info-value organization-info-name-value col-md-8">
 							<span><strong>{{$organization->name}}</strong></span>
+						</div>
+					</div>
+
+
+					<!-- Address -->
+					<div id="organization-info-address-{{$organization->id}}" class="row organization-info-address row">
+						<div id="organization-info-address-label-{{$organization->id}}" class="organization-info-label organization-info-address-label col-md-4">
+							<span>Адреса:</span>
+						</div>
+						<div id="organization-info-address-value-{{$organization->id}}" class="organization-info-value organization-info-address-value col-md-8">
+							<span><strong>{{$organization->address}}</strong></span>
 						</div>
 					</div>
 
@@ -156,8 +177,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-donor-organization-button-{{$organization->id}}" name="edit-donor-organization-button-{{$organization->id}}"
-							class="btn btn-success edit-donor-organization-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_organization', $organization->id)}}" id="edit-donor-organization-button-{{$organization->id}}" name="edit-donor-organization-button-{{$organization->id}}"
+							class="btn btn-success edit-donor-organization-button">Измени ги податоците</a>
 							<button id="delete-donor-organization-button-{{ $organization->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-organization-popup"
 								name="delete-donor-organization-button" class="btn btn-danger delete-donor-organization-button">Избриши ја организацијата</button>
 							</div>

@@ -111,8 +111,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-food-type-button-{{$food_type->id}}" name="edit-food-type-button-{{$food_type->id}}"
-							class="btn btn-success edit-food-type-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_food_type', $food_type->id)}}" id="edit-food-type-button-{{$food_type->id}}" name="edit-food-type-button-{{$food_type->id}}"
+							class="btn btn-success edit-food-type-button">Измени ги податоците</a>
 							<button id="delete-food-type-button-{{ $food_type->id }}" type="submit" data-toggle="modal" data-target="#delete-food-type-popup"
 								name="delete-food-type-button" class="btn btn-danger delete-food-type-button"
 								{{($food_type->products->count()) ? ' disabled' : '' }}>Избриши ја категоријата</button>

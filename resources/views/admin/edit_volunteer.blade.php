@@ -46,7 +46,7 @@
             {{ csrf_field() }}
 		<div class="volunteer-box-body-wrapper">
 			<div class="box-body">
-				<div id="volunteer-image" class="col-md-4 col-xs-12 volunteer-image">
+				<div id="volunteer-image" class="col-md-4 col-xs-12 volunteer-image edit-layout-image">
 					<div class="col-xs-12 form-group">
 							<img class="img-rounded" alt="{{$volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($volunteer)}}" />
 					</div>

@@ -90,8 +90,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-location-button-{{$location->id}}" name="edit-location-button-{{$location->id}}"
-							class="btn btn-success edit-location-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_location', $location->id)}}" id="edit-location-button-{{$location->id}}" name="edit-location-button-{{$location->id}}"
+							class="btn btn-success edit-location-button">Измени ги податоците</a>
 							<button id="delete-location-button-{{ $location->id }}" type="submit" data-toggle="modal" data-target="#delete-location-popup"
 								name="delete-location-button" class="btn btn-danger delete-location-button"
 								{{($location->csos->count() || $location->donors->count()) ? ' disabled' : '' }}>Избриши ја локацијата</button>

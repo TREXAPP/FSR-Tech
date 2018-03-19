@@ -67,25 +67,27 @@
 
 				<div id="quantity-type-info-wrapper-{{$quantity_type->id}}" class="quantity-type-info-wrapper two-col-layout-info-wrapper col-md-12">
 
+
+					<!-- Description -->
+					<div id="quantity-type-info-description-{{$quantity_type->id}}" class="row quantity-type-info-description row">
+						<div id="quantity-type-info-description-label-{{$quantity_type->id}}" class="quantity-type-info-label quantity-type-info-description-label col-md-4">
+							<span>Име:</span>
+						</div>
+						<div id="quantity-type-info-description-value-{{$quantity_type->id}}" class="quantity-type-info-value quantity-type-info-description-value col-md-8">
+							<span><strong>{{$quantity_type->description}}</strong></span>
+						</div>
+					</div>
+
 					<!-- Name -->
 					<div id="quantity-type-info-name-{{$quantity_type->id}}" class="row quantity-type-info-name row">
 						<div id="quantity-type-info-name-label-{{$quantity_type->id}}" class="quantity-type-info-label quantity-type-info-name-label col-md-4">
-							<span>Име:</span>
+							<span>Кратенка:</span>
 						</div>
 						<div id="quantity-type-info-name-value-{{$quantity_type->id}}" class="quantity-type-info-value quantity-type-info-name-value col-md-8">
 							<span><strong>{{$quantity_type->name}}</strong></span>
 						</div>
 					</div>
 
-					<!-- Description -->
-					<div id="quantity-type-info-description-{{$quantity_type->id}}" class="row quantity-type-info-description row">
-						<div id="quantity-type-info-description-label-{{$quantity_type->id}}" class="quantity-type-info-label quantity-type-info-description-label col-md-4">
-							<span>Опис:</span>
-						</div>
-						<div id="quantity-type-info-description-value-{{$quantity_type->id}}" class="quantity-type-info-value quantity-type-info-description-value col-md-8">
-							<span><strong>{{$quantity_type->description}}</strong></span>
-						</div>
-					</div>
 
 
 				</div>
@@ -94,8 +96,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-quantity-type-button-{{$quantity_type->id}}" name="edit-quantity-type-button-{{$quantity_type->id}}"
-							class="btn btn-success edit-quantity-type-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_quantity_type', $quantity_type->id)}}" id="edit-quantity-type-button-{{$quantity_type->id}}" name="edit-quantity-type-button-{{$quantity_type->id}}"
+							class="btn btn-success edit-quantity-type-button">Измени ги податоците</a>
 							<button id="delete-quantity-type-button-{{ $quantity_type->id }}" type="submit" data-toggle="modal" data-target="#delete-quantity-type-popup"
 								name="delete-quantity-type-button" class="btn btn-danger delete-quantity-type-button"
 								{{($quantity_type->products->count()) ? ' disabled' : '' }}>Избриши ја количината</button>
