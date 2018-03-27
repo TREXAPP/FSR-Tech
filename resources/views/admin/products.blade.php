@@ -143,8 +143,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-product-button-{{$product->id}}" name="edit-product-button-{{$product->id}}"
-							class="btn btn-success edit-product-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_product', $product->id)}}" id="edit-product-button-{{$product->id}}" name="edit-product-button-{{$product->id}}"
+							class="btn btn-success edit-product-button">Измени ги податоците</a>
 							<button id="delete-product-button-{{ $product->id }}" type="submit" data-toggle="modal" data-target="#delete-product-popup"
 								name="delete-product-button" class="btn btn-danger delete-product-button">Избриши го производот</button>
 							</div>
