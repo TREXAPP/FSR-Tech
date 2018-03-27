@@ -70,8 +70,8 @@
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
 				<div id="donor-image-preview-{{$donor->id}}" class="donor-image-preview two-col-layout-image-preview">
-					@if ($donor->image_id)
-						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->image_id)->filename)}}" />
+					@if ($donor->profile_image_id)
+						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
 					@else
 						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
 					@endif
@@ -95,8 +95,8 @@
 				<div id="donor-image-wrapper-{{$donor->id}}" class="donor-image-wrapper two-col-layout-image-wrapper col-md-4">
 
 
-									@if ($donor->image_id)
-										<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->image_id)->filename)}}" />
+									@if ($donor->profile_image_id)
+										<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
 									@else
 										<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
 									@endif
@@ -183,8 +183,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-donor-button-{{$donor->id}}" name="edit-donor-button-{{$donor->id}}"
-							class="btn btn-success edit-donor-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_donor_user', $donor->id)}}" id="edit-donor-button-{{$donor->id}}" name="edit-donor-button-{{$donor->id}}"
+							class="btn btn-success edit-donor-button">Измени ги податоците</a>
 							<button id="delete-donor-button-{{ $donor->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-popup"
 								name="delete-donor-button" class="btn btn-danger delete-donor-button">Избриши го донорот</button>
 							</div>

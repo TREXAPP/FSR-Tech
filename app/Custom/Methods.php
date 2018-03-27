@@ -181,6 +181,40 @@ class Methods
     }
 
     /**
+     * Get image url for the donor display
+     *
+     * @param Donor $volunteer
+     * @return string
+     */
+    public static function get_donor_image_url($donor)
+    {
+        if ($donor->profile_image_id) {
+            return Methods::getFileUrl(File::find($donor->profile_image_id)->filename);
+        } elseif ($donor->organization->image_id) {
+            return Methods::getFileUrl(File::find($donor->organization->image_id)->filename);
+        } else {
+            return url('img/avatar5.png');
+        }
+    }
+
+    /**
+     * Get image url for the donor display
+     *
+     * @param Donor $volunteer
+     * @return string
+     */
+    public static function get_cso_image_url($cso)
+    {
+        if ($cso->profile_image_id) {
+            return Methods::getFileUrl(File::find($cso->profile_image_id)->filename);
+        } elseif ($cso->organization->image_id) {
+            return Methods::getFileUrl(File::find($cso->organization->image_id)->filename);
+        } else {
+            return url('img/avatar5.png');
+        }
+    }
+
+    /**
      * Get image url for the volunteer display
      *
      * @param Organization $volunteer

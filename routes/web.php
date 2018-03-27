@@ -84,8 +84,13 @@ Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('a
 Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->name('admin.approve_users');
 Route::get('admin/users/cso', 'Admin\CsoUsersController@index')->name('admin.cso_users');
 Route::post('admin/users/cso', 'Admin\CsoUsersController@handle_post')->name('admin.cso_users');
+Route::get('admin/users/cso/{cso_id}', 'Admin\EditCsoUserController@index')->name('admin.edit_cso_user');
+Route::post('admin/users/cso/{cso_id}', 'Admin\EditCsoUserController@handle_post')->name('admin.edit_cso_user');
 Route::get('admin/users/donor', 'Admin\DonorUsersController@index')->name('admin.donor_users');
 Route::post('admin/users/donor', 'Admin\DonorUsersController@handle_post')->name('admin.donor_users');
+Route::get('admin/users/donor/{donor_id}', 'Admin\EditDonorUserController@index')->name('admin.edit_donor_user');
+Route::post('admin/users/donor/{donor_id}', 'Admin\EditDonorUserController@handle_post')->name('admin.edit_donor_user');
+
 
 Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
 Route::post('admin/organizations/new', 'Admin\NewOrganizationController@handle_post')->name('admin.new_organization');
@@ -116,6 +121,9 @@ Route::get('admin/products', 'Admin\ProductsController@index')->name('admin.prod
 Route::post('admin/products', 'Admin\ProductsController@handle_post')->name('admin.products');
 Route::get('admin/products/new', 'Admin\NewProductController@index')->name('admin.new_product');
 Route::post('admin/products/new', 'Admin\NewProductController@handle_post')->name('admin.new_product');
+Route::get('admin/products/{product_id}', 'Admin\EditProductController@index')->name('admin.edit_product');
+Route::post('admin/products/{product_id}', 'Admin\EditProductController@handle_post')->name('admin.edit_product');
+
 
 Route::get('admin/quantity_types', 'Admin\QuantityTypesController@index')->name('admin.quantity_types');
 Route::post('admin/quantity_types', 'Admin\QuantityTypesController@handle_post')->name('admin.quantity_types');

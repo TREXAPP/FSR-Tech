@@ -70,8 +70,8 @@
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
 				<div id="cso-image-preview-{{$cso->id}}" class="cso-image-preview two-col-layout-image-preview">
-					@if ($cso->image_id)
-						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->image_id)->filename)}}" />
+					@if ($cso->profile_image_id)
+						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->profile_image_id)->filename)}}" />
 					@else
 						<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('img/avatar5.png')}}" />
 					@endif
@@ -95,8 +95,8 @@
 				<div id="cso-image-wrapper-{{$cso->id}}" class="cso-image-wrapper two-col-layout-image-wrapper col-md-4">
 
 
-									@if ($cso->image_id)
-										<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->image_id)->filename)}}" />
+									@if ($cso->profile_image_id)
+										<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($cso->profile_image_id)->filename)}}" />
 									@else
 										<img class="img-rounded" alt="{{$cso->first_name}}" src="{{url('img/avatar5.png')}}" />
 									@endif
@@ -183,8 +183,8 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<a href="#" id="edit-cso-button-{{$cso->id}}" name="edit-cso-button-{{$cso->id}}"
-							class="btn btn-success edit-cso-button" disabled>Измени ги податоците</a>
+						<a href="{{route('admin.edit_cso_user', $cso->id)}}" id="edit-cso-button-{{$cso->id}}" name="edit-cso-button-{{$cso->id}}"
+							class="btn btn-success edit-cso-button">Измени ги податоците</a>
 							<button id="delete-cso-button-{{ $cso->id }}" type="submit" data-toggle="modal" data-target="#delete-cso-popup"
 								name="delete-cso-button" class="btn btn-danger delete-cso-button">Избриши го примателот</button>
 							</div>
