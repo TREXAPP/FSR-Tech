@@ -46,7 +46,8 @@
   						<span class="admin-approve-cso-listing-title two-col-layout-listing-title">{{$cso->first_name}} {{$cso->last_name}}</span>
   					</div>
   					<div class="box-tools pull-right">
-  							<i class="fa fa-caret-down pull-right"></i>
+  							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
+                <span class="add-more">Повеќе...</span>
   					</div>
   				</div>
 
@@ -170,7 +171,8 @@
   						<span class="admin-approve-donor-listing-title two-col-layout-listing-title">{{$donor->first_name}} {{$donor->last_name}}</span>
   					</div>
   					<div class="box-tools pull-right">
-  							<i class="fa fa-caret-down pull-right"></i>
+              <span class="add-more">Повеќе...</span>
+  							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
   					</div>
   				</div>
 

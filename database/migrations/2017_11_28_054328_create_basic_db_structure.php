@@ -15,33 +15,33 @@ class CreateBasicDbStructure extends Migration
     {
         Schema::create('quantity_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->nullable();
-            $table->string('description')->nullable();
+            $table->string('name', 255)->nullable();
+            $table->text('description')->nullable();
         });
 
         Schema::create('food_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->nullable();
+            $table->string('name', 255)->nullable();
             $table->text('comment')->nullable();
         });
 
         Schema::create('donor_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->nullable();
-            $table->string('description', 50)->nullable();
+            $table->string('name', 255)->nullable();
+            $table->text('description')->nullable();
         });
 
         Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->nullable();
-            $table->string('description', 50)->nullable();
+            $table->string('name', 255)->nullable();
+            $table->text('description')->nullable();
             $table->string('type', 20);
         });
 
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->nullable();
-            $table->string('description', 50)->nullable();
+            $table->string('name', 255)->nullable();
+            $table->text('description')->nullable();
         });
 
         Schema::create('csos', function (Blueprint $table) {

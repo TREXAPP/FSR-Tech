@@ -50,7 +50,8 @@
 						<span class="volunteer-listing-title two-col-layout-listing-title">{{$volunteer->first_name}} {{$volunteer->last_name}}</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

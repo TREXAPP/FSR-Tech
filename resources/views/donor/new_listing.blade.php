@@ -186,7 +186,7 @@
 
             <!-- expires_in -->
             <div class="form-group{{ $errors->has('expires_in') ? ' has-error' : '' }} row">
-              <label for="expires_in" class="col-md-2 col-md-offset-2 control-label">Донацијата ќе биде активна</label>
+              <label for="expires_in" class="col-md-2 col-md-offset-2 control-label">Донацијата ќе биде достапна</label>
 
               <div class="col-md-6">
                 <div class="col-xs-6" style="padding-left: 0px;">
@@ -196,8 +196,8 @@
                 </div>
                 <div class="col-xs-6"  style="padding-right: 0px;">
                   <select id="time_type" class="form-control" name="time_type">
-                      <option value="hours" {{ (old('time_type') == "hours") ? ' selected' : ''}}>часови</option>
-                      <option value="days" {{ (old('time_type') == "days") ? ' selected' : ''}}>денови</option>
+                      <option value="hours" {{ (old('time_type') == "hours") ? ' selected' : ''}}>часа</option>
+                      <option value="days" {{ (old('time_type') == "days") ? ' selected' : ''}}>дена</option>
                       <option value="weeks" {{ (old('time_type') == "weeks") ? ' selected' : ''}}>недели</option>
                   </select>
                 </div>
@@ -275,7 +275,7 @@
       </div>
     </div>
     <div class="box-footer">
-      Со поплнување на оваа форма се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
+      Со попoлнување на оваа форма се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
     </div>
     <!-- /.box-footer-->
   </div>

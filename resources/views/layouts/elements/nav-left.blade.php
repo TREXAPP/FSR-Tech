@@ -59,7 +59,7 @@
 
         <li>
           <a href="/{{Auth::user()->type()}}/active_listings">
-            <i class="fa fa-cutlery"></i> <span>Активни донации</span>
+            <i class="fa fa-cutlery"></i> <span>Достапни донации</span>
             <span class="pull-right-container">
             </span>
           </a>

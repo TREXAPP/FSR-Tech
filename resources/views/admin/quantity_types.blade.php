@@ -56,7 +56,8 @@
 						<span class="quantity-type-listing-title two-col-layout-listing-title">{{$quantity_type->description}} - {{$quantity_type->name}} ({{$quantity_type->products->count()}})</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

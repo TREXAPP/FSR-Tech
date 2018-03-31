@@ -88,7 +88,8 @@
 						<span class="organization-listing-subtitle two-col-layout-listing-subtitle"><span id="users-no-{{$organization->id}}">{{$organization->donors->where('status','active')->count()}}</span> корисници</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 
@@ -210,7 +211,7 @@
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
 						<div>Дали сте сигурни дека сакате да го избришите организацијата?</div>
-						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници, заедно со нивните активни донации ќе бидат исто така избришани!</div>
+						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници, заедно со нивните достапни донации ќе бидат исто така избришани!</div>
 					</h5>
 				</div>
 				<div class="modal-footer">

@@ -3,7 +3,7 @@
 <section class="content-header active-listings-content-header">
 	<h1>
 		<i class="fa fa-cutlery"></i>
-		<span>Активни донации</span>
+		<span>Достапни донации</span>
 		@if ($active_listings_no > 0)
 		<span> ({{$active_listings_no}})</span>
 		@endif
@@ -14,7 +14,7 @@
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/active_listings">
-				<i class="fa fa-cutlery"></i> Активни донации</a>
+				<i class="fa fa-cutlery"></i> Достапни донации</a>
 		</li>
 	</ol>
 </section>
@@ -46,7 +46,7 @@
 	@if ($active_listing->quantity > $quantity_counter)
 	<div id="listingbox{{$active_listing->id}}" name="listingbox{{$active_listing->id}}"></div>
 	<!-- Default box -->
-	<div class="cso-active-listing-box box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
+	<div id="active-listing-{{$active_listing->id}}" class="cso-active-listing-box box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
 		<div class="box-header with-border listing-box-header">
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 				<div class="listing-image">
@@ -66,7 +66,7 @@
 						<strong>{{$active_listing->product->food_type->name}} | {{$active_listing->product->name}}</strong>
 					</div>
 					<div class="header-elements-wrapper">
-						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-3 col-sm-5 col-xs-12">
 							<span class="col-xs-12">Истекува за:</span>
 
 							<span class="col-xs-12" id="expires-in-{{$active_listing->id}}">
@@ -80,7 +80,7 @@
 							</span>
 
 						</div>
-						<div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
+						<div class="listing-info-box col-md-2 col-sm-5 col-xs-12">
 							<span class="col-xs-12">Локација:</span>
 							<span class="col-xs-12" id="donor-location-{{$active_listing->id}}">
 								<strong>{{$active_listing->donor->location->name}}</strong>
@@ -97,7 +97,8 @@
 					</div>
 				</div>
 				<div class="box-tools pull-right">
-						<i class="fa fa-caret-down"></i>
+						{{-- <i class="fa fa-caret-down"></i> --}}
+						<span class="add-more">Повеќе...</span>
 				</div>
 			</a>
 		</div>
@@ -130,7 +131,7 @@
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-6 listing-input-wrapper">
+					<div class="col-md-6 col-xs-12 listing-input-wrapper">
 						<div class="panel col-xs-12" style="text-align: center;">Пополнете точно и кликнете на Внеси</div>
 						<div class="col-xs-12 form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('quantity'))) ? 'has-error' : '' }} row">
 							{{--
@@ -148,15 +149,22 @@
 							@endif
 						</div>
 					</div>
-					<div id="listing-pickup-volunteer-{{$active_listing->id}}" class="col-md-6 listing-pickup-volunteer">
+					<div id="listing-pickup-volunteer-{{$active_listing->id}}" class="col-md-6 col-xs-12 listing-pickup-volunteer">
 						<div class="panel" style="text-align: center;">Волонтер за подигнување</div>
-						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
+						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group pickup-volunteer-wrapper {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
 								<select id="pickup-volunteer-{{$active_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer-{{$active_listing->id}}" required>
 									<option value="">-- Избери --</option>
 									@foreach ($volunteers as $volunteer)
-									<option value="{{$volunteer->id}}" {{ ((old('listing_id')== $active_listing->id) && (old('volunteer') == $volunteer->id)) ? ' selected' : '' }}>{{$volunteer->first_name}} {{$volunteer->last_name}}</option>
+									<option value="{{$volunteer->id}}"
+										{{ ((old('listing_id')== $active_listing->id) && (old('volunteer') == $volunteer->id))
+												? ' selected'
+												: (($volunteer->is_user && Auth::user()->id == $volunteer->added_by_user_id)
+													? ' selected'
+													: '')}}>{{$volunteer->first_name}} {{$volunteer->last_name}}{{($volunteer->is_user && Auth::user()->id == $volunteer->added_by_user_id)
+																																													? ' (јас)'
+																																													: ''}}</option>
 									@endforeach
 								</select>
 							</span>
@@ -305,6 +313,10 @@
 						</div>
 
 					</div>
+					<hr class="rules-and-regulations-hr">
+					<div class="rules-and-regulations">
+						Со прифаќање на оваа донација се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
+					</div>
 					<div class="modal-footer">
 						<input type="submit" name="submit-listing-popup" class="btn btn-primary" value="Прифати" />
 						<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
@@ -390,6 +402,7 @@
 						</div>
 
 					</div>
+
 					<div class="modal-footer">
 						{{--
 						<i id="popup-loading" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i> --}}

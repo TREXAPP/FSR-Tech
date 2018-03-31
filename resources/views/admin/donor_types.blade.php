@@ -54,7 +54,8 @@
 						<span class="donor-type-listing-title two-col-layout-listing-title">{{$donor_type->name}} ({{$donor_type->organizations->count()}})</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

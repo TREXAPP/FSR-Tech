@@ -184,6 +184,9 @@
               </div>
             </div>
           </form>
+          <div class="box-footer">
+            Со регистрирање на платформата се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
+          </div>
         </div>
       </div>
     </div>

@@ -84,7 +84,8 @@
 						<span class="cso-listing-subtitle two-col-layout-listing-subtitle">{{$cso->organization->name}}</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

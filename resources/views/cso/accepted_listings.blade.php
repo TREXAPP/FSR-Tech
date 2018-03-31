@@ -58,7 +58,7 @@
                     <strong>{{$listing_offer->listing->product->food_type->name}} | {{$listing_offer->listing->product->name}}</strong>
                   </div>
                   <div class="header-elements-wrapper">
-                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-3 col-sm-5 col-xs-12">
                       <span class="col-xs-12">Истекува за:</span>
 
                       <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
@@ -68,7 +68,7 @@
                       <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->listing->quantity_type->description}}</strong></span>
 
                     </div>
-                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-2 col-sm-5 col-xs-12">
                       <span class="col-xs-12">Локација:</span>
                       <span class="col-xs-12" id="donor-location-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->donor->location->name}}</strong></span>
 
@@ -81,7 +81,8 @@
                   </div>
                 </div>
                 <div class="box-tools pull-right">
-                    <i class="fa fa-caret-down"></i>
+                  <span class="add-more">Повеќе...</span>
+                    {{-- <i class="fa fa-caret-down"></i> --}}
                 </div>
               </a>
             </div>

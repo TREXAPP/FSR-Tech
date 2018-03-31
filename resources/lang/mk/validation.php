@@ -14,7 +14,7 @@ return [
     */
 
     //custom validations
-    'greater_than_date'    => 'Донацијата не смее да биде активна после рокот на важност на храната.',
+    'greater_than_date'    => 'Донацијата не смее да биде достапна после рокот на важност на храната.',
 
     'accepted'             => ':attribute мора да биде прифатено.',
     'active_url'           => ':attribute не е валиден URL.',

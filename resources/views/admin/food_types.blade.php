@@ -63,7 +63,8 @@
 						<span class="food-type-listing-title two-col-layout-listing-title">{{$food_type->name}} ({{$food_type->products->count()}})</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

@@ -58,7 +58,8 @@
 						<span class="organization-listing-subtitle two-col-layout-listing-subtitle"><span id="users-no-{{$organization->id}}">{{$organization->csos->where('status','active')->count()}}</span> корисници, <span id="volunteers-no-{{$organization->id}}">{{$organization->volunteers->where('is_user','0')->where('status','active')->count()}}</span> волонтери</span>
 					</div>
 					<div class="box-tools pull-right">
-							<i class="fa fa-caret-down pull-right"></i>
+						<span class="add-more">Повеќе...</span>
+							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
 					</div>
 				</div>
 

@@ -49,8 +49,8 @@ class DonorToCsosNewDonation extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject('Нова донација')
                     ->line('Додадена е нова донација од ' . $this->listing->donor->first_name . ' ' . $this->listing->donor->last_name . ' - ' . $this->listing->donor->organization->name . '.')
-                    ->line('Донацијата ќе биде активна ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans() . '.')
-                    ->action('Прифати ја донацијата', url('/cso/active_listings/' . $this->listing->id));
+                    ->line('Донацијата ќе биде достапна ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans() . '.')
+                    ->action('Прифати ја донацијата', url('/cso/active_listings'));
     }
 
     /**
