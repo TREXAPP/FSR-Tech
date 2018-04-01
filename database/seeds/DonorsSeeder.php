@@ -20,7 +20,6 @@ class DonorsSeeder extends Seeder
           'address' => 'Видое Смилевски Бато 25-2/3',
           'organization_id' => '1',
           'location_id' => '1',
-          'donor_type_id' => '1',
           'profile_image_id' => null,
           'notifications' => '1',
           'status' => 'active',

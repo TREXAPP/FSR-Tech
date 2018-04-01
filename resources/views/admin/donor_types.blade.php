@@ -51,7 +51,9 @@
 
 				<div class="header-wrapper">
 					<div id="donor-type-name-{{$donor_type->id}}" class="donor-type-name">
-						<span class="donor-type-listing-title two-col-layout-listing-title">{{$donor_type->name}} ({{$donor_type->organizations->count()}})</span>
+						<span class="donor-type-listing-title two-col-layout-listing-title">{{$donor_type->name}}</span>
+						<br>
+						<small>{{$donor_type->organizations->count()}} организации</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>

@@ -40,7 +40,11 @@
 			<div class="box-body">
 				<div id="food-type-image" class="col-md-4 col-xs-12 food-type-image edit-layout-image">
 					<div class="col-xs-12 form-group">
+						@if ($food_type->image_id)
+							@if (FSR\File::find($food_type->image_id))
 							<img class="img-rounded" alt="{{$food_type->name}}" src="{{Methods::getFileUrl(FSR\File::find($food_type->image_id)->filename)}}" />
+							@endif
+						@endif
 					</div>
 					<div class="col-xs-12 form-group {{ ($errors->has('food-type-image')) ? ' has-error' : '' }}">
 							<label for="food-type-image">Измени слика:</label>

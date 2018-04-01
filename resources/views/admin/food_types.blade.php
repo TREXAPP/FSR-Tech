@@ -60,7 +60,9 @@
 				</div>
 				<div class="header-wrapper">
 					<div id="food-type-name-{{$food_type->id}}" class="food-type-name">
-						<span class="food-type-listing-title two-col-layout-listing-title">{{$food_type->name}} ({{$food_type->products->count()}})</span>
+						<span class="food-type-listing-title two-col-layout-listing-title">{{$food_type->name}}</span>
+						<br>
+						<small>{{$food_type->products->count()}} производи</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>

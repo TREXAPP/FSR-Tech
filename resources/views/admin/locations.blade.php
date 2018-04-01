@@ -49,7 +49,9 @@
 
 				<div class="header-wrapper">
 					<div id="location-name-{{$location->id}}" class="location-name">
-						<span class="location-listing-title two-col-layout-listing-title">{{$location->name}} ({{$location->csos->count() + $location->donors->count()}})</span>
+						<span class="location-listing-title two-col-layout-listing-title">{{$location->name}}</span>
+						<br>
+						<small>{{$location->donors->count()}} донори и {{$location->csos->count()}} приматели</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>

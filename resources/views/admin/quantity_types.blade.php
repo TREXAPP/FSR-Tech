@@ -53,7 +53,9 @@
 
 				<div class="header-wrapper">
 					<div id="quantity-type-name-{{$quantity_type->id}}" class="quantity-type-name">
-						<span class="quantity-type-listing-title two-col-layout-listing-title">{{$quantity_type->description}} - {{$quantity_type->name}} ({{$quantity_type->products->count()}})</span>
+						<span class="quantity-type-listing-title two-col-layout-listing-title">{{$quantity_type->description}} - {{$quantity_type->name}}</span>
+						<br>
+						<small>{{$quantity_type->products->count()}} производи</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
