@@ -90,7 +90,7 @@
       @if (Auth::user()->type() == 'cso')
         <li class="treeview">
             <a href="#">
-              <i class="fa fa-universal-access"></i> <span>Волонтери</span>
+              <i class="fa fa-universal-access"></i> <span>Подигнувачи</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>

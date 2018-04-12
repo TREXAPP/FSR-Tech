@@ -104,7 +104,7 @@ class ApproveUsersController extends Controller
             $donor->notify(new AdminToDonorApproveRegistration($donor));
 
             return back()->with([
-            'status' => 'Донорот е успешно одобрен!'
+            'status' => 'Донаторот е успешно одобрен!'
           ]);
         }
         return back();
@@ -144,7 +144,7 @@ class ApproveUsersController extends Controller
             $donor->save();
             $donor->notify(new AdminToUserRejectRegistration());
             return back()->with([
-            'status' => 'Донорот е одбиен!'
+            'status' => 'Донаторот е одбиен!'
           ]);
         }
         return back();

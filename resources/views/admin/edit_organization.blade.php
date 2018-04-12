@@ -61,7 +61,7 @@
 							<label>Тип на организација:</label>
 						</div>
 						<div class="organization-type-value col-sm-8 col-xs-12">
-							<label>{{($organization->type == 'donor') ? 'Донор' : 'Примател'}}</label>
+							<label>{{($organization->type == 'donor') ? 'Донатор' : 'Примател'}}</label>
 							<input type="hidden" name="organization-type" value="{{$organization->type}}">
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 					@if ($organization->type == 'donor')
 						<div class="row form-group{{ ($errors->has('organization-donor-type')) ? ' has-error' : '' }}">
 							<div class="organization-donor-type-label col-sm-4 col-xs-12">
-								<label for="organization-donor-type">Тип на донор:</label>
+								<label for="organization-donor-type">Тип на донатор:</label>
 							</div>
 							<div class="organization-donor-type-value col-sm-8 col-xs-12">
 								<select id="organization-donor-type" class="form-control" name="organization-donor-type">

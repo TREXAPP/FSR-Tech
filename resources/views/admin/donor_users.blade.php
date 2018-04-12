@@ -3,7 +3,7 @@
 <section class="content-header donor-content-header">
 	<h1>
 		<i class="fa fa-universal-access"></i>
-		<span>Донори</span>
+		<span>Донатори</span>
 		@if ($donors->count() > 0)
 		<span> ({{$donors->count()}})</span>
 		@endif
@@ -14,7 +14,7 @@
 		</li>
 		<li>
 			<a href="{{route('admin.donor_users')}}">
-				<i class="fa fa-universal-access"></i> Донори</a>
+				<i class="fa fa-universal-access"></i> Донатори</a>
 		</li>
 	</ol>
 </section>
@@ -187,7 +187,7 @@
 						<a href="{{route('admin.edit_donor_user', $donor->id)}}" id="edit-donor-button-{{$donor->id}}" name="edit-donor-button-{{$donor->id}}"
 							class="btn btn-success edit-donor-button">Измени ги податоците</a>
 							<button id="delete-donor-button-{{ $donor->id }}" type="submit" data-toggle="modal" data-target="#delete-donor-popup"
-								name="delete-donor-button" class="btn btn-danger delete-donor-button">Избриши го донорот</button>
+								name="delete-donor-button" class="btn btn-danger delete-donor-button">Избриши го донаторот</button>
 							</div>
 			</div>
 			@endif
@@ -211,12 +211,12 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го донорот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го донаторот</h4>
 				</div>
 				<div id="delete-donor-body" class="modal-body delete-donor-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите донорот?
+						Дали сте сигурни дека сакате да го избришите донаторот?
 					</h5>
 				</div>
 				<div class="modal-footer">

@@ -47,6 +47,15 @@
       </li>
 
       <li>
+        <a href="{{route('admin.listings')}}">
+          <i class="fa fa-bookmark"></i> <span>Донации</span>
+          <span class="pull-right-container">
+            {{-- <small class="label pull-right bg-blue">2</small> --}}
+          </span>
+        </a>
+      </li>
+
+      <li>
         <a href="{{route('admin.email')}}">
           <i class="fa fa-bookmark"></i> <span>Прати емаил</span>
           <span class="pull-right-container">
@@ -73,7 +82,7 @@
 
             <li>
               <a href="{{route('admin.donor_users')}}">
-                <i class="fa fa-user-plus"></i> <span>Донори</span>
+                <i class="fa fa-user-plus"></i> <span>Донатори</span>
                 <span class="pull-right-container">
                 </span>
               </a>
@@ -108,7 +117,7 @@
 
             <li>
               <a href="{{route('admin.donor_organizations')}}">
-                <i class="fa fa-user-plus"></i> <span>Донори</span>
+                <i class="fa fa-user-plus"></i> <span>Донатори</span>
                 <span class="pull-right-container">
                 </span>
               </a>
@@ -169,7 +178,7 @@
 
       <li class="treeview">
           <a href="#">
-            <i class="fa fa-universal-access"></i> <span>Волонтери</span>
+            <i class="fa fa-universal-access"></i> <span>Подигнувачи</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -196,7 +205,7 @@
 
       <li class="treeview">
           <a href="#">
-            <i class="fa fa-universal-access"></i> <span>Типови на донори</span>
+            <i class="fa fa-universal-access"></i> <span>Типови на донатори</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

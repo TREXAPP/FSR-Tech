@@ -57,7 +57,7 @@ class CsoToVolunteerAcceptDonation extends Notification
                   ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
                   ->line('Време за подигање од ' . $this->listing_offer->listing->pickup_time_from . ' до ' . $this->listing_offer->listing->pickup_time_to)
                   ->line('')
-                  ->line('Податоци за донорот')
+                  ->line('Податоци за донаторот')
                   ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
                   ->line('Организација: ' . $this->donor->organization->name)
                   ->line('Телефон: ' . $this->donor->phone)

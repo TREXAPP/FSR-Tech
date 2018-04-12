@@ -61,9 +61,9 @@ class NewVolunteerController extends Controller
         $volunteer = $this->create_volunteer($request->all(), $file_id);
         if ($volunteer) {
             $volunteer->notify(new AdminToVolunteerNewVolunteer($volunteer));
-            return back()->with('status', "Волонтерот е додаден успешно!");
+            return back()->with('status', "Подигнувачот е додаден успешно!");
         } else {
-            return back()->with('status', "Грешка при додавање на волонтерот! Контактирајте го администраторот");
+            return back()->with('status', "Грешка при додавање на подигнувачот! Контактирајте го администраторот");
         }
     }
 

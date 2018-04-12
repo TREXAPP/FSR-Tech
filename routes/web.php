@@ -80,6 +80,12 @@ Route::get('admin/logout', function () {
 Route::post('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
 
+Route::get('admin/listings', 'Admin\ListingsController@index')->name('admin.listings');
+Route::post('admin/listings', 'Admin\ListingsController@handle_post')->name('admin.listings');
+Route::get('admin/listings/edit/{id}', 'Admin\EditListingController@index')->name('admin.edit_listing');
+Route::get('admin/listing_offers/{id}', 'Admin\ListingOfferController@index')->name('admin.listing_offer');
+Route::get('admin/listing_offers/edit/{id}', 'Admin\EditListingOfferController@index')->name('admin.edit_listing_offer');
+
 Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('admin.approve_users');
 Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->name('admin.approve_users');
 Route::get('admin/users/cso', 'Admin\CsoUsersController@index')->name('admin.cso_users');

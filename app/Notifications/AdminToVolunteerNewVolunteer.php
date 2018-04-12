@@ -45,8 +45,8 @@ class AdminToVolunteerNewVolunteer extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Додадени сте како волонтер!')
-                  ->line('Успешно сте додадени во системот за донирање храна како волонтер на организацијата ' .
+                  ->subject('Додадени сте како подигнувач!')
+                  ->line('Успешно сте додадени во системот за донирање храна како подигнувач на организацијата ' .
                           $this->volunteer->organization->name . '.')
                   ->line('Вашите податоци во системот: ')
                   ->line('Име: ' . $this->volunteer->first_name)
@@ -55,7 +55,7 @@ class AdminToVolunteerNewVolunteer extends Notification
                   ->line('Емаил: ' . $this->volunteer->email);
 
         if ($this->volunteer->image_id) {
-            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
         }
 
         return $message;

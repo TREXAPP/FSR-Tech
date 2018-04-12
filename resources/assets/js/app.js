@@ -25,6 +25,7 @@ require('./admin/cso_organizations');
 require('./admin/donor_organizations');
 require('./admin/csos');
 require('./admin/donors');
+require('./admin/donations');
 
 require('admin-lte');
 //

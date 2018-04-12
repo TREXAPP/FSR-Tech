@@ -4,12 +4,12 @@
 <section class="content-header volunteer-content-header">
 	<h1>
 		<i class="fa fa-universal-access"></i>
-		<span>Типови на донори </span>
+		<span>Типови на донатори </span>
 		@if ($donor_types->count() > 0)
 		<span> ({{$donor_types->count()}})</span>
 		@endif
 		<a href="{{route('admin.new_donor_type')}}" id="new-donor-type-button" name="new-donor-type-button"
-		class="btn btn-success new-donor-type-button"><i class="fa fa-plus"></i>Додади нов тип на донор</a>
+		class="btn btn-success new-donor-type-button"><i class="fa fa-plus"></i>Додади нов тип на донатор</a>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
@@ -18,7 +18,7 @@
 
 		<li>
 			<a href="#">
-				<i class="fa fa-universal-access"></i> Типови на донори</a>
+				<i class="fa fa-universal-access"></i> Типови на донатори</a>
 		</li>
 		<li>
 			<a href="{{route('admin.donor_types')}}">
@@ -124,12 +124,12 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го типот на донор</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го типот на донатор</h4>
 				</div>
 				<div id="delete-donor-type-body" class="modal-body delete-donor-type-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите типот на донор?
+						Дали сте сигурни дека сакате да го избришите типот на донатор?
 					</h5>
 				</div>
 				<div class="modal-footer">

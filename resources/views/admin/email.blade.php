@@ -41,9 +41,9 @@
 				<div class="filter-select email-filter-select col-xs-12">
 					<select id="user-type-filter-select" class="form-control user-type-filter-select" name="user-type-filter-select">
 						<option value="">-- Сите --</option>
-						<option value="donors">Донори</option>
+						<option value="donors">Донатори</option>
 						<option value="csos">Приматели</option>
-						<option value="volunteers">Волонтери</option>
+						<option value="volunteers">Подигнувачи</option>
 					</select>
 					@if ($errors->has('user-type-filter-select'))
 						<span class="help-block">
@@ -94,9 +94,9 @@
 
 	<div class="panel">
 		Селектирани
-		<span id="donors-counter">{{(old('user-type-filter-select')) ? old('user-type-filter-select') : $donors->count()}}</span> донори,
+		<span id="donors-counter">{{(old('user-type-filter-select')) ? old('user-type-filter-select') : $donors->count()}}</span> донатори,
 		<span id="csos-counter">{{(old('organization-filter-select')) ? old('organization-filter-select') : $csos->count()}}</span> приматели и
-		<span id="volunteers-counter">{{(old('user-filter-select')) ? old('user-filter-select') : $volunteers->count()}}</span> волонтери
+		<span id="volunteers-counter">{{(old('user-filter-select')) ? old('user-filter-select') : $volunteers->count()}}</span> подигнувачи
 	</div>
 
 

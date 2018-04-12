@@ -53,7 +53,7 @@ class NewDonorTypeController extends Controller
 
         $donor_type = $this->create($request->all());
 
-        return back()->with('status', "Типот на донор е додаден успешно!");
+        return back()->with('status', "Типот на донатор е додаден успешно!");
     }
 
     /**

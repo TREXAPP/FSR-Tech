@@ -69,7 +69,7 @@ class DonorTypesController extends Controller
     public function handle_delete(array $data)
     {
         $donor_type = $this->delete($data);
-        return back()->with('status', "Типот на донор е успешно избришан!");
+        return back()->with('status', "Типот на донатор е успешно избришан!");
     }
 
     /**

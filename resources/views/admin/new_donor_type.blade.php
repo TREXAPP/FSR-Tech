@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1><i class="fa fa-plus-circle"></i>
-      Додади нов тип на донор
+      Додади нов тип на донатор
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
-      <li><a href="/{{Auth::user()->type()}}/new_donor_type"><i class="fa fa-plus-circle"></i> Додади нов тип на донор</a></li>
+      <li><a href="/{{Auth::user()->type()}}/new_donor_type"><i class="fa fa-plus-circle"></i> Додади нов тип на донатор</a></li>
     </ol>
   </section>
 
@@ -28,7 +28,7 @@
   <!-- Default box -->
   <div class="box col-md-12">
     <div class="box-header with-border">
-      <p class="box-title">Внесете ги податоците за новиот тип на донор</p>
+      <p class="box-title">Внесете ги податоците за новиот тип на донатор</p>
     </div>
     <form id="new_donor_type_form" class="" action="{{ route('admin.new_donor_type') }}" method="post" enctype="multipart/form-data">
       {{ csrf_field() }}
@@ -92,7 +92,7 @@
 
       <div class="box-footer">
         <button type="submit" class="btn btn-primary pull-right" >
-            Внеси нов тип на донор
+            Внеси нов тип на донатор
         </button>
       </div>
     </form>

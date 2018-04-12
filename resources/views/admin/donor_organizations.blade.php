@@ -4,7 +4,7 @@
 <section class="content-header volunteer-content-header">
 	<h1>
 		<i class="fa fa-universal-access"></i>
-		<span>Организации - Донори </span>
+		<span>Организации - Донатори </span>
 		@if ($organizations->count() > 0)
 		<span> ({{$organizations->count()}})</span>
 		@endif
@@ -17,7 +17,7 @@
 		</li>
 		<li>
 			<a href="{{route('admin.donor_organizations')}}">
-				<i class="fa fa-universal-access"></i> Организации-Донори</a>
+				<i class="fa fa-universal-access"></i> Организации-Донатори</a>
 		</li>
 	</ol>
 </section>
@@ -31,7 +31,7 @@
 		{{csrf_field()}}
 		<div class="filter-container col-md-6">
 			<div class="filter-label organizations-filter-label col-md-4">
-				<label for="donor-types-filter-select">Тип на донори:</label>
+				<label for="donor-types-filter-select">Тип на донатори:</label>
 			</div>
 			<div class="filter-select organizations-filter-select col-md-8">
 				<select onchange="this.form.submit()" id="donor_types_filter_select" class="form-control donor-types-filter-select" name="donor-types-filter-select" required>
@@ -113,7 +113,7 @@
 					<!-- Donor Type -->
 					<div id="organization-info-donor-type-{{$organization->id}}" class="row organization-info-donor-type row">
 						<div id="organization-info-donor-type-label-{{$organization->id}}" class="organization-info-label organization-info-donor-type-label col-md-4">
-							<span>Тип на донор:</span>
+							<span>Тип на донатор:</span>
 						</div>
 						<div id="organization-info-donor-type-value-{{$organization->id}}" class="organization-info-value organization-info-donor-type-value col-md-8">
 							<span><strong>{{$organization->donor_type->name}}</strong></span>
@@ -205,7 +205,7 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го волонтерот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го подигнувачот</h4>
 				</div>
 				<div id="delete-donor-organization-body" class="modal-body delete-donor-organization-body">
 					<!-- Form content-->
@@ -235,12 +235,12 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Волонтер</h4>
+						<h4 id="popup-title" class="modal-title popup-title">Нов Подигнувач</h4>
 					</div>
 					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
 						<!-- Form content-->
 						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за волонтерот:
+							Внесете ги податоците за подигнувачот:
 						</h5>
 
 						<!-- first name -->

@@ -52,7 +52,7 @@ class CsoToDonorAcceptDonation extends Notification
                   ->line('Контакт: ' . $this->listing_offer->volunteer->phone);
 
         if ($this->listing_offer->volunteer->image_id) {
-            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
         }
 
         $message->action('Повеќе детали', url('/donor/my_accepted_listings/' . $this->listing_offer->id));

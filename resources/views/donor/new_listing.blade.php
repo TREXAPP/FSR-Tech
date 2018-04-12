@@ -8,7 +8,7 @@
       Додади нова донација
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
-      <li><a href="/{{Auth::user()->type()}}/home"> Донор</a></li>
+      <li><a href="/{{Auth::user()->type()}}/home"> Донатор</a></li>
       <li><a href="/{{Auth::user()->type()}}/new_listing"><i class="fa fa-plus-circle"></i> Додади нова донација</a></li>
     </ol>
   </section>
@@ -132,41 +132,7 @@
               </div>
             </div>
 
-
-{{--
-
-            <!-- Upload image -->
-            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} row">
-              <label for="image" class="col-md-2 col-md-offset-2 control-label">Слика</label>
-
-              <div class="col-md-6">
-                <input id="image" type="file" class="form-control" name="image" value="{{ old('image') }}">
-                @if ($errors->has('image'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('image') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div> --}}
-
-            <!-- sell_by_date -->
-            <div class="form-group{{ $errors->has('sell_by_date') ? ' has-error' : '' }} row">
-              <label for="sell_by_date" class="col-md-2 col-md-offset-2 control-label">Рок на важност на храната</label>
-
-              <div class="col-md-6">
-                <input id="sell_by_date" type="date" class="form-control" name="sell_by_date" min="2017-01-01" max="9999-01-01"
-                      value="{{(old('sell_by_date')) ? old('sell_by_date') : ''}}" style="text-align: center;" required >
-                @if ($errors->has('sell_by_date'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('sell_by_date') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div>
-
             <hr>
-
-
 
             <!-- date_listed -->
             <div class="form-group{{ $errors->has('date_listed') ? ' has-error' : '' }} row">
@@ -175,6 +141,7 @@
               <div class="col-md-6">
                 {{-- <input id="date_listed" type="datetime-local" class="form-control" name="date_listed" value="{{(old('date_listed')) ? old('date_listed') : $now}}" style="text-align: center;" required > --}}
                 <input id="date_listed" type="datetime-local" class="form-control" name="date_listed"
+                      min="{{$now}}"
                       value="{{(old('date_listed')) ? old('date_listed') : $now}}" style="text-align: center;" required >
                 @if ($errors->has('date_listed'))
                 <span class="help-block">
@@ -183,6 +150,38 @@
                 @endif
               </div>
             </div>
+
+            <!-- sell_by_date -->
+            <div class="form-group{{ $errors->has('sell_by_date') ? ' has-error' : '' }} row">
+              <label for="sell_by_date" class="col-md-2 col-md-offset-2 control-label">Рок на важност на храната</label>
+
+              <div class="col-md-6">
+
+                <div class="col-xs-6" style="padding-left: 0px;">
+                  <input id="sell_by_date" type="number" name="sell_by_date" min="0" max="99999999" step="1"  class="form-control"
+                        name="sell_by_date" value="{{old('sell_by_date')}}" style="text-align: center;" required >
+                </div>
+                <div class="col-xs-6"  style="padding-right: 0px;">
+                  <select id="time_type_sell_by" class="form-control" name="time_type_sell_by">
+                      <option value="hours" {{ (old('time_type_sell_by') == "hours") ? ' selected' : ''}}>часа</option>
+                      <option value="days" {{(old('time_type_sell_by')) ? ((old('time_type_sell_by') == "days") ? ' selected' : '') : ' selected'}}>дена</option>
+                      <option value="weeks" {{ (old('time_type_sell_by') == "weeks") ? ' selected' : ''}}>недели</option>
+                  </select>
+                </div>
+{{--
+                <input id="sell_by_date" type="date" class="form-control" name="sell_by_date" min="2017-01-01" max="9999-01-01"
+                      value="{{(old('sell_by_date')) ? old('sell_by_date') : ''}}" style="text-align: center;" required > --}}
+
+                @if ($errors->has('sell_by_date'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('sell_by_date') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
+
+
+
 
             <!-- expires_in -->
             <div class="form-group{{ $errors->has('expires_in') ? ' has-error' : '' }} row">
@@ -197,7 +196,7 @@
                 <div class="col-xs-6"  style="padding-right: 0px;">
                   <select id="time_type" class="form-control" name="time_type">
                       <option value="hours" {{ (old('time_type') == "hours") ? ' selected' : ''}}>часа</option>
-                      <option value="days" {{ (old('time_type') == "days") ? ' selected' : ''}}>дена</option>
+                      <option value="days" {{(old('time_type')) ? ((old('time_type') == "days") ? ' selected' : '') : ' selected'}}>дена</option>
                       <option value="weeks" {{ (old('time_type') == "weeks") ? ' selected' : ''}}>недели</option>
                   </select>
                 </div>
@@ -254,6 +253,15 @@
                 @endif
               </div>
             </div>
+            <hr>
+
+            <div class="form-group row">
+              <div class="col-md-6 col-md-offset-4">
+                <label>
+                  <input type="checkbox" required /> Ги прифаќам <a href="https://drive.google.com/file/d/1q4BI9Vxl0P2742mgPN8tTESJXDssDZlT/view" target="_blank">Правилата и прописите</a>
+                </label>
+              </div>
+            </div>
 
 
             <div class="form-group row">
@@ -275,7 +283,6 @@
       </div>
     </div>
     <div class="box-footer">
-      Со попoлнување на оваа форма се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
     </div>
     <!-- /.box-footer-->
   </div>

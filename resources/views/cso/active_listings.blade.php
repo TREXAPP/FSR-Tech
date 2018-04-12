@@ -132,7 +132,7 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-6 col-xs-12 listing-input-wrapper">
-						<div class="panel col-xs-12" style="text-align: center;">Пополнете точно и кликнете на Внеси</div>
+						<div class="panel col-xs-12" style="text-align: center;">Пополнете точно и кликнете на Прифати</div>
 						<div class="col-xs-12 form-group {{ ((old('listing_id') == $active_listing->id) && ($errors->has('quantity'))) ? 'has-error' : '' }} row">
 							{{--
 							<span class="col-xs-12">Потребна количина:</span> --}}
@@ -150,7 +150,7 @@
 						</div>
 					</div>
 					<div id="listing-pickup-volunteer-{{$active_listing->id}}" class="col-md-6 col-xs-12 listing-pickup-volunteer">
-						<div class="panel" style="text-align: center;">Волонтер за подигнување</div>
+						<div class="panel" style="text-align: center;">Подигнувач</div>
 						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group pickup-volunteer-wrapper {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
@@ -170,7 +170,7 @@
 							</span>
 							<span class="col-sm-6">
 								<button id="add-volunteer-button-{{$active_listing->id}}" type="button" name="add-volunteer-button-{{$active_listing->id}}"
-								 class="btn btn-success add-volunteer-button" data-toggle="modal" data-target="#add-volunteer-popup">Додади волонтер</button>
+								 class="btn btn-success add-volunteer-button" data-toggle="modal" data-target="#add-volunteer-popup">Додади подигнувач</button>
 							</span>
 							@if ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer')))
 							<span class="help-block listing-input-help-block">
@@ -306,16 +306,21 @@
 
 						<div id="popup-volunteer" class="popup-volunteer popup-element row">
 							<div class="popup-volunteer-label col-xs-6">
-								<span class="pull-right popup-element-label">Волонтер:</span>
+								<span class="pull-right popup-element-label">Подигнувач:</span>
 							</div>
 							<div id="popup-volunteer-value" class="popup-volunteer-value popup-element-value col-xs-6">
 							</div>
 						</div>
 
 					</div>
-					<hr class="rules-and-regulations-hr">
-					<div class="rules-and-regulations">
-						Со прифаќање на оваа донација се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
+					{{-- <hr class="rules-and-regulations-hr"> --}}
+					<hr>
+					<div class="form-group row">
+						<div class="col-xs-8 col-xs-offset-2">
+							<label>
+								<input type="checkbox" required /> Ги прифаќам <a href="https://drive.google.com/file/d/1q4BI9Vxl0P2742mgPN8tTESJXDssDZlT/view" target="_blank">Правилата и прописите</a>
+							</label>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="submit" name="submit-listing-popup" class="btn btn-primary" value="Прифати" />
@@ -337,12 +342,12 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Волонтер</h4>
+						<h4 id="popup-title" class="modal-title popup-title">Нов Подигнувач</h4>
 					</div>
 					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
 						<!-- Form content-->
 						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за волонтерот:
+							Внесете ги податоците за подигнувачот:
 						</h5>
 
 						<!-- first name -->
@@ -378,7 +383,7 @@
 							</div>
 						</div>
 
-						<!-- email -->
+						<!-- contact -->
 						<div id="phone-form-group" class="form-group row">
 							<label for="phone" class="col-md-2 col-md-offset-2 control-label">Контакт:</label>
 							<div class="col-md-6">

@@ -78,8 +78,8 @@ class NewListingController extends Controller
             'quantity'          => 'required|numeric',
             'quantity_type'     => 'required',
             'date_listed'       => 'required',
-            'expires_in'        => 'required|numeric|greater_than_date:sell_by_date,time_type',
-            'sell_by_date'      => 'required|date',
+            'sell_by_date'      => 'required|numeric|custom_greater_than_date:date_listed,time_type_sell_by',
+            'expires_in'        => 'required|numeric|custom_between_dates:date_listed,sell_by_date,time_type_sell_by,time_type',
             'time_type'         => 'required',
             'pickup_time_from'  => 'required',
             'pickup_time_to'    => 'required',
@@ -152,8 +152,8 @@ class NewListingController extends Controller
                 'quantity' => $data['quantity'],
                 'quantity_type_id' => $data['quantity_type'],
                 'date_listed' => Methods::convert_date_input_to_db($data['date_listed']),
-                'date_expires' => $this->calculate_date_expires($data['date_listed'], $data['expires_in'], $data['time_type']),
-                'sell_by_date' => $data['sell_by_date'],
+                'date_expires' => $this->calculate_date_carbon($data['date_listed'], $data['expires_in'], $data['time_type']),
+                'sell_by_date' => $this->calculate_date_carbon($data['date_listed'], $data['sell_by_date'], $data['time_type_sell_by']),
                 'image_id' => $file_id,
                 'pickup_time_from' => $data['pickup_time_from'],
                 'pickup_time_to' => $data['pickup_time_to'],
@@ -196,7 +196,7 @@ class NewListingController extends Controller
      * @param string $time_type can be hours, days or weeks
      * @return string
      */
-    public function calculate_date_expires($date_listed, $time_value, $time_type)
+    public function calculate_date_carbon($date_listed, $time_value, $time_type)
     {
         $carbon_date = new Carbon($date_listed);
 

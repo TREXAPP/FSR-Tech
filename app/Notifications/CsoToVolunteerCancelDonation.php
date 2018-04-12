@@ -56,7 +56,7 @@ class CsoToVolunteerCancelDonation extends Notification
                   ->line('Производ: ' . $this->listing_offer->listing->product->name)
                   ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
                   ->line('')
-                  ->line('Податоци за донорот')
+                  ->line('Податоци за донаторот')
                   ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
                   ->line('Организација: ' . $this->donor->organization->name)
                   ->line('')

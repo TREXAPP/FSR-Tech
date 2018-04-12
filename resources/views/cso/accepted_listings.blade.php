@@ -128,7 +128,7 @@
                 </div>
 
                 <div class="col-md-6 listing-info-box-inside listing-volunteer ">
-                    <span class="col-xs-12">Волонтер:</span>
+                    <span class="col-xs-12">Подигнувач:</span>
                     {{-- <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span> --}}
                   <div class="row">
 
@@ -190,7 +190,7 @@
                   <div class="volunteer-info-change-button row">
                     <div class="col-xs-12">
                       <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
-                        class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени волонтер</button>
+                        class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени подигнувач</button>
                     </div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@
           {{ csrf_field() }}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 id="popup-title" class="modal-title popup-title">Промени го волонтерот</h4>
+            <h4 id="popup-title" class="modal-title popup-title">Промени го подигнувачот</h4>
           </div>
           <div id="update-volunteer-body" class="modal-body update-volunteer-body">
             <!-- Form content-->

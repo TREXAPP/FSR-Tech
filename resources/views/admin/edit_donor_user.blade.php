@@ -3,7 +3,7 @@
 <section class="content-header volunteer-content-header">
 	<h1>
 		<i class="fa fa-user-circle"></i>
-		<span>Измени донор</span>
+		<span>Измени донатор</span>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
@@ -11,7 +11,7 @@
 		</li>
 		<li>
 			<a href="{{route('admin.donor_users')}}">
-				<i class="fa fa-user-circle"></i> Донори</a>
+				<i class="fa fa-user-circle"></i> Донатори</a>
 		</li>
 		<li>
 			<a href="{{route('admin.edit_donor_user', $donor->id)}}">Измени</a>

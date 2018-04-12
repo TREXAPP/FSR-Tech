@@ -46,7 +46,7 @@ class CsoToVolunteerRemoved extends Notification
     {
         return (new MailMessage)
                     ->subject('Отстранети сте од системот за донирање')
-                    ->line('Ве известуваме дека сте отстранети како волонтер на ' . $this->organization->name)
+                    ->line('Ве известуваме дека сте отстранети како подигнувач на ' . $this->organization->name)
                     ->line('Ако сметате дека сте отстранети по грешка, Ве молиме контактирајте ја организацијата директно.');
     }
 

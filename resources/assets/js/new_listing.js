@@ -58,6 +58,25 @@ $('#product_id_select').on('change', function() {
 
   });
 }
+});
 
+$('#sell_by_date').on('blur', function() {
+  $('#expires_in').val(this.value);
+  $('#expires_in').attr( "max", this.value );
+});
 
+$('#time_type_sell_by').on('change', function() {
+  var selected_value = this.value;
+  $('#time_type').val(this.value);
+  var found = false;
+  $("#time_type > option").each(function() {
+    if (found) {
+      $(this).css('display', 'none');
+    } else {
+      $(this).css('display', 'block');
+    }
+    if (this.value == selected_value) {
+      found = true;
+    }
+  });
 });

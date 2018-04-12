@@ -4,12 +4,12 @@
   <section class="content-header active-listings-content-header">
     <h1><i class="fa fa-cutlery"></i>
       <span>Достапни донации</span>
-      @if ($active_listings_no > 0)
-        <span> ({{$active_listings_no}})</span>
+      @if ($active_listings->count() > 0)
+        <span> ({{$active_listings->count()}})</span>
       @endif
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
-      <li><a href="/{{Auth::user()->type()}}/home"> Донор</a></li>
+      <li><a href="/{{Auth::user()->type()}}/home"> Донатор</a></li>
       <li><a href="/{{Auth::user()->type()}}/my_active_listings"><i class="fa fa-cutlery"></i> Мои донации</a></li>
     </ol>
   </section>

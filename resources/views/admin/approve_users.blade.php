@@ -153,7 +153,7 @@
 <div class="col-md-6 admin-approve-wrapper-outside admin-approve-donor-wrapper-outside">
   <div class="admin-approve-wrapper">
     <div class="panel admin-approve-title">
-      Донори
+      Донатори
     </div>
   	@foreach ($donors as $donor)
   	<!-- Default box -->
@@ -334,12 +334,12 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Одобри го донорот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Одобри го донаторот</h4>
 				</div>
 				<div id="approve-donor-body" class="modal-body approve-donor-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го одобрите донорот?
+						Дали сте сигурни дека сакате да го одобрите донаторот?
 					</h5>
 				</div>
 				<div class="modal-footer">
@@ -360,12 +360,12 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Одбиј го донорот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Одбиј го донаторот</h4>
 				</div>
 				<div id="reject-donor-body" class="modal-body reject-donor-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го одбиете донорот?
+						Дали сте сигурни дека сакате да го одбиете донаторот?
 					</h5>
 				</div>
 				<div class="modal-footer">

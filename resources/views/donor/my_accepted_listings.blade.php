@@ -8,7 +8,7 @@
       <span>Прифатенa донациja</span>
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
-      <li><a href="/{{Auth::user()->type()}}/home"> Донор</a></li>
+      <li><a href="/{{Auth::user()->type()}}/home"> Донатор</a></li>
       <li><a href="/{{Auth::user()->type()}}/my_active_listings"> Мои донации</a></li>
       <li><a href="/{{Auth::user()->type()}}/accepted_listings/{{$listing_offer->id}}"><i class="fa fa-bookmark"></i> Прифатенa донациja</a></li>
     </ol>
@@ -57,22 +57,13 @@
                   <span class="col-xs-12">Истекува за:</span>
                   <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                 </div>
-{{--
-                <div class="col-md-5 col-sm-6 col-xs-12">
-                  <span class="col-xs-12">Прифатена од:</span>
-                  <span class="col-xs-12" id="cso-info-{{$listing_offer->id}}"><strong>{{$listing_offer->cso->first_name}} {{$listing_offer->cso->last_name}} | {{$listing_offer->cso->phone}}  | {{$listing_offer->cso->organization->name}}</strong></span>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                  <span class="col-xs-12">Волонтер за подигнување:</span>
-                  <span class="col-xs-12" id="cso-info-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer_pickup_name}}  | {{$listing_offer->volunteer_pickup_phone}}</strong></span>
-                </div> --}}
               </div>
             </div>
         </div>
         <div class="listing-box-body-wrapper">
           <div class="box-body">
               <div class="panel col-xs-12 text-center">
-                Волонтер за подигнување
+                Подигнувач
               </div>
               <div class="col-md-4 col-sm-12 volunteer-image-wrapper ">
                 @if ($listing_offer->volunteer->image_id)

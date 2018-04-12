@@ -40,23 +40,8 @@ class MyActiveListingsController extends Controller
                                   }])
                                   ->orderBy('date_expires', 'ASC');
 
-        $active_listings_no = 0;
-        foreach ($active_listings->get() as $active_listing) {
-            //     $quantity_counter = 0;
-            //     foreach ($active_listing->listing_offers as $listing_offer) {
-            //         if ($listing_offer->offer_status == 'active') {
-            //             $quantity_counter += $listing_offer->quantity;
-            //         }
-            //     }
-            //     if ($active_listing->quantity > $quantity_counter) {
-            $active_listings_no++;
-            //     }
-        }
-
         return view('donor.my_active_listings')->with([
           'active_listings' => $active_listings,
-          // 'listing_offers' => $listing_offers,
-          'active_listings_no' => $active_listings_no,
         ]);
     }
 

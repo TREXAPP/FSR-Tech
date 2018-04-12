@@ -50,15 +50,15 @@ class CsoToDonorVolunteerChanged extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                    ->subject('Промена на волонтер на донацијата!')
-                    ->line('Ве известуваме дека е променет волонтерот за подигнување на Вашата донација.')
-                    ->line('Податоци за новиот волонтер:')
+                    ->subject('Промена на подигнувач на донацијата!')
+                    ->line('Ве известуваме дека е променет подигнувачот на Вашата донација.')
+                    ->line('Податоци за новиот подигнувач:')
                     ->line('Име и презиме: ' .  $this->volunteer->first_name . ' ' . $this->volunteer->last_name)
                     ->line('Телефон: ' .  $this->volunteer->phone)
                     ->line('Емаил: ' .  $this->volunteer->email);
 
         if ($this->listing_offer->volunteer->image_id) {
-            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
         }
 
         $message->action('Кон донацијата', route('donor.single_listing_offer', $this->listing_offer->id));

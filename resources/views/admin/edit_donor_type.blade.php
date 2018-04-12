@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1><i class="fa fa-plus-circle"></i>
-      Измени тип на донор
+      Измени тип на донатор
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
-      <li><a href="/{{Auth::user()->type()}}/donor_types/{{$donor_type->id}}"><i class="fa fa-plus-circle"></i> Измени тип на донор</a></li>
+      <li><a href="/{{Auth::user()->type()}}/donor_types/{{$donor_type->id}}"><i class="fa fa-plus-circle"></i> Измени тип на донатор</a></li>
     </ol>
   </section>
 
@@ -28,7 +28,7 @@
   <!-- Default box -->
   <div class="box col-md-12">
     <div class="box-header with-border">
-      <p class="box-title">Измени тип на донор</p>
+      <p class="box-title">Измени тип на донатор</p>
     </div>
     <form id="new_location_form" class="" action="{{ route('admin.edit_donor_type', $donor_type->id) }}" method="post" enctype="multipart/form-data">
       {{ csrf_field() }}

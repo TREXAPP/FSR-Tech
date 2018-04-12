@@ -236,7 +236,7 @@ $("#add-volunteer-form").submit(function (e) {
                 $('#' + obj.id).append('<option value=' + value.id + '>' + value.first_name + ' ' + value.last_name + '</option>');
                 if ((value.id == new_volunteer_id) && (obj_id == listing_id)) {
                   $('#' + obj.id + ' option[value=' + value.id + ']').attr('selected', 'selected');
-                  $('#pickup-volunteer-wrapper-' + listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Волонтерот е внесен успешно!</div>');
+                  $('#pickup-volunteer-wrapper-' + listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Подигнувачот е внесен успешно!</div>');
                   $('#listing-pickup-volunteer-' + listing_id).addClass('has-success');
                   $("#add-volunteer-button-" + listing_id).blur();
                 }

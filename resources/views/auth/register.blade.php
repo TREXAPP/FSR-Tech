@@ -175,7 +175,13 @@
               @endif
               </div>
             </div>
-
+            <div class="form-group">
+              <div class="col-md-6 col-md-offset-4">
+                <label>
+                  <input type="checkbox" required /> Ги прифаќам <a href="https://drive.google.com/file/d/1q4BI9Vxl0P2742mgPN8tTESJXDssDZlT/view" target="_blank">Правилата и прописите</a>
+                </label>
+              </div>
+            </div>
             <div class="form-group">
               <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary" {{ (!old('type')) ? ' disabled' : '' }}>
@@ -185,7 +191,7 @@
             </div>
           </form>
           <div class="box-footer">
-            Со регистрирање на платформата се подразбира дека се согласувате со <a href="https://drive.google.com/open?id=1-zMDAQmv8LgFmcX7yU4ml9aIZD0JqrbedCBH9I6YxHY" target="_blank">Правилата и прописите</a>
+
           </div>
         </div>
       </div>

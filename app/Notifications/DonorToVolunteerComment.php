@@ -52,11 +52,11 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Нов коментар од донорот!')
+                    ->subject('Нов коментар од донаторот!')
                     ->line('Има нов коментар на донацијата за која сте повикан да ја подигнете:')
                     ->line('"' . $this->comment_text . '"')
                     ->line('----------------')
-                    ->line('Податоци за донорот:')
+                    ->line('Податоци за донаторот:')
                     ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
                     ->line('Организација: ' . $this->donor->organization->name)
                     ->line('Телефон: ' . $this->donor->phone)

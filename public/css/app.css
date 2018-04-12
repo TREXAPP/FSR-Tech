@@ -20634,6 +20634,10 @@ button.close {
   margin-bottom: initial;
 }
 
+.admin-listing-button {
+  margin: 2px;
+}
+
 .admin-body {
   background: #00a65a;
 }

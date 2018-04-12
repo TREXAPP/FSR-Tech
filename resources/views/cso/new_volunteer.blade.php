@@ -3,7 +3,7 @@
 <section class="content-header new-volunteer-content-header">
 	<h1>
 		<i class="fa fa-user-circle"></i>
-		<span>Додади волонтер</span>
+		<span>Додади подигнувач</span>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
@@ -11,7 +11,7 @@
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers">
-				<i class="fa fa-user-circle"></i> Волонтери</a>
+				<i class="fa fa-user-circle"></i> Подигнувачи</a>
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers/new">Додади нов</a>
@@ -47,7 +47,7 @@
 			<div class="box-body">
 				<div id="new-volunteer-image" class="col-md-4 col-xs-12 new-volunteer-image">
 					<div class="col-xs-12 form-group">
-							<img class="img-rounded" alt="Слика за волонтер" src="{{url('img/avatar5.png')}}" />
+							<img class="img-rounded" alt="Слика за подигнувач" src="{{url('img/avatar5.png')}}" />
 					</div>
 					<div class="col-xs-12 form-group {{ ($errors->has('volunteer-image')) ? ' has-error' : '' }}">
 							<label for="new-volunteer-image">Внеси слика:</label>

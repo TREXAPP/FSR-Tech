@@ -52,16 +52,16 @@ class CsoToVolunteerNewVolunteer extends Notification
                     ->subject('Добредојдовте на платформата')
                     ->line('Додадени сте од ' . $this->volunteer->organization->name .
                           ', - ' . $this->cso->first_name . ' ' . $this->cso->last_name .
-                          ' како волонтер, и да помогнете во собирање и редистрибуцијата на донација на вишок на храна. ')
+                          ' како подигнувач, и да помогнете во собирање и редистрибуцијата на донација на вишок на храна. ')
                     ->line('Ви благодариме за учеството. Ве молиме потврдете ја точноста на вашите внесени информации. ')
                     ->line('Име: ' . $this->volunteer->first_name)
                     ->line('Презиме: ' . $this->volunteer->last_name)
                     ->line('Телефон: ' . $this->volunteer->phone)
                     ->line('Емаил: ' . $this->volunteer->email)
-                    ->line('Ако било која од овие информации е неточна или Вие не сте волонтер ве молиме контактирајте ги директно!');
+                    ->line('Ако било која од овие информации е неточна или Вие не сте подигнувач ве молиме контактирајте ги директно!');
         //
         // if ($this->volunteer->image_id) {
-        //     $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Волонтер" />');
+        //     $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
         // }
 
         return $message;
