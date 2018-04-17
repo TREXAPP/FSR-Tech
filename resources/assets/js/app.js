@@ -26,6 +26,8 @@ require('./admin/donor_organizations');
 require('./admin/csos');
 require('./admin/donors');
 require('./admin/donations');
+require('./admin/edit_listing');
+require('./admin/listing_offer');
 
 require('admin-lte');
 //

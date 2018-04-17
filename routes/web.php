@@ -82,9 +82,15 @@ Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
 
 Route::get('admin/listings', 'Admin\ListingsController@index')->name('admin.listings');
 Route::post('admin/listings', 'Admin\ListingsController@handle_post')->name('admin.listings');
+//ajax get products
+Route::post('admin/listings/edit/products', 'Admin\EditListingController@getProducts')->name('admin.edit_listing.products');
+//ajax get quantity_types on product change
+Route::post('admin/listings/edit/quantity_types', 'Admin\EditListingController@getQuantityTypes')->name('admin.edit_listing.quantity_types');
 Route::get('admin/listings/edit/{id}', 'Admin\EditListingController@index')->name('admin.edit_listing');
+Route::post('admin/listings/edit/{id}', 'Admin\EditListingController@handle_post')->name('admin.edit_listing');
 Route::get('admin/listing_offers/{id}', 'Admin\ListingOfferController@index')->name('admin.listing_offer');
-Route::get('admin/listing_offers/edit/{id}', 'Admin\EditListingOfferController@index')->name('admin.edit_listing_offer');
+Route::post('admin/listing_offers/{id}', 'Admin\ListingOfferController@handle_post')->name('admin.listing_offer');
+
 
 Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('admin.approve_users');
 Route::post('admin/users/approve', 'Admin\ApproveUsersController@handle_post')->name('admin.approve_users');

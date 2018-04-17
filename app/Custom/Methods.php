@@ -92,6 +92,16 @@ class Methods
     {
         return str_replace('T', ' ', $date);
     }
+    /**
+     * Converts a date from database to datetime-local type of input
+     *
+     * @param string $date
+     * @return string
+     */
+    public static function convert_date_input_from_db($date)
+    {
+        return str_replace(' ', 'T', $date);
+    }
 
     /**
      * handle the volunteer image upload.
@@ -156,10 +166,14 @@ class Methods
     {
         if ($user->profile_image_id) {
             return Methods::getFileUrl(File::find($user->profile_image_id)->filename);
-        } elseif ($user->organization->image_id) {
-            return Methods::getFileUrl(File::find($user->organization->image_id)->filename);
+        } elseif ($user->type() == 'admin') {
+            return url('img/admin.png');
         } else {
-            return url('img/avatar5.png');
+            if ($user->organization->image_id) {
+                return Methods::getFileUrl(File::find($user->organization->image_id)->filename);
+            } else {
+                return url('img/avatar5.png');
+            }
         }
     }
 

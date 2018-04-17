@@ -238,14 +238,22 @@
                         </div>
                       @endif
 
-                      @if ($comment->sender_type == 'donor')
+                      @if ($comment->sender_type == 'donor' || $comment->sender_type == 'admin')
                         <div class="row comment-row other-comment-row">
                           <div class="comment-image other-comment-image">
+                            @if ($comment->sender_type == 'donor')
                               <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{Methods::get_user_image_url($listing_offer->listing->donor)}}" />
+                            @elseif ($comment->sender_type == 'admin')
+                              <img class="img-rounded" alt="{{FSR\Admin::find($comment->user_id)->first_name}}" src="{{Methods::get_user_image_url(FSR\Admin::find($comment->user_id))}}" />
+                            @endif
                           </div>
                           <div class="comment-bubble other-comment-bubble">
                             <div class="comment-header other-comment-header col-xs-12">
-                              <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
+                              @if ($comment->sender_type == 'donor')
+                                <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
+                              @elseif ($comment->sender_type == 'admin')
+                                <span class="comment-name other-comment-name">{{FSR\Admin::find($comment->user_id)->first_name}} {{FSR\Admin::find($comment->user_id)->last_name}}</span>
+                              @endif
                               <span class="comment-time other-comment-time">{{Carbon::parse($comment->updated_at)->diffForHumans()}}</span>
                               @if ($comment->created_at != $comment->updated_at)
                                 <span class="comment-edited other-comment-edited">(изменет)</span>

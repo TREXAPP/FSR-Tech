@@ -20547,19 +20547,37 @@ button.close {
   color: #003f79;
 }
 
-.comment-controls {
+.comment-controls,
+.my-admin-comment-controls {
   position: absolute;
   top: 0;
   right: 0;
   display: none;
 }
 
-.my-comment-bubble:hover .comment-controls {
+.my-comment-bubble:hover .comment-controls,
+.my-comment-bubble:hover .my-admin-comment-controls {
   display: block;
 }
 
-.comment-controls a {
+.comment-controls a,
+.my-admin-comment-controls a {
   color: white;
+  margin-right: 5px;
+}
+
+.admin-comment-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.my-comment-bubble:hover .admin-comment-controls {
+  display: block;
+}
+
+.admin-comment-controls a {
+  color: black;
   margin-right: 5px;
 }
 
@@ -20574,7 +20592,12 @@ button.close {
     margin-right: 0px;
   }
 
-  .comment-controls {
+  .comment-controls,
+  .my-admin-comment-controls {
+    display: block;
+  }
+
+  .admin-comment-controls {
     display: block;
   }
 
