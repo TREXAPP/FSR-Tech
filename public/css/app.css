@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);/*!
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@import url(https://fonts.googleapis.com/css?family=PT%20Sans);/*!
  *   AdminLTE v2.4.0
  *   Author: Almsaeed Studio
  *	 Website: Almsaeed Studio <https://adminlte.io>
@@ -13205,7 +13205,7 @@ html {
 }
 
 body {
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-size: 14px;
   line-height: 1.6;
   color: #636b6f;
@@ -19302,7 +19302,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -19436,7 +19436,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Raleway", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -20187,6 +20187,10 @@ button.close {
   opacity: 0.35;
 }
 
+.main-header .logo {
+  font-family: "PT Sans", sans-serif;
+}
+
 .fa-1-5x {
   font-size: 1.5em;
 }
@@ -20659,6 +20663,12 @@ button.close {
 
 .admin-listing-button {
   margin: 2px;
+}
+
+.logo-home-img {
+  width: 50px;
+  float: left;
+  margin-top: -14px;
 }
 
 .admin-body {

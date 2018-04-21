@@ -22,6 +22,7 @@
     "dependencies": {
         "font-awesome": "^4.7.0",
         "ionicons": "^3.0.0",
+        "myriad-font": "0.0.2",
         "raleway-cyrillic": "^4.0.2"
     }
 }

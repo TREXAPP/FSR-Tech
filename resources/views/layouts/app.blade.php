@@ -7,7 +7,6 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
@@ -28,7 +27,9 @@
                     </button>
 
                     <!-- Branding Image -->
+
                     <a class="navbar-brand" href="{{ url('/') }}">
+                        <img class="logo-home-img" src="{{url('img/logo.png')}}" alt="">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
