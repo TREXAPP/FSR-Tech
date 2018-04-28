@@ -286,11 +286,12 @@ class AcceptedListingsController extends Controller
         $volunteer = Volunteer::find($listing_offer->volunteer_id);
         $comment_text = $data['comment'];
         $cso = Auth::user();
+        $other_comments = Comment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
 
         //send notification to the donor
-        $donor->notify(new CsoToDonorComment($listing_offer_id, $data['comment']));
+        $donor->notify(new CsoToDonorComment($listing_offer, $comment_text, $other_comments));
         //send to the volunteer
-        $volunteer->notify(new CsoToVolunteerComment($listing_offer_id, $comment_text, $cso, $donor));
+        $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,

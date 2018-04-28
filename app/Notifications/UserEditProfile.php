@@ -11,7 +11,18 @@ use Illuminate\Notifications\Messages\MailMessage;
 class UserEditProfile extends Notification implements ShouldQueue
 {
     use Queueable;
+    private $user;
 
+
+    /**
+     * Create a new notification instance.
+     * @param object $user
+     * @return void
+     */
+    public function __construct($user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -32,10 +43,24 @@ class UserEditProfile extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Направени се промени на профилот.')
+        $message = (new MailMessage)->subject('Направени се промени на профилот.')
                     ->line('Приметивме дека направивте измени на вашиот профил.')
-                    ->action('Види ги промените', url('/cso/profile'));
+                    ->line('Вашите моментални податоци се:')
+                    ->line('Име: ' . $this->user->first_name)
+                    ->line('Презиме: ' . $this->user->last_name)
+                    ->line('Емаил: ' . $this->user->email)
+                    ->line('Организација: ' . $this->user->organization->name)
+                    ->line('Адреса: ' . $this->user->address)
+                    ->line('Телефон: ' . $this->user->phone)
+                    ->line('Локација: ' . $this->user->location->name)
+                    ->line(' Ако вашите измени не се точни Ве молиме кликнете на линкот за да го измените вашиот профил.');
+
+        if ($this->user->type() == 'cso') {
+            $message->action('Измени профил', url('/cso/edit_profile'));
+        } else {
+            $message->action('Измени профил', url('/donor/edit_profile'));
+        }
+        return $message;
     }
 
     /**

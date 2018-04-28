@@ -63,7 +63,34 @@
           </span>
         </a>
       </li>
+      @if (Auth::guard('master_admin')->user())
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Администратори</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="{{route('master_admin.admins')}}">
+                <i class="fa fa-users"></i> <span>Преглед</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
 
+            <li>
+              <a href="{{route('master_admin.new_admin')}}">
+                <i class="fa fa-user-plus"></i> <span>Додади нов</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+      @endif
       <li class="treeview">
           <a href="#">
             <i class="fa fa-universal-access"></i> <span>Корисници</span>

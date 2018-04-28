@@ -45,18 +45,22 @@ class AdminToVolunteerNewVolunteer extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Додадени сте како подигнувач!')
-                  ->line('Успешно сте додадени во системот за донирање храна како подигнувач на организацијата ' .
-                          $this->volunteer->organization->name . '.')
-                  ->line('Вашите податоци во системот: ')
+                  ->subject('Добредојдовте на платформата')
+                  ->line('Ајде Македонија ве додаде како подигнувач на ' . $this->volunteer->organization->name .
+                        ',  за подигнување и редистрибуција на донациите за вишок храна.')
+                  ->line('Ќе добиете е-мајл известување кога ќе бидете одбрани да подигнете донација со детали за предметот и компанијата. ')
+                  ->line('Ве молиме потврдете ја точноста на вашите внесени информации. ')
                   ->line('Име: ' . $this->volunteer->first_name)
                   ->line('Презиме: ' . $this->volunteer->last_name)
                   ->line('Телефон: ' . $this->volunteer->phone)
                   ->line('Емаил: ' . $this->volunteer->email);
 
         if ($this->volunteer->image_id) {
-            $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
+            $message->line('Слика: ')
+                ->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />')
+                ->line('');
         }
+        $message->line('Ако информациите не се точни контактирајте не` директно на <a href="mailto:ajdemakedonija@gmail.com">ajdemakedonija@gmail.com</a>');
 
         return $message;
     }

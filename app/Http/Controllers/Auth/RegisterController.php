@@ -83,7 +83,7 @@ class RegisterController extends Controller
         $admins = Admin::where('email', '!=', 'admin@admin.mk')->get();
         Notification::send($admins, new UserToAdminsRegister($user));
 
-        $request->session()->put('status', Lang::get('login.not_approved'));
+        //$request->session()->put('status', Lang::get('login.not_approved'));
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());

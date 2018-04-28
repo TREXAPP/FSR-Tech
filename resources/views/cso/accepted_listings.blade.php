@@ -302,10 +302,10 @@
                 <hr>
                 @if (Carbon::parse($listing_offer->listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
                   <button type="button" title="Прифатената донација не може да биде откажана бидејќи изминува наскоро!" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
-                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup" disabled>Избриши ја донацијата</button>
+                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup" disabled>Откажи ја донацијата</button>
                 @else
-                  <button type="button" title="Избриши ја донацијата" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
-                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup">Избриши ја донацијата</button>
+                  <button type="button" title="Откажи ја донацијата" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
+                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup">Откажи ја донацијата</button>
                 @endif              </div>
             </div>
             <!-- /.box-footer-->
@@ -368,17 +368,17 @@
           {{ csrf_field() }}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 id="popup-title" class="modal-title popup-title">Избриши ја донацијата</h4>
+            <h4 id="popup-title" class="modal-title popup-title">Откажи ја донацијата</h4>
           </div>
           <div id="delete-offer-body" class="modal-body delete-offer-body">
             <!-- Form content-->
             <h5 id="popup-info" class="popup-info row italic">
-              Дали сте сигурни дека сакате да ја избришите прифатената донација?
+              Дали сте сигурни дека сакате да ја откажете прифатената донација?
             </h5>
           </div>
           <div class="modal-footer">
-            <input type="submit" name="delete-offer-popup" class="btn btn-danger" value="Избриши" />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+            <input type="submit" name="delete-offer-popup" class="btn btn-danger" value="Откажи ја донацијата" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
           </div>
         </form>
       </div>

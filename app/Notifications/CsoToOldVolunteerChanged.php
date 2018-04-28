@@ -49,12 +49,16 @@ class CsoToOldVolunteerChanged extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Веќе не сте задолжени за подигање на донацијата!')
-                  ->line('Ве известуваме дека веќе не сте задолжени за подигање на донацијата од ' .
-                           $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description . ' ' .
-                           $this->listing_offer->listing->product->name .
-                           ', донирана од ' . $this->donor->first_name . ' ' . $this->donor->last_name . '.');
-
+          ->subject('Имате промени во донацијата за подигнување')
+          ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name .
+                  ' го смени подигнувачот на донацијата која што требаше да ја подигнете.')
+          ->line('<hr>')
+          ->line('Информации за донацијата: ')
+          ->line('Производ: ' . $this->listing_offer->listing->product->name)
+          ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
+          ->line('Донатор: ' . $this->donor->first_name . ' ' . $this->donor->last_name . ' - ' . $this->donor->organization->name)
+          ->line('<hr>')
+          ->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија! ');
         return $message;
     }
 

@@ -71,7 +71,7 @@ class ProfileController extends Controller
             $file_id = $this->edit_handle_upload($request);
             $user = $this->update_user($request->all(), $file_id);
 
-            $user->notify(new UserEditProfile());
+            $user->notify(new UserEditProfile(Auth::user()));
 
             return back()->with('status', "Измените се успешно зачувани!");
         } else {

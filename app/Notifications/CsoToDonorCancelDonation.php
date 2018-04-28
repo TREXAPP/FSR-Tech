@@ -46,12 +46,16 @@ class CsoToDonorCancelDonation extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Прифатената донација е откажана!')
-                  ->line('Прифатените ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description .
-                          ' ' . $this->listing_offer->listing->product->name .
-                          ' од ' . $this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name .
-                          ' - ' . $this->listing_offer->cso->organization->name . ' се откажани!')
-                  ->action('Кон донацијата', route('donor.my_active_listings'));
+          ->subject('Подигнување на донацијата е откажано.')
+          ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name .
+              ' - ' . $this->listing_offer->cso->organization->name . ' не е во можност да ја прифати вашата донација.')
+          ->line('Информации за донацијата:')
+          ->line('Производ: ' . $this->listing_offer->listing->product->name)
+          ->line('Откажана количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
+          ->line('Донацијата ќе ја направиме достапна за останатите членови на платформата.')
+          ->line('<br>')
+          ->line('Ви благодариме што го поддржувате нашиот труд да ја го намалиме прехрамбениот отпад и недостаток на храната во Македонија!')
+          ->action('Кон донацијата', route('donor.my_active_listings'));
         return $message;
     }
 

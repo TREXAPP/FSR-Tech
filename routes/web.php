@@ -63,6 +63,14 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('email/confirm/{token}', 'Auth\EmailConfirmController@showConfirmForm')->name('email.confirm');
 Route::get('email/resend_link', 'Auth\EmailConfirmController@resend_link')->name('email.resend_link');
 
+//master admin
+Route::get('master_admin/admins', 'MasterAdmin\AdminsController@index')->name('master_admin.admins');
+Route::post('master_admin/admins', 'MasterAdmin\AdminsController@handle_post')->name('master_admin.admins');
+Route::get('master_admin/admins/new', 'MasterAdmin\NewAdminController@index')->name('master_admin.new_admin');
+Route::post('master_admin/admins/new', 'MasterAdmin\NewAdminController@handle_post')->name('master_admin.new_admin');
+Route::get('master_admin/admins/{admin_id}', 'MasterAdmin\EditAdminController@index')->name('master_admin.edit_admin');
+Route::post('master_admin/admins/{admin_id}', 'MasterAdmin\EditAdminController@handle_post')->name('master_admin.edit_admin');
+
 //admin routes
 Route::get('admin', function () {
     if (Auth::user()) {

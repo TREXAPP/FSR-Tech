@@ -47,10 +47,10 @@ class UserRegistrationSuccess extends Notification implements ShouldQueue
         $confirm_link = route('email.confirm', $this->user->email_token);
         return (new MailMessage)
                     ->subject('Ви благодариме за регистрацијата')
+                    ->line('Ви благодариме за регистрацијата за да бидете дел од платформата за донирање на вишок храна.')
                     ->line('Кликнете подолу за да го потврдите Вашиот емаил:')
                     ->action('Потврди емаил', $confirm_link)
-                    ->line('Ќе добиете потврден меил кога ќе бидете одобрени од администраторот.');
-        // ->action('Види ги промените', url('/cso/profile'));
+                    ->line('Во моментов ја проверуваме вашата регистрација. Кога ќе биде одобрена ќе бидете известени преку вашата е-пошта.');
     }
 
     /**

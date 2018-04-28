@@ -5,7 +5,7 @@ return [
 
     'version' => '0.57',
     'upload_path' => env('UPLOAD_PATH', 'public/upload'),
-
+    'master_admin' => env('MASTER_ADMIN', 'admin@admin.mk'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

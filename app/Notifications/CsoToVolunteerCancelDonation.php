@@ -49,20 +49,18 @@ class CsoToVolunteerCancelDonation extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Откажана донација!')
-                  ->line('Ве известуваме дека донацијата за која бевте задолжени за подигнување е откажана. Подетални информации подолу:')
-                  ->line('')
-                  ->line('Податоци за донацијата:')
+                  ->subject('Подигнување на донацијата е откажано.')
+                  ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' нема потреба од подигнување на донацијата')
+                  ->line('<br>')
+                  ->line('Информации за донацијата:')
                   ->line('Производ: ' . $this->listing_offer->listing->product->name)
-                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-                  ->line('')
+                  ->line('Откажана количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
+                  ->line('<br>')
                   ->line('Податоци за донаторот')
                   ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
                   ->line('Организација: ' . $this->donor->organization->name)
-                  ->line('')
-                  ->line('Податоци за примателот')
-                  ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)
-                  ->line('Организација: ' . $this->cso->organization->name);
+                  ->line('<hr>')
+                  ->line('Ви благодариме што го подржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
 
         return $message;
     }

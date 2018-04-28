@@ -23,7 +23,8 @@ class ApproveUsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        //Route::group(['middleware' => ['auth:biker,customer,operator'], function() {}
+        $this->middleware('auth:master_admin,admin');
     }
 
     /**
@@ -45,7 +46,6 @@ class ApproveUsersController extends Controller
           'csos' => $csos,
           'donors' => $donors,
         ]);
-        //return redirect(route('donor.my_active_listings'));
     }
 
     /**

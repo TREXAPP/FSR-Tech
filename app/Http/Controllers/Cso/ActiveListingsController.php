@@ -9,8 +9,10 @@ use FSR\ListingOffer;
 use FSR\Notifications\CsoToVolunteerNewVolunteer;
 
 use FSR\Http\Controllers\Controller;
+use FSR\Notifications;
 use FSR\Notifications\CsoToVolunteerAcceptDonation;
 use FSR\Notifications\CsoToDonorAcceptDonation;
+use FSR\Notifications\CsoToCsoAcceptDonation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use FSR\Custom\Methods;
+use FSR\Custom\CarbonFix;
 
 class ActiveListingsController extends Controller
 {
@@ -94,6 +97,7 @@ class ActiveListingsController extends Controller
         $donor = $listing_offer->listing->donor;
 
         $donor->notify(new CsoToDonorAcceptDonation($listing_offer));
+        $cso->notify(new CsoToCsoAcceptDonation($listing_offer));
         if ($listing_offer->volunteer->email != Auth::user()->email) {
             $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
         }

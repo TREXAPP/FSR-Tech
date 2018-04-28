@@ -97,14 +97,16 @@ class MyAcceptedListingsController extends Controller
     protected function create_comment(array $data, int $listing_offer_id)
     {
         $comment_text = $data['comment'];
-        $cso = ListingOffer::find($listing_offer_id)->cso;
-        $volunteer = ListingOffer::find($listing_offer_id)->volunteer;
+        $listing_offer = ListingOffer::find($listing_offer_id);
+        $cso = $listing_offer->cso;
+        $volunteer = $listing_offer->volunteer;
+        $other_comments = Comment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
         //send notification to the cso
-        $cso->notify(new DonorToCsoComment($listing_offer_id, $comment_text));
+        $cso->notify(new DonorToCsoComment($listing_offer, $comment_text, $other_comments));
 
         //send notification to the volunteer
         if ($cso->email != $volunteer->email) {
-            $volunteer->notify(new DonorToVolunteerComment($listing_offer_id, $comment_text, $cso, Auth::user()));
+            $volunteer->notify(new DonorToVolunteerComment($listing_offer, $comment_text, $other_comments));
         }
 
         return Comment::create([

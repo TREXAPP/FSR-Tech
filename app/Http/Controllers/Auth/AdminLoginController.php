@@ -90,12 +90,18 @@ class AdminLoginController extends Controller
 
             return $this->sendLockoutResponse($request);
         }
-
-
-        if ($this->attemptLogin($request, 'admin')) {
-            Auth::setUser((Auth::guard('admin')->user()));
-            return $this->sendLoginResponse($request);
+        if ($request->all()['email'] == config('app.master_admin')) {
+            if ($this->attemptLogin($request, 'master_admin')) {
+                Auth::setUser((Auth::guard('master_admin')->user()));
+                return $this->sendLoginResponse($request);
+            }
+        } else {
+            if ($this->attemptLogin($request, 'admin')) {
+                Auth::setUser((Auth::guard('admin')->user()));
+                return $this->sendLoginResponse($request);
+            }
         }
+
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
@@ -128,20 +134,26 @@ class AdminLoginController extends Controller
      */
     public function logout(Request $request)
     {
-        if (Auth::guard('admin')->user()) {
-            $guard = 'admin';
+        $guard = "";
+        if (Auth::guard('master_admin')->user()) {
+            $guard = 'master_admin';
+        } else {
+            if (Auth::guard('admin')->user()) {
+                $guard = 'admin';
+            }
         }
-        //dd($guard);
 
-        $this->guard($guard)->logout();
-        $request->session()->invalidate();
-        // Get remember_me cookie name
-        $str_to_replace = explode('_', Auth::getRecallerName())[1];
+        if ($guard) {
+            $this->guard($guard)->logout();
+            $request->session()->invalidate();
+            // Get remember_me cookie name
+            $str_to_replace = explode('_', Auth::getRecallerName())[1];
 
-        $rememberMeCookie = str_replace($str_to_replace, $guard, Auth::getRecallerName());
+            $rememberMeCookie = str_replace($str_to_replace, $guard, Auth::getRecallerName());
 
-        // Tell Laravel to forget this cookie
-        $cookie = Cookie::forget($rememberMeCookie);
+            // Tell Laravel to forget this cookie
+            $cookie = Cookie::forget($rememberMeCookie);
+        }
 
         return redirect(route('admin.login'))->withCookie($cookie);
     }

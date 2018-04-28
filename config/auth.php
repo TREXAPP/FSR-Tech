@@ -52,6 +52,11 @@ return [
             'provider' => 'admins',
         ],
 
+        'master_admin' => [
+            'driver' => 'session',
+            'provider' => 'master_admin',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -87,6 +92,10 @@ return [
             'model' => FSR\Donor::class,
         ],
         'admins' => [
+            'driver' => 'eloquent',
+            'model' => FSR\Admin::class,
+        ],
+        'master_admin' => [
             'driver' => 'eloquent',
             'model' => FSR\Admin::class,
         ],
@@ -126,6 +135,11 @@ return [
         ],
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'master_admin' => [
+            'provider' => 'master_admin',
             'table' => 'password_resets',
             'expire' => 60,
         ],

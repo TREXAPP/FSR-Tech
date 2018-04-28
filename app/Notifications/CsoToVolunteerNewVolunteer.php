@@ -50,19 +50,21 @@ class CsoToVolunteerNewVolunteer extends Notification
     {
         $message = (new MailMessage)
                     ->subject('Добредојдовте на платформата')
-                    ->line('Додадени сте од ' . $this->volunteer->organization->name .
-                          ', - ' . $this->cso->first_name . ' ' . $this->cso->last_name .
-                          ' како подигнувач, и да помогнете во собирање и редистрибуцијата на донација на вишок на храна. ')
+                    ->line('Додадени сте од ' . $this->cso->first_name . ' ' . $this->cso->last_name .
+                            ' - ' . $this->volunteer->organization->name .
+                          ', за да помогнете како подигнувач во собирање и редистрибуцијата на донација на вишок на храна. ')
                     ->line('Ви благодариме за учеството. Ве молиме потврдете ја точноста на вашите внесени информации. ')
                     ->line('Име: ' . $this->volunteer->first_name)
                     ->line('Презиме: ' . $this->volunteer->last_name)
                     ->line('Телефон: ' . $this->volunteer->phone)
-                    ->line('Емаил: ' . $this->volunteer->email)
-                    ->line('Ако било која од овие информации е неточна или Вие не сте подигнувач ве молиме контактирајте ги директно!');
-        //
-        // if ($this->volunteer->image_id) {
-        //     $message->line('<img src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
-        // }
+                    ->line('Емаил: ' . $this->volunteer->email);
+
+        if ($this->volunteer->image_id) {
+            $message->line('Слика: ')
+                  ->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />')
+                  ->line('');
+        }
+        $message->line('Ако било која од овие информации е неточна или сте додадени по грешка Ве молиме контактирајте ja организацијата на телефонскиот број ' . $this->cso->phone . '.');
 
         return $message;
 

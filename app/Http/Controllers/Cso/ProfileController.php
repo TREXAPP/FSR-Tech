@@ -73,7 +73,7 @@ class ProfileController extends Controller
             $volunteer = $this->update_volunteer($request->all(), $file_id);
             $user = $this->update_user($request->all(), $file_id);
 
-            $user->notify(new UserEditProfile());
+            $user->notify(new UserEditProfile(Auth::user()));
 
             return redirect(route('cso.profile'))->with('status', "Измените се успешно зачувани!");
         } else {

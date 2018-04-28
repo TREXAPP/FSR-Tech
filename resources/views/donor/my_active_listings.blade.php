@@ -3,7 +3,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header active-listings-content-header">
     <h1><i class="fa fa-cutlery"></i>
-      <span>Достапни донации</span>
+      <span>Мои донации</span>
       @if ($active_listings->count() > 0)
         <span> ({{$active_listings->count()}})</span>
       @endif

@@ -43,9 +43,9 @@ class AdminToVolunteerRemoved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Отстранети сте од системот за донирање')
-        ->line('Ве известуваме дека сте отстранети како подигнувач на ' . $this->organization->name)
-        ->line('Ако сметате дека сте отстранети по грешка, Ве молиме контактирајте ја организацијата директно.');
+                   ->subject('Отстранети сте од платформата СитеСити')
+                   ->line('Отстранети сте како подигнувач на организацијата ' . $this->organization->name . ' од страна на администраторот.')
+                   ->line('Ако е ова неточно, Ве молиме контактирајте го администраторот на <a href="mailto:ajdemakedonija@gmail.com">ajdemakedonija@gmail.com</a>');
     }
 
     /**

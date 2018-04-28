@@ -50,8 +50,12 @@ class AdminToUserApproveRegistration extends Notification
                   ->line('Добивте одобрување за да ја користите платформата.');
 
         if ($this->user->email_confirmed) {
-            $message->line('Кликните тука за да ја внесете вашата прва донација (донатор) или кликните тука за да ја прифатите Вашата прва донација на храна(cso)')
-                            ->action('Логирај се', route('home'));
+            if ($this->user->type() == 'cso') {
+                $message->line('Кликните подолу за да ја прифатите Вашата прва донација на храна');
+            } elseif ($this->user->type() == 'donor') {
+                $message->line('Кликните подолу за да ја внесете вашата прва донација');
+            }
+            $message->action('Логирај се', route('home'));
         } else {
             $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')
                             ->action('Активирај емаил', $confirm_link);

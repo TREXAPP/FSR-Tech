@@ -47,10 +47,17 @@ class DonorToCsosNewDonation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Нова донација')
-                    ->line('Додадена е нова донација од ' . $this->listing->donor->first_name . ' ' . $this->listing->donor->last_name . ' - ' . $this->listing->donor->organization->name . '.')
-                    ->line('Донацијата ќе биде достапна ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans() . '.')
-                    ->action('Прифати ја донацијата', url('/cso/active_listings'));
+                    ->subject('Достапна е нова донација')
+                    ->line($this->listing->donor->first_name . ' ' . $this->listing->donor->last_name . ' - ' . $this->listing->donor->organization->name .
+                          ' само што ја додаде следнава донација:')
+                    ->line('Производ: ' . $this->listing->product->name)
+                    ->line('Количина: ' . $this->listing->quantity . ' ' . $this->listing->quantity_type->description)
+                    ->line('Важи од: ' . CarbonFix::parse($this->listing->date_listed)->diffForHumans())
+                    ->line('Истекува за: ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans())
+                    ->line('Време за подигнување: од ' . CarbonFix::parse($this->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing->pickup_time_to)->format('H:i'))
+                    ->line('Опис: ' . $this->listing->description)
+                    ->line('Ако сте заинтересирани да ја подигнете оваа донација кликнете подолу!')
+                    ->action('Прифати ја донацијата', url('/cso/active_listings/'));
     }
 
     /**

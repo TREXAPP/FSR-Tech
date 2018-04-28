@@ -3,6 +3,9 @@
 namespace FSR\Notifications;
 
 use FSR\Volunteer;
+use FSR\Cso;
+use FSR\Donor;
+use FSR\Admin;
 use FSR\Custom\CarbonFix;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -13,19 +16,23 @@ class DonorToCsoComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $listing_offer_id;
+    private $listing_offer;
     private $comment_text;
+    private $comments;
+    private $comments_count;
 
     /**
      * Create a new notification instance.
-     * @param int $listing_offer_id
+     * @param $listing_offer_id
      * @param string $comment_text
      * @return void
      */
-    public function __construct(int $listing_offer_id, string $comment_text)
+    public function __construct($listing_offer, string $comment_text, $comments)
     {
-        $this->listing_offer_id = $listing_offer_id;
+        $this->listing_offer = $listing_offer;
         $this->comment_text = $comment_text;
+        $this->comments = $comments;
+        $this->comments_count = $comments->count();
     }
 
     /**
@@ -47,11 +54,51 @@ class DonorToCsoComment extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Нов коментар на прифатена донација!')
-                    ->line('Имате нов коментар на вашата прифатена донација:')
-                    ->line('"' . $this->comment_text . '"')
-                    ->action('Кон коментарот', route('cso.accepted_listings.single_accepted_listing', $this->listing_offer_id) . '#comments');
+        $messages = (new MailMessage)
+                    ->subject('Додаден е коментар на вашата донација.')
+                    ->line($this->listing_offer->listing->donor->first_name . ' ' . $this->listing_offer->listing->donor->last_name . ' - ' . $this->listing_offer->listing->donor->organization->name . ' остави коментар на вашата донација')
+                    ->line('<div style="padding: 20px; background-color: lightgray; border-radius: 10px; color: black; font-weight: bold;">' . $this->comment_text .
+                            '</div><div style="float: right; padding-top: 5px;">' .
+                            $this->listing_offer->listing->donor->first_name . ' ' . $this->listing_offer->listing->donor->last_name .
+                            ' - ' . $this->listing_offer->listing->donor->organization->name . '</div>')
+                    ->line('<br>');
+        $count = 1;
+
+        if ($this->comments_count > 0) {
+            $messages->line('Претходни коментари:');
+        }
+
+        foreach ($this->comments->sortByDesc('id') as $comment) {
+            if ($count < 4) {
+                if ($comment->sender_type == 'donor') {
+                    $user = Donor::where('id', $comment->user_id)->first();
+                } elseif ($comment->sender_type == 'cso') {
+                    $user = Cso::where('id', $comment->user_id)->first();
+                } elseif ($comment->sender_type == 'admin') {
+                    $user = Admin::where('id', $comment->user_id)->first();
+                }
+                $messages->line('<div style="padding: 20px; background-color: lightgray; border-radius: 10px; color: black; font-weight: bold;">' . $comment->text .
+                              '</div><div style="float: right; padding-top: 5px;">' .
+                              $user->first_name . ' ' . $user->last_name .
+                              (($comment->sender_type == 'admin') ? '' : ' - ' . $user->organization->name) .
+                              '</div>')
+                          ->line('<br>');
+                $count++;
+            }
+        }
+        if ($this->comments_count > 3) {
+            $comments_left = $this->comments_count-3;
+            $messages->line('<a href="' . route('cso.accepted_listings.single_accepted_listing', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
+        }
+
+        $messages->line('<hr>');
+        $messages->line('Информации за донацијата:');
+        $messages->line('Производ: ' . $this->listing_offer->listing->product->name);
+        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description);
+        $messages->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
+        $messages->action('Кон коментарот', route('cso.accepted_listings.single_accepted_listing', $this->listing_offer->id) . '#comments');
+
+        return $messages;
     }
 
     /**
