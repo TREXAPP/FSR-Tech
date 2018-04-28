@@ -1,6 +1,6 @@
 <?php
 
-namespace FSR\Http\Controllers\Admin;
+namespace FSR\Http\Controllers\MasterAdmin;
 
 use FSR;
 use FSR\Cso;
