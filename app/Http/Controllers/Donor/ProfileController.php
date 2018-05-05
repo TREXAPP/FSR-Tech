@@ -3,18 +3,21 @@
 namespace FSR\Http\Controllers\Donor;
 
 use FSR\File;
+use FSR\Admin;
 use FSR\Listing;
 use FSR\Location;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications\UserEditProfile;
+use FSR\Notifications\UserToAdminEditProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 
 class ProfileController extends Controller
 {
@@ -72,6 +75,9 @@ class ProfileController extends Controller
             $user = $this->update_user($request->all(), $file_id);
 
             $user->notify(new UserEditProfile(Auth::user()));
+
+            $master_admins = Admin::where('master_admin', 1)->get();
+            Notification::send($master_admins, new UserToAdminEditProfile(Auth::user()));
 
             return back()->with('status', "Измените се успешно зачувани!");
         } else {

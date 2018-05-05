@@ -4,13 +4,16 @@ namespace FSR\Http\Controllers\Cso;
 
 use FSR\Listing;
 use FSR\File;
+use FSR\Admin;
 use FSR\Volunteer;
 use FSR\ListingOffer;
 use FSR\Notifications\CsoToVolunteerNewVolunteer;
+use Illuminate\Support\Facades\Notification;
 
 use FSR\Http\Controllers\Controller;
 use FSR\Notifications;
 use FSR\Notifications\CsoToVolunteerAcceptDonation;
+use FSR\Notifications\CsoToAdminAcceptDonation;
 use FSR\Notifications\CsoToDonorAcceptDonation;
 use FSR\Notifications\CsoToCsoAcceptDonation;
 use Illuminate\Http\Request;
@@ -101,6 +104,9 @@ class ActiveListingsController extends Controller
         if ($listing_offer->volunteer->email != Auth::user()->email) {
             $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
         }
+        $master_admins = Admin::where('master_admin', 1)->get();
+        Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $donor));
+
         return back()->with('status', "Донацијата е успешно прифатена!");
     }
 

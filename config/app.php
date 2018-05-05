@@ -3,9 +3,9 @@ use FSR\Custom\CarbonFix;
 
 return [
 
-    'version' => '0.58',
+    'version' => '0.59',
     'upload_path' => env('UPLOAD_PATH', 'public/upload'),
-    'master_admin' => env('MASTER_ADMIN', 'admin@admin.mk'),
+    'master_admin' => env('MASTER_ADMIN', 'sitesiti@gmail.com'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

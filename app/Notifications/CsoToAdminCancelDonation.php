@@ -3,13 +3,14 @@
 namespace FSR\Notifications;
 
 use FSR\File;
+use FSR\Admin;
 use FSR\ListingOffer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToVolunteerCancelDonation extends Notification
+class CsoToAdminCancelDonation extends Notification
 {
     use Queueable;
 
@@ -50,17 +51,15 @@ class CsoToVolunteerCancelDonation extends Notification
     {
         $message = (new MailMessage)
                   ->subject('Подигнувањето на донацијата е откажано.')
-                  ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' нема потреба од подигнување на донацијата')
+                  ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' го откажа прифаќањето на донацијата.')
                   ->line('<br>')
                   ->line('Информации за донацијата:')
                   ->line('Производ: ' . $this->listing_offer->listing->product->name)
                   ->line('Откажана количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-                  ->line('<br>')
+                  ->line('<hr>')
                   ->line('Податоци за донаторот')
                   ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
-                  ->line('Организација: ' . $this->donor->organization->name)
-                  ->line('<hr>')
-                  ->line('Ви благодариме што го подржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
+                  ->line('Организација: ' . $this->donor->organization->name);
 
         return $message;
     }

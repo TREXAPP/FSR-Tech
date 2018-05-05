@@ -1,4 +1,3 @@
-//test za admin/email.js
 /* on change users type, fill organizations dropdown */
 $('#user-type-filter-select').on('change', function() {
   $('#organization-filter-select').children('option:not(:first)').remove();

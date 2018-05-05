@@ -3,13 +3,15 @@
 namespace FSR\Http\Controllers\Donor;
 
 use FSR\Cso;
+use FSR\Admin;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\ListingOffer;
-use FSR\Notifications\DonorToVolunteerComment;
-
-use FSR\Http\Controllers\Controller;
+use FSR\Notifications;
 use FSR\Notifications\DonorToCsoComment;
+use FSR\Notifications\DonorToAdminComment;
+use FSR\Notifications\DonorToVolunteerComment;
+use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +109,32 @@ class MyAcceptedListingsController extends Controller
         //send notification to the volunteer
         if ($cso->email != $volunteer->email) {
             $volunteer->notify(new DonorToVolunteerComment($listing_offer, $comment_text, $other_comments));
+        }
+
+        //send to master_admin(s)
+        $master_admins = Admin::where('master_admin', 1)->get();
+        Notification::send($master_admins, new DonorToAdminComment($listing_offer, $comment_text, $other_comments));
+
+        //find all regular admins that commented, and send them all
+        $admin_comments = Comment::where('status', 'active')
+                  ->where('listing_offer_id', $listing_offer_id)
+                  ->where('sender_type', 'admin')
+                  ->get();
+        if ($admin_comments) {
+            $admin_ids=array();
+            $regular_admins = Admin::where('master_admin', 0);
+            foreach ($regular_admins as $admin) {
+                foreach ($admin_comments as $admin_comment) {
+                    if ($admin_comment->user_id == $admin->id) {
+                        if (!in_array($admin->id, $admin_ids)) {
+                            $admin_ids[]=$admin->id;
+                        }
+                    }
+                }
+            }
+            foreach ($admin_ids as $admin_id) {
+                Admin::find($admin_id)->notify(new DonorToAdminComment($listing_offer, $comment_text, $other_comments));
+            }
         }
 
         return Comment::create([

@@ -60,7 +60,7 @@ class AdminToVolunteerNewVolunteer extends Notification
                 ->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />')
                 ->line('');
         }
-        $message->line('Ако информациите не се точни контактирајте не` директно на <a href="mailto:ajdemakedonija@gmail.com">ajdemakedonija@gmail.com</a>');
+        $message->line('Ако информациите не се точни контактирајте не` директно на <a href="mailto:' . config('app.master_admin') . '">' . config('app.master_admin') . '</a>');
 
         return $message;
     }

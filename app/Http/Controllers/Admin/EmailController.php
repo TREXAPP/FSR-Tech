@@ -158,17 +158,6 @@ class EmailController extends Controller
         }
 
         return back()->with('status', "Пораката е успешно пратена!");
-        //
-      //
-      // $listing_offer = $this->create($request->all());
-      // $cso = Auth::user();
-      // $donor = $listing_offer->listing->donor;
-      //
-      // $donor->notify(new CsoToDonorAcceptDonation($listing_offer));
-      // if ($listing_offer->volunteer->email != Auth::user()->email) {
-      //     $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
-      // }
-      // return back()->with('status', "Донацијата е успешно прифатена!");
     }
 
     /**

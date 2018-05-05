@@ -3,6 +3,7 @@
 namespace FSR\Http\Controllers\Cso;
 
 use FSR\Donor;
+use FSR\Admin;
 use FSR\Comment;
 use FSR\Listing;
 use FSR\File;
@@ -15,6 +16,7 @@ use FSR\Notifications\CsoToNewVolunteerChanged;
 use FSR\Notifications\CsoToOldVolunteerChanged;
 use FSR\Notifications\CsoToDonorVolunteerChanged;
 use FSR\Notifications\CsoToVolunteerCancelDonation;
+use FSR\Notifications\CsoToAdminCancelDonation;
 
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
@@ -24,6 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 
 class AcceptedListingsController extends Controller
 {
@@ -194,8 +197,11 @@ class AcceptedListingsController extends Controller
         $volunteer = $listing_offer->volunteer;
         $donor = Donor::find($listing_offer->listing->donor_id);
         $donor->notify(new CsoToDonorCancelDonation($listing_offer));
-        //TODO volunteer notification
         $volunteer->notify(new CsoToVolunteerCancelDonation($listing_offer, $cso, $donor));
+
+        $master_admins = Admin::where('master_admin', 1)->get();
+        Notification::send($master_admins, new CsoToAdminCancelDonation($listing_offer, $cso, $donor));
+
         return back()->with('status', "Донацијата е успешно избришана!");
     }
 
@@ -290,8 +296,10 @@ class AcceptedListingsController extends Controller
 
         //send notification to the donor
         $donor->notify(new CsoToDonorComment($listing_offer, $comment_text, $other_comments));
-        //send to the volunteer
-        $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
+        //send notification to the volunteer
+        if ($cso->email != $volunteer->email) {
+            $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
+        }
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,

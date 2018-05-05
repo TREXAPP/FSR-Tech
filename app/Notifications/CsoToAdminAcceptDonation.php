@@ -3,13 +3,15 @@
 namespace FSR\Notifications;
 
 use FSR\File;
+use FSR\Admin;
+use FSR\Custom\CarbonFix;
 use FSR\ListingOffer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToVolunteerCancelDonation extends Notification
+class CsoToAdminAcceptDonation extends Notification
 {
     use Queueable;
 
@@ -49,18 +51,28 @@ class CsoToVolunteerCancelDonation extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Подигнувањето на донацијата е откажано.')
-                  ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' нема потреба од подигнување на донацијата')
-                  ->line('<br>')
-                  ->line('Информации за донацијата:')
+                  ->subject('Прифатена е донација од ' . $this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name)
+                  ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' прифати донација.')
+                  ->line('')
+                  ->line('Податоци за донацијата:')
                   ->line('Производ: ' . $this->listing_offer->listing->product->name)
-                  ->line('Откажана количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-                  ->line('<br>')
+                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
+                  ->line('Време за подигање од ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_to)->format('H:i'))
+                  ->line('<hr>')
                   ->line('Податоци за донаторот')
                   ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
                   ->line('Организација: ' . $this->donor->organization->name)
+                  ->line('Телефон: ' . $this->donor->phone)
+                  ->line('Емаил: ' . $this->donor->email)
+                  ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
                   ->line('<hr>')
-                  ->line('Ви благодариме што го подржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
+                  ->line('Податоци за примателот')
+                  ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)
+                  ->line('Организација: ' . $this->cso->organization->name)
+                  ->line('Телефон: ' . $this->cso->phone)
+                  ->line('Емаил: ' . $this->cso->email)
+                  ->line('Адреса: ' . $this->cso->address . ' - ' . $this->cso->location->name)
+                  ->line('<hr>');
 
         return $message;
     }

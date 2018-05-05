@@ -28,6 +28,7 @@ class Admin extends Authenticatable
         'first_name',
         'last_name',
         'profile_image_id',
+        'master_admin'
       ];
 
     /**

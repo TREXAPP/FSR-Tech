@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DonorToVolunteerComment extends Notification implements ShouldQueue
+class DonorToAdminComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -58,8 +58,8 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                  ->subject('Додаден е коментар на вашата донација.')
-                  ->line('Донаторот ' . $this->listing_offer->listing->donor->first_name . ' ' . $this->listing_offer->listing->donor->last_name . ' - ' . $this->listing_offer->listing->donor->organization->name . ' остави коментар на вашата донација')
+                  ->subject('Додаден е коментар на донација.')
+                  ->line('Донаторот ' . $this->listing_offer->listing->donor->first_name . ' ' . $this->listing_offer->listing->donor->last_name . ' - ' . $this->listing_offer->listing->donor->organization->name . ' остави коментар на неговата донација')
                   ->line('<div style="margin-bottom: 5px; color: black !important;">' .
                             '<div style="float:left;">' .
                               '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->listing_offer->listing->donor) . '">' .
@@ -78,8 +78,6 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
                             '</div>' .
                           '</div>');
         $count = 1;
-
-        $messages->line('Ве молиме проверете го коментарот во случај да е потребно да се координира подигнувањето на донацијата.');
         if ($this->comments_count > 0) {
             $messages->line('Претходни коментари:');
         }
@@ -100,15 +98,15 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
                                   '<div style="float:left;">' .
                                     '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($user) . '">' .
                                   '</div>' .
-                                  '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
-                                    '<div style="font-size: small; font-weight: bold; margin:5px; color: black !important;">' . //#0084ff
+                                  '<div style="overflow: auto; margin-left: 70px; background-color: ' . (($comment->sender_type == 'admin') ? '#0084ff' : '#ddd') . '; border-radius: 10px; color: black; font-weight: bold;">' .
+                                    '<div style="font-size: small; font-weight: bold; margin:5px;' . (($comment->sender_type == 'admin') ? ' color: white !important;' : ' color: black !important;') . '">' . //#0084ff
                                       $user->first_name . ' ' .
                                       $user->last_name .
                                       (($comment->sender_type == 'admin') ? '' : ' - ' . $user->organization->name) .
                                       ' (' . $type . ')' .
                                     '</div>' .
                                     '<hr style="margin: 0px;">' .
-                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px; color: black !important;">' .
+                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px; ' . (($comment->sender_type == 'admin') ? ' color: white !important;' : ' color: black !important;') . '">' .
                                       $comment->text .
                                     '</div>' .
                                   '</div>' .
@@ -118,7 +116,7 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
         }
         if ($this->comments_count > 3) {
             $comments_left = $this->comments_count-3;
-            $messages->line('<div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div>');
+            $messages->line('<a href="' . route('admin.listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
         }
 
         $messages->line('<hr>');
@@ -133,7 +131,8 @@ class DonorToVolunteerComment extends Notification implements ShouldQueue
         ->line('Емаил: ' . $this->donor->email)
         ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
         ->line('<hr>')
-        ->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
+        ->action('Кон коментарот', route('admin.listing_offer', $this->listing_offer->id) . '#comments');
+
 
         return $messages;
     }
