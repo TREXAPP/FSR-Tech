@@ -17,6 +17,7 @@ use FSR\Notifications\CsoToOldVolunteerChanged;
 use FSR\Notifications\CsoToDonorVolunteerChanged;
 use FSR\Notifications\CsoToVolunteerCancelDonation;
 use FSR\Notifications\CsoToAdminCancelDonation;
+use FSR\Notifications\CsoToAdminComment;
 
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
@@ -299,6 +300,33 @@ class AcceptedListingsController extends Controller
         //send notification to the volunteer
         if ($cso->email != $volunteer->email) {
             $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
+        }
+
+
+        //send to master_admin(s)
+        $master_admins = Admin::where('master_admin', 1)->get();
+        Notification::send($master_admins, new CsoToAdminComment($listing_offer, $comment_text, $other_comments));
+
+        //find all regular admins that commented, and send them all
+        $admin_comments = Comment::where('status', 'active')
+                  ->where('listing_offer_id', $listing_offer_id)
+                  ->where('sender_type', 'admin')
+                  ->get();
+        if ($admin_comments) {
+            $admin_ids=array();
+            $regular_admins = Admin::where('master_admin', 0);
+            foreach ($regular_admins as $admin) {
+                foreach ($admin_comments as $admin_comment) {
+                    if ($admin_comment->user_id == $admin->id) {
+                        if (!in_array($admin->id, $admin_ids)) {
+                            $admin_ids[]=$admin->id;
+                        }
+                    }
+                }
+            }
+            foreach ($admin_ids as $admin_id) {
+                Admin::find($admin_id)->notify(new CsoToAdminComment($listing_offer, $comment_text, $other_comments));
+            }
         }
 
         return Comment::create([

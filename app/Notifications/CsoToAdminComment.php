@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToDonorComment extends Notification implements ShouldQueue
+class CsoToAdminComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -21,6 +21,8 @@ class CsoToDonorComment extends Notification implements ShouldQueue
     private $comment_text;
     private $comments;
     private $comments_count;
+    private $donor;
+    private $cso;
 
     /**
      * Create a new notification instance.
@@ -34,6 +36,8 @@ class CsoToDonorComment extends Notification implements ShouldQueue
         $this->comment_text = $comment_text;
         $this->comments = $comments;
         $this->comments_count = $comments->count();
+        $this->donor = $listing_offer->listing->donor;
+        $this->cso = $listing_offer->cso;
     }
 
     /**
@@ -56,25 +60,25 @@ class CsoToDonorComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                  ->subject('Додаден е коментар на вашата донација.')
-                  ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' остави коментар на вашата донација')
-                  ->line('<div style="margin-bottom: 5px; color: black !important;">' .
-                            '<div style="float:left;">' .
-                              '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->listing_offer->cso) . '">' .
+                ->subject('Додаден е коментар на прифатена донација.')
+                ->line('Примателот ' . $this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' остави коментар на прифатената донација.')
+                ->line('<div style="margin-bottom: 5px; color: black !important;">' .
+                          '<div style="float:left;">' .
+                            '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->listing_offer->cso) . '">' .
+                          '</div>' .
+                          '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
+                            '<div style="font-size: small; font-weight: bold; margin:5px;">' .
+                              $this->listing_offer->cso->first_name . ' ' .
+                              $this->listing_offer->cso->last_name .
+                              ' - ' . $this->listing_offer->cso->organization->name .
+                              ' (примател)' .
                             '</div>' .
-                            '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
-                              '<div style="font-size: small; font-weight: bold; margin:5px;">' .
-                                $this->listing_offer->cso->first_name . ' ' .
-                                $this->listing_offer->cso->last_name .
-                                ' - ' . $this->listing_offer->cso->organization->name .
-                                ' (примател)' .
-                              '</div>' .
-                              '<hr style="margin: 0px;">' .
-                              '<div style="font-size: medium; font-weight: normal !important; margin:5px;">' .
-                                $this->comment_text .
-                              '</div>' .
+                            '<hr style="margin: 0px;">' .
+                            '<div style="font-size: medium; font-weight: normal !important; margin:5px;">' .
+                              $this->comment_text .
                             '</div>' .
-                          '</div>');
+                          '</div>' .
+                        '</div>');
         $count = 1;
 
         if ($this->comments_count > 0) {
@@ -97,15 +101,15 @@ class CsoToDonorComment extends Notification implements ShouldQueue
                                   '<div style="float:left;">' .
                                     '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($user) . '">' .
                                   '</div>' .
-                                  '<div style="overflow: auto; margin-left: 70px; background-color: ' . (($comment->sender_type == 'donor') ? '#0084ff' : '#ddd') . '; border-radius: 10px; color: black; font-weight: bold;">' .
-                                    '<div style="font-size: small; font-weight: bold; margin:5px;' . (($comment->sender_type == 'donor') ? ' color: white !important;' : ' color: black !important;') . '">' . //#0084ff
+                                  '<div style="overflow: auto; margin-left: 70px; background-color: ' . (($comment->sender_type == 'admin') ? '#0084ff' : '#ddd') . '; border-radius: 10px; color: black; font-weight: bold;">' .
+                                    '<div style="font-size: small; font-weight: bold; margin:5px;' . (($comment->sender_type == 'admin') ? ' color: white !important;' : ' color: black !important;') . '">' . //#0084ff
                                       $user->first_name . ' ' .
                                       $user->last_name .
                                       (($comment->sender_type == 'admin') ? '' : ' - ' . $user->organization->name) .
                                       ' (' . $type . ')' .
                                     '</div>' .
                                     '<hr style="margin: 0px;">' .
-                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px;' . (($comment->sender_type == 'donor') ? ' color: white !important;' : ' color: black !important;') . '">' .
+                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px; ' . (($comment->sender_type == 'admin') ? ' color: white !important;' : ' color: black !important;') . '">' .
                                       $comment->text .
                                     '</div>' .
                                   '</div>' .
@@ -115,15 +119,30 @@ class CsoToDonorComment extends Notification implements ShouldQueue
         }
         if ($this->comments_count > 3) {
             $comments_left = $this->comments_count-3;
-            $messages->line('<a href="' . route('donor.single_listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
+            $messages->line('<a href="' . route('admin.listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
         }
 
         $messages->line('<hr>');
         $messages->line('Информации за донацијата:');
         $messages->line('Производ: ' . $this->listing_offer->listing->product->name);
         $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description);
-        $messages->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
-        $messages->action('Кон коментарот', route('donor.single_listing_offer', $this->listing_offer->id) . '#comments');
+        $messages->line('<hr>')
+      ->line('Податоци за донаторот')
+      ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
+      ->line('Организација: ' . $this->donor->organization->name)
+      ->line('Телефон: ' . $this->donor->phone)
+      ->line('Емаил: ' . $this->donor->email)
+      ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+      ->line('<hr>')
+      ->line('Податоци за примателот')
+      ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)
+      ->line('Организација: ' . $this->cso->organization->name)
+      ->line('Телефон: ' . $this->cso->phone)
+      ->line('Емаил: ' . $this->cso->email)
+      ->line('Адреса: ' . $this->cso->address . ' - ' . $this->cso->location->name)
+      ->line('<hr>')
+      ->action('Кон коментарот', route('admin.listing_offer', $this->listing_offer->id) . '#comments');
+
 
         return $messages;
     }

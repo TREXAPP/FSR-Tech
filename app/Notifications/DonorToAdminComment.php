@@ -22,6 +22,7 @@ class DonorToAdminComment extends Notification implements ShouldQueue
     private $comments;
     private $comments_count;
     private $donor;
+    private $cso;
 
     /**
      * Create a new notification instance.
@@ -36,6 +37,7 @@ class DonorToAdminComment extends Notification implements ShouldQueue
         $this->comments = $comments;
         $this->comments_count = $comments->count();
         $this->donor = $listing_offer->listing->donor;
+        $this->cso = $listing_offer->cso;
     }
 
     /**
@@ -130,6 +132,13 @@ class DonorToAdminComment extends Notification implements ShouldQueue
         ->line('Телефон: ' . $this->donor->phone)
         ->line('Емаил: ' . $this->donor->email)
         ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+        ->line('<hr>')
+        ->line('Податоци за примателот')
+        ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)
+        ->line('Организација: ' . $this->cso->organization->name)
+        ->line('Телефон: ' . $this->cso->phone)
+        ->line('Емаил: ' . $this->cso->email)
+        ->line('Адреса: ' . $this->cso->address . ' - ' . $this->cso->location->name)
         ->line('<hr>')
         ->action('Кон коментарот', route('admin.listing_offer', $this->listing_offer->id) . '#comments');
 

@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToDonorComment extends Notification implements ShouldQueue
+class AdminToDonorComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -21,6 +21,7 @@ class CsoToDonorComment extends Notification implements ShouldQueue
     private $comment_text;
     private $comments;
     private $comments_count;
+    private $admin;
 
     /**
      * Create a new notification instance.
@@ -28,12 +29,13 @@ class CsoToDonorComment extends Notification implements ShouldQueue
      * @param string $comment_text
      * @return void
      */
-    public function __construct($listing_offer, string $comment_text, $comments)
+    public function __construct($listing_offer, string $comment_text, $comments, $admin)
     {
         $this->listing_offer = $listing_offer;
         $this->comment_text = $comment_text;
         $this->comments = $comments;
         $this->comments_count = $comments->count();
+        $this->admin = $admin;
     }
 
     /**
@@ -57,17 +59,16 @@ class CsoToDonorComment extends Notification implements ShouldQueue
     {
         $messages = (new MailMessage)
                   ->subject('Додаден е коментар на вашата донација.')
-                  ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' остави коментар на вашата донација')
+                  ->line('Адмнистраторот на СитеСити остави коментар на вашата донација')
                   ->line('<div style="margin-bottom: 5px; color: black !important;">' .
                             '<div style="float:left;">' .
-                              '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->listing_offer->cso) . '">' .
+                              '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->admin) . '">' .
                             '</div>' .
                             '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
                               '<div style="font-size: small; font-weight: bold; margin:5px;">' .
-                                $this->listing_offer->cso->first_name . ' ' .
-                                $this->listing_offer->cso->last_name .
-                                ' - ' . $this->listing_offer->cso->organization->name .
-                                ' (примател)' .
+                                $this->admin->first_name . ' ' .
+                                $this->admin->last_name .
+                                ' (администратор)' .
                               '</div>' .
                               '<hr style="margin: 0px;">' .
                               '<div style="font-size: medium; font-weight: normal !important; margin:5px;">' .

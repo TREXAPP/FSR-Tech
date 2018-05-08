@@ -13,6 +13,9 @@ use FSR\Comment;
 use FSR\Organization;
 use FSR\Custom\Methods;
 use FSR\Notifications\AdminToVolunteerRemoved;
+use FSR\Notifications\AdminToDonorComment;
+use FSR\Notifications\AdminToCsoComment;
+use FSR\Notifications\AdminToVolunteerComment;
 
 use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -104,14 +107,14 @@ class ListingOfferController extends Controller
         $volunteer = Volunteer::find($listing_offer->volunteer_id);
         $comment_text = $data['comment'];
         $cso = $listing_offer->cso;
+        $other_comments = Comment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
 
-        //TODO - DA SE NAPISAT OVIE NOTIFIKACII!!
         //send notification to the donor
-        //$donor->notify(new AdminToDonorComment($listing_offer_id, $data['comment']));
+        $donor->notify(new AdminToDonorComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
         //send notification to the cso
-        //$cso->notify(new AdminToCsoComment($listing_offer_id, $data['comment']));
+        $cso->notify(new AdminToCsoComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
         //send to the volunteer
-        //$volunteer->notify(new AdminToVolunteerComment($listing_offer_id, $comment_text, $cso, $donor));
+        $volunteer->notify(new AdminToVolunteerComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
 
         return Comment::create([
             'listing_offer_id' => $listing_offer_id,

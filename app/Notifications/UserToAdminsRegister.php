@@ -44,11 +44,18 @@ class UserToAdminsRegister extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $type = '';
+        if ($this->user->type() == 'donor') {
+            $type = 'донатор';
+        } elseif ($this->user->type() == 'cso') {
+            $type = 'примател';
+        }
+
         $approve_link = route('admin.approve_users');
         return (new MailMessage)
                     ->subject('Нов член - Потребно е одобрување')
                     ->line('Ве молиме потврдете дека долу наведените информации за најнов член на платформата е точна:')
-                    ->line('Тип на корисник: ' . $this->user->type())
+                    ->line('Тип на корисник: ' . $type)
                     ->line('Име: ' . $this->user->first_name)
                     ->line('Презиме: ' . $this->user->last_name)
                     ->line('Организација: ' . $this->user->organization->name)
