@@ -1,7 +1,7 @@
 <tr>
     <td class="header">
         <a href="{{ $url }}">
-            {{ $slot }}
+            <img width="600" src="{{ url('img/email_header.png') }}">
         </a>
     </td>
 </tr>

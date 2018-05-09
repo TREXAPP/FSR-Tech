@@ -1,7 +1,7 @@
 /* Base */
 
 body, body *:not(html):not(style):not(br):not(tr):not(code) {
-    font-family: Avenir, Helvetica, sans-serif;
+    font-family: "PT Sans", Avenir, Helvetica, sans-serif;
     box-sizing: border-box;
 }
 
@@ -30,7 +30,8 @@ blockquote {
 }
 
 a {
-    color: #3869D4;
+    color: #98cb4f;
+    /* color: #3869D4; */
 }
 
 a img {
@@ -40,9 +41,9 @@ a img {
 /* Typography */
 
 h1 {
-    color: #2F3133;
-    font-size: 19px;
-    font-weight: bold;
+    color: #74787E;
+    font-size: 16px;
+    line-height: 1.5em;
     margin-top: 0;
     text-align: left;
 }
@@ -103,7 +104,7 @@ img {
 /* Header */
 
 .header {
-    padding: 25px 0;
+    padding: 0;
     text-align: center;
 }
 
@@ -133,10 +134,10 @@ img {
     background-color: #FFFFFF;
     margin: 0 auto;
     padding: 0;
-    width: 570px;
+    width: 600px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 570px;
+    -premailer-width: 600px;
 }
 
 /* Subcopy */
@@ -157,10 +158,10 @@ img {
     margin: 0 auto;
     padding: 0;
     text-align: center;
-    width: 570px;
+    width: 600px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 570px;
+    -premailer-width: 600px;
 }
 
 .footer p {
@@ -172,7 +173,7 @@ img {
 /* Tables */
 
 .table table {
-    margin: 30px auto;
+    margin: 0 auto;
     width: 100%;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
@@ -194,7 +195,7 @@ img {
 }
 
 .content-cell {
-    padding: 35px;
+    padding: 35px 0;
 }
 
 /* Buttons */
