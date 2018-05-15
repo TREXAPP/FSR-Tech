@@ -53,7 +53,7 @@ class DonorToCsosAdminNewDonation extends Notification implements ShouldQueue
                     ->line('Производ: ' . $this->listing->product->name)
                     ->line('Количина: ' . $this->listing->quantity . ' ' . $this->listing->quantity_type->description)
                     ->line('Важи од: ' . CarbonFix::parse($this->listing->date_listed)->diffForHumans())
-                    ->line('Истекува за: ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans())
+                    ->line('Преземање за: ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans())
                     ->line('Време за подигнување: од ' . CarbonFix::parse($this->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing->pickup_time_to)->format('H:i'))
                     ->line('Опис: ' . $this->listing->description)
                     ->line('Ако сте заинтересирани да ја подигнете оваа донација кликнете подолу!')

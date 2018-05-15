@@ -27,10 +27,9 @@
 
       <div id="listingbox{{$listing_offer->id}}" name="listingbox{{$listing_offer->id}}"></div>
       <!-- Default box -->
-      <div class="box listing-box listing-box-{{$listing_offer->id}} collaped-box">
+      <div class="box listing-box donor-my-accepted-listings-box listing-box-{{$listing_offer->id}} collaped-box">
         <div class="box-header with-border listing-box-header">
             <div class="listing-image">
-              {{-- <img src="../img/avatar5.png" /> --}}
               @if ($listing_offer->listing->image_id)
                 <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->image_id)->filename)}}" />
               @elseif ($listing_offer->listing->product->food_type->image_id)
@@ -54,7 +53,7 @@
                   <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->listing->pickup_time_to)->format('H:i')}} часот</strong></span>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-12 donor-accepted-header-element">
-                  <span class="col-xs-12">Истекува за:</span>
+                  <span class="col-xs-12">Преземање за:</span>
                   <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                 </div>
               </div>
@@ -63,7 +62,7 @@
         <div class="listing-box-body-wrapper">
           <div class="box-body">
               <div class="panel col-xs-12 text-center">
-                Подигнувач
+                Доставувач
               </div>
               <div class="col-md-4 col-sm-12 volunteer-image-wrapper ">
                 @if ($listing_offer->volunteer->image_id)

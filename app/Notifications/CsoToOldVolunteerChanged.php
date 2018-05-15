@@ -51,7 +51,7 @@ class CsoToOldVolunteerChanged extends Notification
         $message = (new MailMessage)
           ->subject('Имате промени во донацијата за подигнување')
           ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name .
-                  ' го смени подигнувачот на донацијата која што требаше да ја подигнете.')
+                  ' го смени доставувачот на донацијата која што требаше да ја подигнете.')
           ->line('<hr>')
           ->line('Информации за донацијата: ')
           ->line('Производ: ' . $this->listing_offer->listing->product->name)

@@ -52,15 +52,15 @@ class CsoToDonorVolunteerChanged extends Notification implements ShouldQueue
         $message = (new MailMessage)
                     ->subject('Имате промени во вашата донација')
                     ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->volunteer->organization->name .
-                            ' го смени подигнувачот на донацијата.')
-                    ->line('Податоци за новиот подигнувач:')
+                            ' го смени доставувачот на донацијата.')
+                    ->line('Податоци за новиот доставувач:')
                     ->line('Име и презиме: ' .  $this->volunteer->first_name . ' ' . $this->volunteer->last_name)
                     ->line('Телефон: ' .  $this->volunteer->phone)
                     ->line('Емаил: ' .  $this->volunteer->email);
 
         if ($this->listing_offer->volunteer->image_id) {
             $message->line('Слика:');
-            $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
+            $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Доставувач" />');
         }
         $message->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна.');
         $message->action('Кон донацијата', route('donor.single_listing_offer', $this->listing_offer->id));

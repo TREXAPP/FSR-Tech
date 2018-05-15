@@ -29,7 +29,6 @@
       <div class="box-header with-border listing-box-header">
 
         <div class="listing-image">
-          {{-- <img src="../img/avatar5.png" /> --}}
           @if ($listing_offer->listing->image_id)
             <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->image_id)->filename)}}" />
           @elseif ($listing_offer->listing->product->food_type->image_id)
@@ -45,7 +44,7 @@
           </div>
           <div class="header-elements-wrapper">
             {{-- <div class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-xs-12">Истекува за:</span>
+              <span class="col-xs-12">Преземање за:</span>
 
               <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
             </div> --}}
@@ -156,7 +155,7 @@
             </div>
           </div>
           <div class="col-md-6 listing-info-box-inside listing-volunteer ">
-              <span class="col-xs-12">Подигнувач:</span>
+              <span class="col-xs-12">Доставувач:</span>
               {{-- <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span> --}}
             <div class="row">
 
@@ -218,7 +217,7 @@
             <div class="volunteer-info-change-button row">
               <div class="col-xs-12">
                 <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
-                  class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#admin-update-volunteer-popup">Промени подигнувач</button>
+                  class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#admin-update-volunteer-popup">Промени доставувач</button>
               </div>
             </div>
           </div>
@@ -349,7 +348,7 @@
           <input id="post-type" type="hidden" name="post-type" value="update_volunteer">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 id="popup-title" class="modal-title popup-title">Промени го подигнувачот</h4>
+            <h4 id="popup-title" class="modal-title popup-title">Промени го доставувачот</h4>
           </div>
           <div id="update-volunteer-body" class="modal-body update-volunteer-body">
             <!-- Form content-->
@@ -533,14 +532,14 @@
 
             <div id="details-popup-sell-by-date" class="details-popup-sell-by-date popup-element row">
               <div class="details-popup-sell-by-date-label col-xs-6">
-                <span class="pull-right popup-element-label">Рок на важност:</span>
+                <span class="pull-right popup-element-label">Употребливо до:</span>
               </div>
               <div id="details-popup-sell-by-date-value" class="details-popup-sell-by-date-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->sell_by_date)->diffForHumans()}}</div>
             </div>
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Истекува за:</span>
+                <span class="pull-right popup-element-label">Преземање за:</span>
               </div>
               <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</div>
             </div>

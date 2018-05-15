@@ -174,9 +174,9 @@ class ListingOfferController extends Controller
         $listing_offer = ListingOffer::find($listing_offer_id);
         if ($listing_offer->volunteer_id != $data['volunteer']) {
             $listing_offer = $this->update_volunteer($data, $listing_offer);
-            return back()->with('status', "Подигнувачот е променет успешно.");
+            return back()->with('status', "Доставувачот е променет успешно.");
         } else {
-            return back()->with('status', "Подигнувачот НЕ е променет.");
+            return back()->with('status', "Доставувачот НЕ е променет.");
         }
     }
 

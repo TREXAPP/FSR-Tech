@@ -147,7 +147,7 @@
 
 						<!-- sell_by_date -->
 						<div class="form-group{{ $errors->has('sell_by_date') ? ' has-error' : '' }} row">
-							<label for="sell_by_date" class="col-md-2 col-md-offset-2 control-label">Рок на важност на храната</label>
+							<label for="sell_by_date" class="col-md-2 col-md-offset-2 control-label">Употребливо до</label>
 
 							<div class="col-md-6">
 								<input id="sell_by_date" type="date" class="form-control" name="sell_by_date" max="9999-01-01"

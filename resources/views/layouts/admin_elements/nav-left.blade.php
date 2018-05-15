@@ -6,9 +6,9 @@
     <div class="user-panel">
       <div class="pull-left image">
         @if (Auth::user()->profile_image_id == null)
-          <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
+          <img src="{{url('img/admin.png')}}" class="img-rounded" alt="User Image">
         @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-          <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
+          <img src="{{url('img/admin.png')}}" class="img-rounded" alt="User Image">
         @else
           <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
         @endif
@@ -205,7 +205,7 @@
 
       <li class="treeview">
           <a href="#">
-            <i class="fa fa-universal-access"></i> <span>Подигнувачи</span>
+            <i class="fa fa-universal-access"></i> <span>Доставувачи</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

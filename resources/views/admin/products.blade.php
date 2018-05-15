@@ -200,12 +200,12 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Подигнувач</h4>
+						<h4 id="popup-title" class="modal-title popup-title">Нов Доставувач</h4>
 					</div>
 					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
 						<!-- Form content-->
 						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за подигнувачот:
+							Внесете ги податоците за доставувачот:
 						</h5>
 
 						<!-- first name -->

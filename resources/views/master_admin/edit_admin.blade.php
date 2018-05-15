@@ -3,7 +3,7 @@
 <section class="content-header volunteer-content-header">
 	<h1>
 		<i class="fa fa-user-circle"></i>
-		<span>Измени подигнувач</span>
+		<span>Измени доставувач</span>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
@@ -11,7 +11,7 @@
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers">
-				<i class="fa fa-user-circle"></i> Подигнувачи</a>
+				<i class="fa fa-user-circle"></i> Доставувачи</a>
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers/"{{$volunteer->id}}>Измени</a>

@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1><i class="fa fa-plus-circle"></i>
-      Додади нов подигнувач
+      Додади нов доставувач
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
-      <li><a href="/{{Auth::user()->type()}}/new_location"><i class="fa fa-plus-circle"></i> Додади нов подигнувач</a></li>
+      <li><a href="/{{Auth::user()->type()}}/new_location"><i class="fa fa-plus-circle"></i> Додади нов доставувач</a></li>
     </ol>
   </section>
 
@@ -40,7 +40,7 @@
 			<div class="box-body">
 				<div id="new-volunteer-image" class="col-md-4 col-xs-12 new-volunteer-image">
 					<div class="col-xs-12 form-group">
-							<img class="img-rounded" alt="Слика за подигнувач" src="{{url('img/avatar5.png')}}" />
+							<img class="img-rounded" alt="Слика за доставувач" src="{{url('img/avatar5.png')}}" />
 					</div>
 					<div class="col-xs-12 form-group {{ ($errors->has('volunteer-image')) ? ' has-error' : '' }}">
 							<label for="new-volunteer-image">Внеси слика:</label>

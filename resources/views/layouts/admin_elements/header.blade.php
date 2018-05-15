@@ -77,9 +77,9 @@
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             @if (Auth::user()->profile_image_id == null)
-              <img src="{{url('img/avatar5.png')}}" class="user-image" alt="User Image">
+              <img src="{{url('img/admin.png')}}" class="user-image" alt="User Image">
             @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-              <img src="{{url('img/avatar5.png')}}" class="user-image" alt="User Image">
+              <img src="{{url('img/admin.png')}}" class="user-image" alt="User Image">
             @else
               <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="user-image" alt="User Image">
             @endif
@@ -89,9 +89,9 @@
             <!-- User image -->
             <li class="user-header">
               @if (Auth::user()->profile_image_id == null)
-                <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
+                <img src="{{url('img/admin.png')}}" class="img-rounded" alt="User Image">
               @elseif (FSR\File::find(Auth::user()->profile_image_id)->filename == null)
-                <img src="{{url('img/avatar5.png')}}" class="img-rounded" alt="User Image">
+                <img src="{{url('img/admin.png')}}" class="img-rounded" alt="User Image">
               @else
                 <img src="{{FSR\Custom\Methods::getFileUrl(FSR\File::find(Auth::user()->profile_image_id)->filename)}}" class="img-rounded" alt="User Image">
               @endif

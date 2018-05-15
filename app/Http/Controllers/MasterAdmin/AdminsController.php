@@ -94,7 +94,7 @@ class AdminsController extends Controller
     // {
     //     $volunteer = $this->delete($data);
     //     $volunteer->notify(new AdminToVolunteerRemoved($volunteer->organization));
-    //     return back()->with('status', "Подигнувачот е успешно избришан!");
+    //     return back()->with('status', "Доставувачот е успешно избришан!");
     // }
     //
     // /**

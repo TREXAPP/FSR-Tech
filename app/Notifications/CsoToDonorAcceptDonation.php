@@ -53,7 +53,7 @@ class CsoToDonorAcceptDonation extends Notification
                   ->line('Телефон: ' . $this->listing_offer->volunteer->phone);
         if ($this->listing_offer->volunteer->image_id) {
             $message->line('Слика:');
-            $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Подигнувач" />');
+            $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Доставувач" />');
         }
         $message->line('<hr>')
                 ->line('<br>')

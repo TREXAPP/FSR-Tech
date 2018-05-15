@@ -70,11 +70,7 @@
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 
 				<div id="donor-image-preview-{{$donor->id}}" class="donor-image-preview two-col-layout-image-preview">
-					@if ($donor->profile_image_id)
-						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
-					@else
-						<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-					@endif
+					<img class="img-rounded" alt="{{$donor->first_name}}" src="{{Methods::get_user_image_url($donor)}}" />
 				</div>
 				<div class="header-wrapper">
 					<div id="donor-name-{{$donor->id}}" class="donor-name">
@@ -94,14 +90,7 @@
 		<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div id="donor-image-wrapper-{{$donor->id}}" class="donor-image-wrapper two-col-layout-image-wrapper col-md-4">
-
-
-									@if ($donor->profile_image_id)
-										<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($donor->profile_image_id)->filename)}}" />
-									@else
-										<img class="img-rounded" alt="{{$donor->first_name}}" src="{{url('img/avatar5.png')}}" />
-									@endif
-
+					<img class="img-rounded" alt="{{$donor->first_name}}" src="{{Methods::get_user_image_url($donor)}}" />
 				</div>
 
 				<div id="donor-info-wrapper-{{$donor->id}}" class="donor-info-wrapper two-col-layout-info-wrapper col-md-8">

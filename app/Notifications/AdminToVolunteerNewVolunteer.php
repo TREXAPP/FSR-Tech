@@ -46,7 +46,7 @@ class AdminToVolunteerNewVolunteer extends Notification
     {
         $message = (new MailMessage)
                   ->subject('Добредојдовте на платформата')
-                  ->line('Ајде Македонија ве додаде како подигнувач на ' . $this->volunteer->organization->name .
+                  ->line('Ајде Македонија ве додаде како доставувач на ' . $this->volunteer->organization->name .
                         ',  за подигнување и редистрибуција на донациите за вишок храна.')
                   ->line('Ќе добиете е-мајл известување кога ќе бидете одбрани да подигнете донација со детали за предметот и компанијата. ')
                   ->line('Ве молиме потврдете ја точноста на вашите внесени информации. ')
@@ -57,7 +57,7 @@ class AdminToVolunteerNewVolunteer extends Notification
 
         if ($this->volunteer->image_id) {
             $message->line('Слика: ')
-                ->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Подигнувач" />')
+                ->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->volunteer->image_id)->filename) . '" alt="Доставувач" />')
                 ->line('');
         }
         $message->line('Ако информациите не се точни контактирајте не` директно на <a href="mailto:' . config('app.master_admin') . '">' . config('app.master_admin') . '</a>');

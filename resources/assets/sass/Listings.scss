@@ -34,6 +34,7 @@
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px inset;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px inset;
   background: rgba(238, 238, 238, 0.3);
+  color: #222d32;
 }
 
 .listing-image {
@@ -67,6 +68,12 @@
   overflow: auto;
   padding: 0px;
   position: relative;
+}
+
+.listing-box-anchor:active,
+.listing-box-anchor:focus
+ {
+  color: rgb(34, 45, 50);
 }
 
 .quantity-needed-input {
@@ -129,12 +136,12 @@
 }
 
 .cso-accepted-listing-box {
-  background: #b6f7cd;
+  background: #d0e7af;
 }
 
 .cso-active-listing-box {
 /*  background: #ffdede; */
-  background: #cde4f6;
+  background: #98cb4f;
 }
 
 @media screen and (max-width: 981px) {
@@ -152,8 +159,9 @@
   overflow: auto;
 }
 
-.donor-my-active-listings-box {
-  background: #cde4f6;
+.donor-my-active-listings-box,
+.donor-my-accepted-listings-box {
+  background: #e4cccc;
 }
 
 .donor-listing-box-header {
@@ -178,7 +186,8 @@
   margin-top: 15px;
 }
 
-.profile-image img, .volunteer-image img, .edit-layout-image img {
+.profile-image img, .volunteer-image img,
+.edit-layout-image img, .new-volunteer-image img {
   width: 100%;
   max-width: 225px;
 }

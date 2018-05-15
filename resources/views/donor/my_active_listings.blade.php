@@ -41,7 +41,6 @@
             <div class="box-header with-border listing-box-header donor-listing-box-header">
 
                 <div class="listing-image">
-                  {{-- <img src="../img/avatar5.png" /> --}}
                   @if ($active_listing->image_id)
                     <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename)}}" />
                   @elseif ($active_listing->product->food_type->image_id)
@@ -155,7 +154,7 @@
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Истекува за:</span>
+                <span class="pull-right popup-element-label">Преземање за:</span>
               </div>
               <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">
               </div>

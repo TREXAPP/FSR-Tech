@@ -50,8 +50,6 @@
 		<div class="box-header with-border listing-box-header">
 			<a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
 				<div class="listing-image">
-					{{--
-					<img src="../img/avatar5.png" /> --}}
 					@if ($active_listing->image_id)
 					{{-- <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="../../storage{{config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename}}" --}}
 					<img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename)}}"
@@ -67,7 +65,7 @@
 					</div>
 					<div class="header-elements-wrapper">
 						<div class="listing-info-box col-md-3 col-sm-5 col-xs-12">
-							<span class="col-xs-12">Истекува за:</span>
+							<span class="col-xs-12">Преземање за:</span>
 
 							<span class="col-xs-12" id="expires-in-{{$active_listing->id}}">
 								<strong>{{Carbon::parse($active_listing->date_expires)->diffForHumans()}}</strong>
@@ -150,7 +148,7 @@
 						</div>
 					</div>
 					<div id="listing-pickup-volunteer-{{$active_listing->id}}" class="col-md-6 col-xs-12 listing-pickup-volunteer">
-						<div class="panel" style="text-align: center;">Подигнувач</div>
+						<div class="panel" style="text-align: center;">Доставувач</div>
 						<div id="pickup-volunteer-wrapper-{{$active_listing->id}}" class="form-group pickup-volunteer-wrapper {{ ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
@@ -170,7 +168,7 @@
 							</span>
 							<span class="col-sm-6">
 								<button id="add-volunteer-button-{{$active_listing->id}}" type="button" name="add-volunteer-button-{{$active_listing->id}}"
-								 class="btn btn-success add-volunteer-button" data-toggle="modal" data-target="#add-volunteer-popup">Додади подигнувач</button>
+								 class="btn btn-success add-volunteer-button" data-toggle="modal" data-target="#add-volunteer-popup">Додади доставувач</button>
 							</span>
 							@if ((old('listing_id') == $active_listing->id) && ($errors->has('volunteer')))
 							<span class="help-block listing-input-help-block">
@@ -188,8 +186,8 @@
 											src="{{ ((old('listing_id') == $active_listing->id) && (old('volunteer')))
 												? (($volunteers->find(old('volunteer'))->image_id)
 														? url('storage' . config('app.upload_path') . '/' . FSR\File::find($volunteers->find(old('volunteer'))->image_id)->filename)
-														: url('img/avatar5.png'))
-												: url('img/avatar5.png') }}" />
+														: url('img/volunteer.png'))
+												: url('img/volunteer.png') }}" />
 							</div>
 
 							<div id="volunteer-info-wrapper-{{$active_listing->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
@@ -282,7 +280,7 @@
 
 						<div id="popup-expires-in" class="popup-expires-in popup-element row">
 							<div class="popup-expires-in-label col-xs-6">
-								<span class="pull-right popup-element-label">Истекува за:</span>
+								<span class="pull-right popup-element-label">Преземање за:</span>
 							</div>
 							<div id="popup-expires-in-value" class="popup-expires-in-value popup-element-value col-xs-6">
 							</div>
@@ -306,7 +304,7 @@
 
 						<div id="popup-volunteer" class="popup-volunteer popup-element row">
 							<div class="popup-volunteer-label col-xs-6">
-								<span class="pull-right popup-element-label">Подигнувач:</span>
+								<span class="pull-right popup-element-label">Доставувач:</span>
 							</div>
 							<div id="popup-volunteer-value" class="popup-volunteer-value popup-element-value col-xs-6">
 							</div>
@@ -342,12 +340,12 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Подигнувач</h4>
+						<h4 id="popup-title" class="modal-title popup-title">Нов Доставувач</h4>
 					</div>
 					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
 						<!-- Form content-->
 						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за подигнувачот:
+							Внесете ги податоците за доставувачот:
 						</h5>
 
 						<!-- first name -->

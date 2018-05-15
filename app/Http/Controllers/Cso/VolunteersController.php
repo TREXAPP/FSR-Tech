@@ -74,7 +74,7 @@ class VolunteersController extends Controller
     {
         $volunteer = $this->delete($request->all());
         $volunteer->notify(new CsoToVolunteerRemoved($volunteer->organization));
-        return back()->with('status', "Подигнувачот е успешно избришан!");
+        return back()->with('status', "Доставувачот е успешно избришан!");
     }
 
     /**
@@ -123,7 +123,7 @@ class VolunteersController extends Controller
 
         $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer, $cso));
 
-        return redirect(route('cso.volunteers'))->with('status', "Подигнувачот е внесен успешно!");
+        return redirect(route('cso.volunteers'))->with('status', "Доставувачот е внесен успешно!");
     }
 
     /**

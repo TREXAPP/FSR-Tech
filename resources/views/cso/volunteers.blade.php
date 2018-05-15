@@ -3,12 +3,12 @@
 <section class="content-header volunteer-content-header">
 	<h1>
 		<i class="fa fa-universal-access"></i>
-		<span>Подигнувачи во {{Auth::user()->organization->name}}</span>
+		<span>Доставувачи во {{Auth::user()->organization->name}}</span>
 		@if ($volunteers->count() > 0)
 		<span> ({{$volunteers->count()}})</span>
 		@endif
 		<a href="{{route('cso.new_volunteer')}}" id="new-volunteer-button" name="new-volunteer-button"
-		class="btn btn-success new-volunteer-button"><i class="fa fa-plus"></i>Додади нов подигнувач</a>
+		class="btn btn-success new-volunteer-button"><i class="fa fa-plus"></i>Додади нов доставувач</a>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
@@ -16,7 +16,7 @@
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/volunteers">
-				<i class="fa fa-universal-access"></i> Подигнувачи</a>
+				<i class="fa fa-universal-access"></i> Доставувачи</a>
 		</li>
 	</ol>
 </section>
@@ -115,7 +115,7 @@
 						<a href="{{url('cso/volunteers/' . $volunteer->id)}}" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
 							class="btn btn-success edit-volunteer-button">Измени ги податоците</a>
 							<button id="delete-volunteer-button-{{ $volunteer->id }}" type="submit" data-toggle="modal" data-target="#delete-volunteer-popup"
-								name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го подигнувачот</button>
+								name="delete-volunteer-button" class="btn btn-danger delete-volunteer-button" >Избриши го доставувачот</button>
 							</div>
 			</div>
 			@endif
@@ -139,12 +139,12 @@
 				{{ csrf_field() }}
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="popup-title" class="modal-title popup-title">Избриши го подигнувачот</h4>
+					<h4 id="popup-title" class="modal-title popup-title">Избриши го доставувачот</h4>
 				</div>
 				<div id="delete-volunteer-body" class="modal-body delete-volunteer-body">
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
-						Дали сте сигурни дека сакате да го избришите подигнувачот?
+						Дали сте сигурни дека сакате да го избришите доставувачот?
 					</h5>
 				</div>
 				<div class="modal-footer">
@@ -167,12 +167,12 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 id="popup-title" class="modal-title popup-title">Нов Подигнувач</h4>
+						<h4 id="popup-title" class="modal-title popup-title">Нов Доставувач</h4>
 					</div>
 					<div id="add-volunteer-body" class="modal-body add-volunteer-body">
 						<!-- Form content-->
 						<h5 id="popup-info" class="popup-info row italic">
-							Внесете ги податоците за подигнувачот:
+							Внесете ги податоците за доставувачот:
 						</h5>
 
 						<!-- first name -->

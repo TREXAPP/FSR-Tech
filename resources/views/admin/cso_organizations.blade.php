@@ -55,7 +55,7 @@
 						<span class="organization-listing-title two-col-layout-listing-title">{{$organization->name}}</span>
 					</div>
 					<div id="organization-users-no-{{$organization->id}}" class="organization-users-no">
-						<span class="organization-listing-subtitle two-col-layout-listing-subtitle"><span id="users-no-{{$organization->id}}">{{$organization->csos->where('status','active')->count()}}</span> корисници, <span id="volunteers-no-{{$organization->id}}">{{$organization->volunteers->where('is_user','0')->where('status','active')->count()}}</span> подигнувачи</span>
+						<span class="organization-listing-subtitle two-col-layout-listing-subtitle"><span id="users-no-{{$organization->id}}">{{$organization->csos->where('status','active')->count()}}</span> корисници, <span id="volunteers-no-{{$organization->id}}">{{$organization->volunteers->where('is_user','0')->where('status','active')->count()}}</span> доставувачи</span>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
@@ -149,7 +149,7 @@
 					<!-- Form content-->
 					<h5 id="popup-info" class="popup-info row italic">
 						<div>Дали сте сигурни дека сакате да го избришите организацијата?</div>
-						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници и <span id="delete-popup-volunteers-no"></span> подигнувачи, како и сите нивни прифатени донации ќе бидат исто така избришани!</div>
+						<div>ВНИМАНИЕ: <span id="delete-popup-users-no"></span> корисници и <span id="delete-popup-volunteers-no"></span> доставувачи, како и сите нивни прифатени донации ќе бидат исто така избришани!</div>
 					</h5>
 				</div>
 				<div class="modal-footer">

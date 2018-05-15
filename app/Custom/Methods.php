@@ -155,7 +155,6 @@ class Methods
         }
     }
 
-
     /**
      * Get image url for the user display
      *
@@ -172,6 +171,11 @@ class Methods
             if ($user->organization->image_id) {
                 return Methods::getFileUrl(File::find($user->organization->image_id)->filename);
             } else {
+                if ($user->type() == 'cso') {
+                    return url('img/cso.png');
+                } elseif ($user->type() == 'donor') {
+                    return url('img/donor.png');
+                }
                 return url('img/avatar5.png');
             }
         }
@@ -183,14 +187,17 @@ class Methods
      * @param Volunteer $volunteer
      * @return string
      */
-    public static function get_volunteer_image_url($volunteer)
+    public static function get_volunteer_image_url($volunteer = null)
     {
+        if (!$volunteer) {
+            return url('img/volunteer.png');
+        }
         if ($volunteer->image_id) {
             return Methods::getFileUrl(File::find($volunteer->image_id)->filename);
         } elseif ($volunteer->organization->image_id) {
             return Methods::getFileUrl(File::find($volunteer->organization->image_id)->filename);
         } else {
-            return url('img/avatar5.png');
+            return url('img/volunteer.png');
         }
     }
 
@@ -207,7 +214,7 @@ class Methods
         } elseif ($donor->organization->image_id) {
             return Methods::getFileUrl(File::find($donor->organization->image_id)->filename);
         } else {
-            return url('img/avatar5.png');
+            return url('img/donor.png');
         }
     }
 
@@ -224,7 +231,7 @@ class Methods
         } elseif ($cso->organization->image_id) {
             return Methods::getFileUrl(File::find($cso->organization->image_id)->filename);
         } else {
-            return url('img/avatar5.png');
+            return url('img/cso.png');
         }
     }
 
