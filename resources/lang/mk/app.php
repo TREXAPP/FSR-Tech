@@ -3,7 +3,7 @@
 return [
 //TODO - check if some are missing
   'toggle' => 'Промени Навигација',
-  'login' => 'Логирај се',
+  'login' => 'Најави се',
   'register' => 'Регистрирај се',
 
 

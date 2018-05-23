@@ -1,0 +1,228 @@
+.home-body {
+  background: #e0e9d2;
+}
+
+.home-body .top-bar {
+  height: 40px;
+  background: #98cb4f;
+}
+
+.home-body .top-bar-elements {
+  margin-top: 7px;
+}
+
+.home-body .top-bar-element {
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.home-body .top-bar-element i {
+  margin-right: 5px;
+}
+
+.home-body .top-bar-element a,
+.home-body .top-bar-element
+ {
+  color: white;
+  font-size: 16px;
+}
+
+.home-body .top-bar-element:hover,
+.home-body .top-bar-element:active
+ {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 590px) {
+  .top-bar-contact-email,
+  .top-bar-contact-phone {
+    display: none;
+  }
+}
+
+.home-body .home-logo img {
+  width: 250px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.home-body .navbar .navbar-collapse {
+  text-align: center;
+}
+
+.home-body .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+  border-top: 3px solid #98cb4f;
+  border-bottom: 3px solid #98cb4f;
+}
+
+.home-body .navbar-inverse {
+  background-color: initial;
+  border-bottom: 0;
+}
+
+.home-body .navbar-inverse ul li a {
+  color: #6d6e71;
+}
+
+.home-body .navbar-inverse ul li a:hover,
+.home-body .navbar-inverse ul li a:active
+ {
+  color: #98cb4f;
+  font-weight: bold;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+  background-color: #98cb4f;
+}
+
+.home-body .navbar-collapse.collapse.in {
+  border-top: 0;
+}
+
+.home-body .navbar-static-top button {
+  background-color: #98cb4f;
+  border: 0;
+}
+.home-body .image-wrapper img {
+  width: 100%;
+}
+
+.home-body .secondary-images {
+  background-color: #98cb4f;
+}
+
+.home-body .secondary-images div {
+  padding: 20px;
+  background-color: #98cb4f;
+  border: 0;
+}
+
+/* **** Circle *** */
+.circle-container {
+    text-align: center;
+    vertical-align: middle;
+}
+.circle {
+    border-radius: 165px;
+    height: 165px;
+    font-weight: bold;
+    width: 165px;
+    display: table;
+    margin: 20px auto;
+}
+.circle p {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.circle-red {
+  color: white;
+  background: #ee2e30;
+}
+
+.circle-green {
+  color: white;
+  background: #98cb4f;
+}
+
+.circle-white {
+  color: #98cb4f;
+  background: white;
+}
+
+/* **** Circle end *** */
+
+
+
+.home-body .text-headline {
+    font-size: 36px;
+    text-align: center;
+    color: #98cb4f;
+    font-weight: bold;
+    margin-top: 60px;
+  }
+
+.home-body .text-body {
+    font-size: 16px;
+    text-align: center;
+    color: #6d6e71;
+    font-weight: bold;
+  }
+
+.home-body .bottom-panel {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top: 3px solid #98cb4f;
+    border-bottom: 3px solid #98cb4f;
+  }
+
+  .home-body .footer-logo img {
+      width: 100%;
+  }
+
+  .home-body .social-right {
+    margin-top: 50px;
+  }
+
+  .home-body .footer-logo.social-fb,
+  .home-body .logos-left {
+      margin-bottom: 20px;
+    }
+  /*
+
+.home-body .footer-logo {
+    height:80px;
+  }
+
+.home-body .logos-left {
+    margin-bottom: 20px;
+  }
+
+.home-body .footer-logo img {
+    height: 100%;
+    max-width: 100%;
+  }
+
+.home-body .footer-logo.logo-swiss img {
+    height: 80%;
+  }
+
+.home-body .footer-logo.logo-peacecorps img,
+.home-body .footer-logo.logo-usaid img
+   {
+    height: 90%;
+  }
+
+.home-body .social-right img {
+    height: 50%;
+    margin-top: 15px;
+  }
+*/
+.home-body .login-dropdown-menu {
+  position: absolute;
+  right: 0;
+  left: auto;
+  z-index: 1001;
+}
+
+.home-body .login-dropdown-menu,
+.home-body .login-dropdown-menu .checkbox
+ {
+  color: #636b6f;
+}
+.home-body .login-dropdown-menu a
+ {
+  color: #3097d1;
+}
+
+.home-body .login-submit-group {
+  margin-bottom: 0;
+}
+
+.home-body .login-dropdown-form {
+  padding: 10px;
+}

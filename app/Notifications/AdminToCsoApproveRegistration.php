@@ -51,7 +51,7 @@ class AdminToCsoApproveRegistration extends Notification
 
         if ($this->user->email_confirmed) {
             $message->line('Kликнeте тука за да ја прифатите Вашата прва донација на храна')
-                            ->action('Логирај се', route('home'));
+                            ->action('Најави се', route('home'));
         } else {
             $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')
                             ->action('Активирај емаил', $confirm_link);

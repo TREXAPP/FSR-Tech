@@ -55,7 +55,7 @@ class AdminToUserApproveRegistration extends Notification
             } elseif ($this->user->type() == 'donor') {
                 $message->line('Кликните подолу за да ја внесете вашата прва донација');
             }
-            $message->action('Логирај се', route('home'));
+            $message->action('Најави се', route('home'));
         } else {
             $message->line('Вашиот емаил се уште не е активиран. Кликнете подолу за активација:')
                             ->action('Активирај емаил', $confirm_link);
