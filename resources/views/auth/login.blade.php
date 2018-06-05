@@ -134,6 +134,7 @@
         </div>
     </div>
 </div> --}}
+
 <div class="top-bar">
   <div class="top-bar-elements pull-right">
     <div class="top-bar-contact-email top-bar-element">
@@ -150,7 +151,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-user"></i>Најави се
         </a>
-      <ul class="dropdown-menu login-dropdown-menu">
+        <ul class="dropdown-menu login-dropdown-menu">
         <form class="form-horizontal login-dropdown-form" method="POST" action="{{ route('login') }}">
             {{ csrf_field() }}
 
@@ -207,6 +208,25 @@
       </ul>
     </div>
   </div>
+</div>
+<div class="errors">
+  @if (!$errors->isEmpty())
+    @foreach ($errors->all() as $error)
+      <div class="alert alert-danger">
+        {{$error}}
+      </div>
+    @endforeach
+  @endif
+  @if (session('status'))
+  <div class="alert alert-success">
+    {{ session('status') }}
+  </div>
+  @endif
+  @if (session('status_error'))
+  <div class="alert alert-danger">
+    {{ session('status_error') }}
+  </div>
+  @endif
 </div>
 <div class="home-logo">
   <img class="center-block" src="{{ url('img/logo.png')}}" >

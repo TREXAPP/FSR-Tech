@@ -17,7 +17,7 @@
       | for that listing cannot be deleted anymore.
       |
       */
-    'prevent_listing_delete_time' => '12',
+    'prevent_listing_delete_time' => '6',
       /*
       | How many comments should be shown in the cso/active_listings page
       | If more than this number of comments exist, a link will be shown below

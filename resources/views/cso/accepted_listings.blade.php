@@ -301,7 +301,7 @@
                 <hr>
                 @if (Carbon::parse($listing_offer->listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
                   <button type="button" title="Прифатената донација не може да биде откажана бидејќи изминува наскоро!" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
-                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup" disabled>Откажи ја донацијата</button>
+                            class="btn btn-danger delete-offer-button pull-right cancel-disabled" data-toggle="modal" data-target="#delete-not-allowed-popup">Донацијата не може да биде откажана</button>
                 @else
                   <button type="button" title="Откажи ја донацијата" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
                             class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup">Откажи ја донацијата</button>
@@ -377,6 +377,33 @@
           </div>
           <div class="modal-footer">
             <input type="submit" name="delete-offer-popup" class="btn btn-danger" value="Откажи ја донацијата" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete offer Not Allowed Modal  -->
+  <div id="delete-not-allowed-popup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form id="delete-not-allowed-form" class="delete-not-allowed-form" action="{{ route('cso.accepted_listings') }}" method="post">
+          {{ csrf_field() }}
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 id="popup-title" class="modal-title popup-title">Донацијата не може да биде откажана</h4>
+          </div>
+          <div id="delete-not-allowed-body" class="modal-body delete-not-allowed-body">
+            <!-- Form content-->
+            <h5 id="popup-info" class="popup-info row italic">
+              Донацијата не може да биде откажана бидејќи истекува за помалку од {{config('constants.prevent_listing_delete_time')}} часа!<br>
+              Доколку сепак навистина морате да ја откажете, контактирајте го администраторот.
+            </h5>
+          </div>
+          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
           </div>
         </form>

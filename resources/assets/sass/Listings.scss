@@ -242,6 +242,14 @@
   background: #ddd;
 }
 
+.cancel-disabled {
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
 .comments-wrapper {
   overflow: auto;
 }

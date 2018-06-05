@@ -41,7 +41,8 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-    protected $redirectTo = '/login';
+    protected $redirectTo = '/home';
+
     /**
      * Show the application registration form.
      *
@@ -87,6 +88,18 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect(route('login'))->with('status', 'Успешно се регистриравте! За да можете да ја користите платформата СитеСити, потребно е да го потврдите Вашиот емаил (со клик на линкот за активација што Ви е пратен предмалку). Исто така, Вашиот профил треба да биде одобрен од администраторот, за што ќе бидете дополнително известени по емаил.');
     }
 
 
@@ -159,7 +172,8 @@ class RegisterController extends Controller
     {
         switch ($data['type']) {
           case 'donor':
-          $redirectTo = '/donor/home';
+          //$redirectTo = '/donor/home';
+          $redirectTo = route('login');
           return  Donor::create([
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
@@ -176,7 +190,8 @@ class RegisterController extends Controller
 
           break;
           case 'cso':
-          $redirectTo = '/cso/home';
+          //$redirectTo = '/cso/home';
+          $redirectTo = route('login');
           $cso = Cso::create([
               'email' => $data['email'],
               'password' => bcrypt($data['password']),

@@ -27,7 +27,9 @@
 	<div class="alert alert-success">
 		{{ session('status') }}
 	</div>
-	@endif @if ($errors->any())
+
+	@endif
+	@if ($errors->any())
 	<div class="alert alert-danger">
 		Донацијата не беше прифатена успешно. Корегирајте ги грешките и обидете се повторно
 		<a href="javascript:document.getElementById('listingbox{{ old('listing_id') }}').scrollIntoView();">
@@ -104,7 +106,7 @@
 			<div class="listing-box-body-wrapper">
 			<div class="box-body">
 				<div class="row">
-					<div class="listing-info-box col-md-4 col-sm-6 listing-pick-up-time ">
+					<div class="listing-info-box col-md-3 col-sm-6 listing-pick-up-time ">
 						<span class="col-xs-12">Време за подигнување:</span>
 						<span class="col-xs-12" id="pickup-time-{{$active_listing->id}}">
 							<strong>од {{Carbon::parse($active_listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($active_listing->pickup_time_to)->format('H:i')}}
@@ -118,13 +120,17 @@
 							<strong>{{Carbon::parse($active_listing->sell_by_date)->format('d.m.Y')}}</strong>
 						</span>
 					</div>
-					<div class="listing-info-box col-md-5 col-sm-12 listing-description">
+					<div class="listing-info-box col-md-3 col-sm-12 listing-description">
 						@if ($active_listing->description)
 						<span class="col-xs-12">Опис:</span>
 						<span class="col-xs-12" id="description-{{$active_listing->id}}">
 							<strong>{{$active_listing->description}}</strong>
 						</span>
 						@endif
+					</div>
+					<div class="listing-info-box col-md-3 col-sm-12 listing-donor-info-button">
+						<button data-toggle="modal" data-target="#donor-details-popup" id="donor-details-{{$active_listing->id}}"
+						 			type="button" class="btn btn-success donor-details" name="button">Информации за донаторот</button>
 					</div>
 				</div>
 				<hr>
@@ -251,7 +257,14 @@
 
 
 
-	@endif @endforeach
+	@endif
+	<div id="hidden-first-name-{{$active_listing->id}}" class="hidden-first-name hidden">{{$active_listing->donor->first_name}}</div>
+	<div id="hidden-last-name-{{$active_listing->id}}" class="hidden-last-name hidden">{{$active_listing->donor->last_name}}</div>
+	<div id="hidden-organization-{{$active_listing->id}}" class="hidden-organization hidden">{{$active_listing->donor->organization->name}}</div>
+	<div id="hidden-phone-{{$active_listing->id}}" class="hidden-phone hidden">{{$active_listing->donor->phone}}</div>
+	<div id="hidden-address-{{$active_listing->id}}" class="hidden-address hidden">{{$active_listing->donor->address}}</div>
+
+@endforeach
 
 	<!-- Confirm listing Modal -->
 	<div id="confirm-listing-popup" class="modal fade" role="dialog">
@@ -418,6 +431,71 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Donor details Modal -->
+	<div id="donor-details-popup" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 id="details-popup-title" class="modal-title popup-title details-popup-title">Информации за донаторот</h4>
+					</div>
+					<div id="donor-info-body" class="modal-body donor-info-body">
+						<!-- Form content-->
+						{{-- <h5 id="popup-info" class="popup-info row italic">
+						</h5> --}}
+						<div id="details-popup-first-name" class="details-popup-first-name popup-element row">
+							<div class="details-popup-first-name-label col-xs-6">
+								<span class="pull-right popup-element-label">Име:</span>
+							</div>
+							<div id="details-popup-first-name-value" class="details-popup-first-name popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="details-popup-last-name" class="details-popup-last-name popup-element row">
+							<div class="details-popup-last-name-label col-xs-6">
+								<span class="pull-right popup-element-label">Презиме:</span>
+							</div>
+							<div id="details-popup-last-name-value" class="details-popup-pickup-last-name popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="details-popup-organization" class="details-popup-organization popup-element row">
+							<div class="details-popup-organization-label col-xs-6">
+								<span class="pull-right popup-element-label">Организација:</span>
+							</div>
+							<div id="details-popup-organization-value" class="details-popup-organization popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="details-popup-phone" class="details-popup-phone popup-element row">
+							<div class="details-popup-phone-label col-xs-6">
+								<span class="pull-right popup-element-label">Телефон:</span>
+							</div>
+							<div id="details-popup-phone-value" class="details-popup-phone popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="details-popup-address" class="details-popup-address popup-element row">
+							<div class="details-popup-address-label col-xs-6">
+								<span class="pull-right popup-element-label">Адреса:</span>
+							</div>
+							<div id="details-popup-address-value" class="details-popup-address popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<h5>
+						</h5>
+					<div class="modal-footer">
+						{{-- <input type="submit" name="submit-listing-popup" class="btn btn-primary" value="Прифати" /> --}}
+						<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 </section>
 <!-- /.content -->

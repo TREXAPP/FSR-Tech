@@ -32160,6 +32160,22 @@ $("#add-volunteer-form").submit(function (e) {
   });
 });
 
+$(".donor-details").on('click', function () {
+  var listing_id = this.id.replace("donor-details-", "");
+
+  var first_name = $('#hidden-first-name-' + listing_id).text();
+  var last_name = $('#hidden-last-name-' + listing_id).text();
+  var organization = $('#hidden-organization-' + listing_id).text();
+  var phone = $('#hidden-phone-' + listing_id).text();
+  var address = $('#hidden-address-' + listing_id).text();
+
+  $('#details-popup-first-name-value').text(first_name);
+  $('#details-popup-last-name-value').text(last_name);
+  $('#details-popup-organization-value').text(organization);
+  $('#details-popup-phone-value').text(phone);
+  $('#details-popup-address-value').text(address);
+});
+
 /***/ }),
 /* 37 */
 /***/ (function(module, exports) {

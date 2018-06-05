@@ -67,13 +67,12 @@
       @endif
 
 
-      <li class="header">ИЗВЕСТУВАЊА</li>
+      <li class="header">ОПЦИИ</li>
 
-      <li class="inactive-menu">
+      {{-- <li class="inactive-menu">
         <a href="#">
           <i class="fa fa-commenting"></i> <span>Пораки</span>
           <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-green">4</small> --}}
           </span>
         </a>
       </li>
@@ -82,10 +81,9 @@
         <a href="#">
           <i class="fa fa-bell"></i> <span>Нови известувања</span>
           <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-orange">10</small> --}}
           </span>
         </a>
-      </li>
+      </li> --}}
 
       @if (Auth::user()->type() == 'cso')
         <li class="treeview">

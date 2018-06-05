@@ -14,6 +14,9 @@
 </head>
 <body class="home-body">
     <div id="app">
+
+
+
         @yield('content')
     </div>
 

@@ -52,10 +52,17 @@ class DonorToCsosAdminNewDonation extends Notification implements ShouldQueue
                           ' само што ја додаде следнава донација:')
                     ->line('Производ: ' . $this->listing->product->name)
                     ->line('Количина: ' . $this->listing->quantity . ' ' . $this->listing->quantity_type->description)
-                    ->line('Важи од: ' . CarbonFix::parse($this->listing->date_listed)->diffForHumans())
+                    ->line('Важи од: ' . CarbonFix::parse($this->listing->pickup_time_from)->format('d.m.Y H:i') . ' часот')
                     ->line('Преземање за: ' . CarbonFix::parse($this->listing->date_expires)->diffForHumans())
                     ->line('Време за подигнување: од ' . CarbonFix::parse($this->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing->pickup_time_to)->format('H:i'))
                     ->line('Опис: ' . $this->listing->description)
+                    ->line('<hr>')
+                    ->line('Информации за донаторот:')
+                    ->line('Име и презиме: ' . $this->listing->donor->first_name . ' ' . $this->listing->donor->last_name)
+                    ->line('Организација: ' . $this->listing->donor->organization->name)
+                    ->line('Телефон: ' . $this->listing->donor->phone)
+                    ->line('Адреса: ' . $this->listing->donor->address)
+                    ->line('<hr>')
                     ->line('Ако сте заинтересирани да ја подигнете оваа донација кликнете подолу!')
                     ->action('Прифати ја донацијата', url('/cso/active_listings/'));
     }
