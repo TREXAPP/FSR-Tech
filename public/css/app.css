@@ -34,7 +34,7 @@
   text-decoration: none;
 }
 
-@media screen and (max-width: 590px) {
+@media screen and (max-width: 632px) {
   .top-bar-contact-email,
   .top-bar-contact-phone {
     display: none;
@@ -225,6 +225,24 @@
 
 .home-body .login-dropdown-form {
   padding: 10px;
+}
+
+.top-bar-logo img {
+  width: 40px;
+  margin-left: 5px;
+}
+
+.home-alert {
+  margin: 20px;
+}
+
+/*** other pages ***/
+
+.register-container,
+.email-container,
+.email-confirm-container,
+.reset-container {
+  margin-top: 20px;
 }
 /*
  * Skin: Green

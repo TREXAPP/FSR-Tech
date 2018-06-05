@@ -1,18 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.home')
 
 @section('content')
-<div class="container">
+<div class="container email-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">@lang('passwords.reset_password')</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+                    {{-- @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
-                    @endif
+                    @endif --}}
 
                     <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}

@@ -34,7 +34,7 @@
   text-decoration: none;
 }
 
-@media screen and (max-width: 590px) {
+@media screen and (max-width: 632px) {
   .top-bar-contact-email,
   .top-bar-contact-phone {
     display: none;
@@ -160,48 +160,19 @@
     border-bottom: 3px solid #98cb4f;
   }
 
-  .home-body .footer-logo img {
-      width: 100%;
-  }
+.home-body .footer-logo img {
+    width: 100%;
+}
 
-  .home-body .social-right {
-    margin-top: 50px;
-  }
+.home-body .social-right {
+  margin-top: 50px;
+}
 
-  .home-body .footer-logo.social-fb,
-  .home-body .logos-left {
-      margin-bottom: 20px;
-    }
-  /*
-
-.home-body .footer-logo {
-    height:80px;
-  }
-
+.home-body .footer-logo.social-fb,
 .home-body .logos-left {
     margin-bottom: 20px;
   }
 
-.home-body .footer-logo img {
-    height: 100%;
-    max-width: 100%;
-  }
-
-.home-body .footer-logo.logo-swiss img {
-    height: 80%;
-  }
-
-.home-body .footer-logo.logo-peacecorps img,
-.home-body .footer-logo.logo-usaid img
-   {
-    height: 90%;
-  }
-
-.home-body .social-right img {
-    height: 50%;
-    margin-top: 15px;
-  }
-*/
 .home-body .login-dropdown-menu {
   position: absolute;
   right: 0;
@@ -225,4 +196,22 @@
 
 .home-body .login-dropdown-form {
   padding: 10px;
+}
+
+.top-bar-logo img {
+  width: 40px;
+  margin-left: 5px;
+}
+
+.home-alert {
+  margin: 20px;
+}
+
+/*** other pages ***/
+
+.register-container,
+.email-container,
+.email-confirm-container,
+.reset-container {
+  margin-top: 20px;
 }

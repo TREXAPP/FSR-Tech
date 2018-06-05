@@ -1,18 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.home')
 
 @section('content')
-<div class="container">
+<div class="container email-confirm-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Потврда на емаил</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
+                    {{-- @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
