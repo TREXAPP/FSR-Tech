@@ -99,6 +99,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        Methods::log_event('regster', $user->id, $user->type());
         return redirect(route('login'))->with('status', 'Успешно се регистриравте! За да можете да ја користите платформата СитеСити, потребно е да го потврдите Вашиот емаил (со клик на линкот за активација што Ви е пратен предмалку). Исто така, Вашиот профил треба да биде одобрен од администраторот, за што ќе бидете дополнително известени по емаил.');
     }
 

@@ -60,6 +60,7 @@ class NewVolunteerController extends Controller
         $file_id = $this->new_handle_upload($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
         if ($volunteer) {
+            Methods::log_event('new_volunteer', Auth::user()->id, 'admin', 'volunteer id: ' . $volunteer->id);
             $volunteer->notify(new AdminToVolunteerNewVolunteer($volunteer));
             return back()->with('status', "Доставувачот е додаден успешно!");
         } else {

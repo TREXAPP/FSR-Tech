@@ -120,7 +120,7 @@ class VolunteersController extends Controller
 
         $file_id = $this->new_handle_upload($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
-
+        Methods::log_event('new_volunteer', Auth::user()->id, 'cso', 'volunteer id: ' . $volunteer->id);
         $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer, $cso));
 
         return redirect(route('cso.volunteers'))->with('status', "Доставувачот е внесен успешно!");

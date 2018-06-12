@@ -44,7 +44,7 @@ class ActiveListingsController extends Controller
      */
     public function index()
     {
-
+        Methods::log_event('open_home_page', Auth::user()->id, 'cso');
         //  $active_listings = Listing::where('listing_status', 'active');
         $active_listings = Listing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
             ->where('date_listed', '<=', Carbon::now()->format('Y-m-d H:i'))
@@ -171,6 +171,7 @@ class ActiveListingsController extends Controller
 
         $file_id = $this->handle_upload_ajax($request);
         $volunteer = $this->create_volunteer($request->all(), $file_id);
+        Methods::log_event('new_volunteer', Auth::user()->id, 'cso', 'volunteer id: ' . $volunteer->id);
         $volunteer->notify(new CsoToVolunteerNewVolunteer($volunteer, Auth::user()));
         return response()->json(['id' => $volunteer->id]);
     }

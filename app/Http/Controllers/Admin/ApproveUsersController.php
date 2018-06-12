@@ -5,6 +5,8 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Donor;
 use FSR\Volunteer;
+use FSR\Custom\Methods;
+
 use FSR\Notifications\AdminToCsoApproveRegistration;
 use FSR\Notifications\AdminToUserRejectRegistration;
 use FSR\Notifications\AdminToDonorApproveRegistration;
@@ -79,6 +81,7 @@ class ApproveUsersController extends Controller
         if ($cso) {
             $cso->status = 'active';
             $cso->save();
+            Methods::log_event('admin_approve', $cso->id, 'cso');
             $this->approve_volunteer($data['cso_id']);
             $cso->notify(new AdminToCsoApproveRegistration($cso));
 
@@ -101,6 +104,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'active';
             $donor->save();
+            Methods::log_event('admin_approve', $donor->id, 'donor');
             $donor->notify(new AdminToDonorApproveRegistration($donor));
 
             return back()->with([
@@ -122,6 +126,7 @@ class ApproveUsersController extends Controller
         if ($cso) {
             $cso->status = 'rejected';
             $cso->save();
+            Methods::log_event('admin_deny', $cso->id, 'cso');
             $cso->notify(new AdminToUserRejectRegistration());
             return back()->with([
             'status' => 'Примателот е одбиен!'
@@ -142,6 +147,7 @@ class ApproveUsersController extends Controller
         if ($donor) {
             $donor->status = 'rejected';
             $donor->save();
+            Methods::log_event('admin_deny', $donor->id, 'donor');
             $donor->notify(new AdminToUserRejectRegistration());
             return back()->with([
             'status' => 'Донаторот е одбиен!'

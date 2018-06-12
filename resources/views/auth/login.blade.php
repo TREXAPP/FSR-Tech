@@ -20,10 +20,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#" target="_blank"><span>ДОНАТОРИ</span></a></li>
-          <li><a href="#" target="_blank"><span>ПРИМАТЕЛИ</span></a></li>
-          <li><a href="#" target="_blank"><span>ДОСТАВУВАЧИ</span></a></li>
-          <li><a href="#" target="_blank"><span>ЧЛЕНОВИ</span></a></li>
+          <li><a href="http://ajdemakedonija.mk/mk/business-contact-form-mk/" target="_blank"><span>ДОНАТОРИ</span></a></li>
+          <li><a href="http://wp.ajdemakedonija.mk/cso-contact-form/" target="_blank"><span>ПРИМАТЕЛИ</span></a></li>
+          <li><a href="http://ajdemakedonija.mk/mk/volunteers-contact-form-mk/" target="_blank"><span>ДОСТАВУВАЧИ</span></a></li>
+          <li><a href="http://ajdemakedonija.mk/mk/how-can-you-help-%D0%BC%D0%BA/" target="_blank"><span>ЧЛЕНОВИ</span></a></li>
           <li><a href="#" target="_blank"><span>ЧЕСТО ПОСТАВУВАНИ ПРАШАЊА</span></a></li>
         </ul>
       </div>
@@ -43,31 +43,42 @@
 </div>
 <div class="bottom-panel col-xs-10 col-xs-offset-1">
   <div class="bottom-panel-text-1 col-md-4">
-    <div class="text-wrapper">
-      <div class="text-headline">
-        ВКЛУЧИ СЕ И ТИ!
+    <a href="http://ajdemakedonija.mk/mk/how-can-you-help-%D0%BC%D0%BA/">
+      <div class="text-wrapper">
+        <div class="text-headline">
+          ВКЛУЧИ СЕ И ТИ!
+        </div>
+        <div class="text-body">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+        </div>
       </div>
-      <div class="text-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-      </div>
-    </div>
+    </a>
   </div>
   <div class="col-md-8">
-    <div class="bottom-panel-image-2 col-sm-4 circle-container">
-      <div class="circle circle-red">
-          <p>Донатори</p>
+    <a href="http://ajdemakedonija.mk/mk/business-contact-form-mk/">
+      <div class="bottom-panel-image-2 col-sm-4 circle-container">
+        <div class="circle circle-red">
+            <p>Донатори</p>
+        </div>
       </div>
-    </div>
-    <div class="bottom-panel-image-3 col-sm-4 circle-container">
-      <div class="circle circle-green">
-          <p>Приматели</p>
+    </a>
+
+    <a href="http://wp.ajdemakedonija.mk/cso-contact-form/">
+      <div class="bottom-panel-image-3 col-sm-4 circle-container">
+        <div class="circle circle-green">
+            <p>Приматели</p>
+        </div>
       </div>
+    </a>
+
+<a href="http://ajdemakedonija.mk/mk/volunteers-contact-form-mk/">
+  <div class="bottom-panel-image-4 col-sm-4 circle-container">
+    <div class="circle circle-white">
+        <p>Доставувачи</p>
     </div>
-    <div class="bottom-panel-image-4 col-sm-4 circle-container">
-      <div class="circle circle-white">
-          <p>Доставувачи</p>
-      </div>
-    </div>
+  </div>
+</a>
+
   </div>
 </div>
 

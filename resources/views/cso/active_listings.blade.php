@@ -260,6 +260,7 @@
 	@endif
 	<div id="hidden-first-name-{{$active_listing->id}}" class="hidden-first-name hidden">{{$active_listing->donor->first_name}}</div>
 	<div id="hidden-last-name-{{$active_listing->id}}" class="hidden-last-name hidden">{{$active_listing->donor->last_name}}</div>
+	<div id="hidden-email-{{$active_listing->id}}" class="hidden-email hidden">{{$active_listing->donor->email}}</div>
 	<div id="hidden-organization-{{$active_listing->id}}" class="hidden-organization hidden">{{$active_listing->donor->organization->name}}</div>
 	<div id="hidden-phone-{{$active_listing->id}}" class="hidden-phone hidden">{{$active_listing->donor->phone}}</div>
 	<div id="hidden-address-{{$active_listing->id}}" class="hidden-address hidden">{{$active_listing->donor->address}}</div>
@@ -320,6 +321,59 @@
 								<span class="pull-right popup-element-label">Доставувач:</span>
 							</div>
 							<div id="popup-volunteer-value" class="popup-volunteer-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<hr>
+						<h5 id="popup-donor-info" class="popup-info popup-donor-info row italic">
+							Податоци за донаторот:
+						</h5>
+
+						<div id="popup-donor-first-name" class="popup-donor-first-name popup-element row">
+							<div class="popup-donor-first-name-label col-xs-6">
+								<span class="pull-right popup-element-label">Име:</span>
+							</div>
+							<div id="popup-donor-first-name-value" class="popup-donor-first-name-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-donor-last-name" class="popup-donor-last-name popup-element row">
+							<div class="popup-donor-last-name-label col-xs-6">
+								<span class="pull-right popup-element-label">Презиме:</span>
+							</div>
+							<div id="popup-donor-last-name-value" class="popup-donor-last-name-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-donor-email" class="popup-donor-email popup-element row">
+							<div class="popup-donor-email-label col-xs-6">
+								<span class="pull-right popup-element-label">Email:</span>
+							</div>
+							<div id="popup-donor-email-value" class="popup-donor-email-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-donor-organization" class="popup-donor-organization popup-element row">
+							<div class="popup-donor-organization-label col-xs-6">
+								<span class="pull-right popup-element-label">Организација:</span>
+							</div>
+							<div id="popup-donor-organization-value" class="popup-donor-organization-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-donor-phone" class="popup-donor-phone popup-element row">
+							<div class="popup-donor-phone-label col-xs-6">
+								<span class="pull-right popup-element-label">Телефон:</span>
+							</div>
+							<div id="popup-donor-phone-value" class="popup-donor-phone-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-donor-address" class="popup-donor-address popup-element row">
+							<div class="popup-donor-address-label col-xs-6">
+								<span class="pull-right popup-element-label">Адреса:</span>
+							</div>
+							<div id="popup-donor-address-value" class="popup-donor-address-value popup-element-value col-xs-6">
 							</div>
 						</div>
 

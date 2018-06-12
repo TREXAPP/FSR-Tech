@@ -98,9 +98,11 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request, 'cso')) {
             Auth::setUser((Auth::guard('cso')->user()));
+            Methods::log_event('login', Auth::user()->id, 'cso');
             return $this->sendLoginResponse($request);
         } elseif ($this->attemptLogin($request, 'donor')) {
             Auth::setUser((Auth::guard('donor')->user()));
+            Methods::log_event('login', Auth::user()->id, 'donor');
             return $this->sendLoginResponse($request);
         }
 
@@ -108,7 +110,7 @@ class LoginController extends Controller
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
-
+        Methods::log_event('failed_login', 0, '', $request->all()['email']);
         return $this->sendFailedLoginResponse($request);
     }
 

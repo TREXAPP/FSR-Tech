@@ -101,6 +101,13 @@
   border: 0;
 }
 
+.home-body .bottom-panel-text-1 a:hover,
+.home-body .bottom-panel-text-1 a:active,
+.home-body .bottom-panel-text-1 a:focus,
+ {
+  text-decoration: none !important;
+}
+
 /* **** Circle *** */
 .circle-container {
     text-align: center;
@@ -160,48 +167,19 @@
     border-bottom: 3px solid #98cb4f;
   }
 
-  .home-body .footer-logo img {
-      width: 100%;
-  }
+.home-body .footer-logo img {
+    width: 100%;
+}
 
-  .home-body .social-right {
-    margin-top: 50px;
-  }
+.home-body .social-right {
+  margin-top: 50px;
+}
 
-  .home-body .footer-logo.social-fb,
-  .home-body .logos-left {
-      margin-bottom: 20px;
-    }
-  /*
-
-.home-body .footer-logo {
-    height:80px;
-  }
-
+.home-body .footer-logo.social-fb,
 .home-body .logos-left {
     margin-bottom: 20px;
   }
 
-.home-body .footer-logo img {
-    height: 100%;
-    max-width: 100%;
-  }
-
-.home-body .footer-logo.logo-swiss img {
-    height: 80%;
-  }
-
-.home-body .footer-logo.logo-peacecorps img,
-.home-body .footer-logo.logo-usaid img
-   {
-    height: 90%;
-  }
-
-.home-body .social-right img {
-    height: 50%;
-    margin-top: 15px;
-  }
-*/
 .home-body .login-dropdown-menu {
   position: absolute;
   right: 0;

@@ -4,6 +4,8 @@ namespace FSR\Http\Controllers\Donor;
 
 use FSR\Listing;
 use FSR\ListingOffer;
+use FSR\Custom\Methods;
+
 use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -29,7 +31,7 @@ class MyActiveListingsController extends Controller
      */
     public function index()
     {
-
+        Methods::log_event('open_home_page', Auth::user()->id, 'donor');
         //  $active_listings = Listing::where('listing_status', 'active');
         $active_listings = Listing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
                                   ->where('listing_status', 'active')
@@ -43,72 +45,5 @@ class MyActiveListingsController extends Controller
         return view('donor.my_active_listings')->with([
           'active_listings' => $active_listings,
         ]);
-    }
-
-    /**
-     * Handle post request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function handle_post(Request $request)
-    {
-        $validation = $this->validator($request->all());
-
-        //  http://fsr.test/cso/active_listings#listingbox6
-        $route = route('cso.active_listings') . '#listingbox' . $request->all()['listing_id'];
-
-        if ($validation->fails()) {
-            return redirect($route)->withErrors($validation->errors())
-                                   ->withInput();
-        }
-        $listing_offer = $this->create($request->all());
-        return back()->with('status', "Донацијата е успешно прифатена!");
-    }
-
-    /**
-     * Create a new listing_offer instance after a valid input.
-     *
-     * @param  array  $data
-     * @return \FSR\ListingOffer
-     */
-    protected function create(array $data)
-    {
-        return  ListingOffer::create([
-                'cso_id' => Auth::user()->id,
-                'listing_id' => $data['listing_id'],
-                'offer_status' => 'active',
-                'quantity' => $data['quantity'],
-                'beneficiaries_no' => $data['beneficiaries'],
-                'volunteer_pickup_name' => $data['volunteer_name'],
-                'volunteer_pickup_phone' => $data['volunteer_phone'],
-            ]);
-    }
-
-    /**
-     * Get a validator for an incoming listing offer input request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        $listing = Listing::find($data['listing_id']);
-        $listing_offers = $listing->listing_offers;
-        $quantity_counter = 0;
-        foreach ($listing_offers as $listing_offer) {
-            $quantity_counter += $listing_offer->quantity;
-        }
-        $max_quantity = $listing->quantity - $quantity_counter;
-
-        $validatorArray = [
-            'listing_id'         => 'required',
-            'quantity'           => 'required|numeric|min:1|max:' . $max_quantity,
-            'beneficiaries'      => 'required|numeric',
-            'volunteer_name'     => 'required',
-            'volunteer_phone'    => 'required',
-        ];
-
-        return Validator::make($data, $validatorArray);
     }
 }

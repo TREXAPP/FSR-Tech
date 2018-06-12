@@ -4,6 +4,8 @@ namespace FSR\Http\Controllers\Auth;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Custom\Methods;
+
 use FSR\Notifications\UserEmailVerificationRequest;
 
 use Illuminate\Auth\Events\PasswordReset;
@@ -60,7 +62,7 @@ class EmailConfirmController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:donor,cso');
+        //$this->middleware('auth:donor,cso');
     }
 
     // /**
@@ -120,6 +122,7 @@ class EmailConfirmController extends Controller
                 } else {
                     $cso->email_confirmed = 1;
                     $cso->save();
+                    Methods::log_event('confirm_email', $cso->id, 'cso');
                     return redirect($redirect_link)->with('status', 'Вашиот емаил е успешно потврден!');
                 }
             } else {
@@ -131,6 +134,7 @@ class EmailConfirmController extends Controller
                     } else {
                         $donor->email_confirmed = 1;
                         $donor->save();
+                        Methods::log_event('confirm_email', $donor->id, 'donor');
                         return redirect($redirect_link)->with('status', 'Вашиот емаил е успешно потврден!');
                     }
                 } else {

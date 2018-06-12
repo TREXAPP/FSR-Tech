@@ -3,6 +3,7 @@
 namespace FSR\Custom;
 
 use FSR\Cso;
+use FSR\Log;
 use FSR\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -247,6 +248,30 @@ class Methods
             return Methods::getFileUrl(File::find($organization->image_id)->filename);
         } else {
             return url('img/organizations.png');
+        }
+    }
+
+    /**
+     * Logging events
+     *
+     * @param string $event
+     * @param int $user_id
+     * @param string $user_type
+     * @param string $comment = null
+     * @return boolean
+     */
+    public static function log_event($event, $user_id, $user_type, $comment = null)
+    {
+        $log = new Log;
+        $log->event =$event;
+        $log->user_id =$user_id;
+        $log->user_type =$user_type;
+        $log->comment =$comment;
+        try {
+            $log->save();
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }

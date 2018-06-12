@@ -16,7 +16,9 @@
     <div id="app">
       <div class="top-bar">
         <div class="top-bar-logo pull-left">
-          <img class="center-block" src="{{ url('img/logo.png')}}" >
+          <a href="{{route('home')}}">
+            <img class="center-block" src="{{ url('img/logo.png')}}" >
+          </a>
         </div>
         <div class="top-bar-elements pull-right">
           <div class="top-bar-contact-email top-bar-element">
@@ -115,7 +117,9 @@
         <div class="logos-left col-md-10">
           <div class="logos-left-wrapper col-md-12">
             <div class="footer-logo logo-ajdemakedonija col-sm-3 col-xs-6">
-              <img src="{{url("img/logo_ajde_makedonija.png")}}" alt="Ајде Македонија">
+              <a href="http://ajdemakedonija.mk/">
+                <img src="{{url("img/logo_ajde_makedonija.png")}}" alt="Ајде Македонија">
+              </a>
             </div>
             <div class="footer-logo logo-swiss col-sm-3 col-xs-6">
               <img src="{{url("img/logo_swiss.png")}}" alt="Swiss Embassy">

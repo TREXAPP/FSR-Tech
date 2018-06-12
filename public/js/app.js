@@ -31970,6 +31970,14 @@ $('.listing-submit-button').on('click', function () {
   var expires_in = $('#expires-in-' + id).text().trim();
   var pickup_time = $('#pickup-time-' + id).text().trim();
   var location = $('#donor-location-' + id).text().trim();
+
+  var donor_first_name = $('#hidden-first-name-' + id).text();
+  var donor_last_name = $('#hidden-last-name-' + id).text();
+  var donor_email = $('#hidden-email-' + id).text();
+  var donor_organization = $('#hidden-organization-' + id).text();
+  var donor_phone = $('#hidden-phone-' + id).text();
+  var donor_address = $('#hidden-address-' + id).text();
+
   var volunteer_value = $('#pickup-volunteer-' + id + ' option:selected').val();
   if (volunteer_value) {
     var volunteer_name = $('#pickup-volunteer-' + id + ' option:selected').text();
@@ -31984,6 +31992,13 @@ $('.listing-submit-button').on('click', function () {
   $('#popup-pickup-time-value').text(pickup_time);
   $('#popup-location-value').text(location);
   $('#popup-volunteer-value').text(volunteer_name);
+
+  $('#popup-donor-first-name-value').text(donor_first_name);
+  $('#popup-donor-last-name-value').text(donor_last_name);
+  $('#popup-donor-email-value').text(donor_email);
+  $('#popup-donor-organization-value').text(donor_organization);
+  $('#popup-donor-phone-value').text(donor_phone);
+  $('#popup-donor-address-value').text(donor_address);
 
   /* Fill form with hidden elements  */
   $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='listing_id' value='" + id + "'>");

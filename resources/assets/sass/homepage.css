@@ -101,6 +101,13 @@
   border: 0;
 }
 
+.home-body .bottom-panel-text-1 a:hover,
+.home-body .bottom-panel-text-1 a:active,
+.home-body .bottom-panel-text-1 a:focus,
+ {
+  text-decoration: none !important;
+}
+
 /* **** Circle *** */
 .circle-container {
     text-align: center;
