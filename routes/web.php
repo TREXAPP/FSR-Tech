@@ -175,6 +175,10 @@ Route::post('admin/email/organizations', 'Admin\EmailController@get_organization
 Route::post('admin/email/users', 'Admin\EmailController@get_users')->name('admin.email.users');
 Route::post('admin/email/counters', 'Admin\EmailController@get_counters')->name('admin.email.counters');
 
+//resource page
+Route::get('admin/resource_page', 'Admin\ResourcePageController@index')->name('admin.resource_page');
+Route::post('admin/resource_page', 'Admin\ResourcePageController@handle_post')->name('admin.resource_page');
+
 
 //donor routes
 Route::get('donor/home', 'Donor\HomeController@index')->name('donor.home');
@@ -192,6 +196,9 @@ Route::post('donor/my_active_listings', 'Donor\MyActiveListingsController@handle
 
 Route::get('donor/my_accepted_listings/{listing_offer_id}', 'Donor\MyAcceptedListingsController@single_listing_offer')->name('donor.single_listing_offer');
 Route::post('donor/my_accepted_listings/{listing_offer_id}', 'Donor\MyAcceptedListingsController@single_listing_offer_post')->name('donor.single_listing_offer');
+
+//resource page
+Route::get('donor/resource_page', 'Donor\ResourcePageController@index')->name('donor.resource_page');
 
 
 
@@ -219,3 +226,6 @@ Route::post('cso/accepted_listings', 'Cso\AcceptedListingsController@handle_post
 Route::post('cso/accepted_listings/update_volunteer', 'Cso\AcceptedListingsController@update_volunteer')->name('cso.accepted_listings.update_volunteer');
 Route::get('cso/accepted_listings/{listing_offer_id}', 'Cso\AcceptedListingsController@single_accepted_listing')->name('cso.accepted_listings.single_accepted_listing');
 Route::post('cso/accepted_listings/{listing_offer_id}', 'Cso\AcceptedListingsController@single_accepted_listing_post')->name('cso.accepted_listings.single_accepted_listing');
+
+//resource page
+Route::get('cso/resource_page', 'Cso\ResourcePageController@index')->name('cso.resource_page');

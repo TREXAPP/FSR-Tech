@@ -284,31 +284,13 @@
           </ul>
       </li>
 
-      <li class="treeview">
-          <a href="#">
-            <i class="fa fa-universal-access"></i> <span>Известувања</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
-                <i class="fa fa-users"></i> <span>Пораки</span>
-                <span class="pull-right-container">
-                </span>
-              </a>
-            </li>
-
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/volunteers">
-                <i class="fa fa-users"></i> <span>Нови известувања</span>
-                <span class="pull-right-container">
-                </span>
-              </a>
-            </li>
-
-          </ul>
+      <li>
+        <a href="{{route('admin.resource_page')}}">
+          <i class="fa fa-bookmark"></i> <span>Известување</span>
+          <span class="pull-right-container">
+            {{-- <small class="label pull-right bg-blue">2</small> --}}
+          </span>
+        </a>
       </li>
 
       <li class="treeview">

@@ -3,7 +3,7 @@ use FSR\Custom\CarbonFix;
 
 return [
 
-    'version' => '0.67',
+    'version' => '0.68',
     'upload_path' => env('UPLOAD_PATH', 'public/upload'),
     'master_admin' => env('MASTER_ADMIN', 'sitesitimk@gmail.com'),
     /*
@@ -167,6 +167,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         /*
          * Package Service Providers...
