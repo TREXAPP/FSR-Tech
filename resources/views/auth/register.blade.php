@@ -1,6 +1,6 @@
 @extends('layouts.home')
 @section('content')
-<div class="container register-container">
+<div class="container register-container custom-container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">

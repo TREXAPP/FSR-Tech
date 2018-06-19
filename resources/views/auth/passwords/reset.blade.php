@@ -1,7 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
-<div class="container reset-container">
+<div class="container reset-container custom-container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">

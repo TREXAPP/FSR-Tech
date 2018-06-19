@@ -216,10 +216,7 @@
 
 /*** other pages ***/
 
-.register-container,
-.email-container,
-.email-confirm-container,
-.reset-container {
+.custom-container {
   margin-top: 20px;
 }
 /*
@@ -19550,6 +19547,12 @@ button.close {
 
 .admin-listing-button {
   margin: 2px;
+}
+
+/** change password **/
+
+.profile-footer a {
+  margin-right: 5px;
 }
 
 .logo-home-img {

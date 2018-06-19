@@ -149,9 +149,9 @@
               </a>
             </li>
 
-            <li class="inactive-menu">
-              <a href="#">
-                <i class="fa fa-shield"></i> <span>Безбедност</span>
+            <li>
+              <a href="/{{Auth::user()->type()}}/change_password">
+                <i class="fa fa-key"></i> <span>Промени лозинка</span>
                 <span class="pull-right-container">
                 </span>
               </a>

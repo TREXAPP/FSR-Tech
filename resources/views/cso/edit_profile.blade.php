@@ -159,6 +159,8 @@
 		</div>
 		<div class="box-footer text-center">
 			<div class="pull-right">
+				<a href="{{url('cso/change_password')}}" id="change-password-button" name="change-password-button"
+				 class="btn btn-success change-password-button">Промени лозинка</a>
 				<button id="edit-profile-submit" type="submit" name="edit-profile-submit" class="btn btn-primary" >Зачувај ги измените</button>
 				<a href="{{route('cso.profile')}}" id="cancel-edit-profile" name="cancel-edit-profile"
 				class="btn btn-default">Откажи</a>

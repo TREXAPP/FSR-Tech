@@ -111,9 +111,11 @@
 
 			</div>
 		</div>
-		<div class="box-footer text-center">
+		<div class="box-footer profile-footer text-center">
 			<a href="{{url('cso/edit_profile')}}" id="edit-profile-button" name="edit-profile-button"
-			 class="btn btn-primary listing-submit-button pull-right">Измени профил</a>
+			class="btn btn-primary listing-submit-button pull-right">Измени профил</a>
+			<a href="{{url('cso/change_password')}}" id="change-password-button" name="change-password-button"
+			 class="btn btn-success change-password-button pull-right">Промени лозинка</a>
 		</div>
 
 

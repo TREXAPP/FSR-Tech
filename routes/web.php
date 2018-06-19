@@ -199,7 +199,9 @@ Route::post('donor/my_accepted_listings/{listing_offer_id}', 'Donor\MyAcceptedLi
 
 //resource page
 Route::get('donor/resource_page', 'Donor\ResourcePageController@index')->name('donor.resource_page');
-
+//change password
+Route::get('/donor/change_password', 'Donor\ChangePasswordController@index')->name('donor.change_password');
+Route::post('/donor/change_password', 'Donor\ChangePasswordController@handle_post')->name('donor.change_password');
 
 
 //cso routes
@@ -229,3 +231,6 @@ Route::post('cso/accepted_listings/{listing_offer_id}', 'Cso\AcceptedListingsCon
 
 //resource page
 Route::get('cso/resource_page', 'Cso\ResourcePageController@index')->name('cso.resource_page');
+//change password
+Route::get('/cso/change_password', 'Cso\ChangePasswordController@index')->name('cso.change_password');
+Route::post('/cso/change_password', 'Cso\ChangePasswordController@handle_post')->name('cso.change_password');

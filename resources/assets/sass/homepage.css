@@ -216,9 +216,6 @@
 
 /*** other pages ***/
 
-.register-container,
-.email-container,
-.email-confirm-container,
-.reset-container {
+.custom-container {
   margin-top: 20px;
 }
