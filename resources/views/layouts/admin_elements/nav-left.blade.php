@@ -284,14 +284,36 @@
           </ul>
       </li>
 
-      <li>
-        <a href="{{route('admin.resource_page')}}">
-          <i class="fa fa-bookmark"></i> <span>Известување</span>
-          <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-blue">2</small> --}}
-          </span>
-        </a>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bookmark"></i> <span>Ресурси</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="{{route('admin.resource_page_donor')}}">
+                <i class="fa fa-user-circle"></i> <span>Донатор</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{{route('admin.resource_page_cso')}}">
+                <i class="fa fa-user-circle"></i> <span>Примател</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
       </li>
+
+
+
+
 
       <li class="treeview">
           <a href="#">

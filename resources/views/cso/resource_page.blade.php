@@ -5,11 +5,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Известување
+      Ресурси
     </h1>
     <ol class="breadcrumb">
       <li><a href="/{{Auth::user()->type()}}/home"><i class="fa fa-dashboard"></i> Почетна</a></li>
-      <li><a href="{{route('cso.resource_page')}}"><i class="fa fa-exclamation"></i> Известување</a></li>
+      <li><a href="{{route('cso.resource_page')}}"><i class="fa fa-exclamation"></i> Ресурси</a></li>
     </ol>
   </section>
 

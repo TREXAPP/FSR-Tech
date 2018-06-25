@@ -32,7 +32,7 @@
             @if (Auth::user()->type() == 'donor')
               <li class="">
                 <a href="{{route('donor.resource_page')}}">
-                  <i class="fa fa-exclamation"></i> <span>Известување</span>
+                  <i class="fa fa-exclamation"></i> <span>Ресурси</span>
                   <span class="pull-right-container">
                   </span>
                 </a>
@@ -40,7 +40,7 @@
             @elseif (Auth::user()->type() == 'cso')
               <li class="">
                 <a href="{{route('cso.resource_page')}}">
-                  <i class="fa fa-exclamation"></i> <span>Известување</span>
+                  <i class="fa fa-exclamation"></i> <span>Ресурси</span>
                   <span class="pull-right-container">
                   </span>
                 </a>

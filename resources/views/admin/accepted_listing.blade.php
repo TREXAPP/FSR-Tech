@@ -44,7 +44,7 @@
           </div>
           <div class="header-elements-wrapper">
             {{-- <div class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-xs-12">Преземање за:</span>
+              <span class="col-xs-12">Достапна на платформата уште:</span>
 
               <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
             </div> --}}
@@ -539,7 +539,7 @@
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Преземање за:</span>
+                <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
               </div>
               <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</div>
             </div>

@@ -14,9 +14,16 @@ class ResourceSeeder extends Seeder
     {
         Resource::create([
           'id' => '1',
-          'name' => 'resource_page',
-          'user_types' => 'cso,donor',
-          'description' => 'Се уште не е поставено известување.',
+          'name' => 'resource_page_cso',
+          'user_types' => 'cso',
+          'description' => 'Се уште не е поставено известување за примателите.',
+          'comment' => null,
+        ]);
+        Resource::create([
+          'id' => '2',
+          'name' => 'resource_page_donor',
+          'user_types' => 'donor',
+          'description' => 'Се уште не е поставено известување за донаторите.',
           'comment' => null,
         ]);
     }

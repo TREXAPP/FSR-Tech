@@ -58,7 +58,7 @@
                   </div>
                   <div class="header-elements-wrapper">
                     <div class="listing-info-box col-md-3 col-sm-5 col-xs-12">
-                      <span class="col-xs-12">Преземање за:</span>
+                      <span class="col-xs-12">Достапна на платформата уште:</span>
 
                       <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                     </div>

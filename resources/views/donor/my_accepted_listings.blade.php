@@ -53,7 +53,7 @@
                   <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->listing->pickup_time_to)->format('H:i')}} часот</strong></span>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-12 donor-accepted-header-element">
-                  <span class="col-xs-12">Преземање за:</span>
+                  <span class="col-xs-12">Достапна на платформата уште:</span>
                   <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
                 </div>
               </div>

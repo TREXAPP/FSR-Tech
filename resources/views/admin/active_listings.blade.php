@@ -168,7 +168,7 @@
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Преземање за:</span>
+                <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
               </div>
               <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">
               </div>

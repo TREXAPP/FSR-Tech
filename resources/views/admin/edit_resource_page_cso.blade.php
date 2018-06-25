@@ -4,15 +4,15 @@
 <section class="content-header resource-page-content-header">
 	<h1>
 		<i class="fa fa-user-circle"></i>
-		<span>Измени ја страната за известување</span>
+		<span>Измени ја страната за известување за примателите</span>
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
 			<a href="{{route('admin.home')}}"> Admin</a>
 		</li>
 		<li>
-			<a href="{{route('admin.resource_page')}}">
-				<i class="fa fa-user-circle"></i> Известување</a>
+			<a href="{{route('admin.resource_page_cso')}}">
+				<i class="fa fa-user-circle"></i> Ресурси</a>
 		</li>
 	</ol>
 </section>
@@ -31,7 +31,7 @@
 	<!-- Default box -->
 	<div class="edit-resource-page-box resource-page-box box">
 
-	<form id="edit-resource-page-form" class="" action="{{ route('admin.resource_page') }}" method="post" enctype="multipart/form-data">
+	<form id="edit-resource-page-form" class="" action="{{ route('admin.resource_page_cso') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
 		<div class="resource-page-box-body-wrapper">
 			<div class="box-body">

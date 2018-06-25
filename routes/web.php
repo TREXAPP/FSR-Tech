@@ -176,8 +176,10 @@ Route::post('admin/email/users', 'Admin\EmailController@get_users')->name('admin
 Route::post('admin/email/counters', 'Admin\EmailController@get_counters')->name('admin.email.counters');
 
 //resource page
-Route::get('admin/resource_page', 'Admin\ResourcePageController@index')->name('admin.resource_page');
-Route::post('admin/resource_page', 'Admin\ResourcePageController@handle_post')->name('admin.resource_page');
+Route::get('admin/resource_page_donor', 'Admin\DonorResourcePageController@index')->name('admin.resource_page_donor');
+Route::post('admin/resource_page_donor', 'Admin\DonorResourcePageController@handle_post')->name('admin.resource_page_donor');
+Route::get('admin/resource_page_cso', 'Admin\CsoResourcePageController@index')->name('admin.resource_page_cso');
+Route::post('admin/resource_page_cso', 'Admin\CsoResourcePageController@handle_post')->name('admin.resource_page_cso');
 
 
 //donor routes

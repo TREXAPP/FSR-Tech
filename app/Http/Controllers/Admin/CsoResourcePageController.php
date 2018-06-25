@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class ResourcePageController extends Controller
+class CsoResourcePageController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -40,8 +40,8 @@ class ResourcePageController extends Controller
      */
     public function index(Request $request)
     {
-        $resource = Resource::where('name', 'resource_page')->first();
-        return view('admin.edit_resource_page')->with([
+        $resource = Resource::where('name', 'resource_page_cso')->first();
+        return view('admin.edit_resource_page_cso')->with([
               'resource' => $resource,
           ]);
     }
@@ -55,9 +55,9 @@ class ResourcePageController extends Controller
     public function handle_post(Request $request)
     {
         $description = $request->all()['resource-page-description'];
-        $resource = Resource::where('name', 'resource_page')->first();
+        $resource = Resource::where('name', 'resource_page_cso')->first();
         $resource = $this->update($resource, $description);
-        return redirect(route('admin.resource_page'))->with('status', "Измените се успешно зачувани!");
+        return redirect(route('admin.resource_page_cso'))->with('status', "Измените се успешно зачувани!");
     }
 
 

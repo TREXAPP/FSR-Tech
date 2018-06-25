@@ -40,7 +40,7 @@ class ResourcePageController extends Controller
      */
     public function index(Request $request)
     {
-        $resource = Resource::where('name', 'resource_page')->first();
+        $resource = Resource::where('name', 'resource_page_donor')->first();
         return view('donor.resource_page')->with([
               'resource' => $resource,
           ]);

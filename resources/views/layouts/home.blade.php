@@ -114,7 +114,7 @@
       </div>
         @yield('content')
       <div class="footer">
-        <div class="logos-left col-md-10">
+        <div class="logos-left col-md-9">
           <div class="logos-left-wrapper col-md-12">
             <div class="footer-logo logo-ajdemakedonija col-sm-3 col-xs-6">
               <a href="http://ajdemakedonija.mk/">
@@ -132,12 +132,15 @@
             </div>
           </div>
         </div>
-        <div class="social-right col-md-2">
-          <div class="footer-logo social-fb col-md-6 col-md-offset-0 col-sm-2 col-sm-offset-4 col-xs-3 col-xs-offset-3">
+        <div class="social-right col-md-3">
+          <div class="footer-logo social-fb col-md-4 col-md-offset-0 col-sm-2 col-sm-offset-3 col-xs-3 col-xs-offset-1">
             <a href="https://www.facebook.com/LetsdoitMacedonia/" target="_blank"><img src="{{url("img/social_fb.png")}}" alt="Facebook"></a>
           </div>
-          <div class="social-twitter footer-logo col-md-6 col-sm-2 col-xs-3">
+          <div class="social-twitter footer-logo col-md-4 col-sm-2 col-xs-3 ">
             <a href="https://twitter.com/AjdeMakedonija" target="_blank"><img src="{{url("img/social_twitter.png")}}" alt="Twitter"></a>
+          </div>
+          <div class="social-instagram footer-logo col-md-4 col-sm-2 col-xs-3">
+            <a href="https://www.instagram.com/ajdemakedonija/" target="_blank"><img src="{{url("img/social_instagram.png")}}" alt="Instagram"></a>
           </div>
         </div>
       </div>
