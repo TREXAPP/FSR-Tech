@@ -16,14 +16,14 @@ class ResourceSeeder extends Seeder
           'id' => '1',
           'name' => 'resource_page_cso',
           'user_types' => 'cso',
-          'description' => 'Се уште не е поставено известување за примателите.',
+          'description' => 'Се уште не се поставени ресурси за примателите.',
           'comment' => null,
         ]);
         Resource::create([
           'id' => '2',
           'name' => 'resource_page_donor',
           'user_types' => 'donor',
-          'description' => 'Се уште не е поставено известување за донаторите.',
+          'description' => 'Се уште не се поставени ресурси за донаторите.',
           'comment' => null,
         ]);
     }

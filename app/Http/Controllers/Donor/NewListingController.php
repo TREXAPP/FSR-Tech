@@ -113,7 +113,8 @@ class NewListingController extends Controller
         $file_id = $this->new_listing_handle_upload($request);
         $listing = $this->create($request->all(), $file_id);
 
-        $csos = Cso::where('location_id', Auth::user()->location_id)->get();
+        $csos = Cso::where('location_id', Auth::user()->location_id)
+                    ->where('status', 'active')->get();
         //     ->where('notifications', 1)->get();
 
         Notification::send($csos, new DonorToCsosAdminNewDonation($listing));

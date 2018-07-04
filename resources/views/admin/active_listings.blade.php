@@ -4,13 +4,13 @@
   <section class="content-header active-listings-content-header">
     <h1><i class="fa fa-cutlery"></i>
       <span>Достапни донации</span>
-      @if ($active_listings->count() > 0)
-        <span> ({{$active_listings->count()}})</span>
+      @if ($listings->count() > 0)
+        <span> ({{$listings->count()}})</span>
       @endif
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Admin</a></li>
-      <li><a href="/{{Auth::user()->type()}}/my_active_listings"><i class="fa fa-cutlery"></i> Донации</a></li>
+      <li><a href="/{{Auth::user()->type()}}/my_listings"><i class="fa fa-cutlery"></i> Донации</a></li>
     </ol>
   </section>
 
@@ -32,47 +32,101 @@
         </a>
       </div>
   @endif --}}
+  <!-- Filter -->
+  <section class="filter donations-filter">
+  	<div class="filter-wrapper row">
+  	<form id="donations-filter-form" class="donations-filter-form" action="{{route('admin.listings')}}" method="post">
+  		<input type="hidden" name="post-type" value="filter" />
+  		{{csrf_field()}}
+  		<div class="filter-container">
+  			{{-- <div class="filter-label donations-filter-label col-md-4">
+  				<label for="donations-filter-select">Организација:</label>
+  			</div> --}}
 
-  @foreach ($active_listings->get() as $active_listing)
+  			<div class="form-group filter-select donations-filter-select col-md-4">
+  				<select id="donations_filter_select" class="form-control donations-filter-select" name="donations-filter-select" required>
+  					<option value="active" {{($selected_filter == "active") ? "selected" : ""}}>Активни донации</option>
+  					<option value="past"  {{($selected_filter == "past") ? "selected" : ""}}>Изминати донации</option>
+  				</select>
+  			</div>
+        <div class="filter_date_from_wrapper form-group col-md-3">
+          <div class="filter_label_wrapper col-xs-2">
+            <label for="filter_date_from">Од:</label>
+          </div>
+          <div class="filter_input_wrapper col-xs-10">
+            <input id="filter_date_from" type="date" class="form-control" name="filter_date_from" value="{{$date_from}}"/>
+          </div>
+        </div>
+        <div class="filter_date_to_wrapper form-group col-md-3">
+          <div class="filter_label_wrapper col-xs-2">
+            <label for="filter_date_to">До:</label>
+          </div>
+          <div class="filter_input_wrapper col-xs-10">
+            <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
+          </div>
+        </div>
+        {{-- <div class="filter_date_to_wrapper form-group col-md-3">
+            <label for="filter_date_to" class="col-xs-4">До:</label>
+          <input id="filter_date_to" type="date" class="form-control col-xs-8" name="filter_date_to" value="{{$date_to}}"/>
+        </div> --}}
+        <div class="filter_submit_wrapper form-group col-md-2">
+          <button type="submit" class="btn btn-primary col-xs-12">Филтрирај</button>
+        </div>
 
-        <div id="listingbox{{$active_listing->id}}" name="listingbox{{$active_listing->id}}"></div>
+
+
+
+        @if ($errors->has('donations-filter-select'))
+          <span class="help-block">
+            <strong>{{ $errors->first('donations-filter-select') }}</strong>
+          </span>
+        @endif
+  		</div>
+
+  </form>
+  </div>
+  </section>
+
+  @foreach ($listings->get() as $listing)
+
+        <div id="listingbox{{$listing->id}}" name="listingbox{{$listing->id}}"></div>
           <!-- Default box -->
-          <div class="donor-my-active-listings-box box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
+          <div class="donor-my-active-listings-box box listing-box listing-box-{{$listing->id}} {{($listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
             <div class="box-header with-border listing-box-header donor-listing-box-header">
 
                 <div class="listing-image">
-                  @if ($active_listing->image_id)
-                    <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->image_id)->filename)}}" />
-                  @elseif ($active_listing->product->food_type->image_id)
-                    <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($active_listing->product->food_type->image_id)->filename)}}" />
+                  @if ($listing->image_id)
+                    <img class="img-rounded" alt="{{$listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing->image_id)->filename)}}" />
+                  @elseif ($listing->product->food_type->image_id)
+                    <img class="img-rounded" alt="{{$listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing->product->food_type->image_id)->filename)}}" />
                   @else
-                    <img class="img-rounded" alt="{{$active_listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" />
+                    <img class="img-rounded" alt="{{$listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" />
                   @endif
 
                 </div>
                 <div class="header-wrapper">
-                  <div id="listing-title-{{$active_listing->id}}" class="listing-title col-xs-12">
+                  <div id="listing-title-{{$listing->id}}" class="listing-title col-xs-12">
                     <div class="col-md-10 col-xs-12 donor-listing-title-panel panel">
-                      <strong>Донатор: {{$active_listing->donor->first_name}} {{$active_listing->donor->last_name}} | {{$active_listing->donor->organization->name}}</strong>
+                      <strong>Донатор: {{$listing->donor->first_name}} {{$listing->donor->last_name}} | {{$listing->donor->organization->name}}</strong>
                       <br>
-                      <span>{{$active_listing->product->food_type->name}} | {{$active_listing->product->name}}</span>
+                      <span>{{$listing->product->food_type->name}} | {{$listing->product->name}}</span>
                     </div>
                     <div class="col-md-2 col-xs-12">
-                      <button type="button" id="donor-listing-details-{{$active_listing->id}}"
-                            class="btn btn-primary pull-right admin-listing-button donor-listing-details donor-listing-details-{{$active_listing->id}}"
+                      <button type="button" id="donor-listing-details-{{$listing->id}}"
+                            class="btn btn-primary pull-right admin-listing-button donor-listing-details donor-listing-details-{{$listing->id}}"
                             name="button" data-toggle="modal" data-target="#donor-listing-details-popup">Детали...</button>
 
-                      <a href="{{route('admin.edit_listing', $active_listing->id)}}"
-                            id="admin-listing-edit-{{$active_listing->id}}"
+                      <a href="{{route('admin.edit_listing', $listing->id)}}"
+                            id="admin-listing-edit-{{$listing->id}}"
                             name="button"
-                            class="btn btn-success pull-right admin-listing-button admin-listing-edit-{{$active_listing->id}}">Измени</a>
+                            class="btn btn-success pull-right admin-listing-button admin-listing-edit-{{$listing->id}}">Измени</a>
 
-                      <button type="button" id="admin-listing-delete-{{$active_listing->id}}"
-                            class="btn btn-danger pull-right admin-listing-button admin-listing-delete admin-listing-delete-{{$active_listing->id}}"
+                      <button type="button" id="admin-listing-delete-{{$listing->id}}"
+                            class="btn btn-danger pull-right admin-listing-button admin-listing-delete admin-listing-delete-{{$listing->id}}"
                             name="button" data-toggle="modal"
                             data-target="#delete-listing-popup"
-                            title="{{($active_listing->listing_offers_count) ? 'Донацијата не може да биде избришана се додека постојат прифаќања од приматели' : ''}}"
-                            {{($active_listing->listing_offers_count) ? ' disabled' : ''}}>Избриши</button>
+                            title="{{($listing->listing_offers_count) ? 'Донацијата не може да биде избришана се додека постојат прифаќања од приматели' : ''}}"
+                            {{($listing->listing_offers_count) ? ' disabled' : ''}}>Избриши</button>
                     </div>
 
                   </div>
@@ -80,26 +134,26 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                       <span class="col-xs-12">Преостаната количина:</span>
-                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->listing_offers->where('offer_status','active')->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
+                      <span class="col-xs-12" id="quantity-left-{{$listing->id}}"><strong>{{$listing->quantity - $listing->listing_offers->where('offer_status','active')->sum('quantity')}} (од {{$listing->quantity}}) {{$listing->quantity_type->description}}</strong></span>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                       <div class="col-xs-12 row">Прифатени:</div>
 
-                      @switch($active_listing->listing_offers_count)
+                      @switch($listing->listing_offers_count)
                           @case(0)
-                          <div class="col-xs-12" id="accepted-quantity-{{$active_listing->id}}"><strong>Нема</strong></div>
+                          <div class="col-xs-12" id="accepted-quantity-{{$listing->id}}"><strong>Нема</strong></div>
                               @break
 
                           @default
                           <div class="col-xs-12 row">
                             <ul class="list-group">
-                          @foreach ($active_listing->listing_offers as $listing_offer)
+                          @foreach ($listing->listing_offers as $listing_offer)
                             @if ($listing_offer->offer_status == 'active')
                               {{-- <button type="button" id="donor-listing-offer-button-{{$listing_offer->id}}" name="donor-listing-offer-button" class="btn btn-success donor-listing-offer-button donor-listing-offer-button-{{$listing_offer->id}}"> --}}
                               <a href="{{route('admin.listing_offer', $listing_offer->id)}}" id="donor-listing-offer-button-{{$listing_offer->id}}" class=" donor-listing-offer-button donor-listing-offer-button-{{$listing_offer->id}}">
                                 <li class="list-group-item">
                                 {{-- <span class="col-xs-12" id="accepted-quantity-{{$listing_offer->id}}"> --}}
-                                  <strong>{{$listing_offer->quantity}} {{$active_listing->quantity_type->description}} од {{$listing_offer->cso->first_name}} {{$listing_offer->cso->last_name}} | {{$listing_offer->cso->organization->name}}</strong>
+                                  <strong>{{$listing_offer->quantity}} {{$listing->quantity_type->description}} од {{$listing_offer->cso->first_name}} {{$listing_offer->cso->last_name}} | {{$listing_offer->cso->organization->name}}</strong>
                                 {{-- </span> --}}
                               </li>
                               </a>
@@ -119,13 +173,13 @@
           </div>
           <!-- /.box -->
 
-          <div id="hidden-product-name-{{$active_listing->id}}" class="hidden-product-name hidden">{{$active_listing->product->name}}</div>
-          <div id="hidden-quantity-{{$active_listing->id}}" class="hidden-quantity hidden">{{$active_listing->quantity}} {{$active_listing->quantity_type->description}}</div>
-          <div id="hidden-pickup-time-{{$active_listing->id}}" class="hidden-pickup-time hidden">од {{Carbon::parse($active_listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($active_listing->pickup_time_to)->format('H:i')}} часот</div>
-          <div id="hidden-listed-{{$active_listing->id}}" class="hidden-listed hidden">{{Carbon::parse($active_listing->date_listed)->diffForHumans()}}</div>
-          <div id="hidden-expires-in-{{$active_listing->id}}" class="hidden-expires-in hidden">{{Carbon::parse($active_listing->date_expires)->diffForHumans()}}</div>
-          <div id="hidden-food-type-{{$active_listing->id}}" class="hidden-food-type hidden">{{$active_listing->product->food_type->name}}</div>
-          <div id="hidden-description-{{$active_listing->id}}" class="hidden-description hidden">{{$active_listing->description}}</div>
+          <div id="hidden-product-name-{{$listing->id}}" class="hidden-product-name hidden">{{$listing->product->name}}</div>
+          <div id="hidden-quantity-{{$listing->id}}" class="hidden-quantity hidden">{{$listing->quantity}} {{$listing->quantity_type->description}}</div>
+          <div id="hidden-pickup-time-{{$listing->id}}" class="hidden-pickup-time hidden">од {{Carbon::parse($listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing->pickup_time_to)->format('H:i')}} часот</div>
+          <div id="hidden-listed-{{$listing->id}}" class="hidden-listed hidden">{{Carbon::parse($listing->date_listed)->diffForHumans()}}</div>
+          <div id="hidden-expires-in-{{$listing->id}}" class="hidden-expires-in hidden">{{Carbon::parse($listing->date_expires)->diffForHumans()}}</div>
+          <div id="hidden-food-type-{{$listing->id}}" class="hidden-food-type hidden">{{$listing->product->food_type->name}}</div>
+          <div id="hidden-description-{{$listing->id}}" class="hidden-description hidden">{{$listing->description}}</div>
   @endforeach
 
   <!-- Details Modal -->

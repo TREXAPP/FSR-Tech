@@ -25,4 +25,8 @@
       |
       */
     'max_comments_in_active_listings' => '3',
+      /*
+      |
+      */
+    'default_days_filter' => '90',
 ];
