@@ -47,7 +47,7 @@ class CsoToCsoAcceptDonation extends Notification
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)->subject('Донацијата е прифатена')
+        $message = (new MailMessage)->subject('[Сите Сити] Донацијата е прифатена')
                   ->line('Имате прифатено нова донација!')
                   ->line('Информации за донацијата:')
                   ->line('Производ: ' . $this->listing_offer->listing->product->name)

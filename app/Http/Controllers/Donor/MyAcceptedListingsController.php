@@ -40,19 +40,19 @@ class MyAcceptedListingsController extends Controller
     {
         $listing_offer = ListingOffer::where('offer_status', 'active')
                                     ->whereHas('listing', function ($query) {
-                                        $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
-                                              ->where('donor_id', Auth::user()->id)
+                                        $query->where('donor_id', Auth::user()->id)
                                               ->where('listing_status', 'active');
                                     })->find($listing_offer_id);
 
         $comments = Comment::where('listing_offer_id', $listing_offer_id)
                             ->where('status', 'active')
                             ->orderBy('created_at', 'ASC')->get();
-
+        $selected_filter = $this->get_selected_filter($listing_offer);
         if ($listing_offer) {
             return view('donor.my_accepted_listings')->with([
             'listing_offer' => $listing_offer,
             'comments' => $comments,
+            'selected_filter' => $selected_filter,
           ]);
         } else {
             //not ok, show error page
@@ -172,5 +172,18 @@ class MyAcceptedListingsController extends Controller
         $comment->text = $data['edit_comment_text'];
         $comment->save();
         return $comment;
+    }
+
+    private function get_selected_filter($listing_offer)
+    {
+        if ($listing_offer->listing->listing_status == 'active') {
+            if ($listing_offer->listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
+                return 'past';
+            } else {
+                return 'active';
+            }
+        } else {
+            return 'past';
+        }
     }
 }

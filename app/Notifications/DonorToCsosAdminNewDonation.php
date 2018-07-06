@@ -47,7 +47,7 @@ class DonorToCsosAdminNewDonation extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Достапна е нова донација')
+                    ->subject('[Сите Сити] Достапна е нова донација')
                     ->line($this->listing->donor->first_name . ' ' . $this->listing->donor->last_name . ' - ' . $this->listing->donor->organization->name .
                           ' само што ја додаде следнава донација:')
                     ->line('Производ: ' . $this->listing->product->name)

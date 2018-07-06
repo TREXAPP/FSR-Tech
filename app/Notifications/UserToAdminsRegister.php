@@ -53,7 +53,7 @@ class UserToAdminsRegister extends Notification implements ShouldQueue
 
         $approve_link = route('admin.approve_users');
         return (new MailMessage)
-                    ->subject('Нов член - Потребно е одобрување')
+                    ->subject('[Сите Сити] Нов член - Потребно е одобрување')
                     ->line('Ве молиме потврдете дека долу наведените информации за најнов член на платформата е точна:')
                     ->line('Тип на корисник: ' . $type)
                     ->line('Име: ' . $this->user->first_name)

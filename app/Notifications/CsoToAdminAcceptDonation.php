@@ -51,7 +51,7 @@ class CsoToAdminAcceptDonation extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Прифатена е донација од ' . $this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name)
+                  ->subject('[Сите Сити] Прифатена е донација од ' . $this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name)
                   ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' прифати донација.')
                   ->line('')
                   ->line('Податоци за донацијата:')

@@ -64,10 +64,17 @@ class AcceptedListingsController extends Controller
             $listing_offers_no++;
         }
 
+        $date_from = substr(Carbon::now()->addDays(-90), 0, 10);
+        $date_to = substr(Carbon::now(), 0, 10);
+        $selected_filter = 'active';
+
         return view('cso.accepted_listings')->with([
           'listing_offers' => $listing_offers,
           'listing_offers_no' => $listing_offers_no,
           'comments' => $comments,
+          'selected_filter' => $selected_filter,
+          'date_from' => $date_from,
+          'date_to' => $date_to,
         ]);
     }
 
@@ -87,6 +94,8 @@ class AcceptedListingsController extends Controller
             return $this->handle_edit_comment($request);
         } elseif ($request->has('delete-offer-popup')) {
             return $this->handle_delete_offer($request);
+        } elseif ($request->has('filter-submit')) {
+            return $this->handle_filter($request);
         }
 
         // $validation = $this->validator($request->all());
@@ -231,21 +240,32 @@ class AcceptedListingsController extends Controller
     {
         $listing_offer = ListingOffer::where('offer_status', 'active')
                                    ->where('cso_id', Auth::user()->id)
-                                   ->whereHas('listing', function ($query) {
-                                       $query->where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
-                                            ->where('date_listed', '<=', Carbon::now()->format('Y-m-d H:i'))
-                                            ->where('listing_status', 'active');
-                                   })->find($listing_offer_id);
+                                   ->find($listing_offer_id);
         if (!$listing_offer) {
             return redirect(route('cso.accepted_listings'));
         } else {
             $comments = Comment::where('listing_offer_id', $listing_offer_id)
                                 ->where('status', 'active')
                                 ->orderBy('created_at', 'ASC')->get();
+            $selected_filter = $this->get_selected_filter($listing_offer);
             return view('cso.single_accepted_listing')->with([
             'listing_offer' => $listing_offer,
             'comments' => $comments,
+            'selected_filter' => $selected_filter,
           ]);
+        }
+    }
+
+    private function get_selected_filter($listing_offer)
+    {
+        if ($listing_offer->listing->listing_status == 'active') {
+            if ($listing_offer->listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
+                return 'past';
+            } else {
+                return 'active';
+            }
+        } else {
+            return 'past';
         }
     }
 
@@ -364,5 +384,63 @@ class AcceptedListingsController extends Controller
         $comment->text = $data['edit_comment_text'];
         $comment->save();
         return $comment;
+    }
+
+
+    /**
+     * Handle offer listing "filter".
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_filter(Request $request)
+    {
+        $data = $request->all();
+
+        $date_from = $data["filter_date_from"];
+        $date_to = $data["filter_date_to"];
+        $selected_filter = $data["donations-filter-select"];
+
+        switch ($selected_filter) {
+          case 'active':
+            $listing_status_operator = ">";
+            break;
+          case 'past':
+            $listing_status_operator = "<";
+            break;
+
+          default:
+            $listing_status_operator = ">";
+            break;
+        }
+
+        $listing_offers = ListingOffer::select(DB::raw('listing_offers.*'))
+                                      ->join('listings', 'listing_offers.listing_id', '=', 'listings.id')
+                                      ->where('offer_status', 'active')
+                                      ->where('cso_id', Auth::user()->id)
+                                      ->orderBy('date_expires', 'asc')
+                                      ->whereHas('listing', function ($query) use ($listing_status_operator, $date_from, $date_to) {
+                                          $query->where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
+                                                ->where('date_listed', '>=', $date_from)
+                                                ->where('date_listed', '<=', $date_to);
+                                      });
+        $comments = Comment::select(DB::raw('comments.*'))
+                            ->join('listing_offers', 'comments.listing_offer_id', '=', 'listing_offers.id')
+                            ->where('status', 'active')
+                            ->orderBy('created_at', 'ASC')->get();
+
+        $listing_offers_no = 0;
+        foreach ($listing_offers->get() as $listing_offer) {
+            $listing_offers_no++;
+        }
+
+        return view('cso.accepted_listings')->with([
+          'listing_offers' => $listing_offers,
+          'listing_offers_no' => $listing_offers_no,
+          'comments' => $comments,
+          'selected_filter' => $selected_filter,
+          'date_from' => $date_from,
+          'date_to' => $date_to,
+        ]);
     }
 }

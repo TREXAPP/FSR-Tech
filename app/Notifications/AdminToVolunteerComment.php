@@ -62,7 +62,7 @@ class AdminToVolunteerComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                ->subject('Додаден е коментар на вашата донација.')
+                ->subject('[Сите Сити] Додаден е коментар на вашата донација.')
                 ->line('Адмнистраторот на СитеСити остави коментар на вашата донација')
                 ->line('<div style="margin-bottom: 5px; color: black !important;">' .
                           '<div style="float:left;">' .

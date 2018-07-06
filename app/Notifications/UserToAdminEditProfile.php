@@ -48,7 +48,7 @@ class UserToAdminEditProfile extends Notification implements ShouldQueue
         } else {
             $type = "донатор";
         }
-        $message = (new MailMessage)->subject('Променет е профилот на ' . $type . 'от.')
+        $message = (new MailMessage)->subject('[Сите Сити] Променет е профилот на ' . $type . 'от.')
                     ->line('Направени се следниве измени:')
                     ->line('Тип: ' . $type)
                     ->line('Име: ' . $this->user->first_name)

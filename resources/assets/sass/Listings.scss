@@ -139,6 +139,10 @@
   background: #d0e7af;
 }
 
+.cso-past-listing-box {
+  background: #ddd;
+}
+
 .cso-active-listing-box {
 /*  background: #ffdede; */
   background: #98cb4f;
@@ -164,8 +168,16 @@
   background: #e4cccc;
 }
 
+.donor-my-past-listings-box {
+  background: #ddd;
+}
+
 .donor-listing-box-header {
   padding-bottom: 10px;
+}
+
+.listing-box-header-past {
+  background-color: #ddd;
 }
 
 .donor-listing-offer-button {

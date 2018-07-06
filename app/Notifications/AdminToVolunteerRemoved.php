@@ -43,7 +43,7 @@ class AdminToVolunteerRemoved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                   ->subject('Отстранети сте од платформата СитеСити')
+                   ->subject('[Сите Сити] Отстранети сте од платформата СитеСити')
                    ->line('Отстранети сте како доставувач на организацијата ' . $this->organization->name . ' од страна на администраторот.')
                    ->line('Ако е ова неточно, Ве молиме контактирајте го администраторот на <a href="mailto:' . config('app.master_admin') . '">' . config('app.master_admin') . '</a>');
     }

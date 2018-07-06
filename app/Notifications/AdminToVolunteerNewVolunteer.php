@@ -45,7 +45,7 @@ class AdminToVolunteerNewVolunteer extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Добредојдовте на платформата')
+                  ->subject('[Сите Сити] Добредојдовте на платформата')
                   ->line('Ајде Македонија ве додаде како доставувач на ' . $this->volunteer->organization->name .
                         ',  за подигнување и редистрибуција на донациите за вишок храна.')
                   ->line('Ќе добиете е-мајл известување кога ќе бидете одбрани да подигнете донација со детали за предметот и компанијата. ')

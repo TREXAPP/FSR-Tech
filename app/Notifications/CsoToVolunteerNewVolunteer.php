@@ -49,7 +49,7 @@ class CsoToVolunteerNewVolunteer extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                    ->subject('Добредојдовте на платформата')
+                    ->subject('[Сите Сити] Добредојдовте на платформата')
                     ->line('Додадени сте од ' . $this->cso->first_name . ' ' . $this->cso->last_name .
                             ' - ' . $this->volunteer->organization->name .
                           ', за да помогнете како доставувач во собирање и редистрибуцијата на донација на вишок на храна. ')

@@ -50,7 +50,7 @@ class CsoToDonorVolunteerChanged extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                    ->subject('Имате промени во вашата донација')
+                    ->subject('[Сите Сити] Имате промени во вашата донација')
                     ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->volunteer->organization->name .
                             ' го смени доставувачот на донацијата.')
                     ->line('Податоци за новиот доставувач:')

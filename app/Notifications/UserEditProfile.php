@@ -43,7 +43,7 @@ class UserEditProfile extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $message = (new MailMessage)->subject('Направени се промени на профилот.')
+        $message = (new MailMessage)->subject('[Сите Сити] Направени се промени на профилот.')
                     ->line('Приметивме дека направивте измени на вашиот профил.')
                     ->line('Вашите моментални податоци се:')
                     ->line('Име: ' . $this->user->first_name)

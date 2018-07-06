@@ -19,7 +19,7 @@ class AdminToAnyoneCustomEmail extends Notification
      */
     public function __construct($subject, $message)
     {
-        $this->subject = $subject;
+        $this->subject = "[Сите Сити] " . $subject;
         $this->message = $message;
     }
 

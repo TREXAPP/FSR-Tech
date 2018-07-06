@@ -56,7 +56,7 @@ class DonorToCsoComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                    ->subject('Додаден е коментар на вашата донација.')
+                    ->subject('[Сите Сити] Додаден е коментар на вашата донација.')
                     ->line($this->listing_offer->listing->donor->first_name . ' ' . $this->listing_offer->listing->donor->last_name . ' - ' . $this->listing_offer->listing->donor->organization->name . ' остави коментар на вашата донација')
                     ->line('<div style="margin-bottom: 5px; color: black !important;">' .
                               '<div style="float:left;">' .

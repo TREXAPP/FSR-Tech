@@ -46,7 +46,7 @@ class CsoToVolunteerRemoved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Отстранети сте од платформата СитеСити')
+                    ->subject('[Сите Сити] Отстранети сте од платформата СитеСити')
                     ->line('Отстранети сте како доставувач на организацијата ' . $this->organization->name)
                     ->line('Ако е ова неточно, Ве молиме контактирајте ја организацијата на телефонскиот број ' . Auth::user()->phone . '.');
     }

@@ -17,6 +17,7 @@
   </section>
 
 
+
 <!-- Main content -->
 <section class="content accepted-listings-content">
 
@@ -35,11 +36,66 @@
       </div>
   @endif
 
+  <!-- Filter -->
+  <section class="filter donations-filter">
+    <div class="filter-wrapper row">
+      <form id="donations-filter-form" class="donations-filter-form" action="{{route('cso.accepted_listings')}}" method="post">
+        <input type="hidden" name="post-type" value="filter" />
+        {{csrf_field()}}
+        <div class="filter-container">
+          {{-- <div class="filter-label donations-filter-label col-md-4">
+            <label for="donations-filter-select">Организација:</label>
+          </div> --}}
+
+          <div class="form-group filter-select donations-filter-select col-md-4">
+            <select id="donations_filter_select" class="form-control donations-filter-select" name="donations-filter-select" required>
+              <option value="active" {{($selected_filter == "active") ? "selected" : ""}}>Активни донации</option>
+              <option value="past"  {{($selected_filter == "past") ? "selected" : ""}}>Изминати донации</option>
+            </select>
+          </div>
+          <div class="filter_date_from_wrapper form-group col-md-3">
+            <div class="filter_label_wrapper col-xs-2">
+              <label for="filter_date_from">Од:</label>
+            </div>
+            <div class="filter_input_wrapper col-xs-10">
+              <input id="filter_date_from" type="date" class="form-control" name="filter_date_from" value="{{$date_from}}"/>
+            </div>
+          </div>
+          <div class="filter_date_to_wrapper form-group col-md-3">
+            <div class="filter_label_wrapper col-xs-2">
+              <label for="filter_date_to">До:</label>
+            </div>
+            <div class="filter_input_wrapper col-xs-10">
+              <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
+            </div>
+          </div>
+          {{-- <div class="filter_date_to_wrapper form-group col-md-3">
+              <label for="filter_date_to" class="col-xs-4">До:</label>
+            <input id="filter_date_to" type="date" class="form-control col-xs-8" name="filter_date_to" value="{{$date_to}}"/>
+          </div> --}}
+          <div class="filter_submit_wrapper form-group col-md-2">
+            <input type="submit" name="filter-submit" value="Филтрирај" class="btn btn-primary col-xs-12" />
+            {{-- <button type="submit" name="filter-submit" class="btn btn-primary col-xs-12">Филтрирај</button> --}}
+          </div>
+
+          @if ($errors->has('donations-filter-select'))
+            <span class="help-block">
+              <strong>{{ $errors->first('donations-filter-select') }}</strong>
+            </span>
+          @endif
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+
   @foreach ($listing_offers->get() as $listing_offer)
 
           <div id="listingbox{{$listing_offer->id}}" name="listingbox{{$listing_offer->id}}"></div>
           <!-- Default box -->
-          <div class="cso-accepted-listing-box box listing-box listing-box-{{$listing_offer->id}} {{($listing_offer->id == old('listing_offer_id')) ? 'box-error' : ((session('listingbox') == $listing_offer->id) ? 'box-success' : 'collapsed-box' ) }}">
+          <div class="{{($selected_filter == 'active') ? 'cso-accepted-listing-box' : 'cso-past-listing-box'}}
+                box listing-box listing-box-{{$listing_offer->id}} {{($listing_offer->id == old('listing_offer_id')) ? 'box-error' : ((session('listingbox') == $listing_offer->id) ? 'box-success' : 'collapsed-box' ) }}">
             <div class="box-header with-border listing-box-header">
               <a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
                 <div class="listing-image">
@@ -188,8 +244,10 @@
                   <!-- Change volunteer button -->
                   <div class="volunteer-info-change-button row">
                     <div class="col-xs-12">
-                      <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
-                        class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени доставувач</button>
+                      @if ($selected_filter == 'active')
+                        <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
+                          class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени доставувач</button>
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -235,12 +293,14 @@
                                 @if ($comment->created_at != $comment->updated_at)
                                   <span class="comment-edited my-comment-edited">(изменет)</span>
                                 @endif
-                                <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
-                                  <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
-                                    data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
+                                @if ($selected_filter == 'active')
+                                  <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
+                                    <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
+                                      data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
                                     <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
-                                      data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                                    </div>
+                                        data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
+                                  </div>
+                                @endif
                                   </div>
                                   <hr class="comment-hr my-comment-hr">
                                   <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
@@ -282,30 +342,35 @@
                         @endforeach
 
                       </div>
-                  <div class="new-comment-wrapper">
-                        <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
-                          <form class="form-group new-comment-form" action="{{ route('cso.accepted_listings') }}" method="post">
-                            {{csrf_field()}}
-                            <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                            <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                            <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                          </form>
+                      @if ($selected_filter == 'active')
+                        <div class="new-comment-wrapper">
+                          <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
+                            <form class="form-group new-comment-form" action="{{ route('cso.accepted_listings') }}" method="post">
+                              {{csrf_field()}}
+                              <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
+                              <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
+                              <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
+                            </form>
+                          </div>
+                          <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
                         </div>
-                        <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
-                      </div>
-
+                      @endif
                 </div>
 
 
 
                 <hr>
-                @if (Carbon::parse($listing_offer->listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
-                  <button type="button" title="Прифатената донација не може да биде откажана бидејќи изминува наскоро!" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
-                            class="btn btn-danger delete-offer-button pull-right cancel-disabled" data-toggle="modal" data-target="#delete-not-allowed-popup">Донацијата не може да биде откажана</button>
-                @else
-                  <button type="button" title="Откажи ја донацијата" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
-                            class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup">Откажи ја донацијата</button>
-                @endif              </div>
+                @if ($selected_filter == 'active')
+                  @if (Carbon::parse($listing_offer->listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
+                    <button type="button" title="Прифатената донација не може да биде откажана бидејќи изминува наскоро!" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
+                              class="btn btn-danger delete-offer-button pull-right cancel-disabled" data-toggle="modal" data-target="#delete-not-allowed-popup">Донацијата не може да биде откажана</button>
+                  @else
+                    <button type="button" title="Откажи ја донацијата" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
+                              class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#delete-offer-popup">Откажи ја донацијата</button>
+                  @endif
+                @endif
+
+              </div>
             </div>
             <!-- /.box-footer-->
           </div>

@@ -4,8 +4,8 @@
   <section class="content-header active-listings-content-header">
     <h1><i class="fa fa-cutlery"></i>
       <span>Мои донации</span>
-      @if ($active_listings->count() > 0)
-        <span> ({{$active_listings->count()}})</span>
+      @if ($listings->count() > 0)
+        <span> ({{$listings->count()}})</span>
       @endif
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
@@ -23,21 +23,68 @@
           {{ session('status') }}
       </div>
   @endif
-{{--
-  @if ($errors->any())
-      <div class="alert alert-danger">
-        Донацијата не беше прифатена успешно. Корегирајте ги грешките и обидете се повторно
-        <a href="javascript:document.getElementById('listingbox{{ old('listing_id') }}').scrollIntoView();">
-          <button type="button" class="btn btn-default">Иди до донацијата</button>
-        </a>
-      </div>
-  @endif --}}
 
-  @foreach ($active_listings->get() as $active_listing)
+  <!-- Filter -->
+  <section class="filter donations-filter">
+  	<div class="filter-wrapper row">
+    	<form id="donations-filter-form" class="donations-filter-form" action="{{route('donor.my_active_listings')}}" method="post">
+    		<input type="hidden" name="post-type" value="filter" />
+    		{{csrf_field()}}
+    		<div class="filter-container">
+    			{{-- <div class="filter-label donations-filter-label col-md-4">
+    				<label for="donations-filter-select">Организација:</label>
+    			</div> --}}
+
+    			<div class="form-group filter-select donations-filter-select col-md-4">
+    				<select id="donations_filter_select" class="form-control donations-filter-select" name="donations-filter-select" required>
+    					<option value="active" {{($selected_filter == "active") ? "selected" : ""}}>Активни донации</option>
+    					<option value="past"  {{($selected_filter == "past") ? "selected" : ""}}>Изминати донации</option>
+    				</select>
+    			</div>
+          <div class="filter_date_from_wrapper form-group col-md-3">
+            <div class="filter_label_wrapper col-xs-2">
+              <label for="filter_date_from">Од:</label>
+            </div>
+            <div class="filter_input_wrapper col-xs-10">
+              <input id="filter_date_from" type="date" class="form-control" name="filter_date_from" value="{{$date_from}}"/>
+            </div>
+          </div>
+          <div class="filter_date_to_wrapper form-group col-md-3">
+            <div class="filter_label_wrapper col-xs-2">
+              <label for="filter_date_to">До:</label>
+            </div>
+            <div class="filter_input_wrapper col-xs-10">
+              <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
+            </div>
+          </div>
+          {{-- <div class="filter_date_to_wrapper form-group col-md-3">
+              <label for="filter_date_to" class="col-xs-4">До:</label>
+            <input id="filter_date_to" type="date" class="form-control col-xs-8" name="filter_date_to" value="{{$date_to}}"/>
+          </div> --}}
+          <div class="filter_submit_wrapper form-group col-md-2">
+            <button type="submit" class="btn btn-primary col-xs-12">Филтрирај</button>
+          </div>
+
+
+
+
+          @if ($errors->has('donations-filter-select'))
+            <span class="help-block">
+              <strong>{{ $errors->first('donations-filter-select') }}</strong>
+            </span>
+          @endif
+    		</div>
+
+      </form>
+    </div>
+  </section>
+
+  @foreach ($listings->get() as $active_listing)
 
         <div id="listingbox{{$active_listing->id}}" name="listingbox{{$active_listing->id}}"></div>
           <!-- Default box -->
-          <div class="donor-my-active-listings-box box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
+          <div class="{{($selected_filter == "active") ? "donor-my-active-listings-box" : "donor-my-past-listings-box"}}
+                box listing-box listing-box-{{$active_listing->id}} {{($active_listing->id == old('listing_id')) ? 'box-error' : 'collapsed-box' }}">
             <div class="box-header with-border listing-box-header donor-listing-box-header">
 
                 <div class="listing-image">
@@ -108,8 +155,13 @@
           <div id="hidden-product-name-{{$active_listing->id}}" class="hidden-product-name hidden">{{$active_listing->product->name}}</div>
           <div id="hidden-quantity-{{$active_listing->id}}" class="hidden-quantity hidden">{{$active_listing->quantity}} {{$active_listing->quantity_type->description}}</div>
           <div id="hidden-pickup-time-{{$active_listing->id}}" class="hidden-pickup-time hidden">од {{Carbon::parse($active_listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($active_listing->pickup_time_to)->format('H:i')}} часот</div>
-          <div id="hidden-listed-{{$active_listing->id}}" class="hidden-listed hidden">{{Carbon::parse($active_listing->date_listed)->diffForHumans()}}</div>
-          <div id="hidden-expires-in-{{$active_listing->id}}" class="hidden-expires-in hidden">{{Carbon::parse($active_listing->date_expires)->diffForHumans()}}</div>
+          @if ($selected_filter == 'active')
+            <div id="hidden-listed-{{$active_listing->id}}" class="hidden-listed hidden">{{Carbon::parse($active_listing->date_listed)->diffForHumans()}}</div>
+            <div id="hidden-expires-in-{{$active_listing->id}}" class="hidden-expires-in hidden">{{Carbon::parse($active_listing->date_expires)->diffForHumans()}}</div>
+          @else
+            <div id="hidden-listed-{{$active_listing->id}}" class="hidden-listed hidden">{{Carbon::parse($active_listing->date_listed)->format('d-m-Y')}}</div>
+            <div id="hidden-expires-in-{{$active_listing->id}}" class="hidden-expires-in hidden">{{Carbon::parse($active_listing->date_expires)->format('d-m-Y')}}</div>
+          @endif
           <div id="hidden-food-type-{{$active_listing->id}}" class="hidden-food-type hidden">{{$active_listing->product->food_type->name}}</div>
           <div id="hidden-description-{{$active_listing->id}}" class="hidden-description hidden">{{$active_listing->description}}</div>
   @endforeach
@@ -146,7 +198,11 @@
 
             <div id="details-popup-listed" class="details-popup-listed popup-element row">
               <div class="details-popup-listed-label col-xs-6">
-                <span class="pull-right popup-element-label">Важи од:</span>
+                @if ($selected_filter == 'active')
+                  <span class="pull-right popup-element-label">Важи од:</span>
+                @else
+                  <span class="pull-right popup-element-label">Важеше од:</span>
+                @endif
               </div>
               <div id="details-popup-listed-value" class="details-popup-listed-value popup-element-value col-xs-6">
               </div>
@@ -154,7 +210,11 @@
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
+                @if ($selected_filter == 'active')
+                  <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
+                @else
+                  <span class="pull-right popup-element-label">Истече на:</span>
+                @endif
               </div>
               <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">
               </div>

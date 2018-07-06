@@ -50,6 +50,7 @@ class ListingOfferController extends Controller
     public function index(Request $request, $listing_offer_id)
     {
         $listing_offer = ListingOffer::find($listing_offer_id);
+        $selected_filter = $this->get_selected_filter($listing_offer);
         if (!$listing_offer) {
             return redirect(route('admin.listings'));
         } else {
@@ -59,6 +60,7 @@ class ListingOfferController extends Controller
             return view('admin.accepted_listing')->with([
         'listing_offer' => $listing_offer,
         'comments' => $comments,
+        'selected_filter' => $selected_filter,
       ]);
         }
     }
@@ -206,5 +208,18 @@ class ListingOfferController extends Controller
         $listing_offer->save();
 
         return $listing_offer;
+    }
+
+    private function get_selected_filter($listing_offer)
+    {
+        if ($listing_offer->listing->listing_status == 'active') {
+            if ($listing_offer->listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
+                return 'past';
+            } else {
+                return 'active';
+            }
+        } else {
+            return 'past';
+        }
     }
 }

@@ -42,7 +42,7 @@ class MailResetPasswordToken extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-              ->subject("Ресетирај ја лозинката")
+              ->subject("[Сите Сити] Ресетирај ја лозинката")
               ->line("Долу се наоѓа линк за ресетирање на вашата лозинка.")
               ->action('Промени лозинка', url('password/reset', $this->token))
               ->line('Кликнете тука и продолжете да ја поддржувате целта.');

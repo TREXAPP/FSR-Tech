@@ -27,7 +27,8 @@
 
       <div id="listingbox{{$listing_offer->id}}" name="listingbox{{$listing_offer->id}}"></div>
       <!-- Default box -->
-      <div class="box listing-box donor-my-accepted-listings-box listing-box-{{$listing_offer->id}} collaped-box">
+      <div class=" {{($selected_filter == 'active') ? 'donor-my-accepted-listings-box' : 'donor-my-past-listings-box'}}
+            box listing-box listing-box-{{$listing_offer->id}} collaped-box">
         <div class="box-header with-border listing-box-header">
             <div class="listing-image">
               @if ($listing_offer->listing->image_id)
@@ -117,12 +118,14 @@
                         @if ($comment->created_at != $comment->updated_at)
                           <span class="comment-edited my-comment-edited">(изменет)</span>
                         @endif
-                        <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
-                          <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
-                                  data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
-                          <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
-                                  data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                        </div>
+                        @if ($selected_filter == 'active')
+                          <div id="comment-controls-{{$listing_offer->id}}" class="comment-controls">
+                            <a href="#" id="edit-comment-button-{{$comment->id}}" class="edit-comment-button"
+                              data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
+                            <a href="#" id="delete-comment-button-{{$comment->id}}" class="delete-comment-button"
+                              data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
+                          </div>
+                        @endif
                       </div>
                       <hr class="comment-hr my-comment-hr">
                       <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
@@ -164,17 +167,20 @@
 
                 @endforeach
               </div>
-              <div class="new-comment-wrapper">
-                <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>
-                  <form class="form-group new-comment-form" action="{{ route('donor.single_listing_offer', $listing_offer->id) }}" method="post">
-                    {{csrf_field()}}
-                    <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                    <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                    <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                  </form>
+              @if ($selected_filter == 'active')
+                <div class="new-comment-wrapper">
+                  <div id="new-comment-box-wrapper" class="new-comment-box-wrapper collapse" collapsed>
+                    <form class="form-group new-comment-form" action="{{ route('donor.single_listing_offer', $listing_offer->id) }}" method="post">
+                      {{csrf_field()}}
+                      <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
+                      <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
+                      <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
+                    </form>
+                  </div>
+                  <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
                 </div>
-                <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper" class="btn btn-basic">Внеси коментар ...</button>
-              </div>
+              @endif
+
             </div>
 
 

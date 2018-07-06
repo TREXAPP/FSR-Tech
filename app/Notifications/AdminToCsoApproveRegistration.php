@@ -46,7 +46,7 @@ class AdminToCsoApproveRegistration extends Notification
     {
         $confirm_link = route('email.confirm', $this->user->email_token);
         $message = (new MailMessage)
-                ->subject('Добредојдовте на платформата')
+                ->subject('[Сите Сити] Добредојдовте на платформата')
                 ->line('Добивте одобрување за да ја користите платформата.');
 
         if ($this->user->email_confirmed) {

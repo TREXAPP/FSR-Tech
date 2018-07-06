@@ -50,7 +50,7 @@ class CsoToNewVolunteerChanged extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                ->subject('Имате донација којашто треба да ја подигнете')
+                ->subject('[Сите Сити] Имате донација којашто треба да ја подигнете')
                 ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' ве одбра да подигнете донација за нив.')
                 ->line('')
                 ->line('Податоци за донацијата:')

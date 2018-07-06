@@ -26,7 +26,8 @@
 
     <!-- Default box -->
     <div class="admin-accepted-listing-box box listing-box listing-box-{{$listing_offer->id}}">
-      <div class="box-header with-border listing-box-header">
+      <div class="box-header with-border listing-box-header
+                  {{($selected_filter == 'active') ? '' : 'listing-box-header-past'}}">
 
         <div class="listing-image">
           @if ($listing_offer->listing->image_id)
@@ -54,8 +55,10 @@
                 <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} (од {{$listing_offer->listing->quantity}}) {{$listing_offer->listing->quantity_type->description}}</strong></span>
               </div>
               <div class="col-md-6">
-                <button class="btn btn-success" name="edit_accepted_quantity"
-                      data-toggle="modal" data-target="#edit-quantity-popup">Измени</button>
+                @if ($selected_filter == 'active')
+                  <button class="btn btn-success" name="edit_accepted_quantity"
+                    data-toggle="modal" data-target="#edit-quantity-popup">Измени</button>
+                @endif
               </div>
             </div>
 
@@ -216,8 +219,10 @@
             <!-- Change volunteer button -->
             <div class="volunteer-info-change-button row">
               <div class="col-xs-12">
+                @if($selected_filter == 'active')
                 <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
                   class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#admin-update-volunteer-popup">Промени доставувач</button>
+                @endif
               </div>
             </div>
           </div>
@@ -257,17 +262,19 @@
                           @if ($comment->created_at != $comment->updated_at)
                             <span class="comment-edited my-comment-edited">(изменет)</span>
                           @endif
-                          <div id="admin-comment-controls-{{$listing_offer->id}}" class="admin-comment-controls">
-                            <a href="#" id="admin-edit-comment-button-{{$comment->id}}" class="admin-edit-comment-button"
-                              data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
-                              <a href="#" id="admin-delete-comment-button-{{$comment->id}}" class="admin-delete-comment-button"
-                                data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                              </div>
+                          @if($selected_filter == 'active')
+                            <div id="admin-comment-controls-{{$listing_offer->id}}" class="admin-comment-controls">
+                              <a href="#" id="admin-edit-comment-button-{{$comment->id}}" class="admin-edit-comment-button"
+                                data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
+                                <a href="#" id="admin-delete-comment-button-{{$comment->id}}" class="admin-delete-comment-button"
+                                  data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
                             </div>
-                            <hr class="comment-hr my-comment-hr">
-                            <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
-                              <span>{{$comment->text}}</span>
-                            </div>
+                          @endif
+                          </div>
+                          <hr class="comment-hr my-comment-hr">
+                          <div id="comment-text-{{$comment->id}}" class="comment-text my-comment-text col-xs-12">
+                            <span>{{$comment->text}}</span>
+                          </div>
                           </div>
                         </div>
                       @endif
@@ -292,12 +299,14 @@
                               @if ($comment->created_at != $comment->updated_at)
                                 <span class="comment-edited other-comment-edited">(изменет)</span>
                               @endif
-                              <div id="admin-comment-controls-{{$listing_offer->id}}" class="admin-comment-controls">
-                                <a href="#" id="admin-edit-comment-button-{{$comment->id}}" class="admin-edit-comment-button"
-                                  data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
-                                <a href="#" id="admin-delete-comment-button-{{$comment->id}}" class="admin-delete-comment-button"
-                                  data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
-                              </div>
+                              @if($selected_filter == 'active')
+                                <div id="admin-comment-controls-{{$listing_offer->id}}" class="admin-comment-controls">
+                                  <a href="#" id="admin-edit-comment-button-{{$comment->id}}" class="admin-edit-comment-button"
+                                    data-toggle="modal" data-target="#edit-comment-popup" ><i class="fa fa-pencil fa-1-5x"></i></a>
+                                    <a href="#" id="admin-delete-comment-button-{{$comment->id}}" class="admin-delete-comment-button"
+                                      data-toggle="modal" data-target="#delete-comment-popup" ><i class="fa fa-trash fa-1-5x"></i></a>
+                                    </div>
+                              @endif
                             </div>
                             <hr class="comment-hr other-comment-hr">
                             <div id="comment-text-{{$comment->id}}" class="comment-text other-comment-text col-xs-12">
@@ -311,24 +320,27 @@
                   @endforeach
 
                 </div>
-            <div class="new-comment-wrapper">
-                  <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
-                    <form class="form-group new-comment-form" action="{{ route('admin.listing_offer', $listing_offer->id) }}" method="post">
-                      {{csrf_field()}}
-                      <input id="post-type" type="hidden" name="post-type" value="new_comment">
-                      <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
-                      <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
-                      <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
-                    </form>
+                @if($selected_filter == 'active')
+                  <div class="new-comment-wrapper">
+                    <div id="new-comment-box-wrapper-{{$listing_offer->id}}" class="new-comment-box-wrapper collapse" collapsed>
+                      <form class="form-group new-comment-form" action="{{ route('admin.listing_offer', $listing_offer->id) }}" method="post">
+                        {{csrf_field()}}
+                        <input id="post-type" type="hidden" name="post-type" value="new_comment">
+                        <input type="hidden" name="listing_offer_id" value="{{$listing_offer->id}}">
+                        <textarea class="form-control" name="comment" rows="2" cols="50"></textarea>
+                        <button id="submit-comment" type="submit" name="submit-comment" class="btn btn-primary pull-right">Внеси</button>
+                      </form>
+                    </div>
+                    <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
                   </div>
-                  <button type="button" data-toggle="collapse" data-target="#new-comment-box-wrapper-{{$listing_offer->id}}" class="btn btn-basic">Внеси коментар ...</button>
-                </div>
-
+                @endif
           </div>
 
           <hr>
+          @if($selected_filter == 'active')
             <button type="button" title="Избриши ја прифатената донација" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
                       class="btn btn-danger delete-offer-button pull-right" data-toggle="modal" data-target="#admin-delete-offer-popup">Избриши ја прифатената донација</button>
+          @endif
         </div>
       </div>
       <!-- /.box-footer-->
@@ -525,23 +537,43 @@
 
             <div id="details-popup-listed" class="details-popup-listed popup-element row">
               <div class="details-popup-listed-label col-xs-6">
-                <span class="pull-right popup-element-label">Важи од:</span>
+                @if ($selected_filter == 'active')
+                  <span class="pull-right popup-element-label">Важи од:</span>
+                @else
+                  <span class="pull-right popup-element-label">Важеше од:</span>
+                @endif
               </div>
-              <div id="details-popup-listed-value" class="details-popup-listed-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_listed)->diffForHumans()}}</div>
+              @if ($selected_filter == 'active')
+                <div id="details-popup-listed-value" class="details-popup-listed-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_listed)->diffForHumans()}}</div>
+              @else
+                <div id="details-popup-listed-value" class="details-popup-listed-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_listed)->format('d-m-Y')}}</div>
+              @endif
             </div>
 
             <div id="details-popup-sell-by-date" class="details-popup-sell-by-date popup-element row">
               <div class="details-popup-sell-by-date-label col-xs-6">
                 <span class="pull-right popup-element-label">Употребливо до:</span>
               </div>
-              <div id="details-popup-sell-by-date-value" class="details-popup-sell-by-date-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->sell_by_date)->diffForHumans()}}</div>
+              @if ($selected_filter == 'active')
+                <div id="details-popup-sell-by-date-value" class="details-popup-sell-by-date-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->sell_by_date)->diffForHumans()}}</div>
+              @else
+                <div id="details-popup-sell-by-date-value" class="details-popup-sell-by-date-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->sell_by_date)->format('d-m-Y')}}</div>
+              @endif
             </div>
 
             <div id="details-popup-expires-in" class="details-popup-expires-in popup-element row">
               <div class="details-popup-expires-in-label col-xs-6">
-                <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
+                @if ($selected_filter == 'active')
+                  <span class="pull-right popup-element-label">Достапна на платформата уште:</span>
+                @else
+                  <span class="pull-right popup-element-label">Истече на:</span>
+                @endif
               </div>
-              <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</div>
+              @if ($selected_filter == 'active')
+                <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</div>
+              @else
+                <div id="details-popup-expires-in-value" class="details-popup-expires-in-value popup-element-value col-xs-6">{{Carbon::parse($listing_offer->listing->date_expires)->format('d-m-Y')}}</div>
+              @endif
             </div>
 
             <div id="details-popup-food-type" class="details-popup-food-type popup-element row">
@@ -561,10 +593,12 @@
             </h5>
           <div class="modal-footer">
             {{-- <input type="submit" name="submit-listing-popup" class="btn btn-primary" value="Прифати" /> --}}
+          @if($selected_filter == 'active')
             <a href="{{route('admin.edit_listing', $listing_offer->listing->id)}}"
-                  id="admin-listing-edit-{{$listing_offer->listing->id}}"
-                  name="button"
-                  class="btn btn-success admin-listing-button admin-listing-edit-{{$listing_offer->listing->id}}">Измени</a>
+              id="admin-listing-edit-{{$listing_offer->listing->id}}"
+              name="button"
+              class="btn btn-success admin-listing-button admin-listing-edit-{{$listing_offer->listing->id}}">Измени</a>
+          @endif
             <button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
           </div>
         </div>

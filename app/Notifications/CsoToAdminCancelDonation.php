@@ -50,7 +50,7 @@ class CsoToAdminCancelDonation extends Notification
     public function toMail($notifiable)
     {
         $message = (new MailMessage)
-                  ->subject('Подигнувањето на донацијата е откажано.')
+                  ->subject('[Сите Сити] Подигнувањето на донацијата е откажано.')
                   ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' го откажа прифаќањето на донацијата.')
                   ->line('<br>')
                   ->line('Информации за донацијата:')

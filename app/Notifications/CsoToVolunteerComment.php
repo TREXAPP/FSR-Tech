@@ -60,7 +60,7 @@ class CsoToVolunteerComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                ->subject('Додаден е коментар на вашата донација.')
+                ->subject('[Сите Сити] Додаден е коментар на вашата донација.')
                 ->line('<div style="margin-bottom: 5px; color: black !important;">' .
                           '<div style="float:left;">' .
                             '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->listing_offer->cso) . '">' .
