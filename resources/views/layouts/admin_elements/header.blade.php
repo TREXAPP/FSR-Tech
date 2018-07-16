@@ -102,9 +102,9 @@
             </li>
             <!-- Menu Footer-->
             <li class="user-footer">
-              <div class="pull-left">
+              {{-- <div class="pull-left">
                 <a href="/{{Auth::user()->type()}}/profile" class="btn btn-default btn-flat">Профил</a>
-              </div>
+              </div> --}}
               <div class="pull-right">
                 <a class="btn btn-default btn-flat" href="{{ route('admin.logout') }}"
                     onclick="event.preventDefault();

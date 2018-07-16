@@ -76,7 +76,7 @@ class ProfileController extends Controller
 
             $user->notify(new UserEditProfile(Auth::user()));
 
-            $master_admins = Admin::where('master_admin', 1)->get();
+            $master_admins = Admin::where('master_admin', 1)->where('status', 'active')->get();
             Notification::send($master_admins, new UserToAdminEditProfile(Auth::user()));
 
             return back()->with('status', "Измените се успешно зачувани!");

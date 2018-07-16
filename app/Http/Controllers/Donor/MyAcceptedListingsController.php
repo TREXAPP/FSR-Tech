@@ -112,7 +112,8 @@ class MyAcceptedListingsController extends Controller
         }
 
         //send to master_admin(s)
-        $master_admins = Admin::where('master_admin', 1)->get();
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
         Notification::send($master_admins, new DonorToAdminComment($listing_offer, $comment_text, $other_comments));
 
         //find all regular admins that commented, and send them all
@@ -122,7 +123,8 @@ class MyAcceptedListingsController extends Controller
                   ->get();
         if ($admin_comments) {
             $admin_ids=array();
-            $regular_admins = Admin::where('master_admin', 0);
+            $regular_admins = Admin::where('master_admin', 0)
+                              ->where('status', 'active')->get();
             foreach ($regular_admins as $admin) {
                 foreach ($admin_comments as $admin_comment) {
                     if ($admin_comment->user_id == $admin->id) {

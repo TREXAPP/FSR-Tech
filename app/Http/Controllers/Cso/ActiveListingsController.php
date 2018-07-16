@@ -104,7 +104,8 @@ class ActiveListingsController extends Controller
         if ($listing_offer->volunteer->email != Auth::user()->email) {
             $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
         }
-        $master_admins = Admin::where('master_admin', 1)->get();
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
         Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $donor));
 
         return back()->with('status', "Донацијата е успешно прифатена!");
@@ -225,7 +226,7 @@ class ActiveListingsController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'email' => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email',
+            'email' => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email|unique:admins,email',
             'image' => 'image|max:2048',
         ];
 

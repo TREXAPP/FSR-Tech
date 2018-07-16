@@ -119,7 +119,7 @@ class NewListingController extends Controller
 
         Notification::send($csos, new DonorToCsosAdminNewDonation($listing));
 
-        $master_admins = Admin::where('master_admin', 1)->get();
+        $master_admins = Admin::where('master_admin', 1)->where('status', 'active')->get();
         Notification::send($master_admins, new DonorToCsosAdminNewDonation($listing));
 
         return back()->with('status', "Донацијата е додадена успешно!");

@@ -81,7 +81,8 @@ class RegisterController extends Controller
         if ($user->type() == 'donor' || $user->type() == 'cso') {
             $user->notify(new UserRegistrationSuccess($user));
         }
-        $admins = Admin::where('email', '!=', 'admin@admin.mk')->get();
+        $admins = Admin::where('email', '!=', 'sitesitimk@gmail.com')
+                  ->where('status', 'active')->get();
         Notification::send($admins, new UserToAdminsRegister($user));
 
         //$request->session()->put('status', Lang::get('login.not_approved'));

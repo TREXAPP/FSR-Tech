@@ -42,7 +42,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $admins = Admin::all();
+        $admins = Admin::where('status', 'active')->get();
         return $this->return_view($admins);
     }
 
@@ -60,55 +60,48 @@ class AdminsController extends Controller
         'admins' => $admins,
       ]);
     }
-    //
-    // public function handle_post(Request $request)
-    // {
-    //     $data = $request->all();
-    //     if (!empty($data['post-type'])) {
-    //         switch ($data['post-type']) {
-    //       case 'filter':
-    //         if ($data['organizations-filter-select']) {
-    //             return $this->handle_filter($data);
-    //         } else {
-    //             return $this->index();
-    //         }
-    //
-    //       break;
-    //       case 'delete':
-    //         return $this->handle_delete($request->all());
-    //       default:
-    //         return $this->index();
-    //       break;
-    //     }
-    //     }
-    // }
 
-    //
-    // /**
-    //  * Handle offer listing "delete". (it is actually update)
-    //  *
-    //  * @param  Array $data
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function handle_delete(array $data)
-    // {
-    //     $volunteer = $this->delete($data);
-    //     $volunteer->notify(new AdminToVolunteerRemoved($volunteer->organization));
-    //     return back()->with('status', "Доставувачот е успешно избришан!");
-    // }
-    //
-    // /**
-    //  * Mark the selected listing offer as cancelled
-    //  *
-    //  * @param  array  $data
-    //  * @return \FSR\Volunteer
-    //  */
-    // protected function delete(array $data)
-    // {
-    //     $volunteer = Volunteer::find($data['volunteer_id']);
-    //     $volunteer->status = 'deleted';
-    //     $volunteer->save();
-    //     return $volunteer;
-    // }
-    //
+    public function handle_post(Request $request)
+    {
+        $data = $request->all();
+        if (!empty($data['post-type'])) {
+            switch ($data['post-type']) {
+          case 'delete':
+            return $this->handle_delete($data);
+          break;
+
+          default:
+            return $this->index();
+          break;
+        }
+        }
+    }
+
+
+    /**
+     * Handle offer listing "delete". (it is actually update)
+     *
+     * @param  Array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_delete(array $data)
+    {
+        $admin = $this->delete($data);
+        //$admin->notify(new AdminToAdminRemoved());
+        return back()->with('status', "Администраторот е успешно избришан!");
+    }
+
+    /**
+     * Mark the selected listing offer as cancelled
+     *
+     * @param  array  $data
+     * @return \FSR\Volunteer
+     */
+    protected function delete(array $data)
+    {
+        $admin = Admin::find($data['admin_id']);
+        $admin->status = 'deleted';
+        $admin->save();
+        return $admin;
+    }
 }

@@ -83,7 +83,7 @@ class EditVolunteerController extends Controller
                     'volunteer-first-name'    => 'required',
                     'volunteer-last-name'     => 'required',
                     'volunteer-image'         => 'image|max:2048',
-                    'volunteer-email'         => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email',
+                    'volunteer-email'         => 'required|string|email|max:255|unique:donors,email|unique:csos,email|unique:volunteers,email|unique:admins,email',
                     'volunteer-phone'         => 'required',
                 ];
 

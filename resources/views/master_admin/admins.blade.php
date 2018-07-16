@@ -7,8 +7,8 @@
 		@if ($admins->count() > 0)
 		<span> ({{$admins->count()}})</span>
 		@endif
-		<button href="{{route('master_admin.new_admin')}}" id="new-admin-button" name="new-admin-button"
-		class="btn btn-success new-admin-button" disabled><i class="fa fa-plus"></i>Додади нов администратор</button>
+		<a href="{{route('master_admin.new_admin')}}" id="new-admin-button" name="new-admin-button"
+		class="btn btn-success new-admin-button"><i class="fa fa-plus"></i>Додади нов администратор</a>
 		{{-- <a href="{{route('master_admin.new_admin')}}" id="new-admin-button" name="new-admin-button"
 		class="btn btn-success new-admin-button" disabled><i class="fa fa-plus"></i>Додади нов администратор</a> --}}
 	</h1>
@@ -105,12 +105,12 @@
 
 			<div class="box-footer">
 					<div class="pull-right">
-						<button href="{{route('master_admin.edit_admin', $admin->id)}}" id="edit-admin-button-{{$admin->id}}" name="edit-admin-button-{{$admin->id}}"
-							class="btn btn-success edit-admin-button" disabled>Измени ги податоците</button>
+						<a href="{{route('master_admin.edit_admin', $admin->id)}}" id="edit-admin-button-{{$admin->id}}" name="edit-admin-button-{{$admin->id}}"
+							class="btn btn-success edit-admin-button">Измени ги податоците</a>
 						{{-- <a href="{{route('master_admin.edit_admin', $admin->id)}}" id="edit-admin-button-{{$admin->id}}" name="edit-admin-button-{{$admin->id}}"
 							class="btn btn-success edit-admin-button">Измени ги податоците</a> --}}
 							<button id="delete-admin-button-{{ $admin->id }}" type="submit" data-toggle="modal" data-target="#delete-admin-popup"
-								name="delete-admin-button" class="btn btn-danger delete-admin-button" disabled >Избриши го администраторот</button>
+								name="delete-admin-button" class="btn btn-danger delete-admin-button" >Избриши го администраторот</button>
 							</div>
 			</div>
 			@endif
@@ -132,6 +132,7 @@
 		<div class="modal-content">
 			<form id="delete-admin-form" class="delete-admin-form" action="{{ route('master_admin.admins') }}" method="post">
 				{{ csrf_field() }}
+				
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 id="popup-title" class="modal-title popup-title">Избриши го администраторот</h4>
