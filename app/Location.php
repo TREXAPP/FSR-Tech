@@ -34,6 +34,13 @@ class Location extends Model
     {
         return $this->hasMany('FSR\Donor');
     }
+    /**
+     * Get the volunteers that belong to the location.
+     */
+    public function volunteers()
+    {
+        return $this->belongsToMany('FSR\Volunteer', 'volunteers_locations')->withPivot('status');
+    }
     /*
         protected $fillable = [
           'name', 'description',

@@ -53,6 +53,10 @@ Route::post('register/organizations', 'Auth\RegisterController@getOrganizations'
   //get organization address with ajax
 Route::post('register/organizations/address/{id}', 'Auth\RegisterController@getAddress')->name('register.address');
 
+//Free volunteers routes ...
+Route::get('free_volunteers', 'Auth\FreeVolunteersController@index')->name('free_volunteers');
+Route::post('free_volunteers', 'Auth\FreeVolunteersController@handle_post')->name('free_volunteers');
+
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

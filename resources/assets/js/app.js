@@ -12,6 +12,7 @@ require('./accepted_listings');
 require('./donor_my_active_listings');
 require('./volunteers');
 require('./new_listing');
+require('./free_volunteers');
 
 require('./admin/approve_users');
 require('./admin/email');
@@ -29,6 +30,7 @@ require('./admin/donors');
 require('./admin/donations');
 require('./admin/edit_listing');
 require('./admin/listing_offer');
+require('./admin/admins');
 
 require('admin-lte');
 //

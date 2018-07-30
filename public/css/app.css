@@ -19568,6 +19568,13 @@ button.close {
   margin-right: 5px;
 }
 
+/** free volunteers section **/
+
+#availability_table td,
+#availability_table th {
+  text-align: center;
+}
+
 .logo-home-img {
   width: 50px;
   float: left;

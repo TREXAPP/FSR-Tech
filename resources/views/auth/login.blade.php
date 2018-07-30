@@ -22,7 +22,7 @@
         <ul class="nav navbar-nav">
           <li><a href="http://ajdemakedonija.mk/mk/business-contact-form-mk/" target="_blank"><span>ДОНАТОРИ</span></a></li>
           <li><a href="http://wp.ajdemakedonija.mk/cso-contact-form/" target="_blank"><span>ПРИМАТЕЛИ</span></a></li>
-          <li><a href="https://drive.google.com/open?id=1zi2coW0qLhpc74JiVjliYlSV_Z_nsQ71Bvta-tsXM3U" target="_blank"><span>ДОСТАВУВАЧИ</span></a></li>
+          <li><a href="{{route('free_volunteers')}}"><span>ВОЛОНТЕРИ</span></a></li>
           <li><a href="https://drive.google.com/open?id=1OiP5Jo-F43MhqGuDxvGVXyJO0gJy5KGLhCkKFA3AQyM" target="_blank"><span>ЧЛЕНОВИ</span></a></li>
           <li><a href="https://drive.google.com/open?id=1fClgnHS2QMeA18nbjKg1z_DrYhkmDYy20r_JV1BvgeU" target="_blank"><span>ЧЕСТО ПОСТАВУВАНИ ПРАШАЊА</span></a></li>
         </ul>
@@ -71,10 +71,10 @@
       </div>
     </a>
 
-<a href="https://drive.google.com/open?id=1zi2coW0qLhpc74JiVjliYlSV_Z_nsQ71Bvta-tsXM3U">
+<a href="{{route('free_volunteers')}}">
   <div class="bottom-panel-image-4 col-sm-4 circle-container">
     <div class="circle circle-white">
-        <p>Доставувачи</p>
+        <p>Волонтери</p>
     </div>
   </div>
 </a>

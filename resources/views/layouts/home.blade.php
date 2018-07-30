@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css">
+<script type="text/javascript" src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,6 +18,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="home-body">
+
     <div id="app">
       <div class="top-bar">
         <div class="top-bar-logo pull-left">
@@ -41,7 +47,7 @@
 
                   <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                       <div class="col-xs-12">
-                          <input id="email" type="email" class="form-control"
+                          <input id="email-input" type="email" class="form-control"
                                 name="email" value="{{ old('email') }}"
                                 placeholder="@lang('login.email')" required autofocus>
                           @if ($errors->has('email'))
@@ -148,5 +154,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/test.js') }}"></script>
 </body>
 </html>

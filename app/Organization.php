@@ -39,6 +39,14 @@ class Organization extends Model
         return $this->belongsTo('FSR\DonorType');
     }
 
+    /**
+     * Get the volunteers that belong to the organization.
+     */
+    public function free_volunteers()
+    {
+        return $this->belongsToMany('FSR\Volunteer', 'volunteers_organizations')->withPivot('type', 'status');
+    }
+
     protected $fillable = [
       'name',
       'description',

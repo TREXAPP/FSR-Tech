@@ -31,6 +31,8 @@ class Volunteer extends Authenticatable
         'added_by_user_id',
         'status',
         'is_user',
+        'type',
+        'address',
       ];
     /**
      * Get the location for this cso.
@@ -48,6 +50,39 @@ class Volunteer extends Authenticatable
     {
         return $this->hasMany('FSR\ListingOffer');
     }
+
+    /**
+     * Get the locations that belong to the volunteer.
+     */
+    public function locations()
+    {
+        return $this->belongsToMany('FSR\Location', 'volunteers_locations')->withPivot('status');
+    }
+
+    /**
+     * Get the organizations that belong to the volunteer.
+     */
+    public function free_organizations()
+    {
+        return $this->belongsToMany('FSR\Organization', 'volunteers_organizations')->withPivot('type', 'status');
+    }
+
+    /**
+     * Get the transport_types that belong to the volunteer.
+     */
+    public function transport_types()
+    {
+        return $this->belongsToMany('FSR\TransportType', 'volunteers_transport_types')->withPivot('status');
+    }
+
+    /**
+     * Get the transport_types that belong to the volunteer.
+     */
+    public function timeframes()
+    {
+        return $this->belongsToMany('FSR\Timeframe', 'volunteer_availabilities')->withPivot('is_available', 'status');
+    }
+
 
 
 
