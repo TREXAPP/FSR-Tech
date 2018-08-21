@@ -23,7 +23,7 @@ class Log extends Model
      */
     public function cso()
     {
-        return $this->belongsTo('FSR\Cso');
+        return $this->belongsTo('FSR\Cso', 'user_id');
     }
 
     /**
@@ -31,6 +31,6 @@ class Log extends Model
      */
     public function donor()
     {
-        return $this->belongsTo('FSR\Donor');
+        return $this->belongsTo('FSR\Donor', 'user_id');
     }
 }

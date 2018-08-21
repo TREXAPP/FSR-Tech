@@ -21,6 +21,7 @@ require('./admin/new_product');
 require('./admin/locations');
 require('./admin/donor_types');
 require('./admin/quantity_types');
+require('./admin/transport_types');
 require('./admin/products');
 require('./admin/food_types');
 require('./admin/cso_organizations');

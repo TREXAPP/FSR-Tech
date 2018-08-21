@@ -230,6 +230,35 @@
           </ul>
       </li>
 
+
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-universal-access"></i> <span>Типови на транспорт</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li>
+                    <a href="/{{Auth::user()->type()}}/transport_types">
+                      <i class="fa fa-users"></i> <span>Преглед</span>
+                      <span class="pull-right-container">
+                      </span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="/{{Auth::user()->type()}}/transport_types/new">
+                      <i class="fa fa-user-plus"></i> <span>Додади нов</span>
+                      <span class="pull-right-container">
+                      </span>
+                    </a>
+                  </li>
+
+                </ul>
+            </li>
+
+
       <li class="treeview">
           <a href="#">
             <i class="fa fa-universal-access"></i> <span>Типови на донатори</span>
@@ -357,9 +386,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="#">
-                <i class="fa fa-star-half-full"></i> <span>Рејтинзи</span>
+            <li>
+              <a href="{{route('admin.activity_report')}}">
+                <i class="fa fa-star-half-full"></i> <span>Активност</span>
                 <span class="pull-right-container">
                   {{-- <small class="label pull-right bg-green">4.74</small> --}}
                 </span>
@@ -367,7 +396,7 @@
             </li>
             <li class="inactive-menu">
               <a href="#">
-                <i class="fa fa-th"></i> <span>Статистики</span>
+                <i class="fa fa-th"></i> <span>Регистрации</span>
                 <span class="pull-right-container">
                 </span>
               </a>

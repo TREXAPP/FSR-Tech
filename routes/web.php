@@ -132,6 +132,12 @@ Route::post('admin/food_types/new', 'Admin\NewFoodTypeController@handle_post')->
 Route::get('admin/food_types/{food_type_id}', 'Admin\EditFoodTypeController@index')->name('admin.edit_food_type');
 Route::post('admin/food_types/{food_type_id}', 'Admin\EditFoodTypeController@handle_post')->name('admin.edit_food_type');
 
+Route::get('admin/transport_types', 'Admin\TransportTypesController@index')->name('admin.transport_types');
+Route::post('admin/transport_types', 'Admin\TransportTypesController@handle_post')->name('admin.transport_types');
+Route::get('admin/transport_types/new', 'Admin\NewTransportTypeController@index')->name('admin.new_transport_type');
+Route::post('admin/transport_types/new', 'Admin\NewTransportTypeController@handle_post')->name('admin.new_transport_type');
+Route::get('admin/transport_types/{transport_type_id}', 'Admin\EditTransportTypeController@index')->name('admin.edit_transport_type');
+Route::post('admin/transport_types/{transport_type_id}', 'Admin\EditTransportTypeController@handle_post')->name('admin.edit_transport_type');
 
 Route::get('admin/donor_types', 'Admin\DonorTypesController@index')->name('admin.donor_types');
 Route::post('admin/donor_types', 'Admin\DonorTypesController@handle_post')->name('admin.donor_types');
@@ -184,6 +190,11 @@ Route::get('admin/resource_page_donor', 'Admin\DonorResourcePageController@index
 Route::post('admin/resource_page_donor', 'Admin\DonorResourcePageController@handle_post')->name('admin.resource_page_donor');
 Route::get('admin/resource_page_cso', 'Admin\CsoResourcePageController@index')->name('admin.resource_page_cso');
 Route::post('admin/resource_page_cso', 'Admin\CsoResourcePageController@handle_post')->name('admin.resource_page_cso');
+
+//activity report
+Route::get('admin/reports/activity', 'Admin\ActivityReportController@index')->name('admin.activity_report');
+Route::post('admin/reports/activity', 'Admin\ActivityReportController@handle_post')->name('admin.activity_report');
+
 
 
 //donor routes

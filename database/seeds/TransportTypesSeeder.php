@@ -12,37 +12,37 @@ class TransportTypesSeeder extends Seeder
     public function run()
     {
         TransportType::create([
-          'id' => '1',
+          'id' => '2',
           'name' => 'пеш',
           'quantity' => 'до 10 кг.',
         ]);
         TransportType::create([
-          'id' => '2',
+          'id' => '3',
           'name' => 'со автобус',
           'quantity' => 'до 10 кг.',
         ]);
         TransportType::create([
-          'id' => '3',
+          'id' => '4',
           'name' => 'со велосипед',
           'quantity' => 'до 15 кг.',
         ]);
         TransportType::create([
-          'id' => '4',
+          'id' => '5',
           'name' => 'со автомобил',
           'quantity' => 'од 20 до 50 кг.',
         ]);
         TransportType::create([
-          'id' => '5',
+          'id' => '6',
           'name' => 'со комбе',
           'quantity' => 'од 50 до 200 кг.',
         ]);
         TransportType::create([
-          'id' => '6',
+          'id' => '7',
           'name' => 'со ладилник',
           'quantity' => 'од 50 до 200 кг.',
         ]);
         TransportType::create([
-          'id' => '99',
+          'id' => '1',
           'name' => 'друго',
           'quantity' => '',
         ]);

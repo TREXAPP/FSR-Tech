@@ -23,6 +23,16 @@ class Organization extends Model
         return $this->hasMany('FSR\Donor');
     }
 
+    public function donor_logs()
+    {
+        return $this->hasManyThrough('FSR\Log', 'FSR\Donor', 'organization_id', 'user_id', 'id', 'id');
+    }
+
+    public function cso_logs()
+    {
+        return $this->hasManyThrough('FSR\Log', 'FSR\Cso', 'organization_id', 'user_id', 'id', 'id');
+    }
+
     /**
      * Get the donors for this organization.
      */

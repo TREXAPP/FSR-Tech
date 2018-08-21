@@ -18,6 +18,7 @@ use FSR\VolunteersOrganization;
 use FSR\VolunteersTransportType;
 use FSR\Custom\Methods;
 use FSR\Notifications\UserToAdminsRegister;
+use FSR\Notifications\FreeVolunteerToAdminsRegister;
 use FSR\Notifications\FreeVolunteerApplicationSuccess;
 
 
@@ -77,6 +78,9 @@ class FreeVolunteersController extends Controller
         //$file_id = $this->new_product_handle_upload($request);
         $free_volunteer = $this->create($data);
         $free_volunteer->notify(new FreeVolunteerApplicationSuccess());
+        $admins = Admin::where('email', '!=', 'sitesitimk@gmail.com')
+                  ->where('status', 'active')->get();
+        Notification::send($admins, new FreeVolunteerToAdminsRegister($free_volunteer));
         //return back()->with('status', "Вашата апликација е успешна! Ќе бидете контактирани по е-маил.");
         return redirect(route('login'))->with('status', "Вашата апликација е успешна! Ќе бидете контактирани по е-маил.");
     }
