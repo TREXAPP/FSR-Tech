@@ -195,6 +195,10 @@ Route::post('admin/resource_page_cso', 'Admin\CsoResourcePageController@handle_p
 Route::get('admin/reports/activity', 'Admin\ActivityReportController@index')->name('admin.activity_report');
 Route::post('admin/reports/activity', 'Admin\ActivityReportController@handle_post')->name('admin.activity_report');
 
+//registration report
+Route::get('admin/reports/registration', 'Admin\RegistrationReportController@index')->name('admin.registration_report');
+Route::post('admin/reports/registration', 'Admin\RegistrationReportController@handle_post')->name('admin.registration_report');
+
 
 
 //donor routes

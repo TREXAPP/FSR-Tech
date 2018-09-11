@@ -42,40 +42,56 @@
     					<option value="past"  {{($selected_filter == "past") ? "selected" : ""}}>Изминати донации</option>
     				</select>
     			</div>
-          <div class="filter_date_from_wrapper form-group col-md-3">
-            <div class="filter_label_wrapper col-xs-2">
-              <label for="filter_date_from">Од:</label>
-            </div>
-            <div class="filter_input_wrapper col-xs-10">
-              <input id="filter_date_from" type="date" class="form-control" name="filter_date_from" value="{{$date_from}}"/>
-            </div>
+          <div class="form-group filter-select food-types-filter-select col-md-4">
+            <select id="food_types_filter_select" class="form-control food-types-filter-select" name="food-types-filter-select" >
+              <option value="">-- Тип на храна --</option>
+              @foreach ($food_types as $food_type)
+                <option value="{{$food_type->id}}" {{($food_type->id == $food_type_filter) ? "selected" : ""}}>{{$food_type->name}}</option>
+              @endforeach
+            </select>
           </div>
-          <div class="filter_date_to_wrapper form-group col-md-3">
-            <div class="filter_label_wrapper col-xs-2">
-              <label for="filter_date_to">До:</label>
-            </div>
-            <div class="filter_input_wrapper col-xs-10">
-              <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
-            </div>
-          </div>
-          {{-- <div class="filter_date_to_wrapper form-group col-md-3">
-              <label for="filter_date_to" class="col-xs-4">До:</label>
-            <input id="filter_date_to" type="date" class="form-control col-xs-8" name="filter_date_to" value="{{$date_to}}"/>
-          </div> --}}
-          <div class="filter_submit_wrapper form-group col-md-2">
-            <button type="submit" class="btn btn-primary col-xs-12">Филтрирај</button>
+          <div class="form-group filter-select products-filter-select col-md-4">
+            <select id="products_filter_select" class="form-control products-filter-select" name="products-filter-select" >
+              <option value="">-- Производ --</option>
+              @foreach ($products as $product)
+                <option value="{{$product->id}}" {{($product->id == $product_filter) ? "selected" : ""}}>{{$product->name}}</option>
+              @endforeach
+            </select>
           </div>
 
-
-
-
-          @if ($errors->has('donations-filter-select'))
-            <span class="help-block">
-              <strong>{{ $errors->first('donations-filter-select') }}</strong>
-            </span>
-          @endif
     		</div>
-
+        <div class="form-group filter-select organizations-filter-select col-md-4">
+          <select id="organizations_filter_select" class="form-control organizations-filter-select" name="organizations-filter-select" >
+            <option value="">-- Организација --</option>
+            @foreach ($organizations as $organization)
+              <option value="{{$organization->id}}" {{($organization->id == $organization_filter) ? "selected" : ""}}>{{$organization->name}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="filter_date_from_wrapper form-group col-md-3">
+          <div class="filter_label_wrapper col-xs-2">
+            <label for="filter_date_from">Од:</label>
+          </div>
+          <div class="filter_input_wrapper col-xs-10">
+            <input id="filter_date_from" type="date" class="form-control" name="filter_date_from" value="{{$date_from}}"/>
+          </div>
+        </div>
+        <div class="filter_date_to_wrapper form-group col-md-3">
+          <div class="filter_label_wrapper col-xs-2">
+            <label for="filter_date_to">До:</label>
+          </div>
+          <div class="filter_input_wrapper col-xs-10">
+            <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
+          </div>
+        </div>
+        <div class="filter_submit_wrapper form-group col-md-2">
+          <button type="submit" class="btn btn-primary col-xs-12">Филтрирај</button>
+        </div>
+        @if ($errors->has('donations-filter-select'))
+          <span class="help-block">
+            <strong>{{ $errors->first('donations-filter-select') }}</strong>
+          </span>
+        @endif
       </form>
     </div>
   </section>

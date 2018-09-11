@@ -394,8 +394,8 @@
                 </span>
               </a>
             </li>
-            <li class="inactive-menu">
-              <a href="#">
+            <li>
+              <a href="{{route('admin.registration_report')}}">
                 <i class="fa fa-th"></i> <span>Регистрации</span>
                 <span class="pull-right-container">
                 </span>

@@ -3,7 +3,10 @@
 namespace FSR\Http\Controllers\Admin;
 
 use FSR\Listing;
+use FSR\Product;
+use FSR\FoodType;
 use FSR\ListingOffer;
+use FSR\Organization;
 use FSR\Custom\Methods;
 
 use FSR\Http\Controllers\Controller;
@@ -34,6 +37,15 @@ class ListingsController extends Controller
         $date_from = substr(Carbon::now()->addDays(-90), 0, 10);
         $date_to = substr(Carbon::now(), 0, 10);
 
+        $organizations = Organization::where('status', 'active')
+                                      ->where('type', 'donor')->get();
+
+        $organization_filter = '';
+        $food_type_filter = '';
+        $product_filter = '';
+
+        $food_types = FoodType::where('status', 'active')->get();
+        $products = Product::where('status', 'active')->get();
         //  $listings = Listing::where('listing_status', 'active');
         $listings = Listing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
                                   ->where('date_listed', '>=', $date_from)
@@ -50,6 +62,12 @@ class ListingsController extends Controller
           'date_from' => $date_from,
           'date_to' => $date_to,
           'selected_filter' => $selected_filter,
+          'organization_filter' => $organization_filter,
+          'food_type_filter' => $food_type_filter,
+          'product_filter' => $product_filter,
+          'organizations' => $organizations,
+          'food_types' => $food_types,
+          'products' => $products,
         ]);
     }
 
@@ -98,6 +116,14 @@ class ListingsController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $organization_filter = $data["organizations-filter-select"];
+        $food_type_filter = $data["food-types-filter-select"];
+        $product_filter = $data["products-filter-select"];
+        $organizations = Organization::where('status', 'active')
+                                      ->where('type', 'donor')->get();
+
+        $food_types = FoodType::where('status', 'active')->get();
+        $products = Product::where('status', 'active')->get();
         $selected_filter = $data["donations-filter-select"];
         switch ($selected_filter) {
           case 'active':
@@ -121,11 +147,35 @@ class ListingsController extends Controller
                                 }])
                                 ->orderBy('date_expires', 'ASC');
 
+
+        if ($organization_filter != '') {
+            $listings->whereHas('donor', function ($query) use ($organization_filter) {
+                $query->where('organization_id', $organization_filter);
+            });
+        }
+
+        if ($food_type_filter != '') {
+            $listings->whereHas('product', function ($query) use ($food_type_filter) {
+                $query->where('food_type_id', $food_type_filter);
+            });
+        }
+
+        if ($product_filter != '') {
+            $listings->where('product_id', $product_filter);
+        }
+
         return view('admin.active_listings')->with([
         'listings' => $listings,
         'date_from' => $date_from,
         'date_to' => $date_to,
         'selected_filter' => $selected_filter,
+        'organization_filter' => $organization_filter,
+        'food_type_filter' => $food_type_filter,
+        'product_filter' => $product_filter,
+        'organizations' => $organizations,
+        'food_types' => $food_types,
+        'products' => $products,
+
       ]);
     }
 
