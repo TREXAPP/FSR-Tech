@@ -386,6 +386,22 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <li class="inactive-menu">
+              <a href="{{route('admin.donations_report')}}">
+                <i class="fa fa-star-half-full"></i> <span>Донации</span>
+                <span class="pull-right-container">
+                  {{-- <small class="label pull-right bg-green">4.74</small> --}}
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="{{route('admin.product_donations_report')}}">
+                <i class="fa fa-star-half-full"></i> <span>Донации по производ</span>
+                <span class="pull-right-container">
+                  {{-- <small class="label pull-right bg-green">4.74</small> --}}
+                </span>
+              </a>
+            </li>
             <li>
               <a href="{{route('admin.activity_report')}}">
                 <i class="fa fa-star-half-full"></i> <span>Активност</span>

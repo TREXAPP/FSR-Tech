@@ -199,6 +199,14 @@ Route::post('admin/reports/activity', 'Admin\ActivityReportController@handle_pos
 Route::get('admin/reports/registration', 'Admin\RegistrationReportController@index')->name('admin.registration_report');
 Route::post('admin/reports/registration', 'Admin\RegistrationReportController@handle_post')->name('admin.registration_report');
 
+//product-donations report
+Route::get('admin/reports/product_donations', 'Admin\ProductDonationsReportController@index')->name('admin.product_donations_report');
+Route::post('admin/reports/product_donations', 'Admin\ProductDonationsReportController@handle_post')->name('admin.product_donations_report');
+
+//donations report
+Route::get('admin/reports/donations', 'Admin\DonationsReportController@index')->name('admin.donations_report');
+Route::post('admin/reports/donations', 'Admin\DonationsReportController@handle_post')->name('admin.donations_report');
+
 
 
 //donor routes
