@@ -386,7 +386,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="inactive-menu">
+            <li>
               <a href="{{route('admin.donations_report')}}">
                 <i class="fa fa-star-half-full"></i> <span>Донации</span>
                 <span class="pull-right-container">

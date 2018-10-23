@@ -5,6 +5,8 @@ namespace FSR\Custom;
 use FSR\Cso;
 use FSR\Log;
 use FSR\File;
+use FSR\Listing;
+use FSR\ListingOffer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
@@ -18,14 +20,57 @@ use Intervention\Image\ImageManagerStatic as Image;
  */
 class Methods
 {
+    public static function listing_offer_filtered_count(array $data, int $listing_id)
+    {
+        $listing_offers = ListingOffer::where('offer_status', 'active')
+                                    ->where('listing_id', $listing_id)
+                                    ->whereHas('listing', function ($query) use ($data) {
+                                        $query->where('date_listed', '>=', $data['filter_date_from'])
+                                            ->where('date_listed', '<=', $data['filter_date_to']);
+                                    });
 
-/**
- * Contstruct a URL for the uploaded file
- *
- * @param string $filename  - get it from the model, like this: File::first()->filename
- * @param bool $absolute    - if specified, returns an absolute path. If not, relative
- * @return string
- */
+        //dd($listing_offers);
+        if (isset($data["filter_cso_organization"])) {
+            $filter_cso_organization = $data["filter_cso_organization"];
+            $listing_offers = $listing_offers->whereHas('cso', function ($query) use ($filter_cso_organization) {
+                $query->where('organization_id', '=', $filter_cso_organization);
+            });
+        }
+        if (isset($data["filter_donor_organization"])) {
+            $filter_donor_organization = $data["filter_donor_organization"];
+            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_donor_organization) {
+                $query->whereHas('donor', function ($query2) use ($filter_donor_organization) {
+                    $query2->where('organization_id', '=', $filter_donor_organization);
+                });
+            });
+        }
+
+        if (isset($data["filter_product"])) {
+            $filter_product = $data["filter_product"];
+            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_product) {
+                $query->where('product_id', '=', $filter_product);
+            });
+        }
+
+        if (isset($data["filter_food_type"])) {
+            $filter_food_type = $data["filter_food_type"];
+            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_food_type) {
+                $query->whereHas('product', function ($query2) use ($filter_food_type) {
+                    $query2->where('food_type_id', '=', $filter_food_type);
+                });
+            });
+        }
+
+        return $listing_offers->count();
+    }
+
+    /**
+     * Contstruct a URL for the uploaded file
+     *
+     * @param string $filename  - get it from the model, like this: File::first()->filename
+     * @param bool $absolute    - if specified, returns an absolute path. If not, relative
+     * @return string
+     */
     public static function getFileUrl(string $filename, bool $absolute = true)
     {
         $path = '';

@@ -191,9 +191,9 @@
         ?>
           <tr>
             <th></th>
-            <th colspan='2'>Вкупно донирани порции:</th>
+            <th colspan='2' style='text-align: right;'>Вкупно донирани порции:</th>
             <th>{{$total_portions_donated}}</th>
-            <th>Вкупно прифатени порции:</th>
+            <th style='text-align: right;'>Вкупно прифатени порции:</th>
             <th>{{$total_portions_accepted}}</th>
             <th>{{$total_acceptance_percentage_string}}</th>
           </tr>
