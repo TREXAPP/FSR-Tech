@@ -72,40 +72,14 @@ class ProductDonationsReportController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
 
         $products = Product::where('status', 'active')
                            ->orderBy('food_type_id')->get();
 
         $listings = Listing::where('date_listed', '>=', $date_from)
-                        ->where('date_listed', '<=', $date_to)
+                        ->where('date_listed', '<=', $date_to_date)
                         ->orderBy('quantity_type_id')->get();
-
-        // $donor_organizations = Organization::where('type', 'donor')->orderBy('id')->get();
-        //
-        // $cso_organizations = Organization::where('type', 'cso')->get();
-        //
-        // $empty_donor_organizations_count = 0;
-        // foreach ($donor_organizations as $organization) {
-        //     if ($organization->donors->count() == 0) {
-        //         $empty_donor_organizations_count++;
-        //     }
-        // }
-        // $empty_cso_organizations_count = 0;
-        // foreach ($cso_organizations as $organization) {
-        //     if ($organization->csos->count() == 0) {
-        //         $empty_cso_organizations_count++;
-        //     }
-        // }
-        //
-        //
-        // $login_logs = Log::where('event', 'login')
-        //                  ->where('created_at', '>=', $date_from)
-        //                  ->where('created_at', '<=', $date_to);
-        //
-        // $home_page_logs = Log::where('event', 'open_home_page')
-        //                      ->where('created_at', '>=', $date_from)
-        //                      ->where('created_at', '<=', $date_to);
-
 
         return view('admin.product_donations_report')->with([
           'date_from' => $date_from,

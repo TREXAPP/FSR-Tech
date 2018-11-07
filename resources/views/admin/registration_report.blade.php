@@ -90,8 +90,9 @@
           <tr>
 
             <?php
+              $date_to_date = Carbon::parse($date_to)->addDays(1);
               $donors_count = $donor->organization->donors->where('created_at', '>=', $date_from)
-                                                          ->where('created_at', '<=', $date_to)
+                                                          ->where('created_at', '<=', $date_to_date)
                                                           ->count();
 
               //donor status
@@ -186,33 +187,6 @@
           @endif
         @endforeach
 
-
-          {{-- <tr>
-            <th>Вкупно</th>
-            <th>{{$donor_organizations->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-            <th>{{$donors->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-          </tr> --}}
-
       </table>
     </div>
   </div>
@@ -242,7 +216,7 @@
 
             <?php
               $csos_count = $cso->organization->csos->where('created_at', '>=', $date_from)
-                                                          ->where('created_at', '<=', $date_to)
+                                                          ->where('created_at', '<=', $date_to_date)
                                                           ->count();
 
               //cso status
@@ -336,34 +310,6 @@
             </tr>
           @endif
         @endforeach
-
-
-          {{-- <tr>
-            <th>Вкупно</th>
-            <th>{{$donor_organizations->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-            <th>{{$donors->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-          </tr> --}}
-
       </table>
     </div>
   </div>

@@ -86,6 +86,7 @@ class MyActiveListingsController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
         $selected_filter = $data["donations-filter-select"];
         switch ($selected_filter) {
           case 'active':
@@ -101,7 +102,7 @@ class MyActiveListingsController extends Controller
         }
         $listings = Listing::where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
                                 ->where('date_listed', '>=', $date_from)
-                                ->where('date_listed', '<=', $date_to)
+                                ->where('date_listed', '<=', $date_to_date)
                                 ->where('donor_id', Auth::user()->id)
                                 ->where('listing_status', 'active')
                                 ->withCount('listing_offers')

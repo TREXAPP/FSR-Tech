@@ -157,16 +157,16 @@
               </a>
             </li>
 
-            <li class="inactive-menu">
+            {{-- <li class="inactive-menu">
               <a href="#">
                 <i class="fa fa-exchange"></i> <span>Подеси известувања</span>
                 <span class="pull-right-container">
                 </span>
               </a>
-            </li>
+            </li> --}}
           </ul>
       </li>
-
+{{--
       <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Извештаи</span>
@@ -179,7 +179,6 @@
               <a href="#">
                 <i class="fa fa-star-half-full"></i> <span>Рејтинг</span>
                 <span class="pull-right-container">
-                  {{-- <small class="label pull-right bg-green">4.74</small> --}}
                 </span>
               </a>
             </li>
@@ -192,7 +191,7 @@
             </li>
 
           </ul>
-      </li>
+      </li> --}}
 
       <li>
         <a href="{{ route('logout') }}" onclick="event.preventDefault();

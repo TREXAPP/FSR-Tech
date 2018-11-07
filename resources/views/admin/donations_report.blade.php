@@ -3,12 +3,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header donations-report-content-header">
     <h1><i class="fa fa-cutlery"></i>
-      <span>Извештај за регистрации</span>
+      <span>Извештај за донации</span>
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/admin/home"> Admin</a></li>
       <li><a href="#"><i class="fa fa-cutlery"></i> Извештаи</a></li>
-      <li><a href="{{route('admin.donations_report')}}"><i class="fa fa-cutlery"></i> Регистрации</a></li>
+      <li><a href="{{route('admin.donations_report')}}"><i class="fa fa-cutlery"></i> Донации</a></li>
     </ol>
   </section>
 
@@ -208,82 +208,6 @@
               $comments_number_string = "<a target='_blank' href='../../admin/listing_offers/" . $listing_offer->id . "'>" . $comments_number . "</a>";
 
               $total_portions_accepted += $accepted_quantity / $current_portion_size;
-              //
-              //
-              //
-              //
-              //
-              //
-              // FSR\Organization::where('')
-              // $donors_count = $donor->organization->donors->where('created_at', '>=', $date_from)
-              //                                             ->where('created_at', '<=', $date_to)
-              //                                             ->count();
-              //
-              // //donor status
-              // switch ($donor->status) {
-              //   case 'active':
-              //     $donor_status = 'активен';
-              //     break;
-              //   case 'pending':
-              //     $donor_status = 'чека на одобрување';
-              //     break;
-              //   case 'rejected':
-              //     $donor_status = 'одбиен';
-              //     break;
-              //
-              //   default:
-              //   $donor_status = $donor->status;
-              //   break;
-              // }
-              //
-              // //donor registered at
-              // $donor_registered_at = Carbon::parse($donor->created_at);
-              //
-              // // Donor approve/reject timestamp
-              // $donor_approved_log = FSR\Log::where('event', 'admin_approve')
-              // ->where('user_type','donor')
-              // ->where('user_id', $donor->id)
-              // ->first();
-              // if ($donor_approved_log) {
-              //   $donor_approve_reject_timestamp = Carbon::parse($donor_approved_log->created_at);
-              // } else {
-              //   $donor_denied_log = FSR\Log::where('event', 'admin_deny')
-              //   ->where('user_type','donor')
-              //   ->where('user_id', $donor->id)
-              //   ->first();
-              //   if ($donor_denied_log) {
-              //     $donor_approve_reject_timestamp = Carbon::parse($donor_denied_log->created_at);
-              //   } else {
-              //     $donor_approve_reject_timestamp = '';
-              //   }
-              // }
-              //
-              // //donor approval/reject time
-              // if ($donor_approve_reject_timestamp == '') {
-              //   $donor_approval_reject_time = '';
-              // } else {
-              //   // $donor_approval_reject_time = $donor_registered_at->diffForHumans($donor_approve_reject_timestamp);
-              //   $donor_approval_reject_time = $donor_approve_reject_timestamp->diffForHumans($donor_registered_at);
-              // }
-              //
-              // //donor email confirm timestamp
-              // $donor_email_confirm_log = FSR\Log::where('event', 'confirm_email')
-              // ->where('user_type','donor')
-              // ->where('user_id', $donor->id)
-              // ->first();
-              // if ($donor_email_confirm_log) {
-              //   $donor_email_confirm_timestamp = Carbon::parse($donor_email_confirm_log->created_at);
-              // } else {
-              //   $donor_email_confirm_timestamp = '';
-              // }
-              //
-              // //donor email confirm time
-              // if ($donor_email_confirm_timestamp == '') {
-              //   $donor_email_confirm_time = '';
-              // } else {
-              //   // $donor_email_confirm_time = $donor_registered_at->diffForHumans($donor_email_confirm_timestamp);
-              //   $donor_email_confirm_time = $donor_email_confirm_timestamp->diffForHumans($donor_registered_at);
-              // }
             ?>
 
 
@@ -299,6 +223,36 @@
             <td>{{$donor_email_confirm_time}}</td> --}}
           </tr>
 
+        @endforeach
+        @foreach ($unaccepted_listings as $listing)
+          <?php
+            $listing_organization = $listing->donor->organization->name;
+            $listing_user = $listing->donor->first_name . ' ' . $listing->donor->last_name;
+            $food_type = $listing->product->food_type->name;
+            $product = $listing->product->name;
+            $donated_quantity = $listing->quantity;
+            $donated_quantity_string = $listing->quantity . ' ' . $listing->quantity_type->name;
+
+            //get the portion size for this product & lisitng
+            $portion_size_row = FSR\ProductsQuantityType::where('product_id', $listing->product->id)
+                                      ->where('quantity_type_id', $listing->quantity_type->id)->get();
+
+            if($portion_size_row->count() > 0) {
+              $current_portion_size = $portion_size_row[0]->portion_size;
+            }
+            $total_portions_donated += $listing->quantity / $current_portion_size;
+
+          ?>
+          <tr>
+            <td>{{$listing_organization}}</td>
+            <td>{{$listing_user}}</td>
+            <td>{{$food_type}}</td>
+            <td>{{$product}}</td>
+            <td>{{$donated_quantity_string}}</td>
+            <td>{{$donated_quantity_string}}</td>
+            <td>N/A</td>
+            <td colspan="4">Донацијата нема прифаќања</td>
+          </tr>
         @endforeach
         <?php
           $total_portions_donated_rounded = round($total_portions_donated);
@@ -321,42 +275,6 @@
             <th>{{$total_portions_accepted_rounded}}</th>
             <th></th>
           </tr>
-        {{-- @foreach ($donor_organizations as $organization)
-          @if ($organization->donors->where('status','active')->count() == 0)
-            <tr>
-              <td>{{$organization->name}}</td>
-              <td colspan="7">Организацијата нема корисници</td>
-            </tr>
-          @endif
-        @endforeach --}}
-
-
-          {{-- <tr>
-            <th>Вкупно</th>
-            <th>{{$donor_organizations->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-            <th>{{$donors->count()}}</th>
-            <th>{{FSR\Log::where('event', 'login')
-                             ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
-                             ->where('user_type','donor')
-                             ->count()}}</th>
-            <th>{{FSR\Log::where('event', 'open_home_page')
-                              ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
-                              ->where('user_type','donor')
-                              ->count()}}</th>
-          </tr> --}}
-
       </table>
     </div>
   </div>

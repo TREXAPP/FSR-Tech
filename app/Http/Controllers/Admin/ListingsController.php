@@ -35,7 +35,8 @@ class ListingsController extends Controller
     public function index()
     {
         $date_from = substr(Carbon::now()->addDays(-90), 0, 10);
-        $date_to = substr(Carbon::now(), 0, 10);
+        $date_to_date = Carbon::now();
+        $date_to = substr($date_to_date, 0, 10);
 
         $organizations = Organization::where('status', 'active')
                                       ->where('type', 'donor')->get();
@@ -47,15 +48,17 @@ class ListingsController extends Controller
         $food_types = FoodType::where('status', 'active')->get();
         $products = Product::where('status', 'active')->get();
         //  $listings = Listing::where('listing_status', 'active');
-        $listings = Listing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+        $listings = Listing::where('date_expires', '>=', Carbon::now()->format('Y-m-d H:i'))
                                   ->where('date_listed', '>=', $date_from)
-                                  ->where('date_listed', '<=', $date_to)
+                                  ->where('date_listed', '<=', $date_to_date)
                                   ->where('listing_status', 'active')
                                   ->withCount('listing_offers')
                                   ->withCount(['listing_offers' => function ($query) {
                                       $query->where('offer_status', 'active');
                                   }])
                                   ->orderBy('date_expires', 'ASC');
+
+
         $selected_filter = 'active';
         return view('admin.active_listings')->with([
           'listings' => $listings,
@@ -116,6 +119,7 @@ class ListingsController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
         $organization_filter = $data["organizations-filter-select"];
         $food_type_filter = $data["food-types-filter-select"];
         $product_filter = $data["products-filter-select"];
@@ -139,7 +143,7 @@ class ListingsController extends Controller
         }
         $listings = Listing::where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
                                 ->where('date_listed', '>=', $date_from)
-                                ->where('date_listed', '<=', $date_to)
+                                ->where('date_listed', '<=', $date_to_date)
                                 ->where('listing_status', 'active')
                                 ->withCount('listing_offers')
                                 ->withCount(['listing_offers' => function ($query) {

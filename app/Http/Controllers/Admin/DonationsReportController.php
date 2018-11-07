@@ -38,7 +38,7 @@ class DonationsReportController extends Controller
      */
     public function index()
     {
-        $data["filter_date_from"] = substr(Carbon::now()->addDays(-390), 0, 10);
+        $data["filter_date_from"] = substr(Carbon::now()->addDays(-90), 0, 10);
         $data["filter_date_to"] = substr(Carbon::now(), 0, 10);
         return $this->handle_filter($data);
     }
@@ -75,12 +75,20 @@ class DonationsReportController extends Controller
         //dd($data);
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
-
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
         $listing_offers = ListingOffer::where('offer_status', 'active')
-                                    ->whereHas('listing', function ($query) use ($date_from, $date_to) {
+                                    ->whereHas('listing', function ($query) use ($date_from, $date_to_date) {
                                         $query->where('date_listed', '>=', $date_from)
-                                            ->where('date_listed', '<=', $date_to);
+                                            ->where('date_listed', '<=', $date_to_date);
                                     });
+
+        $unaccepted_listings = Listing::where('listing_status', 'active')
+                                      ->where('date_listed', '>=', $date_from)
+                                      ->where('date_listed', '<=', $date_to_date);
+
+        $unaccepted_listings = $unaccepted_listings->whereDoesntHave('listing_offers', function ($query) {
+            $query->where('offer_status', 'active');
+        })->get();
 
         if (isset($data["filter_cso_organization"])) {
             $filter_cso_organization = $data["filter_cso_organization"];
@@ -151,6 +159,7 @@ class DonationsReportController extends Controller
           'date_from' => $date_from,
           'date_to' => $date_to,
           'listing_offers' => $listing_offers,
+          'unaccepted_listings' => $unaccepted_listings,
           'donor_organizations' => $donor_organizations,
           'cso_organizations' => $cso_organizations,
           'food_types' => $food_types,

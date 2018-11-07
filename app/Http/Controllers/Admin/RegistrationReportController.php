@@ -71,13 +71,14 @@ class RegistrationReportController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
 
         $donors = Donor::where('created_at', '>=', $date_from)
-                        ->where('created_at', '<=', $date_to)
+                        ->where('created_at', '<=', $date_to_date)
                         ->orderBy('organization_id')->get();
 
         $csos = Cso::where('created_at', '>=', $date_from)
-                        ->where('created_at', '<=', $date_to)
+                        ->where('created_at', '<=', $date_to_date)
                         ->orderBy('organization_id')->get();
 
         $donor_organizations = Organization::where('type', 'donor')->orderBy('id')->get();
@@ -100,22 +101,11 @@ class RegistrationReportController extends Controller
 
         $login_logs = Log::where('event', 'login')
                          ->where('created_at', '>=', $date_from)
-                         ->where('created_at', '<=', $date_to);
+                         ->where('created_at', '<=', $date_to_date);
 
         $home_page_logs = Log::where('event', 'open_home_page')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to);
-
-
-        // $listings = Listing::where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
-        //                         ->where('date_listed', '>=', $date_from)
-        //                         ->where('date_listed', '<=', $date_to)
-        //                         ->where('listing_status', 'active')
-        //                         ->withCount('listing_offers')
-        //                         ->withCount(['listing_offers' => function ($query) {
-        //                             $query->where('offer_status', 'active');
-        //                         }])
-        //                         ->orderBy('date_expires', 'ASC');
+                             ->where('created_at', '<=', $date_to_date);
 
         return view('admin.registration_report')->with([
           'date_from' => $date_from,

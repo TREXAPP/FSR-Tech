@@ -66,6 +66,8 @@ class AcceptedListingsController extends Controller
 
         $date_from = substr(Carbon::now()->addDays(-90), 0, 10);
         $date_to = substr(Carbon::now(), 0, 10);
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
+
         $selected_filter = 'active';
 
         return view('cso.accepted_listings')->with([
@@ -401,6 +403,8 @@ class AcceptedListingsController extends Controller
 
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
+
         $selected_filter = $data["donations-filter-select"];
 
         switch ($selected_filter) {
@@ -421,10 +425,10 @@ class AcceptedListingsController extends Controller
                                       ->where('offer_status', 'active')
                                       ->where('cso_id', Auth::user()->id)
                                       ->orderBy('date_expires', 'asc')
-                                      ->whereHas('listing', function ($query) use ($listing_status_operator, $date_from, $date_to) {
+                                      ->whereHas('listing', function ($query) use ($listing_status_operator, $date_from, $date_to_date) {
                                           $query->where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
                                                 ->where('date_listed', '>=', $date_from)
-                                                ->where('date_listed', '<=', $date_to);
+                                                ->where('date_listed', '<=', $date_to_date);
                                       });
         $comments = Comment::select(DB::raw('comments.*'))
                             ->join('listing_offers', 'comments.listing_offer_id', '=', 'listing_offers.id')

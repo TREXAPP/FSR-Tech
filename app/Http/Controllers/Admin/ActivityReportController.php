@@ -8,11 +8,12 @@ use FSR\Donor;
 use FSR\Listing;
 use FSR\ListingOffer;
 use FSR\Organization;
+use Carbon\Carbon;
+
 use FSR\Custom\Methods;
 
 use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,6 +72,7 @@ class ActivityReportController extends Controller
     {
         $date_from = $data["filter_date_from"];
         $date_to = $data["filter_date_to"];
+        $date_to_date = Carbon::parse($date_to)->addDays(1);
 
         $donors = Donor::where('status', 'active')->orderBy('organization_id')->get();
         $csos = Cso::where('status', 'active')->orderBy('organization_id')->get();
@@ -97,22 +99,10 @@ class ActivityReportController extends Controller
 
         $login_logs = Log::where('event', 'login')
                          ->where('created_at', '>=', $date_from)
-                         ->where('created_at', '<=', $date_to);
-
+                         ->where('created_at', '<=', $date_to_date);
         $home_page_logs = Log::where('event', 'open_home_page')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to);
-
-
-        // $listings = Listing::where('date_expires', $listing_status_operator, Carbon::now()->format('Y-m-d H:i'))
-        //                         ->where('date_listed', '>=', $date_from)
-        //                         ->where('date_listed', '<=', $date_to)
-        //                         ->where('listing_status', 'active')
-        //                         ->withCount('listing_offers')
-        //                         ->withCount(['listing_offers' => function ($query) {
-        //                             $query->where('offer_status', 'active');
-        //                         }])
-        //                         ->orderBy('date_expires', 'ASC');
+                             ->where('created_at', '<=', $date_to_date);
 
         return view('admin.activity_report')->with([
           'date_from' => $date_from,

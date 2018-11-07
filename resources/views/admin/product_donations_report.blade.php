@@ -92,9 +92,9 @@
                                                              ->count();
 
 
-
+              $date_to_date = Carbon::parse($date_to)->addDays(1);
               $listings = FSR\Listing::where('date_listed', '>=', $date_from)
-                                      ->where('date_listed', '<=', $date_to)
+                                      ->where('date_listed', '<=', $date_to_date)
                                       ->where('product_id', $product->id)
                                       ->orderBy('quantity_type_id')->get();
 

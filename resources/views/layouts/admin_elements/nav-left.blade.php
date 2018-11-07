@@ -340,44 +340,6 @@
           </ul>
       </li>
 
-
-
-
-
-      <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Подесувања</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="inactive-menu">
-              <a href="/{{Auth::user()->type()}}/profile">
-                <i class="fa fa-user-circle"></i> <span>Мој профил</span>
-                <span class="pull-right-container">
-                </span>
-              </a>
-            </li>
-
-            <li class="inactive-menu">
-              <a href="#">
-                <i class="fa fa-shield"></i> <span>Безбедност</span>
-                <span class="pull-right-container">
-                </span>
-              </a>
-            </li>
-
-            <li class="inactive-menu">
-              <a href="#">
-                <i class="fa fa-exchange"></i> <span>Подеси известувања</span>
-                <span class="pull-right-container">
-                </span>
-              </a>
-            </li>
-          </ul>
-      </li>
-
       <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Извештаи</span>

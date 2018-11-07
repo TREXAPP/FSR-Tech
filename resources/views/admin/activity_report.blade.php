@@ -89,17 +89,18 @@
           <tr>
             @if ($current_organization_id != $donor->organization_id)
               <?php
+                $date_to_date = Carbon::parse($date_to)->addDays(1);
                 $current_organization_id = $donor->organization_id;
                 $donors_count = $donor->organization->donors->where('status','active')->count();
                 $organization_logins = $donor->organization->donor_logs->where('user_type','donor')
                       ->where('event','login')
                       ->where('created_at', '>=', $date_from)
-                      ->where('created_at', '<=', $date_to)
+                      ->where('created_at', '<=', $date_to_date)
                       ->count();
                 $organization_open_home_pages = $donor->organization->donor_logs->where('user_type','donor')
                       ->where('event','open_home_page')
                       ->where('created_at', '>=', $date_from)
-                      ->where('created_at', '<=', $date_to)
+                      ->where('created_at', '<=', $date_to_date)
                       ->count();
               ?>
               <td {{($donors_count > 1) ? 'rowspan=' . $donors_count : ''}}>{{$donor->organization->name}}</td>
@@ -110,13 +111,13 @@
             {{-- {{dump($donor->id)}} --}}
             <td>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','donor')
                              ->where('user_id', $donor->id)
                              ->count()}}</td>
             <td>{{FSR\Log::where('event', 'open_home_page')
                          ->where('created_at', '>=', $date_from)
-                         ->where('created_at', '<=', $date_to)
+                         ->where('created_at', '<=', $date_to_date)
                          ->where('user_type','donor')
                          ->where('user_id', $donor->id)
                          ->count()}}</td>
@@ -135,23 +136,23 @@
             <th>{{$donor_organizations->count()}}</th>
             <th>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','donor')
                              ->count()}}</th>
             <th>{{FSR\Log::where('event', 'open_home_page')
                               ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
+                              ->where('created_at', '<=', $date_to_date)
                               ->where('user_type','donor')
                               ->count()}}</th>
             <th>{{$donors->count()}}</th>
             <th>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','donor')
                              ->count()}}</th>
             <th>{{FSR\Log::where('event', 'open_home_page')
                               ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
+                              ->where('created_at', '<=', $date_to_date)
                               ->where('user_type','donor')
                               ->count()}}</th>
           </tr>
@@ -200,12 +201,12 @@
                 $organization_logins = $cso->organization->cso_logs->where('user_type','cso')
                       ->where('event','login')
                       ->where('created_at', '>=', $date_from)
-                      ->where('created_at', '<=', $date_to)
+                      ->where('created_at', '<=', $date_to_date)
                       ->count();
                 $organization_open_home_pages = $cso->organization->cso_logs->where('user_type','cso')
                       ->where('event','open_home_page')
                       ->where('created_at', '>=', $date_from)
-                      ->where('created_at', '<=', $date_to)
+                      ->where('created_at', '<=', $date_to_date)
                       ->count();
               ?>
               <td {{($csos_count > 1) ? 'rowspan=' . $csos_count : ''}}>{{$cso->organization->name}}</td>
@@ -216,13 +217,13 @@
             {{-- {{dump($donor->id)}} --}}
             <td>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','cso')
                              ->where('user_id', $cso->id)
                              ->count()}}</td>
             <td>{{FSR\Log::where('event', 'open_home_page')
                          ->where('created_at', '>=', $date_from)
-                         ->where('created_at', '<=', $date_to)
+                         ->where('created_at', '<=', $date_to_date)
                          ->where('user_type','cso')
                          ->where('user_id', $cso->id)
                          ->count()}}</td>
@@ -242,23 +243,23 @@
             <th>{{$cso_organizations->count()}}</th>
             <th>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','cso')
                              ->count()}}</th>
             <th>{{FSR\Log::where('event', 'open_home_page')
                               ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
+                              ->where('created_at', '<=', $date_to_date)
                               ->where('user_type','cso')
                               ->count()}}</th>
             <th>{{$csos->count()}}</th>
             <th>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
-                             ->where('created_at', '<=', $date_to)
+                             ->where('created_at', '<=', $date_to_date)
                              ->where('user_type','cso')
                              ->count()}}</th>
             <th>{{FSR\Log::where('event', 'open_home_page')
                               ->where('created_at', '>=', $date_from)
-                              ->where('created_at', '<=', $date_to)
+                              ->where('created_at', '<=', $date_to_date)
                               ->where('user_type','cso')
                               ->count()}}</th>
           </tr>
