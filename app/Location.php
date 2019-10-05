@@ -17,6 +17,7 @@ class Location extends Model
           'name',
           'description',
           'status',
+          'region_id',
       ];
 
     /**
@@ -40,6 +41,13 @@ class Location extends Model
     public function volunteers()
     {
         return $this->belongsToMany('FSR\Volunteer', 'volunteers_locations')->withPivot('status');
+    }
+    /**
+     * Get the region for this location.
+     */
+    public function region()
+    {
+        return $this->belongsTo('FSR\Region');
     }
     /*
         protected $fillable = [

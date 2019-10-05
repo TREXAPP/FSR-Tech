@@ -58,6 +58,7 @@ class Organization extends Model
     }
 
     protected $fillable = [
+      'id',
       'name',
       'description',
       'type',

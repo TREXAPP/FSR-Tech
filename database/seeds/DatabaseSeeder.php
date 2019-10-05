@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
           //CommentsTableSeeder::class,
         ]);
         */
+        
+        $this->call(RegionsSeeder::class);
         $this->call(LocationsSeeder::class);
         $this->call(DonorTypesSeeder::class);
         $this->call(OrganizationsSeeder::class);
@@ -26,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(QuantityTypesSeeder::class);
         $this->call(CsosSeeder::class);
         $this->call(DonorsSeeder::class);
+        $this->call(HubsSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(VolunteersSeeder::class);
         $this->call(AdminsSeeder::class);
