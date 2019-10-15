@@ -3,17 +3,17 @@
 namespace FSR\Http\Controllers\Admin;
 
 use FSR;
-use FSR\Cso;
+use FSR\Hub;
 use FSR\File;
 use FSR\Listing;
-use FSR\Location;
+use FSR\Region;
 use FSR\ListingOffer;
 use FSR\Organization;
 use FSR\Custom\Methods;
-use FSR\Notifications\CsoToVolunteerRemoved;
+use FSR\Notifications\HubToVolunteerRemoved;
 
 use FSR\Http\Controllers\Controller;
-use FSR\Notifications\CsoToVolunteerNewVolunteer;
+use FSR\Notifications\HubToVolunteerNewVolunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class EditCsoUserController extends Controller
+class EditHubUserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -38,24 +38,24 @@ class EditCsoUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, string $cso_id_string)
+    public function index(Request $request, string $hub_id_string)
     {
-        $cso_id = ctype_digit($cso_id_string) ? intval($cso_id_string) : null;
+        $hub_id = ctype_digit($hub_id_string) ? intval($hub_id_string) : null;
         $organizations = Organization::where('status', 'active')
-                                      ->where('type', 'cso')->get();
-        $locations = Location::where('status', 'active')->get();
+                                      ->where('type', 'hub')->get();
+        $regions = Region::where('status', 'active')->get();
 
-        if ($cso_id === null) {
-            return redirect(route('admin.cso_users'));
+        if ($hub_id === null) {
+            return redirect(route('admin.hub_users'));
         } else {
-            $cso = Cso::find($cso_id);
-            if (!$cso) {
-                return redirect(route('admin.cso_users'));
+            $hub = Hub::find($hub_id);
+            if (!$hub) {
+                return redirect(route('admin.hub_users'));
             } else {
-                return view('admin.edit_cso_user')->with([
-              'cso' => $cso,
+                return view('admin.edit_hub_user')->with([
+              'hub' => $hub,
               'organizations' => $organizations,
-              'locations' => $locations,
+              'regions' => $regions,
           ]);
             }
         }
@@ -70,10 +70,10 @@ class EditCsoUserController extends Controller
      */
     protected function edit_handle_upload(Request $request)
     {
-        $input_name = 'cso-image';
-        $purpose = 'cso image';
-        $for_user_type = 'cso';
-        $description = 'A cso image uploaded when editing an existing cso via users/cso/{{id}}';
+        $input_name = 'hub-image';
+        $purpose = 'hub image';
+        $for_user_type = 'hub';
+        $description = 'A hub image uploaded when editing an existing hub via users/hub/{{id}}';
 
         return Methods::handleUpload($request, $input_name, $purpose, $for_user_type, $description);
     }
@@ -87,9 +87,9 @@ class EditCsoUserController extends Controller
     protected function validator(array $data)
     {
         $validatorArray = [
-                'cso-organization'          => 'required',
-                'cso-location'              => 'required',
-                'cso-image'         => 'image|max:2048',
+                'hub-organization'          => 'required',
+                'hub-region'              => 'required',
+                'hub-image'         => 'image|max:2048',
                 ];
 
         return Validator::make($data, $validatorArray);
@@ -104,10 +104,10 @@ class EditCsoUserController extends Controller
      */
     public function handle_post(Request $request)
     {
-        $cso_id = $request->all()['cso_id'];
-        $cso = Cso::find($cso_id);
+        $hub_id = $request->all()['hub_id'];
+        $hub = Hub::find($hub_id);
 
-        if ($this->change_detected($request, $cso)) {
+        if ($this->change_detected($request, $hub)) {
             $validation = $this->validator($request->all());
 
             if ($validation->fails()) {
@@ -116,8 +116,8 @@ class EditCsoUserController extends Controller
             }
 
             $file_id = $this->edit_handle_upload($request);
-            $cso = $this->update($cso, $request->all(), $file_id);
-            return redirect(route('admin.cso_users'))->with('status', "Измените се успешно зачувани!");
+            $hub = $this->update($hub, $request->all(), $file_id);
+            return redirect(route('admin.hub_users'))->with('status', "Измените се успешно зачувани!");
         } else {
             return back();
         }
@@ -130,33 +130,33 @@ class EditCsoUserController extends Controller
      * @param  Volunteer $volunteer
      * @return bool
      */
-    protected function change_detected(Request $request, Cso $cso)
+    protected function change_detected(Request $request, Hub $hub)
     {
         $data = $request->all();
 
-        if ($request->hasFile('cso-image')) {
+        if ($request->hasFile('hub-image')) {
             return true;
         }
-        if ($cso->first_name != $data['cso-first-name']) {
+        if ($hub->first_name != $data['hub-first-name']) {
             return true;
         }
-        if ($cso->last_name != $data['cso-last-name']) {
-            return true;
-        }
-
-        if ($cso->phone != $data['cso-phone']) {
+        if ($hub->last_name != $data['hub-last-name']) {
             return true;
         }
 
-        if ($cso->address != $data['cso-address']) {
+        if ($hub->phone != $data['hub-phone']) {
             return true;
         }
 
-        if ($cso->organization_id != $data['cso-organization']) {
+        if ($hub->address != $data['hub-address']) {
             return true;
         }
 
-        if ($cso->location_id != $data['cso-location']) {
+        if ($hub->organization_id != $data['hub-organization']) {
+            return true;
+        }
+
+        if ($hub->region_id != $data['hub-region']) {
             return true;
         }
 
@@ -167,25 +167,25 @@ class EditCsoUserController extends Controller
     /**
      * updates the information for the profile
      *
-     * @param  Cso $volunteer
+     * @param  Hub $volunteer
      * @param  array  $data
      * @param  int  $file_id
-     * @return FSR\Cso $cso
+     * @return FSR\Hub $hub
      */
-    protected function update(Cso $cso, array $data, $file_id)
+    protected function update(Hub $hub, array $data, $file_id)
     {
         if ($file_id) {
-            $cso->profile_image_id = $file_id;
+            $hub->profile_image_id = $file_id;
         }
-        $cso->first_name = $data['cso-first-name'];
-        $cso->last_name = $data['cso-last-name'];
-        $cso->phone = $data['cso-phone'];
-        $cso->address = $data['cso-address'];
-        $cso->organization_id = $data['cso-organization'];
-        $cso->location_id = $data['cso-location'];
+        $hub->first_name = $data['hub-first-name'];
+        $hub->last_name = $data['hub-last-name'];
+        $hub->phone = $data['hub-phone'];
+        $hub->address = $data['hub-address'];
+        $hub->organization_id = $data['hub-organization'];
+        $hub->region_id = $data['hub-region'];
 
-        $cso->save();
+        $hub->save();
 
-        return $cso;
+        return $hub;
     }
 }

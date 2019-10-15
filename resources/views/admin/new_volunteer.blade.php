@@ -61,18 +61,18 @@
 							<label for="new-volunteer-organization">Организација:</label>
 						</div>
 						<div class="new-volunteer-organization-value col-sm-8 col-xs-12">
-              <select class="form-control" name="volunteer-organization" required>
-                <option value="">-- Избери --</option>
-                @foreach ($organizations as $organization)
-                  <option value="{{$organization->id}}" {{ (old('volunteer-organization')== $organization->id) ? ' selected' : '' }}>{{$organization->name}}</option>
-                @endforeach
-              </select>
-              <!-- TUKA TREBA DA SE STAVI CHECKBOX ZA GLOBALEN VOLONTER! -->
-							@if ($errors->has('volunteer-organization'))
-								<span class="help-block">
-									<strong>{{ $errors->first('volunteer-organization') }}</strong>
-								</span>
-							@endif
+							<select class="form-control" name="volunteer-organization" required>
+								<option value="">-- Избери --</option>
+								@foreach ($organizations as $organization)
+								<option value="{{$organization->id}}" {{ (old('volunteer-organization')== $organization->id) ? ' selected' : '' }}>{{$organization->name}}</option>
+								@endforeach
+							</select>
+							<!-- TUKA TREBA DA SE STAVI CHECKBOX ZA GLOBALEN VOLONTER! -->
+						@if ($errors->has('volunteer-organization'))
+							<span class="help-block">
+								<strong>{{ $errors->first('volunteer-organization') }}</strong>
+							</span>
+						@endif
 						</div>
 					</div>
 

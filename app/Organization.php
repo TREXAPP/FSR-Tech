@@ -23,6 +23,14 @@ class Organization extends Model
         return $this->hasMany('FSR\Donor');
     }
 
+    /**
+     * Get the hubs for this organization.
+     */
+    public function hubs()
+    {
+        return $this->hasMany('FSR\Hub');
+    }
+
     public function donor_logs()
     {
         return $this->hasManyThrough('FSR\Log', 'FSR\Donor', 'organization_id', 'user_id', 'id', 'id');
@@ -31,6 +39,11 @@ class Organization extends Model
     public function cso_logs()
     {
         return $this->hasManyThrough('FSR\Log', 'FSR\Cso', 'organization_id', 'user_id', 'id', 'id');
+    }
+
+    public function hub_logs()
+    {
+        return $this->hasManyThrough('FSR\Log', 'FSR\Hub', 'organization_id', 'user_id', 'id', 'id');
     }
 
     /**

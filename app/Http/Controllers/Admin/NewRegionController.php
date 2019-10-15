@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class NewLocationController extends Controller
+class NewRegionController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -36,10 +36,7 @@ class NewLocationController extends Controller
      */
     public function index()
     {
-        $regions = Region::where('status', 'active')->get();
-        return view('admin.new_location')->with([
-          'regions' => $regions,
-        ]);
+        return view('admin.new_region');
     }
 
     /**
@@ -51,26 +48,25 @@ class NewLocationController extends Controller
     public function handle_post(Request $request)
     {
         $validation = $this->validator($request->all());
-        //$this->validator($request->all())->validate();
         if ($validation->fails()) {
             return back()->withErrors($validation->errors())
                                                    ->withInput();
         }
 
-        $quantity_type = $this->create($request->all());
+        $region = $this->create($request->all());
 
-        return back()->with('status', "Локацијата е додадена успешно!");
+        return back()->with('status', "Регионот е додаден успешно!");
     }
 
     /**
-     * Create a new Location instance.
+     * Create a new Region instance.
      *
      * @param  array  $data
-     * @return \FSR\Location
+     * @return \FSR\Region
      */
     protected function create(array $data)
     {
-        return  Location::create([
+        return  Region::create([
                 'name' => $data['name'],
                 'description' => $data['description'],
             ]);

@@ -46,6 +46,7 @@
                   <option value="">@lang('register.choose')</option>
                   <option value="donor"{{ (old('type') == 'donor') ? ' selected' : ''}}>@lang('register.donor')</option>
                   <option value="cso"{{ (old('type') == 'cso') ? ' selected' : ''}}>@lang('register.cso')</option>
+                  <option value="hub"{{ (old('type') == 'hub') ? ' selected' : ''}}>@lang('register.hub')</option>
                 </select> @if ($errors->has('type'))
                 <span class="help-block">
                     <strong>{{ $errors->first('type') }}</strong>

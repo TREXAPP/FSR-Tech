@@ -114,6 +114,11 @@ Route::get('admin/users/donor', 'Admin\DonorUsersController@index')->name('admin
 Route::post('admin/users/donor', 'Admin\DonorUsersController@handle_post')->name('admin.donor_users');
 Route::get('admin/users/donor/{donor_id}', 'Admin\EditDonorUserController@index')->name('admin.edit_donor_user');
 Route::post('admin/users/donor/{donor_id}', 'Admin\EditDonorUserController@handle_post')->name('admin.edit_donor_user');
+Route::post('admin/users/cso/{cso_id}', 'Admin\EditCsoUserController@handle_post')->name('admin.edit_cso_user');
+Route::get('admin/users/hub', 'Admin\HubUsersController@index')->name('admin.hub_users');
+Route::post('admin/users/hub', 'Admin\HubUsersController@handle_post')->name('admin.hub_users');
+Route::get('admin/users/hub/{hub_id}', 'Admin\EditHubUserController@index')->name('admin.edit_hub_user');
+Route::post('admin/users/hub/{hub_id}', 'Admin\EditHubUserController@handle_post')->name('admin.edit_hub_user');
 
 
 Route::get('admin/organizations/new', 'Admin\NewOrganizationController@index')->name('admin.new_organization');
@@ -122,6 +127,8 @@ Route::get('admin/organizations/cso', 'Admin\CsoOrganizationsController@index')-
 Route::post('admin/organizations/cso', 'Admin\CsoOrganizationsController@handle_post')->name('admin.cso_organizations');
 Route::get('admin/organizations/donor', 'Admin\DonorOrganizationsController@index')->name('admin.donor_organizations');
 Route::post('admin/organizations/donor', 'Admin\DonorOrganizationsController@handle_post')->name('admin.donor_organizations');
+Route::get('admin/organizations/hub', 'Admin\HubOrganizationsController@index')->name('admin.hub_organizations');
+Route::post('admin/organizations/hub', 'Admin\HubOrganizationsController@handle_post')->name('admin.hub_organizations');
 Route::get('admin/organizations/{organization_id}', 'Admin\EditOrganizationController@index')->name('admin.edit_organization');
 Route::post('admin/organizations/{organization_id}', 'Admin\EditOrganizationController@handle_post')->name('admin.edit_organization');
 
@@ -176,6 +183,13 @@ Route::get('admin/locations/new', 'Admin\NewLocationController@index')->name('ad
 Route::post('admin/locations/new', 'Admin\NewLocationController@handle_post')->name('admin.new_location');
 Route::get('admin/locations/{location_id}', 'Admin\EditLocationController@index')->name('admin.edit_location');
 Route::post('admin/locations/{location_id}', 'Admin\EditLocationController@handle_post')->name('admin.edit_location');
+
+Route::get('admin/regions', 'Admin\RegionsController@index')->name('admin.regions');
+Route::post('admin/regions', 'Admin\RegionsController@handle_post')->name('admin.regions');
+Route::get('admin/regions/new', 'Admin\NewRegionController@index')->name('admin.new_region');
+Route::post('admin/regions/new', 'Admin\NewRegionController@handle_post')->name('admin.new_region');
+Route::get('admin/regions/{region_id}', 'Admin\EditRegionController@index')->name('admin.edit_region');
+Route::post('admin/regions/{region_id}', 'Admin\EditRegionController@handle_post')->name('admin.edit_region');
 
 
 Route::get('admin/email', 'Admin\EmailController@index')->name('admin.email');

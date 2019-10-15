@@ -10,6 +10,7 @@ return [
 'choose' => '-- Choose one --',
 'donor' => 'Food Donor',
 'cso' => 'Food Receiver',
+'hub' => 'Hub',
 'submit' => 'Register',
 'first_name' => 'First Name',
 'last_name' => 'Last Name',

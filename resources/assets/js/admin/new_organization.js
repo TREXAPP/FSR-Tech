@@ -26,7 +26,7 @@ $('#organization_type_select').on('change', function() {
   }
 
   //show hide working hours and donor_type
-  if (this.value == 'donor') {
+  if (this.value == 'donor' || this.value == 'hub') {
 
     $('.working-hours-from').css('display', 'block');
     $('.working-hours-from').css('visibility', 'initial');
@@ -36,9 +36,15 @@ $('#organization_type_select').on('change', function() {
     $('.working-hours-to').css('visibility', 'initial');
     $('#working_hours_to').prop('required',true);
 
-    $('.donor_type').css('display', 'block');
-    $('.donor_type').css('visibility', 'initial');
-    $('#donor_type').prop('required',true);
+    if (this.value == 'donor') {
+      $('.donor_type').css('display', 'block');
+      $('.donor_type').css('visibility', 'initial');
+      $('#donor_type').prop('required', true);
+    } else {
+      $('.donor_type').css('display', 'none');
+      $('.donor_type').css('visibility', 'hidden');
+      $('#donor_type').prop('required', false);
+    }
 
   } else {
     $('.working-hours-from').css('display','none');

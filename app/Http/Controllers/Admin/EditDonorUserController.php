@@ -41,7 +41,8 @@ class EditDonorUserController extends Controller
     public function index(Request $request, string $donor_id_string)
     {
         $donor_id = ctype_digit($donor_id_string) ? intval($donor_id_string) : null;
-        $organizations = Organization::where('status', 'active')->get();
+        $organizations = Organization::where('status', 'active')
+                                      ->where('type', 'donor')->get();
         $locations = Location::where('status', 'active')->get();
 
         if ($donor_id === null) {

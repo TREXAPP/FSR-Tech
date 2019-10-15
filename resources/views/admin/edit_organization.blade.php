@@ -61,7 +61,7 @@
 							<label>Тип на организација:</label>
 						</div>
 						<div class="organization-type-value col-sm-8 col-xs-12">
-							<label>{{($organization->type == 'donor') ? 'Донатор' : 'Примател'}}</label>
+							<label>{{($organization->type == 'donor') ? 'Донатор' : (($organization->type == 'cso') ? 'Примател' : 'Хаб')}}</label>
 							<input type="hidden" name="organization-type" value="{{$organization->type}}">
 						</div>
 					</div>
@@ -140,7 +140,7 @@
 					</div>
 
 
-					@if ($organization->type == 'donor')
+					@if ($organization->type == 'donor' || $organization->type == 'hub')
 
 						<!-- working_hours_from -->
 					<div class="row working-hours-from form-group{{ ($errors->has('working_hours_from')) ? ' has-error' : '' }}">

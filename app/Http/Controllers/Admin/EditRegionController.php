@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class EditLocationController extends Controller
+class EditRegionController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -35,27 +35,25 @@ class EditLocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, string $location_id_string)
+    public function index(Request $request, string $region_id_string)
     {
-        $location_id = ctype_digit($location_id_string) ? intval($location_id_string) : null;
-        if ($location_id === null) {
-            return redirect(route('admin.locations'));
+        $region_id = ctype_digit($region_id_string) ? intval($region_id_string) : null;
+        if ($region_id === null) {
+            return redirect(route('admin.regions'));
         } else {
-            $location = Location::find($location_id);
-            if (!$location) {
-                return redirect(route('admin.locations'));
+            $region = Region::find($region_id);
+            if (!$region) {
+                return redirect(route('admin.regions'));
             } else {
-                $regions = Region::where('status', 'active')->get();
-                return view('admin.edit_location')->with([
-              'location' => $location,
-              'regions' => $regions,
+                return view('admin.edit_region')->with([
+              'region' => $region,
           ]);
             }
         }
     }
 
     /**
-     * Get a validator for a new location insert
+     * Get a validator for a new region insert
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -64,24 +62,23 @@ class EditLocationController extends Controller
     {
         $validatorArray = [
                     'name'    => 'required',
-                    'region'    => 'required',
                 ];
 
         return Validator::make($data, $validatorArray);
     }
 
     /**
-     * Handle "edit location". - post
+     * Handle "edit region". - post
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function handle_post(Request $request)
     {
-        $location_id = $request->all()['location_id'];
-        $location = Location::find($location_id);
+        $region_id = $request->all()['region_id'];
+        $region = Region::find($region_id);
 
-        if ($this->change_detected($request, $location)) {
+        if ($this->change_detected($request, $region)) {
             $validation = $this->validator($request->all());
 
 
@@ -90,31 +87,28 @@ class EditLocationController extends Controller
                                                  ->withInput();
             }
 
-            $location = $this->update($location, $request->all());
-            return redirect(route('admin.locations'))->with('status', "Измените се успешно зачувани!");
+            $region = $this->update($region, $request->all());
+            return redirect(route('admin.regions'))->with('status', "Измените се успешно зачувани!");
         } else {
             return back();
         }
     }
 
     /**
-     * Indicates if changes are being made to the location information
+     * Indicates if changes are being made to the region information
      *
      * @param  Request  $request
-     * @param  Location $location
+     * @param  Region $region
      * @return bool
      */
-    protected function change_detected(Request $request, $location)
+    protected function change_detected(Request $request, $region)
     {
         $data = $request->all();
 
-        if ($location->name != $data['name']) {
+        if ($region->name != $data['name']) {
             return true;
         }
-        if ($location->description != $data['description']) {
-            return true;
-        }
-        if ($location->region_id != $data['region']) {
+        if ($region->description != $data['description']) {
             return true;
         }
 
@@ -124,18 +118,17 @@ class EditLocationController extends Controller
     /**
      * updates the information for the profile
      *
-     * @param  Location $location
+     * @param  Region $region
      * @param  array  $data
-     * @return FSR\Location $location
+     * @return FSR\Region $region
      */
-    protected function update(Location $location, array $data)
+    protected function update(Region $region, array $data)
     {
-        $location->region_id = $data['region'];
-        $location->name = $data['name'];
-        $location->description = $data['description'];
+        $region->name = $data['name'];
+        $region->description = $data['description'];
 
-        $location->save();
+        $region->save();
 
-        return $location;
+        return $region;
     }
 }

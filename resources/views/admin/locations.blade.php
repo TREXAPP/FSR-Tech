@@ -75,6 +75,16 @@
 							<span><strong>{{$location->name}}</strong></span>
 						</div>
 					</div>
+					
+					<!-- Region -->
+					<div id="location-info-region-{{$location->id}}" class="row location-info-region row">
+						<div id="location-info-region-label-{{$location->id}}" class="location-info-label location-info-region-label col-md-4">
+							<span>Регион:</span>
+						</div>
+						<div id="location-info-region-value-{{$location->id}}" class="location-info-value location-info-region-value col-md-8">
+							<span><strong>{{$location->region->name}}</strong></span>
+						</div>
+					</div>
 
 					<!-- Description -->
 					<div id="location-info-description-{{$location->id}}" class="row location-info-description row">

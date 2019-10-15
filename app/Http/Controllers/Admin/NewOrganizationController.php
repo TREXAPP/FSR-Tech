@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\DonorType;
 use FSR\Volunteer;
 use FSR\Organization;

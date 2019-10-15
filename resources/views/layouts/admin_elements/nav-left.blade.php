@@ -114,6 +114,14 @@
                 </span>
               </a>
             </li>
+            
+            <li>
+              <a href="{{route('admin.hub_users')}}">
+                <i class="fa fa-user-plus"></i> <span>Хабови</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
 
           </ul>
       </li>
@@ -145,6 +153,14 @@
             <li>
               <a href="{{route('admin.donor_organizations')}}">
                 <i class="fa fa-user-plus"></i> <span>Донатори</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+            
+            <li>
+              <a href="{{route('admin.hub_organizations')}}">
+                <i class="fa fa-user-plus"></i> <span>Хабови</span>
                 <span class="pull-right-container">
                 </span>
               </a>
@@ -277,6 +293,33 @@
 
             <li>
               <a href="/{{Auth::user()->type()}}/donor_types/new">
+                <i class="fa fa-user-plus"></i> <span>Додади нов</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+          </ul>
+      </li>
+      
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-universal-access"></i> <span>Региони</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li>
+              <a href="{{route('admin.regions')}}">
+                <i class="fa fa-users"></i> <span>Преглед</span>
+                <span class="pull-right-container">
+                </span>
+              </a>
+            </li>
+
+            <li>
+              <a href="/{{Auth::user()->type()}}/regions/new">
                 <i class="fa fa-user-plus"></i> <span>Додади нов</span>
                 <span class="pull-right-container">
                 </span>

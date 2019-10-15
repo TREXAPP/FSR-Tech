@@ -265,7 +265,7 @@ class Methods
     }
 
     /**
-     * Get image url for the donor display
+     * Get image url for the cso display
      *
      * @param Donor $volunteer
      * @return string
@@ -276,6 +276,24 @@ class Methods
             return Methods::getFileUrl(File::find($cso->profile_image_id)->filename);
         } elseif ($cso->organization->image_id) {
             return Methods::getFileUrl(File::find($cso->organization->image_id)->filename);
+        } else {
+            return url('img/cso.png');
+        }
+    }
+
+    
+    /**
+     * Get image url for the hub display
+     *
+     * @param Hub $hub
+     * @return string
+     */
+    public static function get_hub_image_url($hub)
+    {
+        if ($hub->profile_image_id) {
+            return Methods::getFileUrl(File::find($hub->profile_image_id)->filename);
+        } elseif ($hub->organization->image_id) {
+            return Methods::getFileUrl(File::find($hub->organization->image_id)->filename);
         } else {
             return url('img/cso.png');
         }
