@@ -17,6 +17,7 @@
                   <option value="">@lang('register.choose')</option>
                   <option value="donor"{{ (old('type') == 'donor') ? ' selected' : ''}}>@lang('register.donor')</option>
                   <option value="cso"{{ (old('type') == 'cso') ? ' selected' : ''}}>@lang('register.cso')</option>
+                  <option value="hub"{{ (old('type') == 'hub') ? ' selected' : ''}}>@lang('register.hub')</option>
                 </select> @if ($errors->has('type'))
                 <span class="help-block">
                     <strong>{{ $errors->first('type') }}</strong>
@@ -78,21 +79,6 @@
             </div>
 
             <hr>
-{{--
-            <div id="register_donor_type_wrapper" class="form-group{{ $errors->has('donor_type') ? ' has-error' : '' }}{{ (old('type') == 'donor') ? '' : ' hidden' }}">
-              <label for="donor_type" class="col-md-4 control-label">@lang('register.donor_type')</label>
-              <div class="col-md-6">
-                <select id="register_donor_type_select" class="form-control" name="donor_type"{{ (!old('type')) ? ' disabled' : '' }}>
-                  <option value="">@lang('register.choose')</option>
-                  @foreach ($donor_types as $donor_type)
-                    <option value="{{$donor_type->id}}"{{ (old('donor_type') == $donor_type->id) ? ' selected' : ''}}>{{$donor_type->name}}</option>
-                  @endforeach
-                </select> @if ($errors->has('donor_type'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('donor_type') }}</strong>
-                </span> @endif
-              </div>
-            </div> --}}
 
             <div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }}">
               <label for="organization" class="col-md-4 control-label">@lang('register.organization')</label>
@@ -110,7 +96,7 @@
             </div>
 
 
-            <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
+            <div class="location-group form-group{{ $errors->has('location') ? ' has-error' : '' }}">
               <label for="location" class="col-md-4 control-label">@lang('register.location')</label>
               <div class="col-md-6">
                 <select id="register_location_select" class="form-control" name="location"{{ (!old('type')) ? ' disabled' : '' }}>

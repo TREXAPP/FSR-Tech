@@ -4,6 +4,7 @@ $('#organization_type_select').on('change', function() {
   if (this.value) {
       $("input").prop('disabled', false);
       $("#donor_type").prop('disabled', false);
+      $("#region").prop('disabled', false);
       $("#name").prop('disabled', false);
       $("#address").prop('disabled', false);
       $("#description").prop('disabled', false);
@@ -16,6 +17,7 @@ $('#organization_type_select').on('change', function() {
   } else {
     $("input").prop('disabled', true);
     $("#donor_type").prop('disabled', true);
+    $("#region").prop('disabled', true);
     $("#name").prop('disabled', true);
     $("#address").prop('disabled', true);
     $("#description").prop('disabled', true);
@@ -26,38 +28,58 @@ $('#organization_type_select').on('change', function() {
   }
 
   //show hide working hours and donor_type
-  if (this.value == 'donor' || this.value == 'hub') {
-
+  if (this.value == 'donor') {
     $('.working-hours-from').css('display', 'block');
     $('.working-hours-from').css('visibility', 'initial');
-    $('#working_hours_from').prop('required',true);
+    $('#working_hours_from').prop('required', true);
 
     $('.working-hours-to').css('display', 'block');
     $('.working-hours-to').css('visibility', 'initial');
-    $('#working_hours_to').prop('required',true);
+    $('#working_hours_to').prop('required', true);
 
-    if (this.value == 'donor') {
-      $('.donor_type').css('display', 'block');
-      $('.donor_type').css('visibility', 'initial');
-      $('#donor_type').prop('required', true);
-    } else {
-      $('.donor_type').css('display', 'none');
-      $('.donor_type').css('visibility', 'hidden');
-      $('#donor_type').prop('required', false);
-    }
+    $('.donor_type').css('display', 'block');
+    $('.donor_type').css('visibility', 'initial');
+    $('#donor_type').prop('required', true);
 
-  } else {
-    $('.working-hours-from').css('display','none');
+    $('.region').css('display', 'none');
+    $('.region').css('visibility', 'hidden');
+    $('#region').prop('required', false);
+  }
+
+  if (this.value == 'cso') {
+    $('.working-hours-from').css('display', 'none');
     $('.working-hours-from').css('visibility', 'hidden');
-    $('#working_hours_from').prop('required',false);
+    $('#working_hours_from').prop('required', false);
 
-    $('.working-hours-to').css('display','none');
+    $('.working-hours-to').css('display', 'none');
     $('.working-hours-to').css('visibility', 'hidden');
-    $('#working_hours_to').prop('required',false);
+    $('#working_hours_to').prop('required', false);
 
     $('.donor_type').css('display', 'none');
     $('.donor_type').css('visibility', 'hidden');
-    $('#donor_type').prop('required',false);
+    $('#donor_type').prop('required', false);
+
+    $('.region').css('display', 'none');
+    $('.region').css('visibility', 'hidden');
+    $('#region').prop('required', false);
+  }
+
+  if (this.value == 'hub') {
+    $('.working-hours-from').css('display', 'block');
+    $('.working-hours-from').css('visibility', 'initial');
+    $('#working_hours_from').prop('required', true);
+
+    $('.working-hours-to').css('display', 'block');
+    $('.working-hours-to').css('visibility', 'initial');
+    $('#working_hours_to').prop('required', true);
+
+    $('.donor_type').css('display', 'none');
+    $('.donor_type').css('visibility', 'hidden');
+    $('#donor_type').prop('required', false);
+
+    $('.region').css('display', 'block');
+    $('.region').css('visibility', 'initial');
+    $('#region').prop('required', true);
   }
 
 });

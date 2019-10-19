@@ -6,6 +6,7 @@ use FSR\Cso;
 use FSR\Donor;
 use FSR\Hub;
 use FSR\DonorType;
+use FSR\Region;
 use FSR\Volunteer;
 use FSR\Organization;
 use FSR\Custom\Methods;
@@ -35,8 +36,10 @@ class NewOrganizationController extends Controller
     public function index()
     {
         $donor_types = DonorType::where('status', 'active')->get();
+        $regions = Region::where('status', 'active')->get();
         return view('admin.new_organization')->with([
-          'donor_types' => $donor_types
+          'donor_types' => $donor_types,
+          'regions' => $regions,
         ]);
     }
 
@@ -70,25 +73,52 @@ class NewOrganizationController extends Controller
      */
     protected function create(array $data, $file_id)
     {
-        if ($data['type'] == 'donor') {
-            return  Organization::create([
-              'name' => $data['name'],
-              'address' => $data['address'],
-              'description' => $data['description'],
-              'type' => $data['type'],
-              'working_hours_from' => $data['working_hours_from'],
-              'working_hours_to' => $data['working_hours_to'],
-              'image_id' => $file_id,
-              'donor_type_id' => $data['donor_type'],
-          ]);
-        } else {
-            return  Organization::create([
-              'name' => $data['name'],
-              'address' => $data['address'],
-              'description' => $data['description'],
-              'type' => $data['type'],
-              'image_id' => $file_id,
-          ]);
+        switch ($data['type']) {
+            case 'donor':
+                return  Organization::create([
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'description' => $data['description'],
+                    'type' => $data['type'],
+                    'working_hours_from' => $data['working_hours_from'],
+                    'working_hours_to' => $data['working_hours_to'],
+                    'image_id' => $file_id,
+                    'donor_type_id' => $data['donor_type'],
+                ]);
+                break;
+            case 'cso':
+                return  Organization::create([
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'description' => $data['description'],
+                    'type' => $data['type'],
+                    'image_id' => $file_id,
+                ]);
+                break;
+             case 'hub':
+                return  Organization::create([
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'description' => $data['description'],
+                    'type' => $data['type'],
+                    'working_hours_from' => $data['working_hours_from'],
+                    'working_hours_to' => $data['working_hours_to'],
+                    'image_id' => $file_id,
+                    'region_id' => $data['region'],
+                ]);
+                break;
+            default:
+                return  Organization::create([
+                    'name' => $data['name'],
+                    'address' => $data['address'],
+                    'description' => $data['description'],
+                    'type' => $data['type'],
+                    'working_hours_from' => $data['working_hours_from'],
+                    'working_hours_to' => $data['working_hours_to'],
+                    'image_id' => $file_id,
+                    'donor_type_id' => $data['donor_type'],                    
+                    'region_id' => $data['region'],
+                ]);
         }
     }
 
@@ -100,22 +130,41 @@ class NewOrganizationController extends Controller
      */
     protected function validator(array $data)
     {
-        if ($data['type'] == 'donor') {
-            $validatorArray = [
-            'name'                    => 'required',
-            'donor_type'              => 'required',
-            'working_hours_from'      => 'required',
-            'working_hours_to'        => 'required',
-            'image'                   => 'image|max:2048',
-        ];
-        } else {
-            $validatorArray = [
-            'name'                    => 'required',
-            'image'                   => 'image|max:2048',
-        ];
-        }
-
-
+        switch ($data['type']) {
+            case 'donor':
+                $validatorArray = [
+                'name'                    => 'required',
+                'donor_type'              => 'required',
+                'working_hours_from'      => 'required',
+                'working_hours_to'        => 'required',
+                'image'                   => 'image|max:2048',
+                ];
+                break;
+            case 'cso':
+                $validatorArray = [
+                'name'                    => 'required',
+                'image'                   => 'image|max:2048',
+                ];
+                break;
+            case 'hub':
+                $validatorArray = [
+                'name'                    => 'required',
+                'image'                   => 'image|max:2048',
+                'working_hours_from'      => 'required',
+                'working_hours_to'        => 'required',
+                'region'                  => 'required',
+                ];
+                break;
+            default:
+                $validatorArray = [
+                'name'                    => 'required',
+                'image'                   => 'image|max:2048',
+                'working_hours_from'      => 'required',
+                'working_hours_to'        => 'required',
+                'region'                  => 'required',
+                'donor_type'              => 'required',
+                ];
+            }
         return Validator::make($data, $validatorArray);
     }
 

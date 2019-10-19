@@ -49,10 +49,12 @@ class UserToAdminsRegister extends Notification implements ShouldQueue
             $type = 'донатор';
         } elseif ($this->user->type() == 'cso') {
             $type = 'примател';
+        } elseif ($this->user->type() == 'hub') {
+            $type = 'хаб';
         }
 
         $approve_link = route('admin.approve_users');
-        return (new MailMessage)
+        $msg = (new MailMessage)
                     ->subject('[Сите Сити] Нов член - Потребно е одобрување')
                     ->line('Ве молиме потврдете дека долу наведените информации за најнов член на платформата е точна:')
                     ->line('Тип на корисник: ' . $type)
@@ -61,10 +63,17 @@ class UserToAdminsRegister extends Notification implements ShouldQueue
                     ->line('Организација: ' . $this->user->organization->name)
                     ->line('Емаил: ' . $this->user->email)
                     ->line('Телефон: ' . $this->user->phone)
-                    ->line('Адреса: ' . $this->user->address)
-                    ->line('Локација: ' . $this->user->location->name)
-                    ->line('Кликнете на линкот за да го одобрите овој член.')
+                    ->line('Адреса: ' . $this->user->address);
+
+        if ($this->user->type() == 'hub') {
+            $msg->line('Регион: ' . $this->user->region->name);
+        } else {
+            $msg->line('Локација: ' . $this->user->location->name);
+        }
+
+        $msg->line('Кликнете на линкот за да го одобрите овој член.')
                     ->action('Одобри/Одбиј', $approve_link);
+        return $msg;
     }
 
     /**

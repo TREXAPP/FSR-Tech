@@ -79,6 +79,16 @@
 				</div>
 
 				<div id="organization-info-wrapper-{{$organization->id}}" class="organization-info-wrapper two-col-layout-info-wrapper col-md-8">
+					
+					<!-- Region -->
+					<div id="organization-info-region-{{$organization->id}}" class="row organization-info-region row">
+						<div id="organization-info-region-label-{{$organization->id}}" class="organization-info-label organization-info-region-label col-md-4">
+							<span>Регион:</span>
+						</div>
+						<div id="organization-info-region-value-{{$organization->id}}" class="organization-info-value organization-info-region-value col-md-8">
+							<span><strong>{{$organization->region->name}}</strong></span>
+						</div>
+					</div>
 
 					<!-- Name -->
 					<div id="organization-info-name-{{$organization->id}}" class="row organization-info-name row">
@@ -107,6 +117,26 @@
 						</div>
 						<div id="organization-info-description-value-{{$organization->id}}" class="organization-info-value organization-info-description-value col-md-8">
 							<span><strong>{{$organization->description}}</strong></span>
+						</div>
+					</div>
+
+					<!-- Working hours from -->
+					<div id="organization-info-working-hours-from-{{$organization->id}}" class="row organization-info--working-hours-from row">
+						<div id="organization-info--working-hours-from-label-{{$organization->id}}" class="organization-info-label organization-info--working-hours-from-label col-md-4">
+							<span>Работно време од:</span>
+						</div>
+						<div id="organization-info--working-hours-from-value-{{$organization->id}}" class="organization-info-value organization-info--working-hours-from-value col-md-8">
+							<span><strong>{{$organization->working_hours_from}}</strong></span>
+						</div>
+					</div>
+
+					<!-- Working hours to -->
+					<div id="organization-info-working-hours-to-{{$organization->id}}" class="row organization-info--working-hours-to row">
+						<div id="organization-info--working-hours-to-label-{{$organization->id}}" class="organization-info-label organization-info--working-hours-to-label col-md-4">
+							<span>Работно време до:</span>
+						</div>
+						<div id="organization-info--working-hours-to-value-{{$organization->id}}" class="organization-info-value organization-info--working-hours-to-value col-md-8">
+							<span><strong>{{$organization->working_hours_to}}</strong></span>
 						</div>
 					</div>
 

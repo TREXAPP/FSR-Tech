@@ -72,6 +72,25 @@
                 @endif
               </div>
             </div>
+            
+            <!-- region -->
+            <div class="form-group{{ $errors->has('region') ? ' has-error' : '' }} row region"
+              {!! (old('type') != 'hub') ? ' style="display: none; visibility: hidden;"' : '' !!}>
+              <label for="region" class="col-md-2 col-md-offset-2 control-label">Регион</label>
+              <div class="col-md-6">
+                <select id="region" class="form-control" name="region">
+                  <option value="">-- Избери --</option>
+                  @foreach ($regions as $region)
+                    <option value={{$region->id}}{{ (old('region') == $region->id) ? ' selected' : ''}}>{{$region->name}}</option>
+                  @endforeach
+                </select>
+                 @if ($errors->has('region'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('region') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
 
             <!-- Name -->
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} row">

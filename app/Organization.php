@@ -63,6 +63,14 @@ class Organization extends Model
     }
 
     /**
+     * Get the region for this donor.
+     */
+    public function region()
+    {
+        return $this->belongsTo('FSR\Region');
+    }
+
+    /**
      * Get the volunteers that belong to the organization.
      */
     public function free_volunteers()
@@ -81,6 +89,7 @@ class Organization extends Model
       'image_id',
       'status',
       'donor_type_id',
+      'region_id',
       'created_at',
       'updated_at',
 

@@ -25,7 +25,7 @@
 
 
 <!-- CSO -->
-<div class="col-md-6 admin-approve-wrapper-outside admin-approve-cso-wrapper-outside">
+<div class="col-md-4 admin-approve-wrapper-outside admin-approve-cso-wrapper-outside">
   <div class="admin-approve-wrapper">
     <div class="panel admin-approve-title">
       Приматели
@@ -150,7 +150,7 @@
 
 
 <!-- DONOR -->
-<div class="col-md-6 admin-approve-wrapper-outside admin-approve-donor-wrapper-outside">
+<div class="col-md-4 admin-approve-wrapper-outside admin-approve-donor-wrapper-outside">
   <div class="admin-approve-wrapper">
     <div class="panel admin-approve-title">
       Донатори
@@ -273,6 +273,130 @@
 </div>
 
 
+<!-- HUB -->
+<div class="col-md-4 admin-approve-wrapper-outside admin-approve-hub-wrapper-outside">
+  <div class="admin-approve-wrapper">
+    <div class="panel admin-approve-title">
+      Хабови
+    </div>
+  	@foreach ($hubs as $hub)
+  	<!-- Default box -->
+  <div class="section-wrapper admin-approve-hub-section-wrapper col-md-12">
+  <div id="admin-approve-hub-{{$hub->id}}" name="admin-approve-hub-{{$hub->id}}"></div>
+  	<div class="admin-approve-hub-box box admin-approve-hub-{{$hub->id}} two-col-layout-box collapsed-box">
+  		<div class="box-header with-border listing-box-header admin-approve-hub-box-header">
+  			<a href="#" class=" btn-box-tool listing-box-anchor admin-approve-hub-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
+
+  				<div id="admin-approve-hub-image-preview-{{$hub->id}}" class="admin-approve-hub-image-preview two-col-layout-image-preview">
+  						<img class="img-rounded" alt="{{$hub->first_name}}" src="{{Methods::get_user_image_url($hub)}}" />
+  				</div>
+  				<div class="header-wrapper">
+  					<div id="admin-approve-hub-name-{{$hub->id}}" class="admin-approve-hub-name">
+  						<span class="admin-approve-hub-listing-title two-col-layout-listing-title">{{$hub->first_name}} {{$hub->last_name}}</span>
+  					</div>
+  					<div class="box-tools pull-right">
+              <span class="add-more">Повеќе...</span>
+  							{{-- <i class="fa fa-caret-down pull-right"></i> --}}
+  					</div>
+  				</div>
+
+  			</a>
+  		</div>
+  		<div class="listing-box-body-wrapper">
+  			<div class="box-body">
+  				<div id="admin-approve-hub-image-wrapper-{{$hub->id}}" class="admin-approve-hub-image-wrapper two-col-layout-image-wrapper col-md-4">
+  						<img class="img-rounded" alt="{{$hub->first_name}}" src="{{Methods::get_user_image_url($hub)}}" />
+  				</div>
+
+  				<div id="admin-approve-hub-info-wrapper-{{$hub->id}}" class="admin-approve-hub-info-wrapper two-col-layout-info-wrapper col-md-8">
+
+  					<!-- First Name -->
+  					<div id="admin-approve-hub-info-first-name-{{$hub->id}}" class="row admin-approve-hub-info-first-name row">
+  						<div id="admin-approve-hub-info-first-name-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-first-name-label col-md-6">
+  							<span>Име:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-first-name-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-first-name-value col-md-6">
+  							<span><strong>{{$hub->first_name}}</strong></span>
+  						</div>
+  					</div>
+
+  					<!-- Last Name -->
+  					<div id="admin-approve-hub-info-last-name-{{$hub->id}}" class="row admin-approve-hub-info-last-name row">
+  						<div id="admin-approve-hub-info-last-name-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-last-name-label col-md-6">
+  							<span>Презиме:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-last-name-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-last-name-value col-md-6">
+  							<span><strong>{{$hub->last_name}}</strong></span>
+  						</div>
+  					</div>
+
+  					<!-- phone -->
+  					<div id="admin-approve-hub-info-phone-{{$hub->id}}" class="row admin-approve-hub-info-phone row">
+  						<div id="admin-approve-hub-info-phone-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-phone-label col-md-6">
+  							<span>Телефон:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-phone-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-phone-value col-md-6">
+  							<span><strong>{{$hub->phone}}</strong></span>
+  						</div>
+  					</div>
+
+  					<!-- address -->
+  					<div id="admin-approve-hub-info-address-{{$hub->id}}" class="row admin-approve-hub-info-address row">
+  						<div id="admin-approve-hub-info-address-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-address-label col-md-6">
+  							<span>Адреса:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-address-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-address-value col-md-6">
+  							<span><strong>{{$hub->address}}</strong></span>
+  						</div>
+  					</div>
+
+  					<!-- organization -->
+  					<div id="admin-approve-hub-info-organization-{{$hub->id}}" class="row admin-approve-hub-info-organization row">
+  						<div id="admin-approve-hub-info-organization-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-organization-label col-md-6">
+  							<span>Организација:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-organization-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-organization-value col-md-6">
+  							<span><strong>{{$hub->organization->name}}</strong></span>
+  						</div>
+  					</div>
+
+  					<!-- region -->
+  					<div id="admin-approve-hub-info-region-{{$hub->id}}" class="row admin-approve-hub-info-region row">
+  						<div id="admin-approve-hub-info-region-label-{{$hub->id}}" class="admin-approve-hub-info-label admin-approve-hub-info-region-label col-md-6">
+  							<span>Регион:</span>
+  						</div>
+  						<div id="admin-approve-hub-info-region-value-{{$hub->id}}" class="admin-approve-hub-info-value admin-approve-hub-info-region-value col-md-6">
+  							<span><strong>{{$hub->region->name}}</strong></span>
+  						</div>
+  					</div>
+
+
+  				</div>
+
+  			</div>
+
+  			<div class="box-footer">
+  					<div class="pull-right">
+  						{{-- <a href="{{url('hub/volunteers/' . $volunteer->id)}}" id="edit-volunteer-button-{{$volunteer->id}}" name="edit-volunteer-button-{{$volunteer->id}}"
+  							class="btn btn-success edit-volunteer-button">Измени ги податоците</a> --}}
+  							<button id="approve-hub-button-{{ $hub->id }}" type="button" data-toggle="modal" data-target="#approve-hub-popup"
+  								name="approve-hub-button" class="btn btn-primary approve-hub-button" >Одобри</button>
+  							<button id="reject-hub-button-{{ $hub->id }}" type="button" data-toggle="modal" data-target="#reject-hub-popup"
+  								name="reject-hub-button" class="btn btn-danger reject-hub-button" >Одбиј</button>
+						</div>
+  			</div>
+
+  		</div>
+
+  		<!-- /.box-footer-->
+  	</div>
+  	<!-- /.box -->
+  </div>
+  @endforeach
+  </div>
+</div>
+
+
 <!-- Approve Cso Modal  -->
 <div id="approve-cso-popup" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -370,6 +494,59 @@
 				</div>
 				<div class="modal-footer">
 					<input type="submit" name="reject-donor" class="btn btn-primary" value="Одбиј" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Approve Hub Modal  -->
+<div id="approve-hub-popup" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="approve-hub-form" class="approve-hub-form" action="{{ route('admin.approve_users') }}" method="post">
+        <input id="approve-hub-id" type="hidden" name="hub_id" value="">
+				{{ csrf_field() }}
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 id="popup-title" class="modal-title popup-title">Одобри го хабот</h4>
+				</div>
+				<div id="approve-hub-body" class="modal-body approve-hub-body">
+					<!-- Form content-->
+					<h5 id="popup-info" class="popup-info row italic">
+						Дали сте сигурни дека сакате да го одобрите хабот?
+					</h5>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" name="approve-hub" class="btn btn-primary" value="Одобри" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Reject Hub Modal  -->
+<div id="reject-hub-popup" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="reject-hub-form" class="reject-hub-form" action="{{ route('admin.approve_users') }}" method="post">
+        <input id="reject-hub-id" type="hidden" name="hub_id" value="">
+				{{ csrf_field() }}
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 id="popup-title" class="modal-title popup-title">Одбиј го хабот</h4>
+				</div>
+				<div id="reject-hub-body" class="modal-body reject-hub-body">
+					<!-- Form content-->
+					<h5 id="popup-info" class="popup-info row italic">
+						Дали сте сигурни дека сакате да го одбиете хабот?
+					</h5>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" name="reject-hub" class="btn btn-primary" value="Одбиј" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
 				</div>
 			</form>

@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Auth;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\Custom\Methods;
 
 use FSR\Notifications\UserEmailVerificationRequest;
@@ -98,10 +99,20 @@ class EmailConfirmController extends Controller
     public function showConfirmForm(Request $request, $token = null)
     {
         if (!empty(Auth::user())) {
-            if (Auth::user()->type() == 'cso') {
-                $redirect_link = route('cso.home');
-            } else {
-                $redirect_link = route('donor.home');
+            switch (Auth::user()->type()) {
+                case 'cso':
+                    $redirect_link = route('cso.home');
+                    break;
+                case 'donor':
+                    $redirect_link = route('donor.home');
+                    break;
+                case 'hub':
+                    $redirect_link = route('hub.home');
+                    break;
+                
+                default:
+                    $redirect_link = route('login');
+                    break;
             }
         } else {
             $redirect_link = route('login');
@@ -138,7 +149,21 @@ class EmailConfirmController extends Controller
                         return redirect($redirect_link)->with('status', 'Вашиот емаил е успешно потврден!');
                     }
                 } else {
-                    return redirect($redirect_link)->with('status_error', 'Невалиден линк.');
+                    $hubs = Hub::where('email_token', $token)->get();
+                    if ($hubs->count()) {
+                        $hub = $hubs[0];
+                        if ($hub->email_confirmed) {
+                            return redirect($redirect_link)->with('status', 'Вашиот емаил веќе е потврден.');
+                        } else {
+                            $hub->email_confirmed = 1;
+                            $hub->save();
+                            Methods::log_event('confirm_email', $hub->id, 'hub');
+                            return redirect($redirect_link)->with('status', 'Вашиот емаил е успешно потврден!');
+                        }
+                    } else {
+                        return redirect($redirect_link)->with('status_error', 'Невалиден линк.');
+                    }
+                    
                 }
             }
         } else {

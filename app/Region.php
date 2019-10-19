@@ -27,6 +27,14 @@ class Region extends Model
         return $this->hasMany('FSR\Location');
     }
 
+    /**
+     * Get the organizations for this region.
+     */
+    public function organizations()
+    {
+        return $this->hasMany('FSR\Organization');
+    }
+
     /*
         protected $fillable = [
           'name', 'description',

@@ -7,6 +7,7 @@ use FSR\File;
 use FSR\Listing;
 use FSR\Location;
 use FSR\DonorType;
+use FSR\Region;
 use FSR\Organization;
 use FSR\ListingOffer;
 use FSR\Custom\Methods;
@@ -41,6 +42,7 @@ class EditOrganizationController extends Controller
     public function index(Request $request, string $organization_id_string)
     {
         $donor_types = DonorType::where('status', 'active')->get();
+        $regions = Region::where('status', 'active')->get();
         $organization_id = ctype_digit($organization_id_string) ? intval($organization_id_string) : null;
         if ($organization_id === null) {
             return redirect(route('admin.organizations'));
@@ -52,6 +54,7 @@ class EditOrganizationController extends Controller
                 return view('admin.edit_organization')->with([
               'organization' => $organization,
               'donor_types' => $donor_types,
+              'regions' => $regions,
           ]);
             }
         }
@@ -102,6 +105,16 @@ class EditOrganizationController extends Controller
                 ];
           break;
 
+        case 'hub':
+        $validatorArray = [
+          'organization-region'        => 'required',
+          'organization-name'          => 'required',
+          'organization-address'       => 'required',
+          'organization-image'         => 'image|max:2048',
+          'working_hours_from'         => 'required',
+          'working_hours_to'           => 'required',
+                ];
+          break;
         default:
         //
           break;
@@ -175,6 +188,17 @@ class EditOrganizationController extends Controller
             }
         }
 
+        if ($organization->type == 'hub') {
+            if ($organization->region_id != $data['organization-region']) {
+                return true;
+            }
+            if ($organization->working_hours_from != $data['working_hours_from']) {
+                return true;
+            }
+            if ($organization->working_hours_to != $data['working_hours_to']) {
+                return true;
+            }
+        }
 
 
         return false;
@@ -203,6 +227,11 @@ class EditOrganizationController extends Controller
             $organization->working_hours_to = $data['working_hours_to'];
         }
 
+        if ($organization->type == 'hub') {
+            $organization->region_id = $data['organization-region'];
+            $organization->working_hours_from = $data['working_hours_from'];
+            $organization->working_hours_to = $data['working_hours_to'];
+        }
         $organization->save();
 
         return $organization;

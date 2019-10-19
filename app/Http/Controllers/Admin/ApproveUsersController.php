@@ -4,12 +4,14 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\Volunteer;
 use FSR\Custom\Methods;
 
 use FSR\Notifications\AdminToCsoApproveRegistration;
 use FSR\Notifications\AdminToUserRejectRegistration;
 use FSR\Notifications\AdminToDonorApproveRegistration;
+use FSR\Notifications\AdminToHubApproveRegistration;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -44,9 +46,14 @@ class ApproveUsersController extends Controller
                        ->whereHas('organization', function ($query) {
                            $query->where('status', 'active');
                        })->get();
+        $hubs = Hub::where('status', 'pending')
+                       ->whereHas('organization', function ($query) {
+                           $query->where('status', 'active');
+                       })->get();
         return view('admin.approve_users')->with([
           'csos' => $csos,
           'donors' => $donors,
+          'hubs' => $hubs,
         ]);
     }
 
@@ -62,10 +69,14 @@ class ApproveUsersController extends Controller
             return $this->handle_approve_cso($request->all());
         } elseif ($request->has('approve-donor')) {
             return $this->handle_approve_donor($request->all());
+        } elseif ($request->has('approve-hub')) {
+            return $this->handle_approve_hub($request->all());
         } elseif ($request->has('reject-cso')) {
             return $this->handle_reject_cso($request->all());
         } elseif ($request->has('reject-donor')) {
             return $this->handle_reject_donor($request->all());
+        } elseif ($request->has('reject-hub')) {
+            return $this->handle_reject_hub($request->all());
         }
     }
 
@@ -115,6 +126,28 @@ class ApproveUsersController extends Controller
     }
 
     /**
+     * Handle approve hub
+     *
+     * @param  Collection  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_approve_hub(array $data)
+    {
+        $hub = Hub::find($data['hub_id']);
+        if ($hub) {
+            $hub->status = 'active';
+            $hub->save();
+            Methods::log_event('admin_approve', $hub->id, 'hub');
+            $hub->notify(new AdminToHubApproveRegistration($hub));
+
+            return back()->with([
+            'status' => 'Хабот е успешно одобрен!'
+          ]);
+        }
+        return back();
+    }
+
+    /**
      * Handle reject cso
      *
      * @param  Collection  $data
@@ -151,6 +184,27 @@ class ApproveUsersController extends Controller
             $donor->notify(new AdminToUserRejectRegistration());
             return back()->with([
             'status' => 'Донаторот е одбиен!'
+          ]);
+        }
+        return back();
+    }
+
+    /**
+     * Handle reject hub
+     *
+     * @param  Collection  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function handle_reject_hub(array $data)
+    {
+        $hub = Hub::find($data['hub_id']);
+        if ($hub) {
+            $hub->status = 'rejected';
+            $hub->save();
+            Methods::log_event('admin_deny', $hub->id, 'hub');
+            $hub->notify(new AdminToUserRejectRegistration());
+            return back()->with([
+            'status' => 'Хабот е одбиен!'
           ]);
         }
         return back();

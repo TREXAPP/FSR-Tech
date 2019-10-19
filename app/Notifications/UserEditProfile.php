@@ -52,14 +52,32 @@ class UserEditProfile extends Notification implements ShouldQueue
                     ->line('Организација: ' . $this->user->organization->name)
                     ->line('Адреса: ' . $this->user->address)
                     ->line('Телефон: ' . $this->user->phone)
-                    ->line('Локација: ' . $this->user->location->name)
-                    ->line(' Ако вашите измени не се точни Ве молиме кликнете на линкот за да го измените вашиот профил.');
-
-        if ($this->user->type() == 'cso') {
-            $message->action('Измени профил', url('/cso/edit_profile'));
+                    ->line('Локација: ' . $this->user->location->name);
+        
+        if ($this->user->type() == 'hub') {
+            $message->line('Регион: ' . $this->user->region->name);
         } else {
-            $message->action('Измени профил', url('/donor/edit_profile'));
+            $message->line('Локација: ' . $this->user->location->name);
         }
+
+        $message->line(' Ако вашите измени не се точни Ве молиме кликнете на линкот за да го измените вашиот профил.');
+
+        switch ($this->user->type()) {
+            case 'cso':
+                $message->action('Измени профил', url('/cso/edit_profile'));
+                break;
+            case 'donor':
+                $message->action('Измени профил', url('/donor/edit_profile'));
+                break;
+            case 'hub':
+                $message->action('Измени профил', url('/hub/edit_profile'));
+                break;
+            
+            default:
+                //
+                break;
+        }
+
         return $message;
     }
 

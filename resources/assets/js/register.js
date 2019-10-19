@@ -8,13 +8,17 @@ $('#register_type_select').on('change', function() {
       $("input").prop('disabled', false);
       $("#register_location_select").prop('disabled', false);
       $("button").prop('disabled', false);
+      if (this.value === 'hub') {
+        $(".location-group").hide();
+      } else {
+        $(".location-group").show();
+      }
 
   } else {
       $("input").prop('disabled', true);
       $("#register_organization_select").prop('disabled', true);
       $("#register_location_select").prop('disabled', true);
       $("button").prop('disabled', true);
-
   }
 
   //remove all from organizations select box (except the default one)

@@ -6,6 +6,7 @@ use FSR\User;
 use FSR\Cso;
 use FSR\Admin;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\Location;
 use FSR\Volunteer;
 use FSR\Organization;
@@ -78,7 +79,7 @@ class RegisterController extends Controller
         $file_id = $this->register_handle_upload($request);
         event(new Registered($user = $this->create($request->all(), $file_id)));
 
-        if ($user->type() == 'donor' || $user->type() == 'cso') {
+        if ($user->type() == 'donor' || $user->type() == 'cso' || $user->type() == 'hub') {
             $user->notify(new UserRegistrationSuccess($user));
         }
         $admins = Admin::where('status', 'active')->get();
@@ -154,11 +155,16 @@ class RegisterController extends Controller
         $validatorArray = [
             'type'                  => 'required',
             'organization'          => 'required',
-            'location'              => 'required',
             'email'                 => 'required|string|email|max:255|unique:donors|unique:csos|unique:volunteers',
             'password'              => 'required|string|min:6|confirmed',
             'profile_image'         => 'image|max:2048',
         ];
+
+        if ($data['type'] != 'hub') {
+            $validatorArray = [
+                'location'              => 'required',
+            ];
+        }
 
         return Validator::make($data, $validatorArray);
     }
@@ -171,10 +177,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data, $file_id)
     {
+        $redirectTo = route('login');
         switch ($data['type']) {
           case 'donor':
-          //$redirectTo = '/donor/home';
-          $redirectTo = route('login');
           return  Donor::create([
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
@@ -188,11 +193,9 @@ class RegisterController extends Controller
                 'notifications' => '1',
                 'email_token' => base64_encode($data['email'])
             ]);
-
           break;
+          
           case 'cso':
-          //$redirectTo = '/cso/home';
-          $redirectTo = route('login');
           $cso = Cso::create([
               'email' => $data['email'],
               'password' => bcrypt($data['password']),
@@ -209,9 +212,31 @@ class RegisterController extends Controller
           $volunteer = $this->create_volunteer($data, $file_id, $cso->id);
           return $cso;
           break;
+          
+          case 'hub':
+          $organization = Organization::where('id', $data['organization'])->first();
+          $region_id = 1;
+          if ($organization) {
+              $region_id = $organization->region_id;
+          }
+          $hub = Hub::create([
+              'email' => $data['email'],
+              'password' => bcrypt($data['password']),
+              'first_name' => $data['first_name'],
+              'last_name' => $data['last_name'],
+              'phone' => $data['phone'],
+              'address' => $data['address'],
+              'organization_id' => $data['organization'],
+              'region_id' => $region_id,
+              'profile_image_id' => $file_id,
+              'notifications' => '1',
+              'email_token' => base64_encode($data['email'])
+            ]);
+            return $hub;
+          break;
 
         default:
-          # code...
+          //
           break;
       }
     }

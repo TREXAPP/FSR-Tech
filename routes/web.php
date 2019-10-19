@@ -272,6 +272,13 @@ Route::post('cso/accepted_listings/update_volunteer', 'Cso\AcceptedListingsContr
 Route::get('cso/accepted_listings/{listing_offer_id}', 'Cso\AcceptedListingsController@single_accepted_listing')->name('cso.accepted_listings.single_accepted_listing');
 Route::post('cso/accepted_listings/{listing_offer_id}', 'Cso\AcceptedListingsController@single_accepted_listing_post')->name('cso.accepted_listings.single_accepted_listing');
 
+// hub routes
+Route::get('hub/home', 'Hub\HomeController@index')->name('hub.home');
+Route::get('hub/profile', 'Hub\ProfileController@index')->name('hub.profile');
+Route::get('hub/edit_profile', 'Hub\ProfileController@edit_profile')->name('hub.edit_profile');
+Route::post('hub/edit_profile', 'Hub\ProfileController@handle_post');
+// TODO hub routes
+
 //resource page
 Route::get('cso/resource_page', 'Cso\ResourcePageController@index')->name('cso.resource_page');
 //change password

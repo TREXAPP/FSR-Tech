@@ -74,7 +74,6 @@
 							</div>
 							<div class="organization-donor-type-value col-sm-8 col-xs-12">
 								<select id="organization-donor-type" class="form-control" name="organization-donor-type">
-									<option value="">-- Избери --</option>
 									@foreach ($donor_types as $donor_type)
 										<option value={{$donor_type->id}}
 											{{ (old('donor_type') == $donor_type->id) ? ' selected' : (($organization->donor_type_id == $donor_type->id) ? ' selected' : '')}}>{{$donor_type->name}}</option>
@@ -83,6 +82,28 @@
 								 @if ($errors->has('organization-donor-type'))
 								<span class="help-block">
 										<strong>{{ $errors->first('organization-donor-type') }}</strong>
+								</span>
+								@endif
+							</div>
+						</div>
+					@endif
+
+					<!-- Region -->
+					@if ($organization->type == 'hub')
+						<div class="row form-group{{ ($errors->has('organization-region')) ? ' has-error' : '' }}">
+							<div class="organization-region-label col-sm-4 col-xs-12">
+								<label for="organization-region">Регион:</label>
+							</div>
+							<div class="organization-region-value col-sm-8 col-xs-12">
+								<select id="organization-region" class="form-control" name="organization-region">
+									@foreach ($regions as $region)
+										<option value={{$region->id}}
+											{{ (old('region') == $region->id) ? ' selected' : (($organization->region_id == $region->id) ? ' selected' : '')}}>{{$region->name}}</option>
+									@endforeach
+								</select>
+								 @if ($errors->has('organization-region'))
+								<span class="help-block">
+										<strong>{{ $errors->first('organization-region') }}</strong>
 								</span>
 								@endif
 							</div>
