@@ -13,7 +13,7 @@ class ListingOffer extends Model
      */
     protected $fillable = [
     'cso_id',
-    'listing_id',
+    'hub_listing_id',
     'offer_status',
     'quantity',
     'volunteer_id',
@@ -45,9 +45,9 @@ class ListingOffer extends Model
     /**
      * Get the listing for this listing_offer.
      */
-    public function listing()
+    public function hub_listing()
     {
-        return $this->belongsTo('FSR\Listing');
+        return $this->belongsTo('FSR\HubListing');
     }
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
  * A bundle of my own custom functions that I think will be useful to be written as methods,
  * since probably I'll be needing them in the future. Or maybe not, who knows :)
  */
-class CarbonFix extends Carbon
+class CarbonFix extends Carbon2
 {
     public function diffForHumans(Carbon2 $other = null, $absolute = false, $short = false)
     {

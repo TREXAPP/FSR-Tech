@@ -29,9 +29,9 @@ class Listing extends Model
     /**
      * Get the listing_offers for this listing.
      */
-    public function listing_offers()
+    public function hub_listing_offers()
     {
-        return $this->hasMany('FSR\ListingOffer');
+        return $this->hasMany('FSR\HubListingOffer');
     }
 
 

@@ -24,6 +24,9 @@ Route::get('home', function () {
       case 'donor':
           return redirect(route('donor.home'));
         break;
+      case 'hub':
+          return redirect(route('hub.home'));
+        break;
       case 'admin':
           return redirect(route('admin.home'));
         break;
