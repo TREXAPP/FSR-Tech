@@ -10,8 +10,10 @@ require('./register');
 require('./active_listings');
 require('./accepted_listings');
 require('./donor_my_active_listings');
+require('./hub_active_listings');
 require('./volunteers');
 require('./new_listing');
+require('./new_hub_listing');
 require('./free_volunteers');
 
 require('./admin/approve_users');

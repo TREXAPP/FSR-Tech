@@ -7,7 +7,7 @@
 	</h1>
 	<ol class="breadcrumb hidden-sm hidden-xs">
 		<li>
-			<a href="/{{Auth::user()->type()}}/home"> Донатор</a>
+			<a href="/{{Auth::user()->type()}}/home"> Примател</a>
 		</li>
 		<li>
 			<a href="/{{Auth::user()->type()}}/profile">

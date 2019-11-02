@@ -31,10 +31,6 @@
     		<input type="hidden" name="post-type" value="filter" />
     		{{csrf_field()}}
     		<div class="filter-container">
-    			{{-- <div class="filter-label donations-filter-label col-md-4">
-    				<label for="donations-filter-select">Организација:</label>
-    			</div> --}}
-
     			<div class="form-group filter-select donations-filter-select col-md-4">
     				<select id="donations_filter_select" class="form-control donations-filter-select" name="donations-filter-select" required>
     					<option value="active" {{($selected_filter == "active") ? "selected" : ""}}>Активни донации</option>
@@ -113,12 +109,12 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                       <span class="col-xs-12">Преостаната количина:</span>
-                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->listing_offers->where('offer_status','active')->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
+                      <span class="col-xs-12" id="quantity-left-{{$active_listing->id}}"><strong>{{$active_listing->quantity - $active_listing->hub_listing_offers->where('status','active')->sum('quantity')}} (од {{$active_listing->quantity}}) {{$active_listing->quantity_type->description}}</strong></span>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12">
                       <div class="col-xs-12 row">Прифатени:</div>
 
-                      @switch($active_listing->listing_offers_count)
+                      @switch($active_listing->hub_listing_offers_count)
                           @case(0)
                           <div class="col-xs-12" id="accepted-quantity-{{$active_listing->id}}"><strong>Нема</strong></div>
                               @break
@@ -126,17 +122,13 @@
                           @default
                           <div class="col-xs-12 row">
                             <ul class="list-group">
-                          @foreach ($active_listing->listing_offers as $listing_offer)
-                            @if ($listing_offer->offer_status == 'active')
-                              {{-- <button type="button" id="donor-listing-offer-button-{{$listing_offer->id}}" name="donor-listing-offer-button" class="btn btn-success donor-listing-offer-button donor-listing-offer-button-{{$listing_offer->id}}"> --}}
-                              <a href="{{url('donor/my_accepted_listings/' . $listing_offer->id)}}" id="donor-listing-offer-button-{{$listing_offer->id}}" class=" donor-listing-offer-button donor-listing-offer-button-{{$listing_offer->id}}">
+                          @foreach ($active_listing->hub_listing_offers as $hub_listing_offer)
+                            @if ($hub_listing_offer->status == 'active')
+                              <a href="{{url('donor/my_accepted_listings/' . $hub_listing_offer->id)}}" id="donor-listing-offer-button-{{$hub_listing_offer->id}}" class=" donor-listing-offer-button donor-listing-offer-button-{{$hub_listing_offer->id}}">
                                 <li class="list-group-item">
-                                {{-- <span class="col-xs-12" id="accepted-quantity-{{$listing_offer->id}}"> --}}
-                                  <strong>{{$listing_offer->quantity}} {{$active_listing->quantity_type->description}} од {{$listing_offer->cso->first_name}} {{$listing_offer->cso->last_name}} | {{$listing_offer->cso->organization->name}}</strong>
-                                {{-- </span> --}}
+                                  <strong>{{$hub_listing_offer->quantity}} {{$active_listing->quantity_type->description}} од {{$hub_listing_offer->hub->first_name}} {{$hub_listing_offer->hub->last_name}} | {{$hub_listing_offer->hub->organization->name}}</strong>
                               </li>
                               </a>
-                              {{-- </button> --}}
                             @endif
                           @endforeach
                             </ul>

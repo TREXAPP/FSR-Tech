@@ -240,8 +240,8 @@ Route::post('donor/new_listing/quantity_types', 'Donor\NewListingController@getQ
 Route::get('donor/my_active_listings', 'Donor\MyActiveListingsController@index')->name('donor.my_active_listings');
 Route::post('donor/my_active_listings', 'Donor\MyActiveListingsController@handle_post');
 
-Route::get('donor/my_accepted_listings/{listing_offer_id}', 'Donor\MyAcceptedListingsController@single_listing_offer')->name('donor.single_listing_offer');
-Route::post('donor/my_accepted_listings/{listing_offer_id}', 'Donor\MyAcceptedListingsController@single_listing_offer_post')->name('donor.single_listing_offer');
+Route::get('donor/my_accepted_listings/{hub_listing_offer_id}', 'Donor\MyAcceptedListingsController@single_hub_listing_offer')->name('donor.single_hub_listing_offer');
+Route::post('donor/my_accepted_listings/{hub_listing_offer_id}', 'Donor\MyAcceptedListingsController@single_hub_listing_offer_post')->name('donor.single_hub_listing_offer');
 
 //resource page
 Route::get('donor/resource_page', 'Donor\ResourcePageController@index')->name('donor.resource_page');
@@ -280,6 +280,31 @@ Route::get('hub/home', 'Hub\HomeController@index')->name('hub.home');
 Route::get('hub/profile', 'Hub\ProfileController@index')->name('hub.profile');
 Route::get('hub/edit_profile', 'Hub\ProfileController@edit_profile')->name('hub.edit_profile');
 Route::post('hub/edit_profile', 'Hub\ProfileController@handle_post');
+
+Route::get('hub/donor_listings', 'Hub\DonorListingsController@index')->name('hub.donor_listings');
+Route::post('hub/donor_listings', 'Hub\DonorListingsController@handle_post');
+
+Route::get('hub/accepted_listings', 'Hub\AcceptedListingsController@index')->name('hub.accepted_listings');
+Route::post('hub/accepted_listings', 'Hub\AcceptedListingsController@handle_post');
+Route::get('hub/accepted_listings/{hub_listing_offer_id}', 'Hub\AcceptedListingsController@single_accepted_listing')->name('hub.accepted_listings.single_accepted_listing');
+Route::post('hub/accepted_listings/{hub_listing_offer_id}', 'Hub\AcceptedListingsController@single_accepted_listing_post')->name('hub.accepted_listings.single_accepted_listing');
+
+
+Route::get('hub/hub_listings', 'Hub\HubListingsController@index')->name('hub.hub_listings');
+Route::post('hub/hub_listings', 'Hub\HubListingsController@handle_post');
+
+Route::get('hub/new_hub_listing', 'Hub\NewHubListingController@index')->name('hub.new_hub_listing');
+Route::post('hub/new_hub_listing', 'Hub\NewHubListingController@handle_post');
+  //get products with ajax
+Route::post('hub/new_hub_listing/products', 'Hub\NewHubListingController@getProducts')->name('hub.new_hub_listing.products');
+Route::post('hub/new_hub_listing/quantity_types', 'Hub\NewHubListingController@getQuantityTypes')->name('hub.new_hub_listing.quantity_types');
+
+Route::get('hub/active_listings', 'Hub\ActiveListingsController@index')->name('hub.active_listings');
+Route::post('hub/active_listings', 'Hub\ActiveListingsController@handle_post');
+
+Route::get('hub/cso_accepted_listings/{listing_offer_id}', 'Hub\CsoAcceptedListingsController@single_listing_offer')->name('hub.single_listing_offer');
+Route::post('hub/cso_accepted_listings/{listing_offer_id}', 'Hub\CsoAcceptedListingsController@single_listing_offer_post')->name('hub.single_listing_offer');
+
 // TODO hub routes
 
 //resource page

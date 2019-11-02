@@ -4,7 +4,7 @@ namespace FSR;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ListingOffer extends Model
+class HubListingOffer extends Model
 {
     /**
      * The attributes that are mass assignable.

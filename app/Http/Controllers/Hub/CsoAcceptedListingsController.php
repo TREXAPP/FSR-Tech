@@ -1,12 +1,12 @@
 <?php
 
-namespace FSR\Http\Controllers\Donor;
+namespace FSR\Http\Controllers\Hub;
 
 use FSR\Hub;
 use FSR\Admin;
-use FSR\HubDonorComment;
-use FSR\Listing;
-use FSR\HubListingOffer;
+use FSR\CsoHubComment;
+use FSR\HubListing;
+use FSR\ListingOffer;
 use FSR\Notifications;
 use FSR\Notifications\DonorToHubComment;
 use FSR\Notifications\DonorToAdminComment;
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
-class MyAcceptedListingsController extends Controller
+class CsoAcceptedListingsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,30 +27,30 @@ class MyAcceptedListingsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:donor');
+        $this->middleware('auth:hub');
     }
 
     /**
      * Show a shigle listing offer
      * @param Request
-     * @param int $hub_listing_offer_id
+     * @param int $listing_offer_id
      * @return void
      */
-    public function single_hub_listing_offer(Request $request, $hub_listing_offer_id = null)
+    public function single_listing_offer(Request $request, $listing_offer_id = null)
     {
-        $hub_listing_offer = HubListingOffer::where('status', 'active')
-                                    ->whereHas('listing', function ($query) {
-                                        $query->where('donor_id', Auth::user()->id)
-                                              ->where('listing_status', 'active');
-                                    })->find($hub_listing_offer_id);
+        $listing_offer = ListingOffer::where('offer_status', 'active')
+                                    ->whereHas('hub_listing', function ($query) {
+                                        $query->where('cso_id', Auth::user()->id)
+                                              ->where('status', 'active');
+                                    })->find($listing_offer_id);
 
-        $comments = HubDonorComment::where('hub_listing_offer_id', $hub_listing_offer_id)
+        $comments = CsoHubComment::where('listing_offer_id', $listing_offer_id)
                             ->where('status', 'active')
                             ->orderBy('created_at', 'ASC')->get();
-        $selected_filter = $this->get_selected_filter($hub_listing_offer);
-        if ($hub_listing_offer) {
-            return view('donor.my_accepted_listings')->with([
-            'hub_listing_offer' => $hub_listing_offer,
+        $selected_filter = $this->get_selected_filter($listing_offer);
+        if ($listing_offer) {
+            return view('hub.cso_accepted_listings')->with([
+            'listing_offer' => $listing_offer,
             'comments' => $comments,
             'selected_filter' => $selected_filter,
           ]);
@@ -63,14 +63,14 @@ class MyAcceptedListingsController extends Controller
      * Handles post to this page
      *
      * @param  Request  $request
-     * @param  int  $hub_listing_offer_id
+     * @param  int  $listing_offer_id
      * @return \Illuminate\Http\Response
      */
-    public function single_hub_listing_offer_post(Request $request, int $hub_listing_offer_id = null)
+    public function single_listing_offer_post(Request $request, int $listing_offer_id = null)
     {
         //catch input-comment post
         if ($request->has('submit-comment')) {
-            $comment = $this->create_comment($request->all(), $hub_listing_offer_id);
+            $comment = $this->create_comment($request->all(), $listing_offer_id);
 
             return back();
         }
@@ -93,28 +93,28 @@ class MyAcceptedListingsController extends Controller
      * Create a new comment instance after a valid input.
      *
      * @param  array  $data
-     * @param  int  $hub_listing_offer_id
+     * @param  int  $listing_offer_id
      * @return \FSR\Comment
      */
-    protected function create_comment(array $data, int $hub_listing_offer_id)
+    protected function create_comment(array $data, int $listing_offer_id)
     {
         $comment_text = $data['comment'];
-        $hub_listing_offer = HubListingOffer::find($hub_listing_offer_id);
-        $hub = $hub_listing_offer->hub;
-        $other_comments = HubDonorComment::where('status', 'active')->where('hub_listing_offer_id', $hub_listing_offer_id)->get();
-        //send notification to the hub
+        $listing_offer = ListingOffer::find($listing_offer_id);
+        $cso = $listing_offer->cso;
+        $other_comments = CsoHubComment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
+        //send notification to the cso
 
         // TODO: notifikacii
-        // $hub->notify(new DonorToHubComment($hub_listing_offer, $comment_text, $other_comments));
+        // $cso->notify(new HubToCsoComment($listing_offer, $comment_text, $other_comments));
 
         //send to master_admin(s)
-        $master_admins = Admin::where('master_admin', 1)
-                          ->where('status', 'active')->get();
-        Notification::send($master_admins, new DonorToAdminComment($hub_listing_offer, $comment_text, $other_comments));
+        // $master_admins = Admin::where('master_admin', 1)
+        //                   ->where('status', 'active')->get();
+        // Notification::send($master_admins, new HubToAdminComment($listing_offer, $comment_text, $other_comments));
 
         //find all regular admins that commented, and send them all
-        $admin_comments = HubDonorComment::where('status', 'active')
-                  ->where('hub_listing_offer_id', $hub_listing_offer_id)
+        $admin_comments = CsoHubComment::where('status', 'active')
+                  ->where('listing_offer_id', $listing_offer_id)
                   ->where('sender_type', 'admin')
                   ->get();
         if ($admin_comments) {
@@ -131,12 +131,13 @@ class MyAcceptedListingsController extends Controller
                 }
             }
             foreach ($admin_ids as $admin_id) {
-                Admin::find($admin_id)->notify(new DonorToAdminComment($hub_listing_offer, $comment_text, $other_comments));
+                // TODO: 
+               // Admin::find($admin_id)->notify(new HubToAdminComment($listing_offer, $comment_text, $other_comments));
             }
         }
 
-        return HubDonorComment::create([
-            'hub_listing_offer_id' => $hub_listing_offer_id,
+        return CsoHubComment::create([
+            'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,
             'sender_type' => Auth::user()->type(),
             'text' => $comment_text,
@@ -152,7 +153,7 @@ class MyAcceptedListingsController extends Controller
      */
     protected function delete_comment(array $data)
     {
-        $comment = HubDonorComment::find($data['comment_id']);
+        $comment = CsoHubComment::find($data['comment_id']);
         $comment->status = 'deleted';
         $comment->save();
         return $comment;
@@ -166,16 +167,16 @@ class MyAcceptedListingsController extends Controller
      */
     protected function edit_comment(array $data)
     {
-        $comment = HubDonorComment::find($data['comment_id']);
+        $comment = CsoHubComment::find($data['comment_id']);
         $comment->text = $data['edit_comment_text'];
         $comment->save();
         return $comment;
     }
 
-    private function get_selected_filter($hub_listing_offer)
+    private function get_selected_filter($listing_offer)
     {
-        if ($hub_listing_offer->listing->listing_status == 'active') {
-            if ($hub_listing_offer->listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
+        if ($listing_offer->hub_listing->status == 'active') {
+            if ($listing_offer->hub_listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
                 return 'past';
             } else {
                 return 'active';

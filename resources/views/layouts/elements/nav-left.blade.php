@@ -83,6 +83,39 @@
             </span>
           </a>
         </li>
+      @elseif (Auth::user()->type() == 'hub')
+
+        <li>
+          <a href="/{{Auth::user()->type()}}/donor_listings">
+            <i class="fa fa-cutlery"></i> <span>Достапни донации</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+        
+        <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
+          <a href="/{{Auth::user()->type()}}/accepted_listings">
+            <i class="fa fa-cutlery"></i> <span>Прифатени донации</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+        
+        <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
+          <a href="/{{Auth::user()->type()}}/active_listings">
+            <i class="fa fa-cutlery"></i> <span>Објавени донации</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
+        
+        <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
+          <a href="/{{Auth::user()->type()}}/new_hub_listing">
+             <i class="fa fa-plus-circle"></i> <span>Додади нова донација</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
       @endif
 
 

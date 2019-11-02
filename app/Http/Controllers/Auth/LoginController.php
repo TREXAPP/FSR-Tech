@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Auth;
 
 use FSR\Donor;
 use FSR\Cso;
+use FSR\Hub;
 use FSR\Custom\Methods;
 use Illuminate\Http\Request;
 use FSR\Http\Controllers\Controller;
@@ -60,6 +61,9 @@ class LoginController extends Controller
         case 'donor':
             return '/donor/home';
           break;
+        case 'hub':
+            return '/hub/home';
+          break;
 
         default:
         return '/login';
@@ -104,6 +108,10 @@ class LoginController extends Controller
             Auth::setUser((Auth::guard('donor')->user()));
             Methods::log_event('login', Auth::user()->id, 'donor');
             return $this->sendLoginResponse($request);
+        } elseif ($this->attemptLogin($request, 'hub')) {
+            Auth::setUser((Auth::guard('hub')->user()));
+            Methods::log_event('login', Auth::user()->id, 'hub');
+            return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -142,8 +150,9 @@ class LoginController extends Controller
             $guard = 'cso';
         } elseif (Auth::guard('donor')->user()) {
             $guard = 'donor';
+        } elseif (Auth::guard('hub')->user()) {
+            $guard = 'hub';
         }
-        //dd($guard);
 
         $this->guard($guard)->logout();
         $request->session()->invalidate();

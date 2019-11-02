@@ -14,7 +14,6 @@ $('.quantity-needed-input').on('input', function () {
   var id = this.id.replace('quantity-needed-', '');
   var max_quantity = $('#quantity-offered-' + id).text().split(' ')[0];
   var isnum = /^\d+$/.test(this.value);
-  console.log(this.value);
   if ((this.value != '') && (parseInt(this.value) > max_quantity || !$.isNumeric(this.value))) {
     $(this).val(max_quantity);
   }
@@ -25,8 +24,8 @@ $('.quantity-needed-input').on('input', function () {
 
 /* on selected volunteer, show his info */
 $('.pickup-volunteer-name').on('change', function() {
-  var listing_id = this.id.replace('pickup-volunteer-', '');
-  var volunteer_info = $('#active-listings-volunteer-show-' + listing_id);
+  var hub_listing_id = this.id.replace('pickup-volunteer-', '');
+  var volunteer_info = $('#active-listings-volunteer-show-' + hub_listing_id);
   if (this.value) {
     if (volunteer_info.hasClass('hidden')) {
       volunteer_info.removeClass('hidden');
@@ -36,11 +35,11 @@ $('.pickup-volunteer-name').on('change', function() {
       if (data) {
         //  popolni gi soodvetnite polinja
 
-        $('#volunteer-info-first-name-value-' + listing_id).text(data.first_name);
-        $('#volunteer-info-last-name-value-' + listing_id).text(data.last_name);
-        $('#volunteer-info-email-value-' + listing_id).text(data.email);
-        $('#volunteer-info-phone-value-' + listing_id).text(data.phone);
-        $('#volunteer-info-image-' +  + listing_id).prop('src',data.image_url);
+        $('#volunteer-info-first-name-value-' + hub_listing_id).text(data.first_name);
+        $('#volunteer-info-last-name-value-' + hub_listing_id).text(data.last_name);
+        $('#volunteer-info-email-value-' + hub_listing_id).text(data.email);
+        $('#volunteer-info-phone-value-' + hub_listing_id).text(data.phone);
+        $('#volunteer-info-image-' + + hub_listing_id).prop('src',data.image_url);
       }
     });
 
@@ -63,14 +62,13 @@ $('.listing-submit-button').on('click', function () {
   var quantity_description = $('#quantity-needed-' + id).val() + " " + $('#quantity-type-inside-' + id).text().trim();
   var expires_in = $('#expires-in-' + id).text().trim();
   var pickup_time = $('#pickup-time-' + id).text().trim();
-  var location = $('#donor-location-' + id).text().trim();
 
-  var donor_first_name = $('#hidden-first-name-' + id).text();
-  var donor_last_name = $('#hidden-last-name-' + id).text();
-  var donor_email = $('#hidden-email-' + id).text();
-  var donor_organization = $('#hidden-organization-' + id).text();
-  var donor_phone = $('#hidden-phone-' + id).text();
-  var donor_address = $('#hidden-address-' + id).text();
+  var hub_first_name = $('#hidden-first-name-' + id).text();
+  var hub_last_name = $('#hidden-last-name-' + id).text();
+  var hub_email = $('#hidden-email-' + id).text();
+  var hub_organization = $('#hidden-organization-' + id).text();
+  var hub_phone = $('#hidden-phone-' + id).text();
+  var hub_address = $('#hidden-address-' + id).text();
 
   var volunteer_value = $('#pickup-volunteer-' + id + ' option:selected').val();
   if (volunteer_value) {
@@ -86,18 +84,17 @@ $('.listing-submit-button').on('click', function () {
   $('#popup-quantity-needed-value').text(quantity_description);
   $('#popup-expires-in-value').text(expires_in);
   $('#popup-pickup-time-value').text(pickup_time);
-  $('#popup-location-value').text(location);
   $('#popup-volunteer-value').text(volunteer_name);
 
-  $('#popup-donor-first-name-value').text(donor_first_name);
-  $('#popup-donor-last-name-value').text(donor_last_name);
-  $('#popup-donor-email-value').text(donor_email);
-  $('#popup-donor-organization-value').text(donor_organization);
-  $('#popup-donor-phone-value').text(donor_phone);
-  $('#popup-donor-address-value').text(donor_address);
+  $('#popup-hub-first-name-value').text(hub_first_name);
+  $('#popup-hub-last-name-value').text(hub_last_name);
+  $('#popup-hub-email-value').text(hub_email);
+  $('#popup-hub-organization-value').text(hub_organization);
+  $('#popup-hub-phone-value').text(hub_phone);
+  $('#popup-hub-address-value').text(hub_address);
 
   /* Fill form with hidden elements  */
-  $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='listing_id' value='" + id + "'>");
+  $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='hub_listing_id' value='" + id + "'>");
   $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='quantity' value='" + quantity_number + "'>");
   $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='volunteer' value='" + volunteer_value + "'>");
 
@@ -137,7 +134,7 @@ $('.delete-offer-button').on('click', function () {
 //pass in the id of the listing caller
 $('.add-volunteer-button').on('click', function () {
   var id = this.id.replace('add-volunteer-button-', '');
-  $('#add-volunteer-form').append("<input type='hidden' id='popup-listing-id' class='dynamic-input-element-popup' name='listing_id' value='" + id + "'/>");
+  $('#add-volunteer-form').append("<input type='hidden' id='popup-listing-id' class='dynamic-input-element-popup' name='hub_listing_id' value='" + id + "'/>");
 });
 
 //submit the form to add volunteer with ajax, show errors if any
@@ -232,7 +229,7 @@ $("#add-volunteer-form").submit(function (e) {
         $('#image').val('');
 
         //retrieve the id
-        var listing_id = $('#popup-listing-id').val();
+        var hub_listing_id = $('#popup-listing-id').val();
 
         //retrieve the volunteers with ajax, and update every select element
         $.post('active_listings/get_volunteers', {
@@ -249,11 +246,11 @@ $("#add-volunteer-form").submit(function (e) {
               $.each(data, function (key, value) {
                 var obj_id = obj.id.replace('pickup-volunteer-', '');
                 $('#' + obj.id).append('<option value=' + value.id + '>' + value.first_name + ' ' + value.last_name + '</option>');
-                if ((value.id == new_volunteer_id) && (obj_id == listing_id)) {
+                if ((value.id == new_volunteer_id) && (obj_id == hub_listing_id)) {
                   $('#' + obj.id + ' option[value=' + value.id + ']').attr('selected', 'selected');
-                  $('#pickup-volunteer-wrapper-' + listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Доставувачот е внесен успешно!</div>');
-                  $('#listing-pickup-volunteer-' + listing_id).addClass('has-success');
-                  $("#add-volunteer-button-" + listing_id).blur();
+                  $('#pickup-volunteer-wrapper-' + hub_listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Доставувачот е внесен успешно!</div>');
+                  $('#listing-pickup-volunteer-' + hub_listing_id).addClass('has-success');
+                  $("#add-volunteer-button-" + hub_listing_id).blur();
                 }
               });
             });
@@ -280,14 +277,14 @@ $("#add-volunteer-form").submit(function (e) {
 
 });
 
-$(".donor-details").on('click', function () {
-  var listing_id = this.id.replace("donor-details-", "");
+$(".hub-details").on('click', function () {
+  var hub_listing_id = this.id.replace("hub-details-", "");
 
-  var first_name = $('#hidden-first-name-' + listing_id).text();
-  var last_name = $('#hidden-last-name-' + listing_id).text();
-  var organization = $('#hidden-organization-' + listing_id).text();
-  var phone = $('#hidden-phone-' + listing_id).text();
-  var address = $('#hidden-address-' + listing_id).text();
+  var first_name = $('#hidden-first-name-' + hub_listing_id).text();
+  var last_name = $('#hidden-last-name-' + hub_listing_id).text();
+  var organization = $('#hidden-organization-' + hub_listing_id).text();
+  var phone = $('#hidden-phone-' + hub_listing_id).text();
+  var address = $('#hidden-address-' + hub_listing_id).text();
 
   $('#details-popup-first-name-value').text(first_name);
   $('#details-popup-last-name-value').text(last_name);

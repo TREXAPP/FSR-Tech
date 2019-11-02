@@ -51,8 +51,7 @@ class UserEditProfile extends Notification implements ShouldQueue
                     ->line('Емаил: ' . $this->user->email)
                     ->line('Организација: ' . $this->user->organization->name)
                     ->line('Адреса: ' . $this->user->address)
-                    ->line('Телефон: ' . $this->user->phone)
-                    ->line('Локација: ' . $this->user->location->name);
+                    ->line('Телефон: ' . $this->user->phone);
         
         if ($this->user->type() == 'hub') {
             $message->line('Регион: ' . $this->user->region->name);

@@ -20,10 +20,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard('cso')->check()) {
-            return redirect('/cso/home');
             return redirect(route('cso.home'));
         } elseif (Auth::guard('donor')->check()) {
             return redirect(route('donor.home'));
+        } elseif (Auth::guard('hub')->check()) {
+            return redirect(route('hub.home'));
         } elseif (Auth::guard('admin')->check()) {
             return redirect(route('admin.home'));
         } else {

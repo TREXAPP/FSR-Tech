@@ -47,6 +47,11 @@ return [
             'provider' => 'donors',
         ],
 
+        'hub' => [
+            'driver' => 'session',
+            'provider' => 'hubs',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -91,6 +96,10 @@ return [
             'driver' => 'eloquent',
             'model' => FSR\Donor::class,
         ],
+        'hubs' => [
+            'driver' => 'eloquent',
+            'model' => FSR\Hub::class,
+        ],
         'admins' => [
             'driver' => 'eloquent',
             'model' => FSR\Admin::class,
@@ -130,6 +139,11 @@ return [
         ],
         'donors' => [
             'provider' => 'donors',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'hubs' => [
+            'provider' => 'hubs',
             'table' => 'password_resets',
             'expire' => 60,
         ],

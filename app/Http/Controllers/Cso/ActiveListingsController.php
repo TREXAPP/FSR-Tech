@@ -2,7 +2,7 @@
 
 namespace FSR\Http\Controllers\Cso;
 
-use FSR\Listing;
+use FSR\HubListing;
 use FSR\File;
 use FSR\Admin;
 use FSR\Volunteer;
@@ -45,24 +45,22 @@ class ActiveListingsController extends Controller
     public function index()
     {
         Methods::log_event('open_home_page', Auth::user()->id, 'cso');
-        //  $active_listings = Listing::where('listing_status', 'active');
-        $active_listings = Listing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
+        $hub_listings = HubListing::where('date_expires', '>', Carbon::now()->format('Y-m-d H:i'))
             ->where('date_listed', '<=', Carbon::now()->format('Y-m-d H:i'))
-            ->where('listing_status', 'active')
+            ->where('status', 'active')
             ->orderBy('date_expires', 'ASC');
 
         $listing_offers = ListingOffer::where('offer_status', 'active')->get();
-        //$listing_offers = ListingOffer::all();
-        $active_listings_no = 0;
-        foreach ($active_listings->get() as $active_listing) {
+        $hub_listings_no = 0;
+        foreach ($hub_listings->get() as $hub_listing) {
             $quantity_counter = 0;
-            foreach ($active_listing->listing_offers as $listing_offer) {
+            foreach ($hub_listing->listing_offers as $listing_offer) {
                 if ($listing_offer->offer_status == 'active') {
                     $quantity_counter += $listing_offer->quantity;
                 }
             }
-            if ($active_listing->quantity > $quantity_counter) {
-                $active_listings_no++;
+            if ($hub_listing->quantity > $quantity_counter) {
+                $hub_listings_no++;
             }
         }
 
@@ -70,9 +68,9 @@ class ActiveListingsController extends Controller
                                ->where('status', 'active')->get();
 
         return view('cso.active_listings')->with([
-            'active_listings' => $active_listings,
+            'hub_listings' => $hub_listings,
             'listing_offers' => $listing_offers,
-            'active_listings_no' => $active_listings_no,
+            'hub_listings_no' => $hub_listings_no,
             'volunteers' => $volunteers,
         ]);
     }
@@ -88,7 +86,7 @@ class ActiveListingsController extends Controller
         $validation = $this->validator($request->all());
 
         //  http://fsr.test/cso/active_listings#listingbox6
-        $route = route('cso.active_listings') . '#listingbox' . $request->all()['listing_id'];
+        $route = route('cso.active_listings') . '#listingbox' . $request->all()['hub_listing_id'];
 
         if ($validation->fails()) {
             return redirect($route)->withErrors($validation->errors())
@@ -97,16 +95,18 @@ class ActiveListingsController extends Controller
 
         $listing_offer = $this->create($request->all());
         $cso = Auth::user();
-        $donor = $listing_offer->listing->donor;
+        $hub = $listing_offer->hub_listing->hub;
 
-        $donor->notify(new CsoToDonorAcceptDonation($listing_offer));
-        $cso->notify(new CsoToCsoAcceptDonation($listing_offer));
-        if ($listing_offer->volunteer->email != Auth::user()->email) {
-            $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
-        }
-        $master_admins = Admin::where('master_admin', 1)
-                          ->where('status', 'active')->get();
-        Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $donor));
+        //TODO: notifikacii - da se smeni donor vo hub
+
+       // $hub->notify(new CsoToHubAcceptDonation($listing_offer));
+        // $cso->notify(new CsoToCsoAcceptDonation($listing_offer));
+        // if ($listing_offer->volunteer->email != Auth::user()->email) {
+        //     $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
+        // }
+        // $master_admins = Admin::where('master_admin', 1)
+        //                   ->where('status', 'active')->get();
+        // Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $donor));
 
         return back()->with('status', "Донацијата е успешно прифатена!");
     }
@@ -121,7 +121,7 @@ class ActiveListingsController extends Controller
     {
         return ListingOffer::create([
             'cso_id' => Auth::user()->id,
-            'listing_id' => $data['listing_id'],
+            'hub_listing_id' => $data['hub_listing_id'],
             'offer_status' => 'active',
             'quantity' => $data['quantity'],
             'volunteer_id' => $data['volunteer'],
@@ -136,18 +136,18 @@ class ActiveListingsController extends Controller
      */
     protected function validator(array $data)
     {
-        $listing = Listing::find($data['listing_id']);
-        $listing_offers = $listing->listing_offers;
+        $hub_listing = HubListing::find($data['hub_listing_id']);
+        $listing_offers = $hub_listing->listing_offers;
         $quantity_counter = 0;
         foreach ($listing_offers as $listing_offer) {
             if ($listing_offer->offer_status == 'active') {
                 $quantity_counter += $listing_offer->quantity;
             }
         }
-        $max_quantity = $listing->quantity - $quantity_counter;
+        $max_quantity = $hub_listing->quantity - $quantity_counter;
 
         $validatorArray = [
-            'listing_id' => 'required',
+            'hub_listing_id' => 'required',
             'quantity' => 'required|numeric|min:0.01|max:' . $max_quantity,
             'volunteer' => 'required',
         ];
@@ -166,7 +166,6 @@ class ActiveListingsController extends Controller
         $validation = $this->validator_volunteer($request->all());
 
         if ($validation->fails()) {
-            //  return $validation->errors();
             return response()->json(['errors' => $validation->errors()]);
         }
 

@@ -43,9 +43,6 @@
         <input type="hidden" name="post-type" value="filter" />
         {{csrf_field()}}
         <div class="filter-container">
-          {{-- <div class="filter-label donations-filter-label col-md-4">
-            <label for="donations-filter-select">Организација:</label>
-          </div> --}}
 
           <div class="form-group filter-select donations-filter-select col-md-4">
             <select id="donations_filter_select" class="form-control donations-filter-select" name="donations-filter-select" required>
@@ -69,13 +66,8 @@
               <input id="filter_date_to" type="date" class="form-control" name="filter_date_to" value="{{$date_to}}"/>
             </div>
           </div>
-          {{-- <div class="filter_date_to_wrapper form-group col-md-3">
-              <label for="filter_date_to" class="col-xs-4">До:</label>
-            <input id="filter_date_to" type="date" class="form-control col-xs-8" name="filter_date_to" value="{{$date_to}}"/>
-          </div> --}}
           <div class="filter_submit_wrapper form-group col-md-2">
             <input type="submit" name="filter-submit" value="Филтрирај" class="btn btn-primary col-xs-12" />
-            {{-- <button type="submit" name="filter-submit" class="btn btn-primary col-xs-12">Филтрирај</button> --}}
           </div>
 
           @if ($errors->has('donations-filter-select'))
@@ -99,38 +91,33 @@
             <div class="box-header with-border listing-box-header">
               <a href="#" class=" btn-box-tool listing-box-anchor" data-widget="collapse" data-toggle="tooltip" style="display: block;">
                 <div class="listing-image">
-                  @if ($listing_offer->listing->image_id)
-                    <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->image_id)->filename)}}" />
-                  @elseif ($listing_offer->listing->product->food_type->image_id)
-                    <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->listing->product->food_type->image_id)->filename)}}" />
+                  @if ($listing_offer->hub_listing->image_id)
+                    <img class="img-rounded" alt="{{$listing_offer->hub_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->hub_listing->image_id)->filename)}}" />
+                  @elseif ($listing_offer->hub_listing->product->food_type->image_id)
+                    <img class="img-rounded" alt="{{$listing_offer->hub_listing->product->food_type->name}}" src="{{url('storage' . config('app.upload_path') . '/' . FSR\File::find($listing_offer->hub_listing->product->food_type->image_id)->filename)}}" />
                   @else
-                    <img class="img-rounded" alt="{{$listing_offer->listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" />
+                    <img class="img-rounded" alt="{{$listing_offer->hub_listing->product->food_type->name}}" src="{{url('img/food_types/food-general.jpg')}}" />
                   @endif
 
                 </div>
                 <div class="header-wrapper">
                   <div id="listing-title-{{$listing_offer->id}}" class="listing-title col-xs-12 panel">
-                    <strong>{{$listing_offer->listing->product->food_type->name}} | {{$listing_offer->listing->product->name}}</strong>
+                    <strong>{{$listing_offer->hub_listing->product->food_type->name}} | {{$listing_offer->hub_listing->product->name}}</strong>
                   </div>
                   <div class="header-elements-wrapper">
-                    <div class="listing-info-box col-md-3 col-sm-5 col-xs-12">
+                    <div class="listing-info-box col-md-4 col-sm-5 col-xs-12">
                       <span class="col-xs-12">Достапна на платформата уште:</span>
 
-                      <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->date_expires)->diffForHumans()}}</strong></span>
+                      <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->hub_listing->date_expires)->diffForHumans()}}</strong></span>
                     </div>
                     <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Прифатена количина:</span>
-                      <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->listing->quantity_type->description}}</strong></span>
+                      <span class="col-xs-12" id="quantity-offered-{{$listing_offer->id}}"><strong>{{$listing_offer->quantity}} {{$listing_offer->hub_listing->quantity_type->description}}</strong></span>
 
                     </div>
-                    <div class="listing-info-box col-md-2 col-sm-5 col-xs-12">
-                      <span class="col-xs-12">Локација:</span>
-                      <span class="col-xs-12" id="donor-location-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->donor->location->name}}</strong></span>
-
-                    </div>
-                    <div class="listing-info-box col-md-3 col-sm-6 col-xs-12">
+                    <div class="listing-info-box col-md-4 col-sm-6 col-xs-12">
                       <span class="col-xs-12">Донирано од:</span>
-                      <span class="col-xs-12" id="donor-info-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}} | {{$listing_offer->listing->donor->organization->name}}</strong></span>
+                      <span class="col-xs-12" id="hub-info-{{$listing_offer->id}}"><strong>{{$listing_offer->hub_listing->hub->first_name}} {{$listing_offer->hub_listing->hub->last_name}} | {{$listing_offer->hub_listing->hub->organization->name}}</strong></span>
 
                     </div>
                   </div>
@@ -146,18 +133,18 @@
                 <div class="col-md-6">
                   <div class="listing-info-box-inside listing-pick-up-time ">
                     <span class="col-xs-12">Време за подигнување:</span>
-                    <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->listing->pickup_time_to)->format('H:i')}} часот</strong></span>
+                    <span class="col-xs-12" id="pickup-time-{{$listing_offer->id}}"><strong>од {{Carbon::parse($listing_offer->hub_listing->pickup_time_from)->format('H:i')}} до {{Carbon::parse($listing_offer->hub_listing->pickup_time_to)->format('H:i')}} часот</strong></span>
                   </div>
                   <div class="listing-info-box-inside listing-expires-in ">
                     <span class="col-xs-12">Рок на траење на храната:</span>
-                    <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->listing->sell_by_date)->format('d.m.Y')}}</strong></span>
+                    <span class="col-xs-12" id="expires-in-{{$listing_offer->id}}"><strong>{{Carbon::parse($listing_offer->hub_listing->sell_by_date)->format('d.m.Y')}}</strong></span>
                   </div>
                   <?php
                   $portion_size = 0;
                   $beneficiaries_no = 0;
-                    foreach ($listing_offer->listing->product->quantity_types as $quantity_type) {
+                    foreach ($listing_offer->hub_listing->product->quantity_types as $quantity_type) {
                         //dump($quantity_type);
-                        if ($quantity_type->pivot->quantity_type_id == $listing_offer->listing->quantity_type->id) {
+                        if ($quantity_type->pivot->quantity_type_id == $listing_offer->hub_listing->quantity_type->id) {
                             $portion_size = $quantity_type->pivot->portion_size;
                         }
                     }
@@ -171,12 +158,12 @@
                   <div class="listing-info-box-inside listing-beneficiaries-no ">
                     <span class="col-xs-12"><b>За {{$beneficiaries_no}} лица*</b></span>
                     <span class="col-xs-12"><small>*препорачана вредност</small></span>
-                    {{-- <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->product->food_type->name}}</strong></span> --}}
+                    {{-- <span class="col-xs-12" id="food-type-{{$listing_offer->id}}"><strong>{{$listing_offer->hub_listing->product->food_type->name}}</strong></span> --}}
                   </div>
                   <div class="listing-info-box-inside listing-description">
-                    @if ($listing_offer->listing->description)
+                    @if ($listing_offer->hub_listing->description)
                       <span class="col-xs-12">Опис:</span>
-                      <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->description}}</strong></span>
+                      <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->hub_listing->description}}</strong></span>
                     @endif
                   </div>
 
@@ -251,17 +238,6 @@
                     </div>
                   </div>
                 </div>
-
-
-                {{-- </div> --}}
-                <div class="row">
-                  {{-- <div class="col-xs-12 listing-description">
-                    @if ($listing_offer->listing->description)
-                      <span class="col-xs-12">Коментари:</span>
-                      <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->listing->description}}</strong></span>
-                    @endif
-                  </div> --}}
-                </div>
               </div>
               <div class="box-footer text-center">
 
@@ -309,19 +285,19 @@
                                 </div>
                               </div>
                             @endif
-                            @if ($comment->sender_type == 'donor' || $comment->sender_type == 'admin')
+                            @if ($comment->sender_type == 'hub' || $comment->sender_type == 'admin')
                               <div class="row comment-row other-comment-row">
                                 <div class="comment-image other-comment-image">
-                                  @if ($comment->sender_type == 'donor')
-                                    <img class="img-rounded" alt="{{$listing_offer->listing->donor->first_name}}" src="{{Methods::get_user_image_url($listing_offer->listing->donor)}}" />
+                                  @if ($comment->sender_type == 'hub')
+                                    <img class="img-rounded" alt="{{$listing_offer->hub_listing->hub->first_name}}" src="{{Methods::get_user_image_url($listing_offer->hub_listing->hub)}}" />
                                   @elseif ($comment->sender_type == 'admin')
                                     <img class="img-rounded" alt="{{FSR\Admin::find($comment->user_id)->first_name}}" src="{{Methods::get_user_image_url(FSR\Admin::find($comment->user_id))}}" />
                                   @endif
                                 </div>
                                 <div class="comment-bubble other-comment-bubble">
                                   <div class="comment-header other-comment-header col-xs-12">
-                                    @if ($comment->sender_type == 'donor')
-                                      <span class="comment-name other-comment-name">{{$listing_offer->listing->donor->first_name}} {{$listing_offer->listing->donor->last_name}}</span>
+                                    @if ($comment->sender_type == 'hub')
+                                      <span class="comment-name other-comment-name">{{$listing_offer->hub_listing->hub->first_name}} {{$listing_offer->hub_listing->hub->last_name}}</span>
                                     @elseif ($comment->sender_type == 'admin')
                                       <span class="comment-name other-comment-name">{{FSR\Admin::find($comment->user_id)->first_name}} {{FSR\Admin::find($comment->user_id)->last_name}}</span>
                                     @endif
@@ -361,7 +337,7 @@
 
                 <hr>
                 @if ($selected_filter == 'active')
-                  @if (Carbon::parse($listing_offer->listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
+                  @if (Carbon::parse($listing_offer->hub_listing->date_expires)->addHours(config('constants.prevent_listing_delete_time')*(-1)) < Carbon::now())
                     <button type="button" title="Прифатената донација не може да биде откажана бидејќи изминува наскоро!" id="delete-offer-button-{{$listing_offer->id}}" name="delete-offer-button-{{$listing_offer->id}}"
                               class="btn btn-danger delete-offer-button pull-right cancel-disabled" data-toggle="modal" data-target="#delete-not-allowed-popup">Донацијата не може да биде откажана</button>
                   @else

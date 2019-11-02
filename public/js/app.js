@@ -913,7 +913,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(10);
-module.exports = __webpack_require__(64);
+module.exports = __webpack_require__(66);
 
 
 /***/ }),
@@ -935,9 +935,9 @@ __webpack_require__(38);
 __webpack_require__(39);
 __webpack_require__(40);
 __webpack_require__(41);
-
 __webpack_require__(42);
 __webpack_require__(43);
+
 __webpack_require__(44);
 __webpack_require__(45);
 __webpack_require__(46);
@@ -957,8 +957,10 @@ __webpack_require__(59);
 __webpack_require__(60);
 __webpack_require__(61);
 __webpack_require__(62);
-
 __webpack_require__(63);
+__webpack_require__(64);
+
+__webpack_require__(65);
 //
 // window.Vue = require('vue');
 
@@ -32453,7 +32455,6 @@ $('.quantity-needed-input').on('input', function () {
   var id = this.id.replace('quantity-needed-', '');
   var max_quantity = $('#quantity-offered-' + id).text().split(' ')[0];
   var isnum = /^\d+$/.test(this.value);
-  console.log(this.value);
   if (this.value != '' && (parseInt(this.value) > max_quantity || !$.isNumeric(this.value))) {
     $(this).val(max_quantity);
   }
@@ -32464,8 +32465,8 @@ $('.quantity-needed-input').on('input', function () {
 
 /* on selected volunteer, show his info */
 $('.pickup-volunteer-name').on('change', function () {
-  var listing_id = this.id.replace('pickup-volunteer-', '');
-  var volunteer_info = $('#active-listings-volunteer-show-' + listing_id);
+  var hub_listing_id = this.id.replace('pickup-volunteer-', '');
+  var volunteer_info = $('#active-listings-volunteer-show-' + hub_listing_id);
   if (this.value) {
     if (volunteer_info.hasClass('hidden')) {
       volunteer_info.removeClass('hidden');
@@ -32475,11 +32476,11 @@ $('.pickup-volunteer-name').on('change', function () {
       if (data) {
         //  popolni gi soodvetnite polinja
 
-        $('#volunteer-info-first-name-value-' + listing_id).text(data.first_name);
-        $('#volunteer-info-last-name-value-' + listing_id).text(data.last_name);
-        $('#volunteer-info-email-value-' + listing_id).text(data.email);
-        $('#volunteer-info-phone-value-' + listing_id).text(data.phone);
-        $('#volunteer-info-image-' + +listing_id).prop('src', data.image_url);
+        $('#volunteer-info-first-name-value-' + hub_listing_id).text(data.first_name);
+        $('#volunteer-info-last-name-value-' + hub_listing_id).text(data.last_name);
+        $('#volunteer-info-email-value-' + hub_listing_id).text(data.email);
+        $('#volunteer-info-phone-value-' + hub_listing_id).text(data.phone);
+        $('#volunteer-info-image-' + +hub_listing_id).prop('src', data.image_url);
       }
     });
   } else {
@@ -32499,14 +32500,13 @@ $('.listing-submit-button').on('click', function () {
   var quantity_description = $('#quantity-needed-' + id).val() + " " + $('#quantity-type-inside-' + id).text().trim();
   var expires_in = $('#expires-in-' + id).text().trim();
   var pickup_time = $('#pickup-time-' + id).text().trim();
-  var location = $('#donor-location-' + id).text().trim();
 
-  var donor_first_name = $('#hidden-first-name-' + id).text();
-  var donor_last_name = $('#hidden-last-name-' + id).text();
-  var donor_email = $('#hidden-email-' + id).text();
-  var donor_organization = $('#hidden-organization-' + id).text();
-  var donor_phone = $('#hidden-phone-' + id).text();
-  var donor_address = $('#hidden-address-' + id).text();
+  var hub_first_name = $('#hidden-first-name-' + id).text();
+  var hub_last_name = $('#hidden-last-name-' + id).text();
+  var hub_email = $('#hidden-email-' + id).text();
+  var hub_organization = $('#hidden-organization-' + id).text();
+  var hub_phone = $('#hidden-phone-' + id).text();
+  var hub_address = $('#hidden-address-' + id).text();
 
   var volunteer_value = $('#pickup-volunteer-' + id + ' option:selected').val();
   if (volunteer_value) {
@@ -32520,18 +32520,17 @@ $('.listing-submit-button').on('click', function () {
   $('#popup-quantity-needed-value').text(quantity_description);
   $('#popup-expires-in-value').text(expires_in);
   $('#popup-pickup-time-value').text(pickup_time);
-  $('#popup-location-value').text(location);
   $('#popup-volunteer-value').text(volunteer_name);
 
-  $('#popup-donor-first-name-value').text(donor_first_name);
-  $('#popup-donor-last-name-value').text(donor_last_name);
-  $('#popup-donor-email-value').text(donor_email);
-  $('#popup-donor-organization-value').text(donor_organization);
-  $('#popup-donor-phone-value').text(donor_phone);
-  $('#popup-donor-address-value').text(donor_address);
+  $('#popup-hub-first-name-value').text(hub_first_name);
+  $('#popup-hub-last-name-value').text(hub_last_name);
+  $('#popup-hub-email-value').text(hub_email);
+  $('#popup-hub-organization-value').text(hub_organization);
+  $('#popup-hub-phone-value').text(hub_phone);
+  $('#popup-hub-address-value').text(hub_address);
 
   /* Fill form with hidden elements  */
-  $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='listing_id' value='" + id + "'>");
+  $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='hub_listing_id' value='" + id + "'>");
   $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='quantity' value='" + quantity_number + "'>");
   $("#listing-confirm-form").append("<input class='dynamic-input-element-popup' type='hidden' name='volunteer' value='" + volunteer_value + "'>");
 });
@@ -32569,7 +32568,7 @@ $('.delete-offer-button').on('click', function () {
 //pass in the id of the listing caller
 $('.add-volunteer-button').on('click', function () {
   var id = this.id.replace('add-volunteer-button-', '');
-  $('#add-volunteer-form').append("<input type='hidden' id='popup-listing-id' class='dynamic-input-element-popup' name='listing_id' value='" + id + "'/>");
+  $('#add-volunteer-form').append("<input type='hidden' id='popup-listing-id' class='dynamic-input-element-popup' name='hub_listing_id' value='" + id + "'/>");
 });
 
 //submit the form to add volunteer with ajax, show errors if any
@@ -32663,7 +32662,7 @@ $("#add-volunteer-form").submit(function (e) {
         $('#image').val('');
 
         //retrieve the id
-        var listing_id = $('#popup-listing-id').val();
+        var hub_listing_id = $('#popup-listing-id').val();
 
         //retrieve the volunteers with ajax, and update every select element
         $.post('active_listings/get_volunteers', {
@@ -32680,11 +32679,11 @@ $("#add-volunteer-form").submit(function (e) {
               $.each(data, function (key, value) {
                 var obj_id = obj.id.replace('pickup-volunteer-', '');
                 $('#' + obj.id).append('<option value=' + value.id + '>' + value.first_name + ' ' + value.last_name + '</option>');
-                if (value.id == new_volunteer_id && obj_id == listing_id) {
+                if (value.id == new_volunteer_id && obj_id == hub_listing_id) {
                   $('#' + obj.id + ' option[value=' + value.id + ']').attr('selected', 'selected');
-                  $('#pickup-volunteer-wrapper-' + listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Доставувачот е внесен успешно!</div>');
-                  $('#listing-pickup-volunteer-' + listing_id).addClass('has-success');
-                  $("#add-volunteer-button-" + listing_id).blur();
+                  $('#pickup-volunteer-wrapper-' + hub_listing_id).append('<div class="col-xs-12 help-block has-success" style="font-weight: bold;">Доставувачот е внесен успешно!</div>');
+                  $('#listing-pickup-volunteer-' + hub_listing_id).addClass('has-success');
+                  $("#add-volunteer-button-" + hub_listing_id).blur();
                 }
               });
             });
@@ -32705,14 +32704,14 @@ $("#add-volunteer-form").submit(function (e) {
   });
 });
 
-$(".donor-details").on('click', function () {
-  var listing_id = this.id.replace("donor-details-", "");
+$(".hub-details").on('click', function () {
+  var hub_listing_id = this.id.replace("hub-details-", "");
 
-  var first_name = $('#hidden-first-name-' + listing_id).text();
-  var last_name = $('#hidden-last-name-' + listing_id).text();
-  var organization = $('#hidden-organization-' + listing_id).text();
-  var phone = $('#hidden-phone-' + listing_id).text();
-  var address = $('#hidden-address-' + listing_id).text();
+  var first_name = $('#hidden-first-name-' + hub_listing_id).text();
+  var last_name = $('#hidden-last-name-' + hub_listing_id).text();
+  var organization = $('#hidden-organization-' + hub_listing_id).text();
+  var phone = $('#hidden-phone-' + hub_listing_id).text();
+  var address = $('#hidden-address-' + hub_listing_id).text();
 
   $('#details-popup-first-name-value').text(first_name);
   $('#details-popup-last-name-value').text(last_name);
@@ -32837,6 +32836,30 @@ $('.donor-listing-details').on('click', function () {
 /* 39 */
 /***/ (function(module, exports) {
 
+$('.hub-listing-details').on('click', function () {
+  var listing_id = this.id.replace('hub-listing-details-', '');
+
+  var title = $('#hidden-product-name-' + listing_id).text();
+  var quantity = $('#hidden-quantity-' + listing_id).text();
+  var pickup_time = $('#hidden-pickup-time-' + listing_id).text();
+  var listed = $('#hidden-listed-' + listing_id).text();
+  var expires_in = $('#hidden-expires-in-' + listing_id).text();
+  var food_type = $('#hidden-food-type-' + listing_id).text();
+  var description = $('#hidden-description-' + listing_id).text();
+
+  $('#details-popup-title').text(title);
+  $('#details-popup-quantity-value').text(quantity);
+  $('#details-popup-pickup-time-value').text(pickup_time);
+  $('#details-popup-listed-value').text(listed);
+  $('#details-popup-expires-in-value').text(expires_in);
+  $('#details-popup-food-type-value').text(food_type);
+  $('#details-popup-description-value').text(description);
+});
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports) {
+
 /* On click delete volunteer (in Volunteers) fill the popup with hidden id field */
 $('.delete-volunteer-button').on('click', function () {
   var id = this.id.replace("delete-volunteer-button-", "");
@@ -32850,7 +32873,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 $('#food_type_select').on('change', function () {
@@ -32934,7 +32957,92 @@ $('#time_type_sell_by').on('change', function () {
 });
 
 /***/ }),
-/* 41 */
+/* 42 */
+/***/ (function(module, exports) {
+
+$('#food_type_select_hub').on('change', function () {
+  console.log('vlaga');
+  $("#product_id_select_hub").prop('disabled', true);
+  $("#quantity").val('');
+  $("#quantity").prop('disabled', true);
+  $("#quantity_type").prop('disabled', true);
+
+  //remove all from organizations select box (except the default one)
+  $('#product_id_select_hub').children('option:not(:first)').remove();
+  $('#quantity_type').children().remove();
+
+  //get the products retrieved from the database with ajax
+  $.post('new_hub_listing/products', { 'food_type': this.value, '_token': $('meta[name="csrf-token"]').attr('content') }, function (data) {
+    if (data) {
+      //append the other options retrieved from database
+      $.each(data, function (key, value) {
+        $('#product_id_select_hub').append('<option value=' + value.id + '>' + value.name + '</option>');
+      });
+      if ($('#food_type_select_hub').val()) {
+        $("#product_id_select_hub").prop('disabled', false);
+      }
+    }
+  });
+});
+
+$('#product_id_select_hub').on('change', function () {
+
+  $("#quantity").prop('disabled', true);
+  $("#quantity").val('');
+  $("#quantity_type").prop('disabled', true);
+
+  //remove all from quantity_type select box (except the default one)
+  $('#quantity_type').children().remove();
+
+  //get the quantity_types retrieved from the database with ajax
+  if (this.value) {
+    $.post('new_hub_listing/quantity_types', { 'product': this.value, '_token': $('meta[name="csrf-token"]').attr('content') }, function (data) {
+      if (data) {
+        //append the other options retrieved from database
+        $.each(data, function (key, value) {
+          if (value.pivot['default']) {
+            $('#quantity_type').append('<option value=' + value.id + ' selected>' + value.description + '</option>');
+          } else {
+            $('#quantity_type').append('<option value=' + value.id + '>' + value.description + '</option>');
+          }
+          if (data.length == 0) {
+            $("#quantity_type").prop('disabled', true);
+          } else {
+            $("#quantity_type").prop('disabled', false);
+          }
+        });
+        if ($('#product_id_select_hub').val()) {
+          $("#quantity").prop('disabled', false);
+          $("#quantity_type").prop('disabled', false);
+        }
+      }
+    });
+  }
+});
+
+$('#sell_by_date_hub').on('blur', function () {
+  $('#expires_in').val(this.value);
+  $('#expires_in').attr("max", this.value);
+});
+
+$('#time_type_sell_by_hub').on('change', function () {
+  var selected_value = this.value;
+  $('#time_type').val(this.value);
+  var found = false;
+  $("#time_type > option").each(function () {
+    if (found) {
+      $(this).css('display', 'none');
+    } else {
+      $(this).css('display', 'block');
+    }
+    if (this.value == selected_value) {
+      found = true;
+    }
+  });
+});
+
+/***/ }),
+/* 43 */
 /***/ (function(module, exports) {
 
 //free_volunteers
@@ -32971,7 +33079,7 @@ $("#availability_table").on("click", "td", function () {
 });
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports) {
 
 
@@ -33012,7 +33120,7 @@ $('.reject-hub-button').on('click', function () {
 });
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports) {
 
 /* on change users type, fill organizations dropdown */
@@ -33097,7 +33205,7 @@ function refresh_email_counter() {
 }
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 $('#organization_type_select').on('change', function () {
@@ -33184,7 +33292,7 @@ $('#organization_type_select').on('change', function () {
 });
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports) {
 
 $('#add-new-quantity-type').on('click', function () {
@@ -33221,7 +33329,7 @@ $('#remove-quantity-type').on('click', function () {
 });
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports) {
 
 /* On click delete location fill the popup with hidden id field */
@@ -33237,7 +33345,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports) {
 
 /* On click delete region fill the popup with hidden id field */
@@ -33253,7 +33361,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports) {
 
 /* On click delete donor-type fill the popup with hidden id field */
@@ -33269,7 +33377,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports) {
 
 /* On click delete quantity-type fill the popup with hidden id field */
@@ -33285,7 +33393,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports) {
 
 /* On click delete transport-type fill the popup with hidden id field */
@@ -33301,7 +33409,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports) {
 
 /* On click delete product fill the popup with hidden id field */
@@ -33317,7 +33425,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports) {
 
 /* On click delete food-type fill the popup with hidden id field */
@@ -33333,7 +33441,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports) {
 
 /* On click delete cso-organization fill the popup with hidden id field */
@@ -33355,7 +33463,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /* On click delete donor-organization fill the popup with hidden id field */
@@ -33374,7 +33482,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports) {
 
 /* On click delete hub-organization fill the popup with hidden id field */
@@ -33393,7 +33501,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports) {
 
 /* On click delete cso fill the popup with hidden id field */
@@ -33409,7 +33517,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports) {
 
 /* On click delete donor fill the popup with hidden id field */
@@ -33425,7 +33533,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /* On click delete hub fill the popup with hidden id field */
@@ -33441,7 +33549,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /* On click delete location fill the popup with hidden id field */
@@ -33457,7 +33565,7 @@ $('.modal').on('hide.bs.modal', function () {
 });
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports) {
 
 $('#food_type_select_admin').on('change', function () {
@@ -33515,7 +33623,7 @@ $('#product_id_select_admin').on('change', function () {
 });
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports) {
 
 //admin accepted listing - edit comment
@@ -33538,7 +33646,7 @@ $('.admin-delete-comment-button').on('click', function () {
 });
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports) {
 
 $('.delete-admin-button').on('click', function () {
@@ -33548,7 +33656,7 @@ $('.delete-admin-button').on('click', function () {
 });
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports) {
 
 /*! AdminLTE app.js
@@ -33566,7 +33674,7 @@ $('.delete-admin-button').on('click', function () {
 if("undefined"==typeof jQuery)throw new Error("AdminLTE requires jQuery");!function(i){"use strict";function s(t,e){if(this.element=t,this.options=e,this.$overlay=i(e.overlayTemplate),""===e.source)throw new Error("Source url was not defined. Please specify a url in your BoxRefresh source option.");this._setUpListeners(),this.load()}var r="lte.boxrefresh",a={source:"",params:{},trigger:".refresh-btn",content:".box-body",loadInContent:!0,responseType:"",overlayTemplate:'<div class="overlay"><div class="fa fa-refresh fa-spin"></div></div>',onLoadStart:function(){},onLoadDone:function(t){return t}},t='[data-widget="box-refresh"]';function e(n){return this.each(function(){var t=i(this),e=t.data(r);if(!e){var o=i.extend({},a,t.data(),"object"==typeof n&&n);t.data(r,e=new s(t,o))}if("string"==typeof e){if(void 0===e[n])throw new Error("No method named "+n);e[n]()}})}s.prototype.load=function(){this._addOverlay(),this.options.onLoadStart.call(i(this)),i.get(this.options.source,this.options.params,function(t){this.options.loadInContent&&i(this.element).find(this.options.content).html(t),this.options.onLoadDone.call(i(this),t),this._removeOverlay()}.bind(this),""!==this.options.responseType&&this.options.responseType)},s.prototype._setUpListeners=function(){i(this.element).on("click",this.options.trigger,function(t){t&&t.preventDefault(),this.load()}.bind(this))},s.prototype._addOverlay=function(){i(this.element).append(this.$overlay)},s.prototype._removeOverlay=function(){i(this.$overlay).remove()};var o=i.fn.boxRefresh;i.fn.boxRefresh=e,i.fn.boxRefresh.Constructor=s,i.fn.boxRefresh.noConflict=function(){return i.fn.boxRefresh=o,this},i(window).on("load",function(){i(t).each(function(){e.call(i(this))})})}(jQuery),function(i){"use strict";function s(t,e){this.element=t,this.options=e,this._setUpListeners()}var r="lte.boxwidget",a={animationSpeed:500,collapseTrigger:'[data-widget="collapse"]',removeTrigger:'[data-widget="remove"]',collapseIcon:"fa-minus",expandIcon:"fa-plus",removeIcon:"fa-times"},t=".box",e=".collapsed-box",d=".box-header",l=".box-body",c=".box-footer",h=".box-tools",f="collapsed-box",p="collapsing.boxwidget",u="collapsed.boxwidget",g="expanding.boxwidget",v="expanded.boxwidget",o="removing.boxwidget",n="removed.boxwidget";function b(n){return this.each(function(){var t=i(this),e=t.data(r);if(!e){var o=i.extend({},a,t.data(),"object"==typeof n&&n);t.data(r,e=new s(t,o))}if("string"==typeof n){if(void 0===e[n])throw new Error("No method named "+n);e[n]()}})}s.prototype.toggle=function(){!i(this.element).is(e)?this.collapse():this.expand()},s.prototype.expand=function(){var t=i.Event(v),e=i.Event(g),o=this.options.collapseIcon,n=this.options.expandIcon;i(this.element).removeClass(f),i(this.element).children(d+", "+l+", "+c).children(h).find("."+n).removeClass(n).addClass(o),i(this.element).children(l+", "+c).slideDown(this.options.animationSpeed,function(){i(this.element).trigger(t)}.bind(this)).trigger(e)},s.prototype.collapse=function(){var t=i.Event(u),e=i.Event(p),o=this.options.collapseIcon,n=this.options.expandIcon;i(this.element).children(d+", "+l+", "+c).children(h).find("."+o).removeClass(o).addClass(n),i(this.element).children(l+", "+c).slideUp(this.options.animationSpeed,function(){i(this.element).addClass(f),i(this.element).trigger(t)}.bind(this)).trigger(e)},s.prototype.remove=function(){var t=i.Event(n),e=i.Event(o);i(this.element).slideUp(this.options.animationSpeed,function(){i(this.element).trigger(t),i(this.element).remove()}.bind(this)).trigger(e)},s.prototype._setUpListeners=function(){var e=this;i(this.element).on("click",this.options.collapseTrigger,function(t){return t&&t.preventDefault(),e.toggle(i(this)),!1}),i(this.element).on("click",this.options.removeTrigger,function(t){return t&&t.preventDefault(),e.remove(i(this)),!1})};var m=i.fn.boxWidget;i.fn.boxWidget=b,i.fn.boxWidget.Constructor=s,i.fn.boxWidget.noConflict=function(){return i.fn.boxWidget=m,this},i(window).on("load",function(){i(t).each(function(){b.call(i(this))})})}(jQuery),function(i){"use strict";function s(t,e){this.element=t,this.options=e,this.hasBindedResize=!1,this.init()}var r="lte.controlsidebar",a={controlsidebarSlide:!0},e=".control-sidebar",t='[data-toggle="control-sidebar"]',o=".control-sidebar-open",n=".control-sidebar-bg",d=".wrapper",l=".layout-boxed",c="control-sidebar-open",h="control-sidebar-hold-transition",f="collapsed.controlsidebar",p="expanded.controlsidebar";function u(n){return this.each(function(){var t=i(this),e=t.data(r);if(!e){var o=i.extend({},a,t.data(),"object"==typeof n&&n);t.data(r,e=new s(t,o))}"string"==typeof n&&e.toggle()})}s.prototype.init=function(){i(this.element).is(t)||i(this).on("click",this.toggle),this.fix(),i(window).resize(function(){this.fix()}.bind(this))},s.prototype.toggle=function(t){t&&t.preventDefault(),this.fix(),i(e).is(o)||i("body").is(o)?this.collapse():this.expand()},s.prototype.expand=function(){i(e).show(),this.options.controlsidebarSlide?i(e).addClass(c):i("body").addClass(h).addClass(c).delay(50).queue(function(){i("body").removeClass(h),i(this).dequeue()}),i(this.element).trigger(i.Event(p))},s.prototype.collapse=function(){this.options.controlsidebarSlide?i(e).removeClass(c):i("body").addClass(h).removeClass(c).delay(50).queue(function(){i("body").removeClass(h),i(this).dequeue()}),i(e).fadeOut(),i(this.element).trigger(i.Event(f))},s.prototype.fix=function(){i("body").is(l)&&this._fixForBoxed(i(n))},s.prototype._fixForBoxed=function(t){t.css({position:"absolute",height:i(d).height()})};var g=i.fn.controlSidebar;i.fn.controlSidebar=u,i.fn.controlSidebar.Constructor=s,i.fn.controlSidebar.noConflict=function(){return i.fn.controlSidebar=g,this},i(document).on("click",t,function(t){t&&t.preventDefault(),u.call(i(this),"toggle")})}(jQuery),function(n){"use strict";function i(t){this.element=t}var s="lte.directchat",t='[data-widget="chat-pane-toggle"]',e=".direct-chat",o="direct-chat-contacts-open";function r(o){return this.each(function(){var t=n(this),e=t.data(s);e||t.data(s,e=new i(t)),"string"==typeof o&&e.toggle(t)})}i.prototype.toggle=function(t){t.parents(e).first().toggleClass(o)};var a=n.fn.directChat;n.fn.directChat=r,n.fn.directChat.Constructor=i,n.fn.directChat.noConflict=function(){return n.fn.directChat=a,this},n(document).on("click",t,function(t){t&&t.preventDefault(),r.call(n(this),"toggle")})}(jQuery),function(i){"use strict";function s(t){this.options=t,this.init()}var r="lte.pushmenu",a={collapseScreenSize:767,expandOnHover:!1,expandTransitionDelay:200},t=".sidebar-collapse",e=".main-sidebar",o=".content-wrapper",n=".sidebar-form .form-control",d='[data-toggle="push-menu"]',l=".sidebar-mini",c=".sidebar-expanded-on-hover",h=".fixed",f="sidebar-collapse",p="sidebar-open",u="sidebar-expanded-on-hover",g="sidebar-mini-expand-feature",v="expanded.pushMenu",b="collapsed.pushMenu";function m(n){return this.each(function(){var t=i(this),e=t.data(r);if(!e){var o=i.extend({},a,t.data(),"object"==typeof n&&n);t.data(r,e=new s(o))}"toggle"===n&&e.toggle()})}s.prototype.init=function(){(this.options.expandOnHover||i("body").is(l+h))&&(this.expandOnHover(),i("body").addClass(g)),i(o).click(function(){i(window).width()<=this.options.collapseScreenSize&&i("body").hasClass(p)&&this.close()}.bind(this)),i(n).click(function(t){t.stopPropagation()})},s.prototype.toggle=function(){var t=i(window).width(),e=!i("body").hasClass(f);t<=this.options.collapseScreenSize&&(e=i("body").hasClass(p)),e?this.close():this.open()},s.prototype.open=function(){i(window).width()>this.options.collapseScreenSize?i("body").removeClass(f).trigger(i.Event(v)):i("body").addClass(p).trigger(i.Event(v))},s.prototype.close=function(){i(window).width()>this.options.collapseScreenSize?i("body").addClass(f).trigger(i.Event(b)):i("body").removeClass(p+" "+f).trigger(i.Event(b))},s.prototype.expandOnHover=function(){i(e).hover(function(){i("body").is(l+t)&&i(window).width()>this.options.collapseScreenSize&&this.expand()}.bind(this),function(){i("body").is(c)&&this.collapse()}.bind(this))},s.prototype.expand=function(){setTimeout(function(){i("body").removeClass(f).addClass(u)},this.options.expandTransitionDelay)},s.prototype.collapse=function(){setTimeout(function(){i("body").removeClass(u).addClass(f)},this.options.expandTransitionDelay)};var y=i.fn.pushMenu;i.fn.pushMenu=m,i.fn.pushMenu.Constructor=s,i.fn.pushMenu.noConflict=function(){return i.fn.pushMenu=y,this},i(document).on("click",d,function(t){t.preventDefault(),m.call(i(this),"toggle")}),i(window).on("load",function(){m.call(i(d))})}(jQuery),function(i){"use strict";function s(t,e){this.element=t,this.options=e,this._setUpListeners()}var r="lte.todolist",a={onCheck:function(t){return t},onUnCheck:function(t){return t}},e={data:'[data-widget="todo-list"]'},o="done";function t(n){return this.each(function(){var t=i(this),e=t.data(r);if(!e){var o=i.extend({},a,t.data(),"object"==typeof n&&n);t.data(r,e=new s(t,o))}if("string"==typeof e){if(void 0===e[n])throw new Error("No method named "+n);e[n]()}})}s.prototype.toggle=function(t){t.parents(e.li).first().toggleClass(o),t.prop("checked")?this.check(t):this.unCheck(t)},s.prototype.check=function(t){this.options.onCheck.call(t)},s.prototype.unCheck=function(t){this.options.onUnCheck.call(t)},s.prototype._setUpListeners=function(){var t=this;i(this.element).on("change ifChanged","input:checkbox",function(){t.toggle(i(this))})};var n=i.fn.todoList;i.fn.todoList=t,i.fn.todoList.Constructor=s,i.fn.todoList.noConflict=function(){return i.fn.todoList=n,this},i(window).on("load",function(){i(e.data).each(function(){t.call(i(this))})})}(jQuery),function(s){"use strict";function n(t,e){this.element=t,this.options=e,s(this.element).addClass(h),s(a+o,this.element).addClass(c),this._setUpListeners()}var i="lte.tree",r={animationSpeed:500,accordion:!0,followLink:!1,trigger:".treeview a"},a=".treeview",d=".treeview-menu",l=".menu-open, .active",t='[data-widget="tree"]',o=".active",c="menu-open",h="tree",f="collapsed.tree",p="expanded.tree";function e(o){return this.each(function(){var t=s(this);if(!t.data(i)){var e=s.extend({},r,t.data(),"object"==typeof o&&o);t.data(i,new n(t,e))}})}n.prototype.toggle=function(t,e){var o=t.next(d),n=t.parent(),i=n.hasClass(c);n.is(a)&&(this.options.followLink&&"#"!==t.attr("href")||e.preventDefault(),i?this.collapse(o,n):this.expand(o,n))},n.prototype.expand=function(t,e){var o=s.Event(p);if(this.options.accordion){var n=e.siblings(l),i=n.children(d);this.collapse(i,n)}e.addClass(c),t.stop().slideDown(this.options.animationSpeed,function(){s(this.element).trigger(o),e.height("auto")}.bind(this))},n.prototype.collapse=function(t,e){var o=s.Event(f);e.removeClass(c),t.stop().slideUp(this.options.animationSpeed,function(){s(this.element).trigger(o),e.find(a).removeClass(c).find(d).hide()}.bind(this))},n.prototype._setUpListeners=function(){var e=this;s(this.element).on("click",this.options.trigger,function(t){e.toggle(s(this),t)})};var u=s.fn.tree;s.fn.tree=e,s.fn.tree.Constructor=n,s.fn.tree.noConflict=function(){return s.fn.tree=u,this},s(window).on("load",function(){s(t).each(function(){e.call(s(this))})})}(jQuery),function(a){"use strict";function i(t){this.options=t,this.bindedResize=!1,this.activate()}var s="lte.layout",r={slimscroll:!0,resetHeight:!0},d=".wrapper",l=".content-wrapper",c=".layout-boxed",h=".main-footer",f=".main-header",t=".main-sidebar",e="slimScrollDiv",p=".sidebar",u=".control-sidebar",o=".sidebar-menu",n=".main-header .logo",g="fixed",v="hold-transition";function b(n){return this.each(function(){var t=a(this),e=t.data(s);if(!e){var o=a.extend({},r,t.data(),"object"==typeof n&&n);t.data(s,e=new i(o))}if("string"==typeof n){if(void 0===e[n])throw new Error("No method named "+n);e[n]()}})}i.prototype.activate=function(){this.fix(),this.fixSidebar(),a("body").removeClass(v),this.options.resetHeight&&a("body, html, "+d).css({height:"auto","min-height":"100%"}),this.bindedResize||(a(window).resize(function(){this.fix(),this.fixSidebar(),a(n+", "+p).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",function(){this.fix(),this.fixSidebar()}.bind(this))}.bind(this)),this.bindedResize=!0),a(o).on("expanded.tree",function(){this.fix(),this.fixSidebar()}.bind(this)),a(o).on("collapsed.tree",function(){this.fix(),this.fixSidebar()}.bind(this))},i.prototype.fix=function(){a(c+" > "+d).css("overflow","hidden");var t=a(h).outerHeight()||0,e=a(f).outerHeight()||0,o=e+t,n=a(window).height(),i=a(p).outerHeight()||0;if(a("body").hasClass(g))a(l).css("min-height",n-t);else{var s;s=i+e<=n?(a(l).css("min-height",n-o),n-o):(a(l).css("min-height",i),i);var r=a(u);void 0!==r&&r.height()>s&&a(l).css("min-height",r.height())}},i.prototype.fixSidebar=function(){a("body").hasClass(g)?this.options.slimscroll&&void 0!==a.fn.slimScroll&&0===a(t).find(e).length&&a(p).slimScroll({height:a(window).height()-a(f).height()+"px"}):void 0!==a.fn.slimScroll&&a(p).slimScroll({destroy:!0}).height("auto")};var m=a.fn.layout;a.fn.layout=b,a.fn.layout.Constuctor=i,a.fn.layout.noConflict=function(){return a.fn.layout=m,this},a(window).on("load",function(){b.call(a("body"))})}(jQuery);
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
