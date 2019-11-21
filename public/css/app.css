@@ -19014,7 +19014,9 @@ button.close {
   color: #222d32;
 }
 
-.quantity-needed-input {
+.quantity-needed-input,
+.quantity-reposted-input,
+.hub-quantity-needed-input {
   margin-right: -100px;
   float: left;
   width: 100%;

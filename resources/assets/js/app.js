@@ -14,6 +14,7 @@ require('./hub_active_listings');
 require('./volunteers');
 require('./new_listing');
 require('./new_hub_listing');
+require('./hub_donor_listings');
 require('./free_volunteers');
 
 require('./admin/approve_users');
