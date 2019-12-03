@@ -15,18 +15,18 @@ class CsoToOldVolunteerChanged extends Notification
 
     private $listing_offer;
     private $cso;
-    private $donor;
+    private $hub;
 
     /**
      * Create a new notification instance.
      * @param ListingOffer $listing_offer
      * @return void
      */
-    public function __construct(ListingOffer $listing_offer, $cso, $donor)
+    public function __construct(ListingOffer $listing_offer, $cso, $hub)
     {
         $this->listing_offer = $listing_offer;
         $this->cso = $listing_offer->cso;
-        $this->donor = $listing_offer->listing->donor;
+        $this->hub = $listing_offer->hub_listing->hub;
     }
 
     /**
@@ -54,9 +54,9 @@ class CsoToOldVolunteerChanged extends Notification
                   ' го смени доставувачот на донацијата која што требаше да ја подигнете.')
           ->line('<hr>')
           ->line('Информации за донацијата: ')
-          ->line('Производ: ' . $this->listing_offer->listing->product->name)
-          ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-          ->line('Донатор: ' . $this->donor->first_name . ' ' . $this->donor->last_name . ' - ' . $this->donor->organization->name)
+          ->line('Производ: ' . $this->listing_offer->hub_listing->product->name)
+          ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description)
+          ->line('Хаб: ' . $this->hub->first_name . ' ' . $this->hub->last_name . ' - ' . $this->hub->organization->name)
           ->line('<hr>')
           ->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија! ');
         return $message;

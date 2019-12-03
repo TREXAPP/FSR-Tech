@@ -2,7 +2,6 @@
 
 namespace FSR\Notifications;
 
-use FSR\Volunteer;
 use FSR\Hub;
 use FSR\Donor;
 use FSR\Admin;
@@ -13,7 +12,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DonorToAdminComment extends Notification implements ShouldQueue
+class HubToAdminDonorComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -26,7 +25,7 @@ class DonorToAdminComment extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
-     * @param $hub_listing_offer
+     * @param int $hub_listing_offer_id
      * @param string $comment_text
      * @return void
      */
@@ -60,38 +59,39 @@ class DonorToAdminComment extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $messages = (new MailMessage)
-                  ->subject('[Сите Сити] Додаден е коментар на донација.')
-                  ->line('Донаторот ' . $this->hub_listing_offer->listing->donor->first_name . ' ' . $this->hub_listing_offer->listing->donor->last_name . ' - ' . $this->hub_listing_offer->listing->donor->organization->name . ' остави коментар на неговата донација')
-                  ->line('<div style="margin-bottom: 5px; color: black !important;">' .
-                            '<div style="float:left;">' .
-                              '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->hub_listing_offer->listing->donor) . '">' .
+                ->subject('[Сите Сити] Додаден е коментар на прифатена донација.')
+                ->line('Хабот ' . $this->hub_listing_offer->hub->first_name . ' ' . $this->hub_listing_offer->hub->last_name . ' - ' . $this->hub_listing_offer->hub->organization->name . ' остави коментар на прифатената донација.')
+                ->line('<div style="margin-bottom: 5px; color: black !important;">' .
+                          '<div style="float:left;">' .
+                            '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($this->hub_listing_offer->hub) . '">' .
+                          '</div>' .
+                          '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
+                            '<div style="font-size: small; font-weight: bold; margin:5px;">' .
+                              $this->hub_listing_offer->hub->first_name . ' ' .
+                              $this->hub_listing_offer->hub->last_name .
+                              ' - ' . $this->hub_listing_offer->hub->organization->name .
+                              ' (хаб)' .
                             '</div>' .
-                            '<div style="overflow: auto; margin-left: 70px; background-color: #ddd; border-radius: 10px; color: black; font-weight: bold;">' .
-                              '<div style="font-size: small; font-weight: bold; margin:5px;">' .
-                                $this->hub_listing_offer->listing->donor->first_name . ' ' .
-                                $this->hub_listing_offer->listing->donor->last_name .
-                                ' - ' . $this->hub_listing_offer->listing->donor->organization->name .
-                                ' (донатор)' .
-                              '</div>' .
-                              '<hr style="margin: 0px;">' .
-                              '<div style="font-size: medium; font-weight: normal !important; margin:5px;">' .
-                                $this->comment_text .
-                              '</div>' .
+                            '<hr style="margin: 0px;">' .
+                            '<div style="font-size: medium; font-weight: normal !important; margin:5px;">' .
+                              $this->comment_text .
                             '</div>' .
-                          '</div>');
+                          '</div>' .
+                        '</div>');
         $count = 1;
+
         if ($this->comments_count > 0) {
             $messages->line('Претходни коментари:');
         }
 
         foreach ($this->comments->sortByDesc('id') as $comment) {
             if ($count < 4) {
-                if ($comment->sender_type == 'donor') {
-                    $user = Donor::where('id', $comment->user_id)->first();
-                    $type = 'донатор';
-                } elseif ($comment->sender_type == 'hub') {
+                if ($comment->sender_type == 'hub') {
                     $user = Hub::where('id', $comment->user_id)->first();
                     $type = 'хаб';
+                } elseif ($comment->sender_type == 'donor') {
+                    $user = Donor::where('id', $comment->user_id)->first();
+                    $type = 'донатор';
                 } elseif ($comment->sender_type == 'admin') {
                     $user = Admin::where('id', $comment->user_id)->first();
                     $type = 'администратор';
@@ -126,21 +126,21 @@ class DonorToAdminComment extends Notification implements ShouldQueue
         $messages->line('Производ: ' . $this->hub_listing_offer->listing->product->name);
         $messages->line('Kоличина: ' . $this->hub_listing_offer->quantity . ' ' . $this->hub_listing_offer->listing->quantity_type->description);
         $messages->line('<hr>')
-        ->line('Податоци за донаторот')
-        ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
-        ->line('Организација: ' . $this->donor->organization->name)
-        ->line('Телефон: ' . $this->donor->phone)
-        ->line('Емаил: ' . $this->donor->email)
-        ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
-        ->line('<hr>')
-        ->line('Податоци за Хабот')
-        ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
-        ->line('Организација: ' . $this->hub->organization->name)
-        ->line('Телефон: ' . $this->hub->phone)
-        ->line('Емаил: ' . $this->hub->email)
-        ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
-        ->line('<hr>')
-        ->action('Кон коментарот', route('admin.listing_offer', $this->hub_listing_offer->id) . '#comments');
+      ->line('Податоци за донаторот')
+      ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
+      ->line('Организација: ' . $this->donor->organization->name)
+      ->line('Телефон: ' . $this->donor->phone)
+      ->line('Емаил: ' . $this->donor->email)
+      ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+      ->line('<hr>')
+      ->line('Податоци за хабот')
+      ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
+      ->line('Организација: ' . $this->hub->organization->name)
+      ->line('Телефон: ' . $this->hub->phone)
+      ->line('Емаил: ' . $this->hub->email)
+      ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
+      ->line('<hr>')
+      ->action('Кон коментарот', route('admin.listing_offer', $this->hub_listing_offer->id) . '#comments');
 
 
         return $messages;

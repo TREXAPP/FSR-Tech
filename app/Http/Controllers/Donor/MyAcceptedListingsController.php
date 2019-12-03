@@ -102,10 +102,8 @@ class MyAcceptedListingsController extends Controller
         $hub_listing_offer = HubListingOffer::find($hub_listing_offer_id);
         $hub = $hub_listing_offer->hub;
         $other_comments = HubDonorComment::where('status', 'active')->where('hub_listing_offer_id', $hub_listing_offer_id)->get();
-        //send notification to the hub
 
-        // TODO: notifikacii
-        // $hub->notify(new DonorToHubComment($hub_listing_offer, $comment_text, $other_comments));
+        $hub->notify(new DonorToHubComment($hub_listing_offer, $comment_text, $other_comments));
 
         //send to master_admin(s)
         $master_admins = Admin::where('master_admin', 1)

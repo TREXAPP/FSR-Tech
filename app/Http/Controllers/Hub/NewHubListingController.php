@@ -11,7 +11,7 @@ use FSR\Product;
 use FSR\FoodType;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
-// use FSR\Notifications\HubToCsosAdminNewDonation;
+use FSR\Notifications\HubToCsosAdminNewDonation;
 use Illuminate\Http\Request;
 use FSR\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -113,15 +113,16 @@ class NewHubListingController extends Controller
         $file_id = $this->new_hub_listing_handle_upload($request);
         $hub_listing = $this->create($request->all(), $file_id);
 
-        $csos = Cso::where('location_id', Auth::user()->location_id)
-                    ->where('status', 'active')->get();
-        //     ->where('notifications', 1)->get();
+        $hub_region_id = Auth::user()->region_id;
+        $csos = Cso::where('status', 'active')
+                    ->whereHas('location', function ($query) use ($hub_region_id) {
+                        $query->where('region_id', $hub_region_id);
+                    })->get();
 
-       // TODO: notifikacii
-       // Notification::send($csos, new HubToCsosAdminNewDonation($hub_listing));
+       Notification::send($csos, new HubToCsosAdminNewDonation($hub_listing));
 
-        // $master_admins = Admin::where('master_admin', 1)->where('status', 'active')->get();
-        // Notification::send($master_admins, new HubToCsosAdminNewDonation($hub_listing));
+        $master_admins = Admin::where('master_admin', 1)->where('status', 'active')->get();
+        Notification::send($master_admins, new HubToCsosAdminNewDonation($hub_listing));
 
         return back()->with('status', "Донацијата е додадена успешно!");
     }

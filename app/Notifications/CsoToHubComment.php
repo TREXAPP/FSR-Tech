@@ -4,7 +4,7 @@ namespace FSR\Notifications;
 
 use FSR\Volunteer;
 use FSR\Cso;
-use FSR\Donor;
+use FSR\Hub;
 use FSR\Admin;
 use FSR\Custom\CarbonFix;
 use FSR\Custom\Methods;
@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToDonorComment extends Notification implements ShouldQueue
+class CsoToHubComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -83,9 +83,9 @@ class CsoToDonorComment extends Notification implements ShouldQueue
 
         foreach ($this->comments->sortByDesc('id') as $comment) {
             if ($count < 4) {
-                if ($comment->sender_type == 'donor') {
-                    $user = Donor::where('id', $comment->user_id)->first();
-                    $type = 'донатор';
+                if ($comment->sender_type == 'hub') {
+                    $user = Hub::where('id', $comment->user_id)->first();
+                    $type = 'хаб';
                 } elseif ($comment->sender_type == 'cso') {
                     $user = Cso::where('id', $comment->user_id)->first();
                     $type = 'примател';
@@ -97,15 +97,15 @@ class CsoToDonorComment extends Notification implements ShouldQueue
                                   '<div style="float:left;">' .
                                     '<img style="width:60px; height:60px;" src="' . Methods::get_user_image_url($user) . '">' .
                                   '</div>' .
-                                  '<div style="overflow: auto; margin-left: 70px; background-color: ' . (($comment->sender_type == 'donor') ? '#0084ff' : '#ddd') . '; border-radius: 10px; color: black; font-weight: bold;">' .
-                                    '<div style="font-size: small; font-weight: bold; margin:5px;' . (($comment->sender_type == 'donor') ? ' color: white !important;' : ' color: black !important;') . '">' . //#0084ff
+                                  '<div style="overflow: auto; margin-left: 70px; background-color: ' . (($comment->sender_type == 'hub') ? '#0084ff' : '#ddd') . '; border-radius: 10px; color: black; font-weight: bold;">' .
+                                    '<div style="font-size: small; font-weight: bold; margin:5px;' . (($comment->sender_type == 'hub') ? ' color: white !important;' : ' color: black !important;') . '">' . //#0084ff
                                       $user->first_name . ' ' .
                                       $user->last_name .
                                       (($comment->sender_type == 'admin') ? '' : ' - ' . $user->organization->name) .
                                       ' (' . $type . ')' .
                                     '</div>' .
                                     '<hr style="margin: 0px;">' .
-                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px;' . (($comment->sender_type == 'donor') ? ' color: white !important;' : ' color: black !important;') . '">' .
+                                    '<div style="font-size: medium; font-weight: normal !important; margin:5px;' . (($comment->sender_type == 'hub') ? ' color: white !important;' : ' color: black !important;') . '">' .
                                       $comment->text .
                                     '</div>' .
                                   '</div>' .
@@ -115,15 +115,15 @@ class CsoToDonorComment extends Notification implements ShouldQueue
         }
         if ($this->comments_count > 3) {
             $comments_left = $this->comments_count-3;
-            $messages->line('<a href="' . route('donor.single_listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
+            $messages->line('<a href="' . route('hub.single_listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
         }
 
         $messages->line('<hr>');
         $messages->line('Информации за донацијата:');
-        $messages->line('Производ: ' . $this->listing_offer->listing->product->name);
-        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description);
+        $messages->line('Производ: ' . $this->listing_offer->hub_listing->product->name);
+        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description);
         $messages->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
-        $messages->action('Кон коментарот', route('donor.single_listing_offer', $this->listing_offer->id) . '#comments');
+        $messages->action('Кон коментарот', route('hub.single_listing_offer', $this->listing_offer->id) . '#comments');
 
         return $messages;
     }

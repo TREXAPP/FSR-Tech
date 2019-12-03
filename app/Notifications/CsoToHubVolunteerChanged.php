@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToDonorVolunteerChanged extends Notification implements ShouldQueue
+class CsoToHubVolunteerChanged extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -63,7 +63,7 @@ class CsoToDonorVolunteerChanged extends Notification implements ShouldQueue
             $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Доставувач" />');
         }
         $message->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна.');
-        $message->action('Кон донацијата', route('donor.single_listing_offer', $this->listing_offer->id));
+        $message->action('Кон донацијата', route('hub.single_listing_offer', $this->listing_offer->id));
 
         return $message;
     }

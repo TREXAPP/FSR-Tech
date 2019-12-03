@@ -8,9 +8,8 @@ use FSR\CsoHubComment;
 use FSR\HubListing;
 use FSR\ListingOffer;
 use FSR\Notifications;
-use FSR\Notifications\DonorToHubComment;
-use FSR\Notifications\DonorToAdminComment;
-use FSR\Notifications\DonorToVolunteerComment;
+use FSR\Notifications\HubToCsoComment;
+use FSR\Notifications\HubToAdminCsoComment;
 use FSR\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -102,15 +101,21 @@ class CsoAcceptedListingsController extends Controller
         $listing_offer = ListingOffer::find($listing_offer_id);
         $cso = $listing_offer->cso;
         $other_comments = CsoHubComment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
-        //send notification to the cso
 
-        // TODO: notifikacii
-        // $cso->notify(new HubToCsoComment($listing_offer, $comment_text, $other_comments));
+        $csoHubComment = CsoHubComment::create([
+            'listing_offer_id' => $listing_offer_id,
+            'user_id' => Auth::user()->id,
+            'sender_type' => Auth::user()->type(),
+            'text' => $comment_text,
+        ]);
+
+        //send notification to the cso
+        $cso->notify(new HubToCsoComment($listing_offer, $comment_text, $other_comments));
 
         //send to master_admin(s)
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new HubToAdminComment($listing_offer, $comment_text, $other_comments));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new HubToAdminCsoComment($listing_offer, $comment_text, $other_comments));
 
         //find all regular admins that commented, and send them all
         $admin_comments = CsoHubComment::where('status', 'active')
@@ -131,17 +136,11 @@ class CsoAcceptedListingsController extends Controller
                 }
             }
             foreach ($admin_ids as $admin_id) {
-                // TODO: 
-               // Admin::find($admin_id)->notify(new HubToAdminComment($listing_offer, $comment_text, $other_comments));
+               Admin::find($admin_id)->notify(new HubToAdminCsoComment($listing_offer, $comment_text, $other_comments));
             }
         }
 
-        return CsoHubComment::create([
-            'listing_offer_id' => $listing_offer_id,
-            'user_id' => Auth::user()->id,
-            'sender_type' => Auth::user()->type(),
-            'text' => $comment_text,
-        ]);
+        return $csoHubComment;
     }
 
 

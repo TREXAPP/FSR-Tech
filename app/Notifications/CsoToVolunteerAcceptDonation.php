@@ -16,18 +16,18 @@ class CsoToVolunteerAcceptDonation extends Notification
 
     private $listing_offer;
     private $cso;
-    private $donor;
+    private $hub;
 
     /**
      * Create a new notification instance.
      * @param ListingOffer $listing_offer
      * @return void
      */
-    public function __construct(ListingOffer $listing_offer, $cso, $donor)
+    public function __construct(ListingOffer $listing_offer, $cso, $hub)
     {
         $this->listing_offer = $listing_offer;
         $this->cso = $listing_offer->cso;
-        $this->donor = $listing_offer->listing->donor;
+        $this->hub = $listing_offer->hub_listing->hub;
     }
 
     /**
@@ -54,16 +54,16 @@ class CsoToVolunteerAcceptDonation extends Notification
                   ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' ве одбра да подигнете донација за нив.')
                   ->line('')
                   ->line('Податоци за донацијата:')
-                  ->line('Производ: ' . $this->listing_offer->listing->product->name)
-                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-                  ->line('Време за подигање од ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_to)->format('H:i'))
+                  ->line('Производ: ' . $this->listing_offer->hub_listing->product->name)
+                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description)
+                  ->line('Време за подигање од ' . CarbonFix::parse($this->listing_offer->hub_listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing_offer->hub_listing->pickup_time_to)->format('H:i'))
                   ->line('<hr>')
-                  ->line('Податоци за донаторот')
-                  ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
-                  ->line('Организација: ' . $this->donor->organization->name)
-                  ->line('Телефон: ' . $this->donor->phone)
-                  ->line('Емаил: ' . $this->donor->email)
-                  ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+                  ->line('Податоци за хабот')
+                  ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
+                  ->line('Организација: ' . $this->hub->organization->name)
+                  ->line('Телефон: ' . $this->hub->phone)
+                  ->line('Емаил: ' . $this->hub->email)
+                  ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
                   ->line('<hr>')
                   ->line('Податоци за примателот')
                   ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)

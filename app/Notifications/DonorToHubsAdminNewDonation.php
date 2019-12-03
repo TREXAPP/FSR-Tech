@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DonorToCsosAdminNewDonation extends Notification implements ShouldQueue
+class DonorToHubsAdminNewDonation extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -61,10 +61,10 @@ class DonorToCsosAdminNewDonation extends Notification implements ShouldQueue
                     ->line('Име и презиме: ' . $this->listing->donor->first_name . ' ' . $this->listing->donor->last_name)
                     ->line('Организација: ' . $this->listing->donor->organization->name)
                     ->line('Телефон: ' . $this->listing->donor->phone)
-                    ->line('Адреса: ' . $this->listing->donor->address)
+                    ->line('Адреса: ' . $this->listing->donor->address . ' - ' . $this->listing->donor->location->name)
                     ->line('<hr>')
                     ->line('Ако сте заинтересирани да ја подигнете оваа донација кликнете подолу!')
-                    ->action('Прифати ја донацијата', url('/cso/active_listings/'));
+                    ->action('Прифати ја донацијата', route('hub.donor_listings'));
     }
 
     /**

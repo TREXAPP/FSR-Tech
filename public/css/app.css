@@ -19016,6 +19016,7 @@ button.close {
 
 .quantity-needed-input,
 .quantity-reposted-input,
+.hub-quantity-reposted-input,
 .hub-quantity-needed-input {
   margin-right: -100px;
   float: left;

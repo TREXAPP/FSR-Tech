@@ -197,7 +197,14 @@
 									</span>
 									@endif
 								</div>
+							<div class="col-xs-12">
+								<div class="alert alert-info" style="padding: 5px; margin: 5px;">
+									<i class="fa fa-info-circle" style="margin: 5px; margin-left: 10px; color: white;"></i>
+									<span>Донацијата не смее да биде достапна повеќе од рокот на траење на храната!</span>
+								</div>
 							</div>
+							</div>
+
 
 							<!-- Description-reposted -->
 							<div class="col-xs-12 form-group{{ $errors->has('description-reposted') ? ' has-error' : '' }} row">

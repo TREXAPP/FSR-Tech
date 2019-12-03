@@ -17,18 +17,18 @@ class CsoToAdminAcceptDonation extends Notification
 
     private $listing_offer;
     private $cso;
-    private $donor;
+    private $hub;
 
     /**
      * Create a new notification instance.
      * @param ListingOffer $listing_offer
      * @return void
      */
-    public function __construct(ListingOffer $listing_offer, $cso, $donor)
+    public function __construct(ListingOffer $listing_offer, $cso, $hub)
     {
         $this->listing_offer = $listing_offer;
         $this->cso = $listing_offer->cso;
-        $this->donor = $listing_offer->listing->donor;
+        $this->hub = $listing_offer->hub_listing->hub;
     }
 
     /**
@@ -55,16 +55,16 @@ class CsoToAdminAcceptDonation extends Notification
                   ->line($this->listing_offer->cso->first_name . ' ' . $this->listing_offer->cso->last_name . ' - ' . $this->listing_offer->cso->organization->name . ' прифати донација.')
                   ->line('')
                   ->line('Податоци за донацијата:')
-                  ->line('Производ: ' . $this->listing_offer->listing->product->name)
-                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description)
-                  ->line('Време за подигање од ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing_offer->listing->pickup_time_to)->format('H:i'))
+                  ->line('Производ: ' . $this->listing_offer->hub_listing->product->name)
+                  ->line('Количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description)
+                  ->line('Време за подигање од ' . CarbonFix::parse($this->listing_offer->hub_listing->pickup_time_from)->format('H:i') . ' до ' . CarbonFix::parse($this->listing_offer->hub_listing->pickup_time_to)->format('H:i'))
                   ->line('<hr>')
-                  ->line('Податоци за донаторот')
-                  ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
-                  ->line('Организација: ' . $this->donor->organization->name)
-                  ->line('Телефон: ' . $this->donor->phone)
-                  ->line('Емаил: ' . $this->donor->email)
-                  ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+                  ->line('Податоци за хабот')
+                  ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
+                  ->line('Организација: ' . $this->hub->organization->name)
+                  ->line('Телефон: ' . $this->hub->phone)
+                  ->line('Емаил: ' . $this->hub->email)
+                  ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
                   ->line('<hr>')
                   ->line('Податоци за примателот')
                   ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)
@@ -73,6 +73,18 @@ class CsoToAdminAcceptDonation extends Notification
                   ->line('Емаил: ' . $this->cso->email)
                   ->line('Адреса: ' . $this->cso->address . ' - ' . $this->cso->location->name)
                   ->line('<hr>');
+
+        if ($this->listing_offer->delivered_by_hub) {
+            $message->line('⚠️ <b>Примателот избра донацијата да му биде доставена. Хабот има право да побара соодветен надоместок за достава!</b>');
+        } else {
+             $message->line('Лице за подигнување: ' . $this->listing_offer->volunteer->first_name . ' ' . $this->listing_offer->volunteer->last_name)
+                     ->line('Телефон: ' . $this->listing_offer->volunteer->phone);
+
+            if ($this->listing_offer->volunteer->image_id) {
+                $message->line('Слика:');
+                $message->line('<img style="width: 150px; height: auto;" src="' . url('storage' . config('app.upload_path') . '/' . File::find($this->listing_offer->volunteer->image_id)->filename) . '" alt="Доставувач" />');
+            }
+        }
 
         return $message;
     }

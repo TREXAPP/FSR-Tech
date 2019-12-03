@@ -10,8 +10,15 @@ use Illuminate\Support\Carbon;
 use FSR\Listing;
 use FSR\HubListing;
 use FSR\Hub;
+use FSR\Cso;
+use FSR\Admin;
 use FSR\HubListingOffer;
 use Illuminate\Support\Facades\Validator;
+use FSR\Notifications\HubToDonorAcceptDonation;
+use FSR\Notifications\HubToAdminAcceptDonation;
+use FSR\Notifications\HubToHubAcceptDonation;
+use FSR\Notifications\HubToCsosAdminNewDonation;
+use Illuminate\Support\Facades\Notification;
 
 class DonorListingsController extends Controller
 {
@@ -67,6 +74,7 @@ class DonorListingsController extends Controller
     public function handle_post(Request $request)
     {
         $validation = $this->validator($request->all());
+        $reposting = $request->all()["checkbox_reposted"] === 'true';
 
         //  http://fsr.test/cso/active_listings#listingbox6
         $route = route('hub.donor_listings') . '#listingbox' . $request->all()['listing_id'];
@@ -76,34 +84,43 @@ class DonorListingsController extends Controller
                 ->withInput();
         }
 
-        $hub_listing_offer = $this->create($request->all());
-
-        $status_label = "Донацијата е успешно прифатена!";
-        if ($request->all()["checkbox_reposted"] === 'true') {
+        if ($reposting) {
             $new_listing_validation = $this->validator_listing($request->all());
             if ($new_listing_validation->fails()) {
                 return redirect($route)->withErrors($new_listing_validation->errors())
                     ->withInput();
             }
+        }
+
+        $hub_listing_offer = $this->create($request->all());
+        $status_label = "Донацијата е успешно прифатена!";
+
+        if ($reposting) {
             $hub_listing = $this->create_listing($request->all());
             $status_label = "Донацијата е успешно прифатена и објавена!";
         }
+
         $hub = Auth::user();
         $donor = $hub_listing_offer->listing->donor;
 
-        // TODO: kreiraj 3 notifikacii: + notifikacii za nov kreiran listing ako ima
+        $donor->notify(new HubToDonorAcceptDonation($hub_listing_offer));
+        $hub->notify(new HubToHubAcceptDonation($hub_listing_offer, $reposting, $hub_listing));
 
-        // $donor->notify(new HubToDonorAcceptDonation($hub_listing_offer));
-        // $hub->notify(new HubToCsoAcceptDonation($hub_listing_offer));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new HubToAdminAcceptDonation($hub_listing_offer, $hub, $donor, $reposting, $hub_listing));
 
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new HubToAdminAcceptDonation($hub_listing_offer, $hub, $donor));
-
+        if ($reposting) {
+            $hub_region_id = $hub->region_id;
+            $csos = Cso::where('status', 'active')
+                        ->whereHas('location', function ($query) use ($hub_region_id) {
+                            $query->where('region_id', $hub_region_id);
+                        })->get();
+            Notification::send($csos, new HubToCsosAdminNewDonation($hub_listing));
+        }
         return back()->with('status', $status_label);
     }
 
-    
     /**
      * Create a new listing_offer instance after a valid input.
      *
@@ -180,8 +197,8 @@ class DonorListingsController extends Controller
     {
 
         $validatorArray = [
-            'expires_in_reposted' => 'required|numeric',
-            'quantity_reposted' => 'required|numeric|min:0.01|max:' . $data['quantity'],
+            'expires_in_reposted' => 'required|numeric|custom_before_date_and_now:time_type_reposted,sell_by_date',
+            'quantity_reposted'   => 'required|numeric|min:0.01|max:' . $data['quantity'],
         ];
 
         return Validator::make($data, $validatorArray);

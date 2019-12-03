@@ -14,7 +14,7 @@ use FSR\Http\Controllers\Controller;
 use FSR\Notifications;
 use FSR\Notifications\CsoToVolunteerAcceptDonation;
 use FSR\Notifications\CsoToAdminAcceptDonation;
-use FSR\Notifications\CsoToDonorAcceptDonation;
+use FSR\Notifications\CsoToHubAcceptDonation;
 use FSR\Notifications\CsoToCsoAcceptDonation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -97,16 +97,14 @@ class ActiveListingsController extends Controller
         $cso = Auth::user();
         $hub = $listing_offer->hub_listing->hub;
 
-        //TODO: notifikacii - da se smeni donor vo hub
-
-       // $hub->notify(new CsoToHubAcceptDonation($listing_offer));
-        // $cso->notify(new CsoToCsoAcceptDonation($listing_offer));
-        // if ($listing_offer->volunteer->email != Auth::user()->email) {
-        //     $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $donor));
-        // }
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $donor));
+        $hub->notify(new CsoToHubAcceptDonation($listing_offer));
+        $cso->notify(new CsoToCsoAcceptDonation($listing_offer));
+        if (!$listing_offer->delivered_by_hub && $listing_offer->volunteer->email != Auth::user()->email) {
+            $listing_offer->volunteer->notify(new CsoToVolunteerAcceptDonation($listing_offer, $cso, $hub));
+        }
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new CsoToAdminAcceptDonation($listing_offer, $cso, $hub));
 
         return back()->with('status', "Донацијата е успешно прифатена!");
     }
@@ -119,12 +117,29 @@ class ActiveListingsController extends Controller
      */
     protected function create(array $data)
     {
+         $volunteer_id = 0;
+         $delivered_by_hub = 0;
+         if ($data['delivered_by_hub'] === "true") {
+            $delivered_by_hub = 1;
+            $volunteer = Volunteer::where('organization_id', Auth::user()->organization_id)
+                        ->where('status', 'active')
+                        ->where('is_user', '1')->get()->first();
+            if ($volunteer) {
+                $volunteer_id = $volunteer->id;
+            } else {
+                $volunteer_id = 0;
+            }
+         } else {
+            $volunteer_id = $data['volunteer'];
+        }
+       
         return ListingOffer::create([
             'cso_id' => Auth::user()->id,
             'hub_listing_id' => $data['hub_listing_id'],
             'offer_status' => 'active',
             'quantity' => $data['quantity'],
-            'volunteer_id' => $data['volunteer'],
+            'volunteer_id' => $volunteer_id,
+            'delivered_by_hub' => $delivered_by_hub,
         ]);
     }
 
@@ -150,6 +165,7 @@ class ActiveListingsController extends Controller
             'hub_listing_id' => 'required',
             'quantity' => 'required|numeric|min:0.01|max:' . $max_quantity,
             'volunteer' => 'required',
+            'delivered_by_hub' => 'required',
         ];
 
         return Validator::make($data, $validatorArray);

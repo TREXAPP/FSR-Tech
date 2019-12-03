@@ -95,6 +95,41 @@ class AppServiceProvider extends ServiceProvider
         Validator::replacer('custom_between_dates', function ($message, $attribute, $rule, $parameters) {
             return str_replace(':field', $parameters[0], $message);
         });
+
+        
+        Validator::extend('custom_before_date_and_now', function ($attribute, $value, $parameters, $validator) {
+            $now = CarbonFix::now();
+            $data = $validator->getData();
+            $date_begin = $now;
+            $date_to_check_value =  $data[$attribute];
+            $time_type = $data[$parameters[0]];
+            $date_end = CarbonFix::parse($data[$parameters[1]]);
+
+            switch ($time_type) {
+              case 'hours':
+                  $date_to_check = $now->addHours($date_to_check_value);
+                break;
+              case 'days':
+                  $date_to_check = $now->addDays($date_to_check_value);
+                break;
+              case 'weeks':
+                  $date_to_check = $now->addWeeks($date_to_check_value);
+                break;
+            }
+
+            if ($date_begin && $date_end && $date_to_check) {
+                if (($date_to_check <= $date_end) && ($date_to_check >= $date_begin)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        });
+
+        Validator::replacer('custom_before_date_and_now', function ($message, $attribute, $rule, $parameters) {
+            return str_replace(':field', $attribute, $message);
+        });
     }
 
     /**

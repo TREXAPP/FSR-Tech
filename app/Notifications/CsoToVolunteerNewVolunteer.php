@@ -68,7 +68,6 @@ class CsoToVolunteerNewVolunteer extends Notification
 
         return $message;
 
-        // ->action('Види ги промените', url('/cso/profile'));
     }
 
     /**

@@ -112,89 +112,87 @@
                 <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->hub_listing->description}}</strong></span>
               @endif
             </div>
-
           </div>
 
-          <div class="col-md-6 listing-info-box-inside listing-volunteer ">
-              <span class="col-xs-12">Доставувач:</span>
-              {{-- <span class="col-xs-12" id="volunteer-{{$listing_offer->id}}"><strong>{{$listing_offer->volunteer->first_name}} {{$listing_offer->volunteer->last_name}}</strong></span> --}}
-            <div class="row">
-
-              <div class="hidden" id="volunteer-id-{{$listing_offer->id}}">
-                {{$listing_offer->volunteer->id}}
-              </div>
-
-              <div id="volunteer-image-wrapper-{{$listing_offer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
-                  <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($listing_offer->volunteer)}}" />
-              </div>
-
-              <div id="volunteer-info-wrapper-{{$listing_offer->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
-
-                <!-- First Name -->
-                <div id="volunteer-info-first-name-{{$listing_offer->id}}" class="volunteer-info-first-name row">
-                  <div id="volunteer-info-first-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-first-name-label col-md-4">
-                    <span>Име:</span>
-                  </div>
-                  <div id="volunteer-info-first-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-first-name-value col-md-8">
-                    <span>{{$listing_offer->volunteer->first_name}}</span>
-                  </div>
-                </div>
-
-                <!-- Last Name -->
-                <div id="volunteer-info-last-name-{{$listing_offer->id}}" class="volunteer-info-last-name row">
-                  <div id="volunteer-info-last-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-last-name-label col-md-4">
-                    <span>Презиме:</span>
-                  </div>
-                  <div id="volunteer-info-last-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-last-name-value col-md-8">
-                    <span>{{$listing_offer->volunteer->last_name}}</span>
-                  </div>
-                </div>
-
-                <!-- Email -->
-                <div id="volunteer-info-email-{{$listing_offer->id}}" class="volunteer-info-email row">
-                  <div id="volunteer-info-email-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-email-label col-md-4">
-                    <span>Емаил:</span>
-                  </div>
-                  <div id="volunteer-info-email-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-email-value col-md-8">
-                    <span>{{$listing_offer->volunteer->email}}</span>
-                  </div>
-                </div>
-
-                <!-- Phone -->
-                <div id="volunteer-info-phone-{{$listing_offer->id}}" class="volunteer-info-phone row">
-                  <div id="volunteer-info-phone-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-phone-label col-md-4">
-                    <span>Телефон:</span>
-                  </div>
-                  <div id="volunteer-info-phone-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-phone-value col-md-8">
-                    <span>{{$listing_offer->volunteer->phone}}</span>
-                  </div>
-                </div>
-
-
-              </div>
-
-            </div>
-            <!-- Change volunteer button -->
-            <div class="volunteer-info-change-button row">
-              <div class="col-xs-12">
-                @if($selected_filter == 'active')
-                <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
-                  class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени доставувач</button>
-                @endif
+          @if ($listing_offer->delivered_by_hub)
+            <div class="col-md-6 listing-info-box-inside ">
+              <div class="text-bold">Избравте донацијата да ви биде доставена од хабот</div>
+              <div class="alert alert-danger" style="padding: 5px; margin: 5px;">
+                <i class="fa fa-warning"></i>
+                <span>Хабот има право да побара соодветен надоместок за достава!</span>
               </div>
             </div>
-          </div>
+          @else
+            <div class="col-md-6 listing-info-box-inside listing-volunteer ">
+                <span class="col-xs-12">Доставувач:</span>
+              <div class="row">
+
+                <div class="hidden" id="volunteer-id-{{$listing_offer->id}}">
+                  {{$listing_offer->volunteer->id}}
+                </div>
+
+                <div id="volunteer-image-wrapper-{{$listing_offer->id}}" class="volunteer-image-wrapper two-col-layout-image-wrapper col-md-4">
+                    <img id="volunteer-info-image-{{$listing_offer->id}}" class="img-rounded" alt="{{$listing_offer->volunteer->first_name}}" src="{{Methods::get_volunteer_image_url($listing_offer->volunteer)}}" />
+                </div>
+
+                <div id="volunteer-info-wrapper-{{$listing_offer->id}}" class="volunteer-info-wrapper-accepted two-col-layout-info-wrapper col-md-8" >
+
+                  <!-- First Name -->
+                  <div id="volunteer-info-first-name-{{$listing_offer->id}}" class="volunteer-info-first-name row">
+                    <div id="volunteer-info-first-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-first-name-label col-md-4">
+                      <span>Име:</span>
+                    </div>
+                    <div id="volunteer-info-first-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-first-name-value col-md-8">
+                      <span>{{$listing_offer->volunteer->first_name}}</span>
+                    </div>
+                  </div>
+
+                  <!-- Last Name -->
+                  <div id="volunteer-info-last-name-{{$listing_offer->id}}" class="volunteer-info-last-name row">
+                    <div id="volunteer-info-last-name-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-last-name-label col-md-4">
+                      <span>Презиме:</span>
+                    </div>
+                    <div id="volunteer-info-last-name-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-last-name-value col-md-8">
+                      <span>{{$listing_offer->volunteer->last_name}}</span>
+                    </div>
+                  </div>
+
+                  <!-- Email -->
+                  <div id="volunteer-info-email-{{$listing_offer->id}}" class="volunteer-info-email row">
+                    <div id="volunteer-info-email-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-email-label col-md-4">
+                      <span>Емаил:</span>
+                    </div>
+                    <div id="volunteer-info-email-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-email-value col-md-8">
+                      <span>{{$listing_offer->volunteer->email}}</span>
+                    </div>
+                  </div>
+
+                  <!-- Phone -->
+                  <div id="volunteer-info-phone-{{$listing_offer->id}}" class="volunteer-info-phone row">
+                    <div id="volunteer-info-phone-label-{{$listing_offer->id}}" class="volunteer-info-label volunteer-info-phone-label col-md-4">
+                      <span>Телефон:</span>
+                    </div>
+                    <div id="volunteer-info-phone-value-{{$listing_offer->id}}" class="volunteer-info-value volunteer-info-phone-value col-md-8">
+                      <span>{{$listing_offer->volunteer->phone}}</span>
+                    </div>
+                  </div>
 
 
-          {{-- </div> --}}
-          <div class="row">
-            {{-- <div class="col-xs-12 listing-description">
-              @if ($listing_offer->hub_listing->description)
-                <span class="col-xs-12">Коментари:</span>
-                <span class="col-xs-12" id="description-{{$listing_offer->id}}"><strong>{{$listing_offer->hub_listing->description}}</strong></span>
-              @endif
-            </div> --}}
-          </div>
+                </div>
+
+              </div>
+              <!-- Change volunteer button -->
+              <div class="volunteer-info-change-button row">
+                <div class="col-xs-12">
+                  @if($selected_filter == 'active')
+                  <button type="button" id="edit-volunteer-button-{{$listing_offer->id}}" name="edit-volunteer-button-{{$listing_offer->id}}"
+                    class="btn btn-success edit-volunteer-button" data-toggle="modal" data-target="#update-volunteer-popup">Промени доставувач</button>
+                  @endif
+                </div>
+              </div>
+            </div>
+          @endif
+
         </div>
         <div class="box-footer text-center">
 

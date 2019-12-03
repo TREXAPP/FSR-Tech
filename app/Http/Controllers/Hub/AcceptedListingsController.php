@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
+use FSR\Notifications\HubToDonorCancelDonation;
+use FSR\Notifications\HubToAdminCancelDonation;
+use FSR\Notifications\HubToDonorComment;
+use FSR\Notifications\HubToAdminDonorComment;
 
 class AcceptedListingsController extends Controller
 {
@@ -156,12 +160,11 @@ class AcceptedListingsController extends Controller
         $hub_listing_offer = $this->delete_offer($request->all());
         $donor = Donor::find($hub_listing_offer->listing->donor_id);
 
-        // TODO: notifikacii
-       // $donor->notify(new HubToDonorCancelDonation($hub_listing_offer));
+       $donor->notify(new HubToDonorCancelDonation($hub_listing_offer));
 
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new HubToAdminCancelDonation($hub_listing_offer, $hub, $donor));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new HubToAdminCancelDonation($hub_listing_offer, $hub, $donor));
 
         return back()->with('status', "Донацијата е успешно избришана!");
     }
@@ -264,15 +267,21 @@ class AcceptedListingsController extends Controller
         $comment_text = $data['comment'];
         $hub = Auth::user();
         $other_comments = HubDonorComment::where('status', 'active')->where('hub_listing_offer_id', $hub_listing_offer_id)->get();
-        // TODO: notifikacii
-        //send notification to the donor
-       // $donor->notify(new HubToDonorComment($hub_listing_offer, $comment_text, $other_comments));
 
+        $hubDonorComment = HubDonorComment::create([
+            'hub_listing_offer_id' => $hub_listing_offer_id,
+            'user_id' => Auth::user()->id,
+            'sender_type' => Auth::user()->type(),
+            'text' => $data['comment'],
+        ]);
+
+        //send notification to the donor
+       $donor->notify(new HubToDonorComment($hub_listing_offer, $comment_text, $other_comments));
 
         //send to master_admin(s)
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new HubToAdminComment($hub_listing_offer, $comment_text, $other_comments));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new HubToAdminDonorComment($hub_listing_offer, $comment_text, $other_comments));
 
         //find all regular admins that commented, and send them all
         $admin_comments = HubDonorComment::where('status', 'active')
@@ -292,17 +301,11 @@ class AcceptedListingsController extends Controller
                 }
             }
             foreach ($admin_ids as $admin_id) {
-                        // TODO: notifikacii
-               // Admin::find($admin_id)->notify(new HubToAdminComment($hub_listing_offer, $comment_text, $other_comments));
+               Admin::find($admin_id)->notify(new HubToAdminDonorComment($hub_listing_offer, $comment_text, $other_comments));
             }
         }
 
-        return HubDonorComment::create([
-            'hub_listing_offer_id' => $hub_listing_offer_id,
-            'user_id' => Auth::user()->id,
-            'sender_type' => Auth::user()->type(),
-            'text' => $data['comment'],
-        ]);
+        return $hubDonorComment;
     }
 
 

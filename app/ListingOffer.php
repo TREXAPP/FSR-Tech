@@ -17,6 +17,7 @@ class ListingOffer extends Model
     'offer_status',
     'quantity',
     'volunteer_id',
+    'delivered_by_hub',
   ];
     /**
      * Get the listing_msgs for this listing_offer.

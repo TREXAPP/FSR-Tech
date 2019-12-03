@@ -4,30 +4,30 @@ namespace FSR\Notifications;
 
 use FSR\File;
 use FSR\Admin;
-use FSR\ListingOffer;
+use FSR\HubListingOffer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CsoToAdminCancelDonation extends Notification
+class HubToAdminCancelDonation extends Notification
 {
     use Queueable;
 
-    private $listing_offer;
-    private $cso;
+    private $hub_listing_offer;
     private $hub;
+    private $donor;
 
     /**
      * Create a new notification instance.
-     * @param ListingOffer $listing_offer
+     * @param HubListingOffer $listing_offer
      * @return void
      */
-    public function __construct(ListingOffer $listing_offer, $cso, $hub)
+    public function __construct(HubListingOffer $hub_listing_offer, $hub, $donor)
     {
-        $this->listing_offer = $listing_offer;
-        $this->cso = $listing_offer->cso;
-        $this->hub = $listing_offer->hub_listing->hub;
+        $this->hub_listing_offer = $hub_listing_offer;
+        $this->hub = $hub_listing_offer->hub;
+        $this->donor = $hub_listing_offer->listing->donor;
     }
 
     /**
@@ -51,15 +51,19 @@ class CsoToAdminCancelDonation extends Notification
     {
         $message = (new MailMessage)
                   ->subject('[Сите Сити] Подигнувањето на донацијата е откажано.')
-                  ->line($this->cso->first_name . ' ' . $this->cso->last_name . ' - ' . $this->cso->organization->name . ' го откажа прифаќањето на донацијата.')
+                  ->line($this->hub->first_name . ' ' . $this->hub->last_name . ' - ' . $this->hub->organization->name . ' го откажа прифаќањето на донацијата.')
                   ->line('<br>')
                   ->line('Информации за донацијата:')
-                  ->line('Производ: ' . $this->listing_offer->hub_listing->product->name)
-                  ->line('Откажана количина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description)
+                  ->line('Производ: ' . $this->hub_listing_offer->listing->product->name)
+                  ->line('Откажана количина: ' . $this->hub_listing_offer->quantity . ' ' . $this->hub_listing_offer->listing->quantity_type->description)
                   ->line('<hr>')
                   ->line('Податоци за хабот')
                   ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
-                  ->line('Организација: ' . $this->hub->organization->name);
+                  ->line('Организација: ' . $this->hub->organization->name)
+                  ->line('<hr>')
+                  ->line('Податоци за донаторот')
+                  ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
+                  ->line('Организација: ' . $this->donor->organization->name);
 
         return $message;
     }

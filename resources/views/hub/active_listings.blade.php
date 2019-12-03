@@ -120,9 +120,10 @@
                             <ul class="list-group">
                           @foreach ($hub_listing->listing_offers as $listing_offer)
                             @if ($listing_offer->offer_status == 'active')
-                              <a href="{{url('hub/cso_accepted_listings/' . $listing_offer->id)}}" id="hub-listing-offer-button-{{$listing_offer->id}}" class=" hub-listing-offer-button hub-listing-offer-button-{{$listing_offer->id}}">
+                              <a href="{{url('hub/cso_accepted_listings/' . $listing_offer->id)}}" id="hub-listing-offer-button-{{$listing_offer->id}}" class=" hub-listing-offer-button hub-listing-offer-button-{{$listing_offer->id}} ">
                                 <li class="list-group-item">
                                   <strong>{{$listing_offer->quantity}} {{$hub_listing->quantity_type->description}} од {{$listing_offer->cso->first_name}} {{$listing_offer->cso->last_name}} | {{$listing_offer->cso->organization->name}}</strong>
+                                  <strong style="color: red;">{{($listing_offer->delivered_by_hub) ? "(За достава)" : ""}}</strong>
                               </li>
                               </a>
                             @endif

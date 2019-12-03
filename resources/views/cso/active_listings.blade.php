@@ -149,11 +149,22 @@
 					</div>
 					<div id="listing-pickup-volunteer-{{$hub_listing->id}}" class="col-md-6 col-xs-12 listing-pickup-volunteer">
 						<div class="panel" style="text-align: center;">Доставувач</div>
+						<div id="delivered-by-hub-wrapper-{{$hub_listing->id}}" class="delivered-by-hub-wrapper" style="margin-left: 20px;">
+							<label>
+								<input type="checkbox" id="delivered-by-hub-{{$hub_listing->id}}" class="delivered-by-hub" />
+								<span>Донацијата да биде доставена од хабот</span>
+							</label>
+						</div>
+						<div id="delivered-by-hub-warning-{{$hub_listing->id}}" class="delivered-by-hub-warning" style="margin-left: 20px; display: none;">
+							<div class="alert alert-danger">
+								<i class="fa fa-warning fa-2x"></i>
+								<span>Хабот има право да побара соодветен надоместок за достава!</span>
+							</div>
+						</div>
 						<div id="pickup-volunteer-wrapper-{{$hub_listing->id}}" class="form-group pickup-volunteer-wrapper {{ ((old('hub_listing_id') == $hub_listing->id) && ($errors->has('volunteer'))) ? 'has-error' : '' }} row">
 							<span class="col-sm-6">
 
 								<select id="pickup-volunteer-{{$hub_listing->id}}" class="pickup-volunteer-name form-control" name="pickup-volunteer-{{$hub_listing->id}}" required>
-									<option value="">-- Избери --</option>
 									@foreach ($volunteers as $volunteer)
 									<option value="{{$volunteer->id}}"
 										{{ ((old('hub_listing_id')== $hub_listing->id) && (old('volunteer') == $volunteer->id))
@@ -307,6 +318,13 @@
 								<span class="pull-right popup-element-label">Доставувач:</span>
 							</div>
 							<div id="popup-volunteer-value" class="popup-volunteer-value popup-element-value col-xs-6">
+							</div>
+						</div>
+
+						<div id="popup-delivered-by-hub-warning" class="popup-delivered-by-hub-warning">
+							<div class="alert alert-danger" style="padding: 5px; margin: 5px;">
+								<i class="fa fa-warning"></i>
+								<span>Хабот има право да побара соодветен надоместок за достава!</span>
 							</div>
 						</div>
 

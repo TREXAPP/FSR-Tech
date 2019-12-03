@@ -4,14 +4,14 @@ namespace FSR\Http\Controllers\Donor;
 
 use Carbon\Carbon;
 use FSR\File;
-use FSR\Cso;
+use FSR\Hub;
 use FSR\Admin;
 use FSR\Listing;
 use FSR\Product;
 use FSR\FoodType;
 use FSR\QuantityType;
 use FSR\Custom\Methods;
-use FSR\Notifications\DonorToCsosAdminNewDonation;
+use FSR\Notifications\DonorToHubsAdminNewDonation;
 use Illuminate\Http\Request;
 use FSR\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -113,14 +113,12 @@ class NewListingController extends Controller
         $file_id = $this->new_listing_handle_upload($request);
         $listing = $this->create($request->all(), $file_id);
 
-        $csos = Cso::where('location_id', Auth::user()->location_id)
-                    ->where('status', 'active')->get();
-        //     ->where('notifications', 1)->get();
+        $hubs = Hub::where('status', 'active')->get();
 
-        Notification::send($csos, new DonorToCsosAdminNewDonation($listing));
+        Notification::send($hubs, new DonorToHubsAdminNewDonation($listing));
 
         $master_admins = Admin::where('master_admin', 1)->where('status', 'active')->get();
-        Notification::send($master_admins, new DonorToCsosAdminNewDonation($listing));
+        Notification::send($master_admins, new DonorToHubsAdminNewDonation($listing));
 
         return back()->with('status', "Донацијата е додадена успешно!");
     }

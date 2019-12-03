@@ -14,15 +14,15 @@ use FSR\Custom\Methods;
 use FSR\Notifications\CsoToVolunteerComment;
 use FSR\Notifications\CsoToNewVolunteerChanged;
 use FSR\Notifications\CsoToOldVolunteerChanged;
-use FSR\Notifications\CsoToDonorVolunteerChanged;
+use FSR\Notifications\CsoToHubVolunteerChanged;
 use FSR\Notifications\CsoToVolunteerCancelDonation;
 use FSR\Notifications\CsoToAdminCancelDonation;
 use FSR\Notifications\CsoToAdminComment;
 
 use FSR\Http\Controllers\Controller;
 use FSR\Custom\CarbonFix as Carbon;
-use FSR\Notifications\CsoToDonorCancelDonation;
-use FSR\Notifications\CsoToDonorComment;
+use FSR\Notifications\CsoToHubCancelDonation;
+use FSR\Notifications\CsoToHubComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -118,10 +118,9 @@ class AcceptedListingsController extends Controller
         $hub = $listing_offer->hub_listing->hub;
         $listing_offer->save();
 
-        //TODO: 3 email notifications: change donor to hub
-        // $donor->notify(new CsoToHubVolunteerChanged($listing_offer, $new_volunteer));
-        // $new_volunteer->notify(new CsoToNewVolunteerChanged($listing_offer, $cso, $donor));
-        // $old_volunteer->notify(new CsoToOldVolunteerChanged($listing_offer, $cso, $donor));
+        $hub->notify(new CsoToHubVolunteerChanged($listing_offer, $new_volunteer));
+        $new_volunteer->notify(new CsoToNewVolunteerChanged($listing_offer, $cso, $hub));
+        $old_volunteer->notify(new CsoToOldVolunteerChanged($listing_offer, $cso, $hub));
 
         $image_url = Methods::get_volunteer_image_url($listing_offer->volunteer);
 
@@ -189,13 +188,14 @@ class AcceptedListingsController extends Controller
         $volunteer = $listing_offer->volunteer;
         $hub = Hub::find($listing_offer->hub_listing->hub_id);
 
-        // TODO: notifikacii - change donor to hub
-        // $hub->notify(new CsoToHubCancelDonation($listing_offer));
-        // $volunteer->notify(new CsoToVolunteerCancelDonation($listing_offer, $cso, $donor));
+        $hub->notify(new CsoToHubCancelDonation($listing_offer));
+        if (!$listing_offer->delivered_by_hub) {
+            $volunteer->notify(new CsoToVolunteerCancelDonation($listing_offer, $cso, $hub));
+        }
 
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new CsoToAdminCancelDonation($listing_offer, $cso, $donor));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new CsoToAdminCancelDonation($listing_offer, $cso, $hub));
 
         return back()->with('status', "Донацијата е успешно избришана!");
     }
@@ -300,19 +300,24 @@ class AcceptedListingsController extends Controller
         $cso = Auth::user();
         $other_comments = CsoHubComment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
 
-        // TODO: notifikacii - smeni donor so hub
-        //send notification to the donor
-        // $hub->notify(new CsoToHubComment($listing_offer, $comment_text, $other_comments));
-        // //send notification to the volunteer
-        // if ($cso->email != $volunteer->email) {
-        //     $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
-        // }
+        $comment = CsoHubComment::create([
+            'listing_offer_id' => $listing_offer_id,
+            'user_id' => Auth::user()->id,
+            'sender_type' => Auth::user()->type(),
+            'text' => $data['comment'],
+        ]);
 
+        //send notification to the hub
+       $hub->notify(new CsoToHubComment($listing_offer, $comment_text, $other_comments));
+        // //send notification to the volunteer
+        if (!$listing_offer->delivered_by_hub && $cso->email != $volunteer->email) {
+            $volunteer->notify(new CsoToVolunteerComment($listing_offer, $comment_text, $other_comments));
+        }
 
         //send to master_admin(s)
-        // $master_admins = Admin::where('master_admin', 1)
-        //                   ->where('status', 'active')->get();
-        // Notification::send($master_admins, new CsoToAdminComment($listing_offer, $comment_text, $other_comments));
+        $master_admins = Admin::where('master_admin', 1)
+                          ->where('status', 'active')->get();
+        Notification::send($master_admins, new CsoToAdminComment($listing_offer, $comment_text, $other_comments));
 
         //find all regular admins that commented, and send them all
         $admin_comments = CsoHubComment::where('status', 'active')
@@ -336,12 +341,7 @@ class AcceptedListingsController extends Controller
             }
         }
 
-        return CsoHubComment::create([
-            'listing_offer_id' => $listing_offer_id,
-            'user_id' => Auth::user()->id,
-            'sender_type' => Auth::user()->type(),
-            'text' => $data['comment'],
-        ]);
+        return $comment;
     }
 
 

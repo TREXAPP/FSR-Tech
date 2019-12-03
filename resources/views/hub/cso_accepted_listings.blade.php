@@ -95,6 +95,16 @@
                     <span class="col-xs-12" id="cso-email-{{$listing_offer->id}}"><strong>{{$listing_offer->cso->email}}</strong></span>
                   </div>
                 </div>
+
+                @if ($listing_offer->delivered_by_hub)
+                <div class="row">
+                  <div class=" col-sm-4 alert alert-danger" style="margin: 25px;">
+                    <i class="fa fa-warning"></i>
+                    <span>За достава</span>
+                  </div>
+                </div>
+                @endif
+
               </div>
 
           </div>

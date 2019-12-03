@@ -47,10 +47,8 @@
               </li>
             @endif
 
-
-      <li class="header">ДОНАЦИИ</li>
-
       @if (Auth::user()->type() == 'donor')
+      <li class="header">ДОНАЦИИ</li>
         <li>
           <a href="/{{Auth::user()->type()}}/my_active_listings">
             <i class="fa fa-bookmark"></i> <span>Мои донации</span>
@@ -69,6 +67,7 @@
           </a>
         </li>
       @elseif (Auth::user()->type() == 'cso')
+      <li class="header">ДОНАЦИИ</li>
         <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
           <a href="/{{Auth::user()->type()}}/accepted_listings">
             <i class="fa fa-bookmark"></i> <span>Прифатени донации</span>
@@ -84,7 +83,7 @@
           </a>
         </li>
       @elseif (Auth::user()->type() == 'hub')
-
+      <li class="header">ДОНАЦИИ ОД ДОНАТОРИТЕ</li>
         <li>
           <a href="/{{Auth::user()->type()}}/donor_listings">
             <i class="fa fa-cutlery"></i> <span>Достапни донации</span>
@@ -100,7 +99,7 @@
             </span>
           </a>
         </li>
-        
+      <li class="header">ДОНАЦИИ ЗА ПРИМАТЕЛИТЕ</li>
         <li class="{{(!Auth::user()->email_confirmed) ? 'inactive-menu' : ''}}">
           <a href="/{{Auth::user()->type()}}/active_listings">
             <i class="fa fa-cutlery"></i> <span>Објавени донации</span>
