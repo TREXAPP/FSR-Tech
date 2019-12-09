@@ -2,8 +2,7 @@
 
 namespace FSR\Notifications;
 
-use FSR\Volunteer;
-use FSR\Cso;
+use FSR\Hub;
 use FSR\Donor;
 use FSR\Admin;
 use FSR\Custom\CarbonFix;
@@ -17,7 +16,7 @@ class AdminToDonorComment extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $listing_offer;
+    private $hub_listing_offer;
     private $comment_text;
     private $comments;
     private $comments_count;
@@ -29,9 +28,9 @@ class AdminToDonorComment extends Notification implements ShouldQueue
      * @param string $comment_text
      * @return void
      */
-    public function __construct($listing_offer, string $comment_text, $comments, $admin)
+    public function __construct($hub_listing_offer, string $comment_text, $comments, $admin)
     {
-        $this->listing_offer = $listing_offer;
+        $this->hub_listing_offer = $hub_listing_offer;
         $this->comment_text = $comment_text;
         $this->comments = $comments;
         $this->comments_count = $comments->count();
@@ -87,9 +86,9 @@ class AdminToDonorComment extends Notification implements ShouldQueue
                 if ($comment->sender_type == 'donor') {
                     $user = Donor::where('id', $comment->user_id)->first();
                     $type = 'донатор';
-                } elseif ($comment->sender_type == 'cso') {
-                    $user = Cso::where('id', $comment->user_id)->first();
-                    $type = 'примател';
+                } elseif ($comment->sender_type == 'hub') {
+                    $user = Hub::where('id', $comment->user_id)->first();
+                    $type = 'хаб';
                 } elseif ($comment->sender_type == 'admin') {
                     $user = Admin::where('id', $comment->user_id)->first();
                     $type = 'администратор';
@@ -116,15 +115,15 @@ class AdminToDonorComment extends Notification implements ShouldQueue
         }
         if ($this->comments_count > 3) {
             $comments_left = $this->comments_count-3;
-            $messages->line('<a href="' . route('donor.single_hub_listing_offer', $this->listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
+            $messages->line('<a href="' . route('donor.single_hub_listing_offer', $this->hub_listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
         }
 
         $messages->line('<hr>');
         $messages->line('Информации за донацијата:');
-        $messages->line('Производ: ' . $this->listing_offer->listing->product->name);
-        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description);
+        $messages->line('Производ: ' . $this->hub_listing_offer->listing->product->name);
+        $messages->line('Kоличина: ' . $this->hub_listing_offer->quantity . ' ' . $this->hub_listing_offer->listing->quantity_type->description);
         $messages->line('Ви благодариме што го поддржувате нашиот труд да го намалиме отпадот од храна и недостаток на храна во Македонија!');
-        $messages->action('Кон коментарот', route('donor.single_hub_listing_offer', $this->listing_offer->id) . '#comments');
+        $messages->action('Кон коментарот', route('donor.single_hub_listing_offer', $this->hub_listing_offer->id) . '#comments');
 
         return $messages;
     }

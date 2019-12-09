@@ -118,7 +118,7 @@ class HubToAdminDonorComment extends Notification implements ShouldQueue
         }
         if ($this->comments_count > 3) {
             $comments_left = $this->comments_count-3;
-            $messages->line('<a href="' . route('admin.listing_offer', $this->hub_listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
+            $messages->line('<a href="' . route('admin.hub_listing_offer', $this->hub_listing_offer->id) . '#comments"><div style="text-align: center;font-size: 0.8em;">(Уште ' . $comments_left . ' коментари)</div></a>');
         }
 
         $messages->line('<hr>');
@@ -140,7 +140,7 @@ class HubToAdminDonorComment extends Notification implements ShouldQueue
       ->line('Емаил: ' . $this->hub->email)
       ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
       ->line('<hr>')
-      ->action('Кон коментарот', route('admin.listing_offer', $this->hub_listing_offer->id) . '#comments');
+      ->action('Кон коментарот', route('admin.hub_listing_offer', $this->hub_listing_offer->id) . '#comments');
 
 
         return $messages;

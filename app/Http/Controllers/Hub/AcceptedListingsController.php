@@ -369,7 +369,7 @@ class AcceptedListingsController extends Controller
 
         $hub_listing_offers = HubListingOffer::select(DB::raw('hub_listing_offers.*'))
                                       ->join('listings', 'hub_listing_offers.listing_id', '=', 'listings.id')
-                                      ->where('status', 'active')
+                                      ->where('hub_listing_offers.status', 'active')
                                       ->where('hub_id', Auth::user()->id)
                                       ->orderBy('date_expires', 'asc')
                                       ->whereHas('listing', function ($query) use ($listing_status_operator, $date_from, $date_to_date) {
@@ -379,7 +379,7 @@ class AcceptedListingsController extends Controller
                                       });
         $comments = HubDonorComment::select(DB::raw('hub_donor_comments.*'))
                             ->join('hub_listing_offers', 'hub_donor_comments.hub_listing_offer_id', '=', 'hub_listing_offers.id')
-                            ->where('status', 'active')
+                            ->where('hub_donor_comments.status', 'active')
                             ->orderBy('created_at', 'ASC')->get();
 
         $hub_listing_offers_no = 0;

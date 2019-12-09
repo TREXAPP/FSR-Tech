@@ -43,6 +43,7 @@
 						<option value="">-- Сите --</option>
 						<option value="donors">Донатори</option>
 						<option value="csos">Приматели</option>
+						<option value="hubs">Хабови</option>
 						<option value="volunteers">Доставувачи</option>
 					</select>
 					@if ($errors->has('user-type-filter-select'))
@@ -94,10 +95,19 @@
 
 	<div class="panel">
 		Селектирани
+		<span id="donors-counter">{{$donors->count()}}</span> донатори,
+		<span id="csos-counter">{{$csos->count()}}</span> приматели и
+		<span id="hubs-counter">{{$hubs->count()}}</span> хабови и
+		<span id="volunteers-counter">{{$volunteers->count()}}</span> доставувачи
+	</div>
+{{-- 
+	<div class="panel">
+		Селектирани
 		<span id="donors-counter">{{(old('user-type-filter-select')) ? old('user-type-filter-select') : $donors->count()}}</span> донатори,
 		<span id="csos-counter">{{(old('organization-filter-select')) ? old('organization-filter-select') : $csos->count()}}</span> приматели и
+		<span id="hubs-counter">{{(old('organization-filter-select')) ? old('organization-filter-select') : $hubs->count()}}</span> хабови и
 		<span id="volunteers-counter">{{(old('user-filter-select')) ? old('user-filter-select') : $volunteers->count()}}</span> доставувачи
-	</div>
+	</div> --}}
 
 
 	<!-- Default box -->

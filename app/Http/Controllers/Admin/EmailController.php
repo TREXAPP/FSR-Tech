@@ -4,6 +4,7 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\Volunteer;
 use FSR\Organization;
 
@@ -36,11 +37,13 @@ class EmailController extends Controller
     {
         $csos = Cso::where('status', 'active');
         $donors = Donor::where('status', 'active');
+        $hubs = Hub::where('status', 'active');
         $volunteers = Volunteer::where('status', 'active')
                           ->where('is_user', '0');
         return view('admin.email')->with([
           'csos' => $csos,
           'donors' => $donors,
+          'hubs' => $hubs,
           'volunteers' => $volunteers
         ]);
     }
@@ -62,7 +65,6 @@ class EmailController extends Controller
 
     public function handle_email(array $data)
     {
-        //dump($data);
         $validation = $this->validator($data);
 
         if ($validation->fails()) {
@@ -76,6 +78,7 @@ class EmailController extends Controller
 
         $send_to_donors = true;
         $send_to_csos = true;
+        $send_to_hubs = true;
         $send_to_volunteers = true;
 
         if ($user_type_filter) {
@@ -83,6 +86,7 @@ class EmailController extends Controller
             case 'donors':
             $send_to_csos = false;
             $send_to_volunteers = false;
+            $send_to_hubs = false;
 
               if ($organization_filter) {
                   if ($user_filter) {
@@ -100,6 +104,7 @@ class EmailController extends Controller
             case 'csos':
             $send_to_donors = false;
             $send_to_volunteers = false;
+            $send_to_hubs = false;
 
             if ($organization_filter) {
                 if ($user_filter) {
@@ -113,9 +118,29 @@ class EmailController extends Controller
                 $csos = Cso::where('status', 'active');
             }
               break;
+
+            case 'hubs':
+            $send_to_donors = false;
+            $send_to_volunteers = false;
+            $send_to_csos = false;
+
+            if ($organization_filter) {
+                if ($user_filter) {
+                    $hubs = Hub::where('status', 'active')
+                                  ->where('id', $user_filter);
+                } else {
+                    $hubs = Hub::where('status', 'active')
+                                  ->where('organization_id', $organization_filter);
+                }
+            } else {
+                $hubs = Hub::where('status', 'active');
+            }
+              break;
+
             case 'volunteers':
             $send_to_csos = false;
             $send_to_donors = false;
+            $send_to_hubs = false;
 
             if ($organization_filter) {
                 if ($user_filter) {
@@ -136,6 +161,7 @@ class EmailController extends Controller
             default:
               $donors = Donor::where('status', 'active');
               $csos = Cso::where('status', 'active');
+              $hubs = Hub::where('status', 'active');
               $volunteers = Volunteer::where('status', 'active')
                                       ->where('is_user', '0');
               break;
@@ -143,6 +169,7 @@ class EmailController extends Controller
         } else {
             $donors = Donor::where('status', 'active');
             $csos = Cso::where('status', 'active');
+            $hubs = Hub::where('status', 'active');
             $volunteers = Volunteer::where('status', 'active')
                                   ->where('is_user', '0');
         }
@@ -152,6 +179,9 @@ class EmailController extends Controller
         }
         if ($send_to_csos) {
             Notification::send($csos->get(), new AdminToAnyoneCustomEmail($data['email-subject'], $data['email-message']));
+        }
+        if ($send_to_hubs) {
+            Notification::send($hubs->get(), new AdminToAnyoneCustomEmail($data['email-subject'], $data['email-message']));
         }
         if ($send_to_volunteers) {
             Notification::send($volunteers->get(), new AdminToAnyoneCustomEmail($data['email-subject'], $data['email-message']));
@@ -186,11 +216,19 @@ class EmailController extends Controller
                         ->where('status', 'active')->get();
             return response()->json($organizations);
             break;
+
           case 'donors':
           $organizations = Organization::where('type', 'donor')
                       ->where('status', 'active')->get();
           return response()->json($organizations);
           break;
+
+          case 'hubs':
+          $organizations = Organization::where('type', 'hub')
+                      ->where('status', 'active')->get();
+          return response()->json($organizations);
+          break;
+
           case 'volunteers':
             $organizations = Organization::where('type', 'cso')
                         ->where('status', 'active')->get();
@@ -216,6 +254,11 @@ class EmailController extends Controller
                         ->where('status', 'active')->get();
             return response()->json($csos);
             break;
+            case "hubs":
+            $hubs = Hub::where('organization_id', $data['organization_id'])
+                        ->where('status', 'active')->get();
+            return response()->json($hubs);
+            break;
             case "volunteers":
             $volunteers = Volunteer::where('organization_id', $data['organization_id'])
                         ->where('is_user', '0')
@@ -240,15 +283,18 @@ class EmailController extends Controller
     {
         $csos_counter = Cso::where('status', 'active')->count();
         $donors_counter = Donor::where('status', 'active')->count();
+        $hubs_counter = Hub::where('status', 'active')->count();
         $volunteers_counter = Volunteer::where('status', 'active')
                             ->where('is_user', '0')->count();
 
         $data = $request->all();
         if ($data['users_type']) {
             switch ($data['users_type']) {
+
             case 'donors':
               $csos_counter = 0;
               $volunteers_counter = 0;
+              $hubs_counter = 0;
 
               if ($data['organization_id']) {
                   if ($data['user_id']) {
@@ -264,6 +310,7 @@ class EmailController extends Controller
 
             case 'csos':
             $donors_counter = 0;
+            $hubs_counter = 0;
             $volunteers_counter = 0;
 
             if ($data['organization_id']) {
@@ -277,9 +324,28 @@ class EmailController extends Controller
                 //ok
             }
               break;
+
+            case 'hubs':
+            $donors_counter = 0;
+            $csos_counter = 0;
+            $volunteers_counter = 0;
+
+            if ($data['organization_id']) {
+                if ($data['user_id']) {
+                    $hubs_counter = 1;
+                } else {
+                    $hubs_counter = Hub::where('status', 'active')
+                                    ->where('organization_id', $data['organization_id'])->count();
+                }
+            } else {
+                //ok
+            }
+              break;
+
             case 'volunteers':
             $donors_counter = 0;
             $csos_counter = 0;
+            $hubs_counter = 0;
 
             if ($data['organization_id']) {
                 if ($data['user_id']) {
@@ -302,13 +368,10 @@ class EmailController extends Controller
             //zemi gi site
         }
 
-        // $csos_counter = $csos->count();
-        // $donors_counter = $donors->count();
-        // $volunteers_counter = $volunteers->count();
-
         return response()->json([
           'csos_counter' => $csos_counter,
           'donors_counter' => $donors_counter,
+          'hubs_counter' => $hubs_counter,
           'volunteers_counter' => $volunteers_counter,
         ]);
     }

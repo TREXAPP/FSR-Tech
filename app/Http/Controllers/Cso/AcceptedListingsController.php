@@ -413,8 +413,8 @@ class AcceptedListingsController extends Controller
                                                 ->where('date_listed', '>=', $date_from)
                                                 ->where('date_listed', '<=', $date_to_date);
                                       });
-        $comments = CsoHubComment::select(DB::raw('comments.*'))
-                            ->join('listing_offers', 'comments.listing_offer_id', '=', 'listing_offers.id')
+        $comments = CsoHubComment::select(DB::raw('cso_hub_comments.*'))
+                            ->join('listing_offers', 'cso_hub_comments.listing_offer_id', '=', 'listing_offers.id')
                             ->where('status', 'active')
                             ->orderBy('created_at', 'ASC')->get();
 

@@ -95,16 +95,27 @@ Route::get('admin/logout', function () {
 Route::post('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 Route::get('admin/home', 'Admin\HomeController@index')->name('admin.home');
 
-Route::get('admin/listings', 'Admin\ListingsController@index')->name('admin.listings');
-Route::post('admin/listings', 'Admin\ListingsController@handle_post')->name('admin.listings');
+Route::get('admin/donor_listings', 'Admin\DonorListingsController@index')->name('admin.donor_listings');
+Route::post('admin/donor_listings', 'Admin\DonorListingsController@handle_post')->name('admin.donor_listings');
 //ajax get products
-Route::post('admin/listings/edit/products', 'Admin\EditListingController@getProducts')->name('admin.edit_listing.products');
+Route::post('admin/donor_listings/edit/products', 'Admin\EditDonorListingController@getProducts')->name('admin.edit_donor_listing.products');
 //ajax get quantity_types on product change
-Route::post('admin/listings/edit/quantity_types', 'Admin\EditListingController@getQuantityTypes')->name('admin.edit_listing.quantity_types');
-Route::get('admin/listings/edit/{id}', 'Admin\EditListingController@index')->name('admin.edit_listing');
-Route::post('admin/listings/edit/{id}', 'Admin\EditListingController@handle_post')->name('admin.edit_listing');
-Route::get('admin/listing_offers/{id}', 'Admin\ListingOfferController@index')->name('admin.listing_offer');
-Route::post('admin/listing_offers/{id}', 'Admin\ListingOfferController@handle_post')->name('admin.listing_offer');
+Route::post('admin/donor_listings/edit/quantity_types', 'Admin\EditDonorListingController@getQuantityTypes')->name('admin.edit_donor_listing.quantity_types');
+Route::get('admin/donor_listings/edit/{id}', 'Admin\EditDonorListingController@index')->name('admin.edit_donor_listing');
+Route::post('admin/donor_listings/edit/{id}', 'Admin\EditDonorListingController@handle_post')->name('admin.edit_donor_listing');
+Route::get('admin/hub_listing_offers/{id}', 'Admin\HubListingOfferController@index')->name('admin.hub_listing_offer');
+Route::post('admin/hub_listing_offers/{id}', 'Admin\HubListingOfferController@handle_post')->name('admin.hub_listing_offer');
+
+Route::get('admin/hub_listings', 'Admin\HubListingsController@index')->name('admin.hub_listings');
+Route::post('admin/hub_listings', 'Admin\HubListingsController@handle_post')->name('admin.hub_listings');
+//ajax get products
+Route::post('admin/hub_listings/edit/products', 'Admin\EditHubListingController@getProducts')->name('admin.edit_hub_listing.products');
+//ajax get quantity_types on product change
+Route::post('admin/hub_listings/edit/quantity_types', 'Admin\EditHubListingController@getQuantityTypes')->name('admin.edit_hub_listing.quantity_types');
+Route::get('admin/hub_listings/edit/{id}', 'Admin\EditHubListingController@index')->name('admin.edit_hub_listing');
+Route::post('admin/hub_listings/edit/{id}', 'Admin\EditHubListingController@handle_post')->name('admin.edit_hub_listing');
+Route::get('admin/cso_listing_offers/{id}', 'Admin\CsoListingOfferController@index')->name('admin.cso_listing_offer');
+Route::post('admin/cso_listing_offers/{id}', 'Admin\CsoListingOfferController@handle_post')->name('admin.cso_listing_offer');
 
 
 Route::get('admin/users/approve', 'Admin\ApproveUsersController@index')->name('admin.approve_users');
@@ -280,6 +291,9 @@ Route::get('hub/home', 'Hub\HomeController@index')->name('hub.home');
 Route::get('hub/profile', 'Hub\ProfileController@index')->name('hub.profile');
 Route::get('hub/edit_profile', 'Hub\ProfileController@edit_profile')->name('hub.edit_profile');
 Route::post('hub/edit_profile', 'Hub\ProfileController@handle_post');
+
+Route::get('/hub/change_password', 'Hub\ChangePasswordController@index')->name('hub.change_password');
+Route::post('/hub/change_password', 'Hub\ChangePasswordController@handle_post')->name('hub.change_password');
 
 Route::get('hub/donor_listings', 'Hub\DonorListingsController@index')->name('hub.donor_listings');
 Route::post('hub/donor_listings', 'Hub\DonorListingsController@handle_post');

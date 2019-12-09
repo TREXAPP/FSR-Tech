@@ -5,7 +5,7 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Listing;
 use FSR\Product;
 use FSR\FoodType;
-use FSR\ListingOffer;
+use FSR\HubListingOffer;
 use FSR\Organization;
 use FSR\Custom\Methods;
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ListingsController extends Controller
+class DonorListingsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -52,15 +52,15 @@ class ListingsController extends Controller
                                   ->where('date_listed', '>=', $date_from)
                                   ->where('date_listed', '<=', $date_to_date)
                                   ->where('listing_status', 'active')
-                                  ->withCount('listing_offers')
-                                  ->withCount(['listing_offers' => function ($query) {
-                                      $query->where('offer_status', 'active');
+                                  ->withCount('hub_listing_offers')
+                                  ->withCount(['hub_listing_offers' => function ($query) {
+                                      $query->where('status', 'active');
                                   }])
                                   ->orderBy('date_expires', 'ASC');
 
 
         $selected_filter = 'active';
-        return view('admin.active_listings')->with([
+        return view('admin.donor_listings')->with([
           'listings' => $listings,
           'date_from' => $date_from,
           'date_to' => $date_to,
@@ -145,9 +145,9 @@ class ListingsController extends Controller
                                 ->where('date_listed', '>=', $date_from)
                                 ->where('date_listed', '<=', $date_to_date)
                                 ->where('listing_status', 'active')
-                                ->withCount('listing_offers')
-                                ->withCount(['listing_offers' => function ($query) {
-                                    $query->where('offer_status', 'active');
+                                ->withCount('hub_listing_offers')
+                                ->withCount(['hub_listing_offers' => function ($query) {
+                                    $query->where('status', 'active');
                                 }])
                                 ->orderBy('date_expires', 'ASC');
 
@@ -168,7 +168,7 @@ class ListingsController extends Controller
             $listings->where('product_id', $product_filter);
         }
 
-        return view('admin.active_listings')->with([
+        return view('admin.donor_listings')->with([
         'listings' => $listings,
         'date_from' => $date_from,
         'date_to' => $date_to,

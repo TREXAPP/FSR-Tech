@@ -46,13 +46,32 @@
         </a>
       </li>
 
-      <li>
-        <a href="{{route('admin.listings')}}">
-          <i class="fa fa-bookmark"></i> <span>Донации</span>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-universal-access"></i> <span>Донации</span>
           <span class="pull-right-container">
-            {{-- <small class="label pull-right bg-blue">2</small> --}}
+            <i class="fa fa-angle-left pull-right"></i>
           </span>
         </a>
+        <ul class="treeview-menu">
+
+          <li>
+            <a href="{{route('admin.donor_listings')}}">
+              <i class="fa fa-user-plus"></i> <span>Од Донатори</span>
+              <span class="pull-right-container">
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="{{route('admin.hub_listings')}}">
+              <i class="fa fa-user-plus"></i> <span>Од Хабови</span>
+              <span class="pull-right-container">
+              </span>
+            </a>
+          </li>
+
+        </ul>
       </li>
 
       <li>

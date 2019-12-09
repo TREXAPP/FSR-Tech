@@ -37,7 +37,6 @@ $('#organization-filter-select').on('change', function() {
         $.post('email/users', {'organization_id': this.value, 'users_type': $('#user-type-filter-select').val(), '_token':$('meta[name="csrf-token"]').attr('content')}, function(data) {
           if (data) {
             //  popolni gi soodvetnite polinja
-            console.log(data);
             $.each(data, function (key, value) {
               $('#user-filter-select').append('<option value=' + value.id + '>' + value.first_name + ' ' + value.last_name + '</option>');
             });
@@ -66,12 +65,12 @@ function refresh_email_counter() {
       function(data) {
         if (data) {
           //  popolni gi soodvetnite polinja
-          console.log(data);
           $('#donors-counter').text(data.donors_counter);
           $('#csos-counter').text(data.csos_counter);
+          $('#hubs-counter').text(data.hubs_counter);
           $('#volunteers-counter').text(data.volunteers_counter);
 
-          var total_users = data.donors_counter + data.csos_counter + data.volunteers_counter;
+          var total_users = data.donors_counter + data.csos_counter + data.volunteers_counter + data.hubs_counter;
           if (total_users == 0) {
             $('#send-email-button').prop('disabled', true);
             $('#send-email-button').prop('title', 'Изберете барем еден корисник за праќање емаил');

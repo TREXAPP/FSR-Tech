@@ -4,7 +4,7 @@ namespace FSR\Notifications;
 
 use FSR\Volunteer;
 use FSR\Cso;
-use FSR\Donor;
+use FSR\Hub;
 use FSR\Admin;
 use FSR\Custom\CarbonFix;
 use FSR\Custom\Methods;
@@ -21,7 +21,7 @@ class AdminToVolunteerComment extends Notification implements ShouldQueue
     private $comment_text;
     private $comments;
     private $comments_count;
-    private $donor;
+    private $hub;
     private $cso;
     private $admin;
 
@@ -37,7 +37,7 @@ class AdminToVolunteerComment extends Notification implements ShouldQueue
         $this->comment_text = $comment_text;
         $this->comments = $comments;
         $this->comments_count = $comments->count();
-        $this->donor = $listing_offer->listing->donor;
+        $this->hub = $listing_offer->hub_listing->hub;
         $this->cso = $listing_offer->cso;
         $this->admin = $admin;
     }
@@ -89,9 +89,9 @@ class AdminToVolunteerComment extends Notification implements ShouldQueue
 
         foreach ($this->comments->sortByDesc('id') as $comment) {
             if ($count < 4) {
-                if ($comment->sender_type == 'donor') {
-                    $user = Donor::where('id', $comment->user_id)->first();
-                    $type = 'донатор';
+                if ($comment->sender_type == 'hub') {
+                    $user = Hub::where('id', $comment->user_id)->first();
+                    $type = 'хаб';
                 } elseif ($comment->sender_type == 'cso') {
                     $user = Cso::where('id', $comment->user_id)->first();
                     $type = 'примател';
@@ -126,15 +126,15 @@ class AdminToVolunteerComment extends Notification implements ShouldQueue
 
         $messages->line('<hr>');
         $messages->line('Информации за донацијата:');
-        $messages->line('Производ: ' . $this->listing_offer->listing->product->name);
-        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->listing->quantity_type->description);
+        $messages->line('Производ: ' . $this->listing_offer->hub_listing->product->name);
+        $messages->line('Kоличина: ' . $this->listing_offer->quantity . ' ' . $this->listing_offer->hub_listing->quantity_type->description);
         $messages->line('<hr>')
-      ->line('Податоци за донаторот')
-      ->line('Име и презиме: ' . $this->donor->first_name . ' ' . $this->donor->last_name)
-      ->line('Организација: ' . $this->donor->organization->name)
-      ->line('Телефон: ' . $this->donor->phone)
-      ->line('Емаил: ' . $this->donor->email)
-      ->line('Адреса: ' . $this->donor->address . ' - ' . $this->donor->location->name)
+      ->line('Податоци за хабот')
+      ->line('Име и презиме: ' . $this->hub->first_name . ' ' . $this->hub->last_name)
+      ->line('Организација: ' . $this->hub->organization->name)
+      ->line('Телефон: ' . $this->hub->phone)
+      ->line('Емаил: ' . $this->hub->email)
+      ->line('Адреса: ' . $this->hub->address . ' - ' . $this->hub->region->name)
       ->line('<hr>')
       ->line('Податоци за примателот')
       ->line('Име и презиме: ' . $this->cso->first_name . ' ' . $this->cso->last_name)

@@ -34,9 +34,12 @@ require('./admin/hub_organizations');
 require('./admin/csos');
 require('./admin/donors');
 require('./admin/hubs');
-require('./admin/donations');
-require('./admin/edit_listing');
-require('./admin/listing_offer');
+require('./admin/hub_donations');
+require('./admin/donor_donations');
+require('./admin/edit_hub_listing');
+require('./admin/edit_donor_listing');
+require('./admin/cso_listing_offer');
+require('./admin/hub_listing_offer');
 require('./admin/admins');
 
 require('admin-lte');

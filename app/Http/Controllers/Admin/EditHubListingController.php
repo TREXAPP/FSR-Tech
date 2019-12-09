@@ -4,7 +4,7 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR;
 use FSR\File;
-use FSR\Listing;
+use FSR\HubListing;
 use FSR\Product;
 use FSR\FoodType;
 use FSR\QuantityType;
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 
-class EditListingController extends Controller
+class EditHubListingController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -36,27 +36,27 @@ class EditListingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, string $listing_id_string)
+    public function index(Request $request, string $hub_listing_id_string)
     {
-        $listing_id = ctype_digit($listing_id_string) ? intval($listing_id_string) : null;
-        if ($listing_id === null) {
-            return redirect(route('admin.listings'));
+        $hub_listing_id = ctype_digit($hub_listing_id_string) ? intval($hub_listing_id_string) : null;
+        if ($hub_listing_id === null) {
+            return redirect(route('admin.hub_listings'));
         } else {
-            $listing = Listing::find($listing_id);
-            if (!$listing) {
-                return redirect(route('admin.listings'));
+            $hub_listing = HubListing::find($hub_listing_id);
+            if (!$hub_listing) {
+                return redirect(route('admin.hub_listings'));
             } else {
                 $max_accepted_quantity = 0;
-                foreach ($listing->listing_offers as $listing_offer) {
+                foreach ($hub_listing->listing_offers as $listing_offer) {
                     if ($listing_offer->offer_status == 'active') {
                         $max_accepted_quantity += $listing_offer->quantity;
                     }
                 }
                 $products = Product::where('status', 'active')
-                                   ->where('food_type_id', $listing->product->food_type->id)->get();
+                                   ->where('food_type_id', $hub_listing->product->food_type->id)->get();
                 $food_types = FoodType::where('status', 'active')->get();
-                return view('admin.edit_listing')->with([
-              'listing' => $listing,
+                return view('admin.edit_hub_listing')->with([
+              'hub_listing' => $hub_listing,
               'max_accepted_quantity' => $max_accepted_quantity,
               'products' => $products,
               'food_types' => $food_types,
@@ -86,8 +86,6 @@ class EditListingController extends Controller
     public function getQuantityTypes(Request $request)
     {
         return $quantity_types = Product::find($request->input('product_id'))->quantity_types;
-        // return $quantity_types = QuantityType::where('product_id', $request->input('product_id'))
-        //                           ->where('status', 'active')->get();
     }
 
 
@@ -127,17 +125,17 @@ class EditListingController extends Controller
         $sell_by_date_compare = Carbon::parse($data['sell_by_date'])->addDays(1);
         $data['sell_by_date_compare'] = $sell_by_date_compare->format('Y-m-d');
 
-        $listing_id = $data['listing_id'];
-        $listing = Listing::find($listing_id);
-        $change = $this->change_detected($data, $listing);
-        if ($this->change_detected($data, $listing)) {
+        $hub_listing_id = $data['hub_listing_id'];
+        $hub_listing = HubListing::find($hub_listing_id);
+        $change = $this->change_detected($data, $hub_listing);
+        if ($this->change_detected($data, $hub_listing)) {
             $validation = $this->validator($data);
 
             if ($validation->fails()) {
                 return back()->withErrors($validation->errors())
                                                ->withInput();
             }
-            $listing = $this->update($listing, $data);
+            $hub_listing = $this->update($hub_listing, $data);
             return back()->with('status', "Донацијата е изменета успешно!");
         } else {
             return back();
@@ -149,36 +147,36 @@ class EditListingController extends Controller
      * Indicates if changes are being made to the listing information
      *
      * @param  Request  $request
-     * @param  Listing $listing
+     * @param  HubListing $hub_listing
      * @return bool
      */
-    protected function change_detected(array $data, Listing $listing)
+    protected function change_detected(array $data, HubListing $hub_listing)
     {
-        if ($listing->product_id != $data['product_id']) {
+        if ($hub_listing->product_id != $data['product_id']) {
             return true;
         }
-        if ($listing->description != $data['description']) {
+        if ($hub_listing->description != $data['description']) {
             return true;
         }
-        if ($listing->quantity != $data['quantity']) {
+        if ($hub_listing->quantity != $data['quantity']) {
             return true;
         }
-        if ($listing->quantity_type_id != $data['quantity_type']) {
+        if ($hub_listing->quantity_type_id != $data['quantity_type']) {
             return true;
         }
-        if ($listing->date_listed != Methods::convert_date_input_to_db($data['date_listed'])) {
+        if ($hub_listing->date_listed != Methods::convert_date_input_to_db($data['date_listed'])) {
             return true;
         }
-        if ($listing->sell_by_date != $data['sell_by_date']) {
+        if ($hub_listing->sell_by_date != $data['sell_by_date']) {
             return true;
         }
-        if ($listing->date_expires != Methods::convert_date_input_to_db($data['date_expires'])) {
+        if ($hub_listing->date_expires != Methods::convert_date_input_to_db($data['date_expires'])) {
             return true;
         }
-        if ($listing->pickup_time_from != $data['pickup_time_from']) {
+        if ($hub_listing->pickup_time_from != $data['pickup_time_from']) {
             return true;
         }
-        if ($listing->pickup_time_to != $data['pickup_time_to']) {
+        if ($hub_listing->pickup_time_to != $data['pickup_time_to']) {
             return true;
         }
         return false;
@@ -192,20 +190,20 @@ class EditListingController extends Controller
      * @param  int  $file_id
      * @return FSR\Listing $listing
      */
-    protected function update(Listing $listing, array $data)
+    protected function update(HubListing $hub_listing, array $data)
     {
-        $listing->product_id = $data['product_id'];
-        $listing->description = $data['description'];
-        $listing->quantity = $data['quantity'];
-        $listing->quantity_type_id = $data['quantity_type'];
-        $listing->date_listed = $data['date_listed'];
-        $listing->sell_by_date = $data['sell_by_date'];
-        $listing->date_expires = $data['date_expires'];
-        $listing->pickup_time_from = $data['pickup_time_from'];
-        $listing->pickup_time_to = $data['pickup_time_to'];
+        $hub_listing->product_id = $data['product_id'];
+        $hub_listing->description = $data['description'];
+        $hub_listing->quantity = $data['quantity'];
+        $hub_listing->quantity_type_id = $data['quantity_type'];
+        $hub_listing->date_listed = $data['date_listed'];
+        $hub_listing->sell_by_date = $data['sell_by_date'];
+        $hub_listing->date_expires = $data['date_expires'];
+        $hub_listing->pickup_time_from = $data['pickup_time_from'];
+        $hub_listing->pickup_time_to = $data['pickup_time_to'];
 
-        $listing->save();
+        $hub_listing->save();
 
-        return $listing;
+        return $hub_listing;
     }
 }

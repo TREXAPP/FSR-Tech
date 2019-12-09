@@ -5,15 +5,14 @@ namespace FSR\Http\Controllers\Admin;
 use FSR;
 use FSR\Cso;
 use FSR\File;
-use FSR\Listing;
+use FSR\HubListing;
 use FSR\Location;
 use FSR\Volunteer;
 use FSR\ListingOffer;
-use FSR\Comment;
+use FSR\CsoHubComment;
 use FSR\Organization;
 use FSR\Custom\Methods;
-use FSR\Notifications\AdminToVolunteerRemoved;
-use FSR\Notifications\AdminToDonorComment;
+use FSR\Notifications\AdminToHubCsoComment;
 use FSR\Notifications\AdminToCsoComment;
 use FSR\Notifications\AdminToVolunteerComment;
 
@@ -26,7 +25,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 
-class ListingOfferController extends Controller
+class CsoListingOfferController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -50,17 +49,22 @@ class ListingOfferController extends Controller
     public function index(Request $request, $listing_offer_id)
     {
         $listing_offer = ListingOffer::find($listing_offer_id);
+        $total_accepted_quantity = $listing_offer->hub_listing->listing_offers->where('offer_status','active')->sum('quantity');
+        $max_quantity = $listing_offer->hub_listing->quantity - $total_accepted_quantity + $listing_offer->quantity;
+
+        $listing_offer = ListingOffer::find($listing_offer_id);
         $selected_filter = $this->get_selected_filter($listing_offer);
         if (!$listing_offer) {
-            return redirect(route('admin.listings'));
+            return redirect(route('admin.hub_listings'));
         } else {
-            $comments = Comment::where('listing_offer_id', $listing_offer_id)
+            $comments = CsoHubComment::where('listing_offer_id', $listing_offer_id)
                             ->where('status', 'active')
                             ->orderBy('created_at', 'ASC')->get();
-            return view('admin.accepted_listing')->with([
+            return view('admin.cso_accepted_listing')->with([
         'listing_offer' => $listing_offer,
         'comments' => $comments,
         'selected_filter' => $selected_filter,
+        'max_quantity' => $max_quantity,
       ]);
         }
     }
@@ -105,25 +109,31 @@ class ListingOfferController extends Controller
     protected function create_comment(array $data, int $listing_offer_id)
     {
         $listing_offer = ListingOffer::find($listing_offer_id);
-        $donor = $listing_offer->listing->donor;
-        $volunteer = Volunteer::find($listing_offer->volunteer_id);
+        $hub = $listing_offer->hub_listing->hub;
+
         $comment_text = $data['comment'];
         $cso = $listing_offer->cso;
-        $other_comments = Comment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
+        $other_comments = CsoHubComment::where('status', 'active')->where('listing_offer_id', $listing_offer_id)->get();
 
-        //send notification to the donor
-        $donor->notify(new AdminToDonorComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
-        //send notification to the cso
-        $cso->notify(new AdminToCsoComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
-        //send to the volunteer
-        $volunteer->notify(new AdminToVolunteerComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
-
-        return Comment::create([
+        $comment = CsoHubComment::create([
             'listing_offer_id' => $listing_offer_id,
             'user_id' => Auth::user()->id,
             'sender_type' => Auth::user()->type(),
             'text' => $data['comment'],
         ]);
+
+        //send notification to the hub
+        $hub->notify(new AdminToHubCsoComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
+        //send notification to the cso
+        $cso->notify(new AdminToCsoComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
+
+        // //send to the volunteer
+        if (!$listing_offer->delivered_by_hub) {
+            $volunteer = Volunteer::find($listing_offer->volunteer_id);
+            $volunteer->notify(new AdminToVolunteerComment($listing_offer, $data['comment'], $other_comments, Auth::user()));
+        }
+
+        return $comment;
     }
 
     protected function handle_edit_comment(array $data, int $listing_offer_id)
@@ -134,7 +144,7 @@ class ListingOfferController extends Controller
 
     protected function edit_comment(array $data, int $listing_offer_id)
     {
-        $comment = Comment::find($data['comment_id']);
+        $comment = CsoHubComment::find($data['comment_id']);
         $comment->text = $data['edit_comment_text'];
         $comment->save();
 
@@ -149,7 +159,7 @@ class ListingOfferController extends Controller
 
     protected function delete_comment(array $data, int $listing_offer_id)
     {
-        $comment = Comment::find($data['comment_id']);
+        $comment = CsoHubComment::find($data['comment_id']);
         $comment->status = 'deleted';
         $comment->save();
 
@@ -158,6 +168,7 @@ class ListingOfferController extends Controller
 
     protected function handle_edit_quantity(array $data, int $listing_offer_id)
     {
+
         $listing_offer = $this->update_quantity($data, $listing_offer_id);
         return back()->with('status', "Количината е променета успешно.");
     }
@@ -195,7 +206,7 @@ class ListingOfferController extends Controller
         $listing_offer = ListingOffer::find($listing_offer_id);
         if ($listing_offer) {
             $listing_offer = $this->delete_listing_offer($data, $listing_offer);
-            return redirect(route('admin.listings'))->with('status', "Прифатената донација е избришана.");
+            return redirect(route('admin.hub_listings'))->with('status', "Прифатената донација е избришана.");
         } else {
             return back()->with('status', "Прифатената донација НЕ е избришана.");
         }
@@ -212,8 +223,8 @@ class ListingOfferController extends Controller
 
     private function get_selected_filter($listing_offer)
     {
-        if ($listing_offer->listing->listing_status == 'active') {
-            if ($listing_offer->listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
+        if ($listing_offer->hub_listing->status == 'active') {
+            if ($listing_offer->hub_listing->date_expires < Carbon::now()->format('Y-m-d H:i')) {
                 return 'past';
             } else {
                 return 'active';
