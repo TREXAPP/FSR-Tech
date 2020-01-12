@@ -5,11 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9000
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "XDebug on Homestead",
+            "type": "php",
+            "request": "launch",
+            "pathMappings": {
+                "/home/vagrant/code/api.trex": "c:/Projects/Homestead/api.trex"
+            },
+            "port": 9000
         }
     ]
 }

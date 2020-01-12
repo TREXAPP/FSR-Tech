@@ -4,8 +4,8 @@ namespace FSR\Http\Controllers\Admin;
 
 use FSR\Cso;
 use FSR\Log;
-use FSR\Donor;
-use FSR\Listing;
+use FSR\Hub;
+use FSR\HubListing;
 use FSR\Product;
 use FSR\ListingOffer;
 use FSR\Organization;
@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProductDonationsReportController extends Controller
+class HubProductDonationsReportController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -77,15 +77,16 @@ class ProductDonationsReportController extends Controller
         $products = Product::where('status', 'active')
                            ->orderBy('food_type_id')->get();
 
-        $listings = Listing::where('date_listed', '>=', $date_from)
+        $hub_listings = HubListing::where('date_listed', '>=', $date_from)
                         ->where('date_listed', '<=', $date_to_date)
+                        ->where('status', 'active')
                         ->orderBy('quantity_type_id')->get();
 
-        return view('admin.product_donations_report')->with([
+        return view('admin.hub_product_donations_report')->with([
           'date_from' => $date_from,
           'date_to' => $date_to,
           'products' => $products,
-          'listings' => $listings,
+          'hub_listings' => $hub_listings,
         ]);
     }
 }

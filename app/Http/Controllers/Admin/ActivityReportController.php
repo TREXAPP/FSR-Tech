@@ -5,8 +5,11 @@ namespace FSR\Http\Controllers\Admin;
 use FSR\Cso;
 use FSR\Log;
 use FSR\Donor;
+use FSR\Hub;
 use FSR\Listing;
+use FSR\HubListing;
 use FSR\ListingOffer;
+use FSR\HubListingOffer;
 use FSR\Organization;
 use Carbon\Carbon;
 
@@ -76,12 +79,16 @@ class ActivityReportController extends Controller
 
         $donors = Donor::where('status', 'active')->orderBy('organization_id')->get();
         $csos = Cso::where('status', 'active')->orderBy('organization_id')->get();
+        $hubs = Hub::where('status', 'active')->orderBy('organization_id')->get();
 
         $donor_organizations = Organization::where('status', 'active')
                                            ->where('type', 'donor')->orderBy('id')->get();
 
         $cso_organizations = Organization::where('status', 'active')
                                            ->where('type', 'cso')->get();
+
+        $hub_organizations = Organization::where('status', 'active')
+                                           ->where('type', 'hub')->get();
 
         $empty_donor_organizations_count = 0;
         foreach ($donor_organizations as $organization) {
@@ -93,6 +100,12 @@ class ActivityReportController extends Controller
         foreach ($cso_organizations as $organization) {
             if ($organization->csos->where('status', 'active')->count() == 0) {
                 $empty_cso_organizations_count++;
+            }
+        }
+        $empty_hub_organizations_count = 0;
+        foreach ($hub_organizations as $organization) {
+            if ($organization->hubs->where('status', 'active')->count() == 0) {
+                $empty_hub_organizations_count++;
             }
         }
 
@@ -109,12 +122,15 @@ class ActivityReportController extends Controller
           'date_to' => $date_to,
           'donor_organizations' => $donor_organizations,
           'cso_organizations' => $cso_organizations,
+          'hub_organizations' => $hub_organizations,
           'login_logs' => $login_logs,
           'home_page_logs' => $home_page_logs,
           'donors' => $donors,
           'csos' => $csos,
+          'hubs' => $hubs,
           'empty_donor_organizations_count' => $empty_donor_organizations_count,
           'empty_cso_organizations_count' => $empty_cso_organizations_count,
+          'empty_hub_organizations_count' => $empty_hub_organizations_count,
         ]);
     }
 }

@@ -3,12 +3,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header product-donations-report-content-header">
     <h1><i class="fa fa-cutlery"></i>
-      <span>Извештај за донации</span>
+      <span>Извештај за донации од донатори</span>
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/admin/home"> Admin</a></li>
       <li><a href="#"><i class="fa fa-cutlery"></i> Извештаи</a></li>
-      <li><a href="{{route('admin.product_donations_report')}}"><i class="fa fa-cutlery"></i> Донации по производ</a></li>
+      <li><a href="{{route('admin.donor_product_donations_report')}}"><i class="fa fa-cutlery"></i> Донации од донатори по производ</a></li>
     </ol>
   </section>
 
@@ -26,7 +26,7 @@
   <!-- Filter -->
   <section class="filter product-donations-report-filter">
   	<div class="filter-wrapper row">
-    	<form id="product-donations-report-filter-form" class="product-donations-report-filter-form" action="{{route('admin.product_donations_report')}}" method="post">
+    	<form id="product-donations-report-filter-form" class="product-donations-report-filter-form" action="{{route('admin.donor_product_donations_report')}}" method="post">
     		<input type="hidden" name="post-type" value="filter" />
     		{{csrf_field()}}
     		<div class="filter-container">
@@ -65,7 +65,7 @@
 <!-- Product Donations table -->
 <div id="product_donations_table" class="col-md-12">
   <div class="panel panel-primary">
-    <div class="panel-heading">Донации по производ</div>
+    <div class="panel-heading">Донации од донатори по производ</div>
     <div class="panel-body">
       <table data-row-style="rowStyle" data-toggle="table" class="table-bordered">
         <tr>
@@ -96,6 +96,7 @@
               $listings = FSR\Listing::where('date_listed', '>=', $date_from)
                                       ->where('date_listed', '<=', $date_to_date)
                                       ->where('product_id', $product->id)
+                                      ->where('status', 'active')
                                       ->orderBy('quantity_type_id')->get();
 
               $quantity_donated_string = '';
@@ -136,10 +137,10 @@
                 //portions donated
                 $portions_donated += $listing->quantity / $current_portion_size;
 
-                foreach($listing->listing_offers->where('offer_status','active') as $listing_offer) {
-                  $current_quantity_accepted += $listing_offer->quantity;
+                foreach($listing->hub_listing_offers->where('status','active') as $hub_listing_offer) {
+                  $current_quantity_accepted += $hub_listing_offer->quantity;
                   //portions accepted
-                  $portions_accepted += $listing_offer->quantity / $current_portion_size;
+                  $portions_accepted += $hub_listing_offer->quantity / $current_portion_size;
                 }
 
 

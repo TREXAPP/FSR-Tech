@@ -227,13 +227,21 @@ Route::post('admin/reports/activity', 'Admin\ActivityReportController@handle_pos
 Route::get('admin/reports/registration', 'Admin\RegistrationReportController@index')->name('admin.registration_report');
 Route::post('admin/reports/registration', 'Admin\RegistrationReportController@handle_post')->name('admin.registration_report');
 
-//product-donations report
-Route::get('admin/reports/product_donations', 'Admin\ProductDonationsReportController@index')->name('admin.product_donations_report');
-Route::post('admin/reports/product_donations', 'Admin\ProductDonationsReportController@handle_post')->name('admin.product_donations_report');
+//donor product-donations report
+Route::get('admin/reports/donor_product_donations', 'Admin\DonorProductDonationsReportController@index')->name('admin.donor_product_donations_report');
+Route::post('admin/reports/donor_product_donations', 'Admin\DonorProductDonationsReportController@handle_post')->name('admin.donor_product_donations_report');
 
-//donations report
-Route::get('admin/reports/donations', 'Admin\DonationsReportController@index')->name('admin.donations_report');
-Route::post('admin/reports/donations', 'Admin\DonationsReportController@handle_post')->name('admin.donations_report');
+//donor donations report
+Route::get('admin/reports/donor_donations', 'Admin\DonorDonationsReportController@index')->name('admin.donor_donations_report');
+Route::post('admin/reports/donor_donations', 'Admin\DonorDonationsReportController@handle_post')->name('admin.donor_donations_report');
+
+//hub product-donations report
+Route::get('admin/reports/hub_product_donations', 'Admin\HubProductDonationsReportController@index')->name('admin.hub_product_donations_report');
+Route::post('admin/reports/hub_product_donations', 'Admin\HubProductDonationsReportController@handle_post')->name('admin.hub_product_donations_report');
+
+//hub donations report
+Route::get('admin/reports/hub_donations', 'Admin\HubDonationsReportController@index')->name('admin.hub_donations_report');
+Route::post('admin/reports/hub_donations', 'Admin\HubDonationsReportController@handle_post')->name('admin.hub_donations_report');
 
 
 

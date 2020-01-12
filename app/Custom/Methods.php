@@ -3,10 +3,14 @@
 namespace FSR\Custom;
 
 use FSR\Cso;
+use FSR\Donor;
+use FSR\Hub;
 use FSR\Log;
 use FSR\File;
 use FSR\Listing;
+use FSR\HubListing;
 use FSR\ListingOffer;
+use FSR\HubListingOffer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
@@ -20,25 +24,67 @@ use Intervention\Image\ImageManagerStatic as Image;
  */
 class Methods
 {
-    public static function listing_offer_filtered_count(array $data, int $listing_id)
+    public static function listing_offer_filtered_count(array $data, int $hub_listing_id)
     {
         $listing_offers = ListingOffer::where('offer_status', 'active')
-                                    ->where('listing_id', $listing_id)
-                                    ->whereHas('listing', function ($query) use ($data) {
+                                    ->where('hub_listing_id', $hub_listing_id)
+                                    ->whereHas('hub_listing', function ($query) use ($data) {
                                         $query->where('date_listed', '>=', $data['filter_date_from'])
                                             ->where('date_listed', '<=', $data['filter_date_to']);
                                     });
 
-        //dd($listing_offers);
         if (isset($data["filter_cso_organization"])) {
             $filter_cso_organization = $data["filter_cso_organization"];
             $listing_offers = $listing_offers->whereHas('cso', function ($query) use ($filter_cso_organization) {
                 $query->where('organization_id', '=', $filter_cso_organization);
             });
         }
+        if (isset($data["filter_hub_organization"])) {
+            $filter_hub_organization = $data["filter_hub_organization"];
+            $listing_offers = $listing_offers->whereHas('hub_listing', function ($query) use ($filter_hub_organization) {
+                $query->whereHas('hub', function ($query2) use ($filter_hub_organization) {
+                    $query2->where('organization_id', '=', $filter_hub_organization);
+                });
+            });
+        }
+
+        if (isset($data["filter_product"])) {
+            $filter_product = $data["filter_product"];
+            $listing_offers = $listing_offers->whereHas('hub_listing', function ($query) use ($filter_product) {
+                $query->where('product_id', '=', $filter_product);
+            });
+        }
+
+        if (isset($data["filter_food_type"])) {
+            $filter_food_type = $data["filter_food_type"];
+            $listing_offers = $listing_offers->whereHas('hub_listing', function ($query) use ($filter_food_type) {
+                $query->whereHas('product', function ($query2) use ($filter_food_type) {
+                    $query2->where('food_type_id', '=', $filter_food_type);
+                });
+            });
+        }
+
+        return $listing_offers->count();
+    }
+    
+    public static function hub_listing_offer_filtered_count(array $data, int $listing_id)
+    {
+        $hub_listing_offers = HubListingOffer::where('status', 'active')
+                                    ->where('listing_id', $listing_id)
+                                    ->whereHas('listing', function ($query) use ($data) {
+                                        $query->where('date_listed', '>=', $data['filter_date_from'])
+                                            ->where('date_listed', '<=', $data['filter_date_to']);
+                                    });
+
+        if (isset($data["filter_hub_organization"])) {
+            $filter_hub_organization = $data["filter_hub_organization"];
+            $hub_listing_offers = $hub_listing_offers->whereHas('hub', function ($query) use ($filter_hub_organization) {
+                $query->where('organization_id', '=', $filter_hub_organization);
+            });
+        }
         if (isset($data["filter_donor_organization"])) {
             $filter_donor_organization = $data["filter_donor_organization"];
-            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_donor_organization) {
+            $hub_listing_offers = $hub_listing_offers->whereHas('listing', function ($query) use ($filter_donor_organization) {
                 $query->whereHas('donor', function ($query2) use ($filter_donor_organization) {
                     $query2->where('organization_id', '=', $filter_donor_organization);
                 });
@@ -47,21 +93,21 @@ class Methods
 
         if (isset($data["filter_product"])) {
             $filter_product = $data["filter_product"];
-            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_product) {
+            $hub_listing_offers = $hub_listing_offers->whereHas('listing', function ($query) use ($filter_product) {
                 $query->where('product_id', '=', $filter_product);
             });
         }
 
         if (isset($data["filter_food_type"])) {
             $filter_food_type = $data["filter_food_type"];
-            $listing_offers = $listing_offers->whereHas('listing', function ($query) use ($filter_food_type) {
+            $hub_listing_offers = $hub_listing_offers->whereHas('listing', function ($query) use ($filter_food_type) {
                 $query->whereHas('product', function ($query2) use ($filter_food_type) {
                     $query2->where('food_type_id', '=', $filter_food_type);
                 });
             });
         }
 
-        return $listing_offers->count();
+        return $hub_listing_offers->count();
     }
 
     /**

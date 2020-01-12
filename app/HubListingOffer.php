@@ -23,7 +23,7 @@ class HubListingOffer extends Model
      */
     public function comments()
     {
-        return $this->hasMany('FSR\Comment');
+        return $this->hasMany('FSR\HubDonorComment');
     }
 
     /**

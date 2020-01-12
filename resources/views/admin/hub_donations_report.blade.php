@@ -3,12 +3,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header donations-report-content-header">
     <h1><i class="fa fa-cutlery"></i>
-      <span>Извештај за донации</span>
+      <span>Извештај за донации од хабови</span>
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/admin/home"> Admin</a></li>
       <li><a href="#"><i class="fa fa-cutlery"></i> Извештаи</a></li>
-      <li><a href="{{route('admin.donations_report')}}"><i class="fa fa-cutlery"></i> Донации</a></li>
+      <li><a href="{{route('admin.hub_donations_report')}}"><i class="fa fa-cutlery"></i> Донации од хабови</a></li>
     </ol>
   </section>
 
@@ -26,24 +26,19 @@
   <!-- Filter -->
   <section class="filter donations-report-filter">
   	<div class="filter-wrapper row">
-    	<form id="donations-report-filter-form" class="donations-report-filter-form" action="{{route('admin.donations_report')}}" method="post">
+    	<form id="donations-report-filter-form" class="donations-report-filter-form" action="{{route('admin.hub_donations_report')}}" method="post">
     		<input type="hidden" name="post-type" value="filter" />
     		{{csrf_field()}}
     		<div class="filter-container">
-    			{{-- <div class="filter-label donations-report-filter-label col-md-4">
-    				<label for="donations-report-filter-select">Организација:</label>
-    			</div> --}}
-
-
-          {{-- Организација на донаторот --}}
-          <div class="filter_donor_organization_wrapper form-group col-md-4">
-              <select id="filter_donor_organization" class="form-control" name="filter_donor_organization">
-                <option value="">-- Организација на донаторот --</option>
-                @foreach ($donor_organizations as $donor_organization)
-                  <option value="{{$donor_organization->id}}" {{($donor_organization->id == $donor_organization_filter) ? "selected" : ""}}>{{$donor_organization->name}}</option>
+          {{-- Организација на хабот --}}
+          <div class="filter_hub_organization_wrapper form-group col-md-4">
+              <select id="filter_hub_organization" class="form-control" name="filter_hub_organization">
+                <option value="">-- Организација на хабот --</option>
+                @foreach ($hub_organizations as $hub_organization)
+                  <option value="{{$hub_organization->id}}" {{($hub_organization->id == $hub_organization_filter) ? "selected" : ""}}>{{$hub_organization->name}}</option>
                 @endforeach
               </select>
-              {{-- <input id="filter_donor_organization" type="date" class="form-control" name="filter_donor_organization" value="{{$date_to}}"/> --}}
+              {{-- <input id="filter_hub_organization" type="date" class="form-control" name="filter_hub_organization" value="{{$date_to}}"/> --}}
           </div>
 
           {{-- Тип на храна --}}
@@ -55,7 +50,7 @@
                 <option value="{{$food_type->id}}" {{($food_type->id == $food_type_filter) ? "selected" : ""}}>{{$food_type->name}}</option>
               @endforeach
             </select>
-            {{-- <input id="filter_donor_organization" type="date" class="form-control" name="filter_donor_organization" value="{{$date_to}}"/> --}}
+            {{-- <input id="filter_hub_organization" type="date" class="form-control" name="filter_hub_organization" value="{{$date_to}}"/> --}}
           </div>
 
           {{-- Производ --}}
@@ -67,7 +62,7 @@
                   <option value="{{$product->id}}" {{($product->id == $product_filter) ? "selected" : ""}}>{{$product->name}}</option>
                 @endforeach
               </select>
-              {{-- <input id="filter_donor_organization" type="date" class="form-control" name="filter_donor_organization" value="{{$date_to}}"/> --}}
+              {{-- <input id="filter_hub_organization" type="date" class="form-control" name="filter_hub_organization" value="{{$date_to}}"/> --}}
           </div>
 
           {{-- Организација на примателот --}}
@@ -78,7 +73,7 @@
                   <option value="{{$cso_organization->id}}" {{($cso_organization->id == $cso_organization_filter) ? "selected" : ""}}>{{$cso_organization->name}}</option>
                 @endforeach
               </select>
-              {{-- <input id="filter_donor_organization" type="date" class="form-control" name="filter_donor_organization" value="{{$date_to}}"/> --}}
+              {{-- <input id="filter_hub_organization" type="date" class="form-control" name="filter_hub_organization" value="{{$date_to}}"/> --}}
           </div>
 
 
@@ -120,7 +115,7 @@
 <!-- donations table -->
 <div id="donations_table" class="col-md-12">
   <div class="panel panel-primary">
-    <div class="panel-heading">Донации</div>
+    <div class="panel-heading">Донации од хабови</div>
     <div class="panel-body">
       <table data-row-style="rowStyle" data-toggle="table" class="table-bordered">
         <tr>
@@ -129,7 +124,7 @@
         </tr>
         <tr>
           <th>Организација</th>
-          <th>Корисник (донатор)</th>
+          <th>Корисник (хаб)</th>
           <th>Тип на храна</th>
           <th>Производ</th>
           <th>Донирана количина</th>
@@ -142,7 +137,7 @@
         </tr>
 
         <?php
-          $current_listing_id = 0;
+          $current_hub_listing_id = 0;
           $total_portions_donated = 0;
           $total_portions_accepted = 0;
           $current_portion_size = 0;
@@ -151,36 +146,36 @@
 
         @foreach ($listing_offers as $listing_offer)
           <tr>
-            @if ($current_listing_id != $listing_offer->listing_id)
+            @if ($current_hub_listing_id != $listing_offer->hub_listing_id)
               <?php
                 // $listing_offer = Methods::listing_offer_filtered_count($listing_offer, $data);
-                // $listing_offers_number = $listing_offer->listing->listing_offers->where('offer_status', 'active')->count();
-                $listing_offers_number = Methods::listing_offer_filtered_count($data, $listing_offer->listing->id);
+                // $listing_offers_number = $listing_offer->hub_listing->listing_offers->where('offer_status', 'active')->count();
+                $listing_offers_number = Methods::listing_offer_filtered_count($data, $listing_offer->hub_listing->id);
                 //dump($listing_offers_number);
-                $listing = $listing_offer->listing;
-                $listing_organization = $listing->donor->organization->name;
-                $listing_user = $listing->donor->first_name . ' ' . $listing->donor->last_name;
-                $food_type = $listing->product->food_type->name;
-                $product = $listing->product->name;
-                $donated_quantity = $listing->quantity;
-                $donated_quantity_string = $listing->quantity . ' ' . $listing->quantity_type->name;
+                $hub_listing = $listing_offer->hub_listing;
+                $listing_organization = $hub_listing->hub->organization->name;
+                $listing_user = $hub_listing->hub->first_name . ' ' . $hub_listing->hub->last_name;
+                $food_type = $hub_listing->product->food_type->name;
+                $product = $hub_listing->product->name;
+                $donated_quantity = $hub_listing->quantity;
+                $donated_quantity_string = $hub_listing->quantity . ' ' . $hub_listing->quantity_type->name;
 
                 //get the portion size for this product & lisitng
-                $portion_size_row = FSR\ProductsQuantityType::where('product_id', $listing->product->id)
-                                          ->where('quantity_type_id', $listing->quantity_type->id)->get();
+                $portion_size_row = FSR\ProductsQuantityType::where('product_id', $hub_listing->product->id)
+                                          ->where('quantity_type_id', $hub_listing->quantity_type->id)->get();
 
                 if($portion_size_row->count() > 0) {
                   $current_portion_size = $portion_size_row[0]->portion_size;
                 }
-                $total_portions_donated += $listing->quantity / $current_portion_size;
+                $total_portions_donated += $hub_listing->quantity / $current_portion_size;
 
                 //unaccepted quantity
                 $accepted_quantity = 0;
-                foreach ($listing->listing_offers->where('offer_status','active') as $current_listing_offer) {
+                foreach ($hub_listing->listing_offers->where('offer_status','active') as $current_listing_offer) {
                     $accepted_quantity += $current_listing_offer->quantity;
                 }
                 $unaccepted_quantity = $donated_quantity - $accepted_quantity;
-                $unaccepted_quantity_string = $unaccepted_quantity . ' ' . $listing->quantity_type->name;
+                $unaccepted_quantity_string = $unaccepted_quantity . ' ' . $hub_listing->quantity_type->name;
 
                 //accepted quantity percentage
                 if ($donated_quantity > 0) {
@@ -189,7 +184,7 @@
                 }
                 else $accepted_quantity_percentage = "N/A";
 
-                $current_listing_id = $listing_offer->listing_id;
+                $current_hub_listing_id = $listing_offer->hub_listing_id;
               ?>
               <td {{($listing_offers_number > 1) ? 'rowspan = ' . $listing_offers_number : ''}} >{{$listing_organization}}</td>
               <td {{($listing_offers_number > 1) ? 'rowspan = ' . $listing_offers_number : ''}}>{{$listing_user}}</td>
@@ -203,7 +198,7 @@
               $listing_offer_organization = $listing_offer->cso->organization->name;
               $listing_offer_user = $listing_offer->cso->first_name . ' ' . $listing_offer->cso->last_name;
               $accepted_quantity = $listing_offer->quantity;
-              $accepted_quantity_string = $accepted_quantity . ' ' . $listing_offer->listing->quantity_type->name;
+              $accepted_quantity_string = $accepted_quantity . ' ' . $listing_offer->hub_listing->quantity_type->name;
               $comments_number = $listing_offer->comments->where('status','active')->count();
               $comments_number_string = "<a target='_blank' href='../../admin/listing_offers/" . $listing_offer->id . "'>" . $comments_number . "</a>";
 
@@ -219,28 +214,28 @@
 
 
 
-            {{-- <td>{{($donor_email_confirm_timestamp) ? $donor_email_confirm_timestamp->format('d.m.Y H:i') : ''}}</td>
-            <td>{{$donor_email_confirm_time}}</td> --}}
+            {{-- <td>{{($hub_email_confirm_timestamp) ? $hub_email_confirm_timestamp->format('d.m.Y H:i') : ''}}</td>
+            <td>{{$hub_email_confirm_time}}</td> --}}
           </tr>
 
         @endforeach
-        @foreach ($unaccepted_listings as $listing)
+        @foreach ($unaccepted_hub_listings as $hub_listing)
           <?php
-            $listing_organization = $listing->donor->organization->name;
-            $listing_user = $listing->donor->first_name . ' ' . $listing->donor->last_name;
-            $food_type = $listing->product->food_type->name;
-            $product = $listing->product->name;
-            $donated_quantity = $listing->quantity;
-            $donated_quantity_string = $listing->quantity . ' ' . $listing->quantity_type->name;
+            $listing_organization = $hub_listing->hub->organization->name;
+            $listing_user = $hub_listing->hub->first_name . ' ' . $hub_listing->hub->last_name;
+            $food_type = $hub_listing->product->food_type->name;
+            $product = $hub_listing->product->name;
+            $donated_quantity = $hub_listing->quantity;
+            $donated_quantity_string = $hub_listing->quantity . ' ' . $hub_listing->quantity_type->name;
 
             //get the portion size for this product & lisitng
-            $portion_size_row = FSR\ProductsQuantityType::where('product_id', $listing->product->id)
-                                      ->where('quantity_type_id', $listing->quantity_type->id)->get();
+            $portion_size_row = FSR\ProductsQuantityType::where('product_id', $hub_listing->product->id)
+                                      ->where('quantity_type_id', $hub_listing->quantity_type->id)->get();
 
             if($portion_size_row->count() > 0) {
               $current_portion_size = $portion_size_row[0]->portion_size;
             }
-            $total_portions_donated += $listing->quantity / $current_portion_size;
+            $total_portions_donated += $hub_listing->quantity / $current_portion_size;
 
           ?>
           <tr>

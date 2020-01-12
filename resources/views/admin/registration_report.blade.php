@@ -315,6 +315,129 @@
   </div>
 </div>
 
+<!-- RegistrationByUser table - hubs -->
+<div id="availability_table" class="col-md-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Регистрации по корисник - Хабови</div>
+    <div class="panel-body">
+      <table data-row-style="rowStyle" data-toggle="table" class="table-bordered">
+        <tr>
+          <th>Организација</th>
+          <th>Корисник</th>
+          <th>Статус</th>
+          <th>Се регистрирал на</th>
+          <th>Бил прифатен/одбиен на</th>
+          <th>Време за прифаќање</th>
+          <th>Го потврдил меилот на</th>
+          <th>Време на потврда на меил</th>
+        </tr>
+
+        <!-- Hubs -->
+        <?php $current_organization_id = 0; ?>
+        @foreach ($hubs as $hub)
+          <tr>
+
+            <?php
+              $hubs_count = $hub->organization->hubs->where('created_at', '>=', $date_from)
+                                                          ->where('created_at', '<=', $date_to_date)
+                                                          ->count();
+
+              //hub status
+              switch ($hub->status) {
+                case 'active':
+                  $hub_status = 'активен';
+                  break;
+                case 'pending':
+                  $hub_status = 'чека на одобрување';
+                  break;
+                case 'rejected':
+                  $hub_status = 'одбиен';
+                  break;
+
+                default:
+                $hub_status = $hub->status;
+                break;
+              }
+
+              //hub registered at
+              $hub_registered_at = Carbon::parse($hub->created_at);
+
+              // hub approve/reject timestamp
+              $hub_approved_log = FSR\Log::where('event', 'admin_approve')
+              ->where('user_type','hub')
+              ->where('user_id', $hub->id)
+              ->first();
+              if ($hub_approved_log) {
+                $hub_approve_reject_timestamp = Carbon::parse($hub_approved_log->created_at);
+              } else {
+                $hub_denied_log = FSR\Log::where('event', 'admin_deny')
+                ->where('user_type','hub')
+                ->where('user_id', $hub->id)
+                ->first();
+                if ($hub_denied_log) {
+                  $hub_approve_reject_timestamp = Carbon::parse($hub_denied_log->created_at);
+                } else {
+                  $hub_approve_reject_timestamp = '';
+                }
+              }
+
+              //hub approval/reject time
+              if ($hub_approve_reject_timestamp == '') {
+                $hub_approval_reject_time = '';
+              } else {
+                // $hub_approval_reject_time = $hub_registered_at->diffForHumans($hub_approve_reject_timestamp);
+                $hub_approval_reject_time = $hub_approve_reject_timestamp->diffForHumans($hub_registered_at);
+              }
+
+              //hub email confirm timestamp
+              $hub_email_confirm_log = FSR\Log::where('event', 'confirm_email')
+              ->where('user_type','hub')
+              ->where('user_id', $hub->id)
+              ->first();
+              if ($hub_email_confirm_log) {
+                $hub_email_confirm_timestamp = Carbon::parse($hub_email_confirm_log->created_at);
+              } else {
+                $hub_email_confirm_timestamp = '';
+              }
+
+              //hub email confirm time
+              if ($hub_email_confirm_timestamp == '') {
+                $hub_email_confirm_time = '';
+              } else {
+                // $hub_email_confirm_time = $hub_registered_at->diffForHumans($hub_email_confirm_timestamp);
+                $hub_email_confirm_time = $hub_email_confirm_timestamp->diffForHumans($hub_registered_at);
+              }
+            ?>
+            @if ($current_organization_id != $hub->organization_id)
+              <?php
+                $current_organization_id = $hub->organization_id;
+              ?>
+              <td {{($hubs_count > 1) ? 'rowspan=' . $hubs_count : ''}}>{{$hub->organization->name}}</td>
+            @endif
+            <td>{{$hub->first_name . ' ' . $hub->last_name}}</td>
+
+            {{-- <td>{{$hub_status}}</td> --}}
+            <td>{{$hub_status}}</td>
+            <td>{{$hub_registered_at->format('d.m.Y H:i')}}</td>
+            <td>{{($hub_approve_reject_timestamp) ? $hub_approve_reject_timestamp->format('d.m.Y H:i') : ''}}</td>
+            <td>{{$hub_approval_reject_time}}</td>
+            <td>{{($hub_email_confirm_timestamp) ? $hub_email_confirm_timestamp->format('d.m.Y H:i') : ''}}</td>
+            <td>{{$hub_email_confirm_time}}</td>
+          </tr>
+        @endforeach
+        @foreach ($hub_organizations as $organization)
+          @if ($organization->hubs->where('status','active')->count() == 0)
+            <tr>
+              <td>{{$organization->name}}</td>
+              <td colspan="7">Организацијата нема корисници</td>
+            </tr>
+          @endif
+        @endforeach
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Modals here (if needed) -->
 
 

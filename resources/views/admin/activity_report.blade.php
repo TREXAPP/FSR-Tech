@@ -156,18 +156,6 @@
                               ->where('user_type','donor')
                               ->count()}}</th>
           </tr>
-          {{-- @foreach ($timeframes_rows as $timeframes_row)
-          <tr>
-            <td>
-              {{$timeframes_row->day}}
-            </td>
-            @foreach (FSR\Timeframe::where('status', 'active')->orderby('hours_from', 'ASC')->where('day', $timeframes_row->day)->get() as $timeframe)
-              <td>
-                <input id="chk_availability_{{$timeframe->id}}" name="chk_availability_{{$timeframe->id}}" type="checkbox" />
-              </td>
-            @endforeach
-          </tr>
-          @endforeach --}}
 
       </table>
     </div>
@@ -214,7 +202,6 @@
               <td {{($csos_count > 1) ? 'rowspan=' . $csos_count : ''}}>{{$organization_open_home_pages}}</td>
             @endif
             <td>{{$cso->first_name . ' ' . $cso->last_name}}</td>
-            {{-- {{dump($donor->id)}} --}}
             <td>{{FSR\Log::where('event', 'login')
                              ->where('created_at', '>=', $date_from)
                              ->where('created_at', '<=', $date_to_date)
@@ -263,18 +250,101 @@
                               ->where('user_type','cso')
                               ->count()}}</th>
           </tr>
-          {{-- @foreach ($timeframes_rows as $timeframes_row)
+
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Hubs table -->
+<div id="availability_table" class="col-md-12">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Хабови</div>
+    <div class="panel-body">
+      <table data-row-style="rowStyle" data-toggle="table" class="table-bordered">
+        <tr>
+          <th rowspan={{$hubs->count() + $empty_hub_organizations_count + 1}}>
+            <!-- Empty -->
+          </th>
+          <th>Организација</th>
+          <th>Број на логирања по организација</th>
+          <th>Посети на почетна страна по организација</th>
+          <th>Корисник</th>
+          <th>Број на логирања по корисник</th>
+          <th>Посети на почетна страна по корисник</th>
+        </tr>
+        <?php $current_organization_id = 0; ?>
+        @foreach ($hubs as $hub)
           <tr>
-            <td>
-              {{$timeframes_row->day}}
-            </td>
-            @foreach (FSR\Timeframe::where('status', 'active')->orderby('hours_from', 'ASC')->where('day', $timeframes_row->day)->get() as $timeframe)
-              <td>
-                <input id="chk_availability_{{$timeframe->id}}" name="chk_availability_{{$timeframe->id}}" type="checkbox" />
-              </td>
-            @endforeach
+            @if ($current_organization_id != $hub->organization_id)
+              <?php
+                $current_organization_id = $hub->organization_id;
+                $hubs_count = $hub->organization->hubs->where('status','active')->count();
+                $organization_logins = $hub->organization->hub_logs->where('user_type','hub')
+                      ->where('event','login')
+                      ->where('created_at', '>=', $date_from)
+                      ->where('created_at', '<=', $date_to_date)
+                      ->count();
+                $organization_open_home_pages = $hub->organization->hub_logs->where('user_type','hub')
+                      ->where('event','open_home_page')
+                      ->where('created_at', '>=', $date_from)
+                      ->where('created_at', '<=', $date_to_date)
+                      ->count();
+              ?>
+              <td {{($hubs_count > 1) ? 'rowspan=' . $hubs_count : ''}}>{{$hub->organization->name}}</td>
+              <td {{($hubs_count > 1) ? 'rowspan=' . $hubs_count : ''}}>{{$organization_logins}}</td>
+              <td {{($hubs_count > 1) ? 'rowspan=' . $hubs_count : ''}}>{{$organization_open_home_pages}}</td>
+            @endif
+            <td>{{$hub->first_name . ' ' . $hub->last_name}}</td>
+            <td>{{FSR\Log::where('event', 'login')
+                             ->where('created_at', '>=', $date_from)
+                             ->where('created_at', '<=', $date_to_date)
+                             ->where('user_type','hub')
+                             ->where('user_id', $hub->id)
+                             ->count()}}</td>
+            <td>{{FSR\Log::where('event', 'open_home_page')
+                         ->where('created_at', '>=', $date_from)
+                         ->where('created_at', '<=', $date_to_date)
+                         ->where('user_type','hub')
+                         ->where('user_id', $hub->id)
+                         ->count()}}</td>
           </tr>
-          @endforeach --}}
+        @endforeach
+
+      @foreach ($hub_organizations as $organization)
+        @if ($organization->hubs->where('status','active')->count() == 0)
+          <tr>
+            <td>{{$organization->name}}</td>
+            <td colspan="5">Организацијата нема корисници</td>
+          </tr>
+        @endif
+      @endforeach
+          <tr>
+            <th>Вкупно</th>
+            <th>{{$hub_organizations->count()}}</th>
+            <th>{{FSR\Log::where('event', 'login')
+                             ->where('created_at', '>=', $date_from)
+                             ->where('created_at', '<=', $date_to_date)
+                             ->where('user_type','hub')
+                             ->count()}}</th>
+            <th>{{FSR\Log::where('event', 'open_home_page')
+                              ->where('created_at', '>=', $date_from)
+                              ->where('created_at', '<=', $date_to_date)
+                              ->where('user_type','hub')
+                              ->count()}}</th>
+            <th>{{$hubs->count()}}</th>
+            <th>{{FSR\Log::where('event', 'login')
+                             ->where('created_at', '>=', $date_from)
+                             ->where('created_at', '<=', $date_to_date)
+                             ->where('user_type','hub')
+                             ->count()}}</th>
+            <th>{{FSR\Log::where('event', 'open_home_page')
+                              ->where('created_at', '>=', $date_from)
+                              ->where('created_at', '<=', $date_to_date)
+                              ->where('user_type','hub')
+                              ->count()}}</th>
+          </tr>
 
       </table>
     </div>

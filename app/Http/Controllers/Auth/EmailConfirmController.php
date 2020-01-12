@@ -49,6 +49,9 @@ class EmailConfirmController extends Controller
         case 'donor':
             return '/donor/home';
           break;
+        case 'hub':
+            return '/hub/home';
+          break;
 
         default:
         return '/';
@@ -63,7 +66,7 @@ class EmailConfirmController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth:donor,cso');
+        $this->middleware('auth:donor,cso,hub');
     }
 
     // /**
