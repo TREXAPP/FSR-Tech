@@ -96,7 +96,7 @@
               $listings = FSR\Listing::where('date_listed', '>=', $date_from)
                                       ->where('date_listed', '<=', $date_to_date)
                                       ->where('product_id', $product->id)
-                                      ->where('status', 'active')
+                                      ->where('listing_status', 'active')
                                       ->orderBy('quantity_type_id')->get();
 
               $quantity_donated_string = '';

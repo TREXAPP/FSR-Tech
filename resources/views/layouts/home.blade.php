@@ -7,8 +7,8 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-     <link rel="stylesheet" type="text/css" href="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.css">
-<script type="text/javascript" src="https://rawgit.com/wenzhixin/bootstrap-table/master/src/bootstrap-table.js"></script>
+     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.5/bootstrap-table.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.5/bootstrap-table.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -123,7 +123,7 @@
         <div class="logos-left col-md-9">
           <div class="logos-left-wrapper col-md-12">
             <div class="footer-logo logo-ajdemakedonija col-sm-3 col-xs-6">
-              <a href="http://ajdemakedonija.mk/">
+              <a href="http://ajdemakedonija.sitesiti.mk/">
                 <img src="{{url("img/logo_ajde_makedonija.png")}}" alt="Ајде Македонија">
               </a>
             </div>

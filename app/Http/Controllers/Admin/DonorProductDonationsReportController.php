@@ -79,7 +79,7 @@ class DonorProductDonationsReportController extends Controller
 
         $listings = Listing::where('date_listed', '>=', $date_from)
                         ->where('date_listed', '<=', $date_to_date)
-                        ->where('status', 'active')
+                        ->where('listing_status', 'active')
                         ->orderBy('quantity_type_id')->get();
 
         return view('admin.donor_product_donations_report')->with([

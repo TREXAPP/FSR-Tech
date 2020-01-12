@@ -9,7 +9,7 @@
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Админ</a></li>
-      <li><a href="/{{Auth::user()->type()}}/new_location"><i class="fa fa-plus-circle"></i> Додади нова локација</a></li>
+      <li><a href="/{{Auth::user()->type()}}/locations/new"><i class="fa fa-plus-circle"></i> Додади нова локација</a></li>
     </ol>
   </section>
 

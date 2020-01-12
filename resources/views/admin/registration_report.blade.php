@@ -215,6 +215,7 @@
           <tr>
 
             <?php
+            $date_to_date = Carbon::parse($date_to)->addDays(1);
               $csos_count = $cso->organization->csos->where('created_at', '>=', $date_from)
                                                           ->where('created_at', '<=', $date_to_date)
                                                           ->count();
@@ -338,6 +339,7 @@
           <tr>
 
             <?php
+            $date_to_date = Carbon::parse($date_to)->addDays(1);
               $hubs_count = $hub->organization->hubs->where('created_at', '>=', $date_from)
                                                           ->where('created_at', '<=', $date_to_date)
                                                           ->count();

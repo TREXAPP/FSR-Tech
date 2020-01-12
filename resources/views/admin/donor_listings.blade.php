@@ -10,7 +10,7 @@
     </h1>
     <ol class="breadcrumb hidden-sm hidden-xs">
       <li><a href="/{{Auth::user()->type()}}/home"> Admin</a></li>
-      <li><a href="/{{Auth::user()->type()}}/my_listings"><i class="fa fa-cutlery"></i> Донации</a></li>
+      <li><a href="/{{Auth::user()->type()}}/donor_listings"><i class="fa fa-cutlery"></i> Донации од донатори</a></li>
     </ol>
   </section>
 
