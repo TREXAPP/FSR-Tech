@@ -62,7 +62,7 @@
 					<div id="food-type-name-{{$food_type->id}}" class="food-type-name">
 						<span class="food-type-listing-title two-col-layout-listing-title">{{$food_type->name}}</span>
 						<br>
-						<small>{{$food_type->products->count()}} производи</small>
+						<small>{{$food_type->products->where('status', 'active')->count()}} производи</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
@@ -118,7 +118,7 @@
 							class="btn btn-success edit-food-type-button">Измени ги податоците</a>
 							<button id="delete-food-type-button-{{ $food_type->id }}" type="submit" data-toggle="modal" data-target="#delete-food-type-popup"
 								name="delete-food-type-button" class="btn btn-danger delete-food-type-button"
-								{{($food_type->products->count()) ? ' disabled' : '' }}>Избриши ја категоријата</button>
+								{{($food_type->products->where('status', 'active')->count()) ? ' disabled' : '' }}>Избриши ја категоријата</button>
 							</div>
 			</div>
 

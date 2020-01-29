@@ -22,7 +22,7 @@ class HubToCsosAdminNewDonation extends Notification implements ShouldQueue
      * @param HubListing $hub_listing
      * @return void
      */
-    public function __construct(HubListing $hub_listing)
+    public function __construct(?HubListing $hub_listing)
     {
         $this->hub_listing = $hub_listing;
     }

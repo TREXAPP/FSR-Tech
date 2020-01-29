@@ -95,6 +95,7 @@ class DonorListingsController extends Controller
         $hub_listing_offer = $this->create($request->all());
         $status_label = "Донацијата е успешно прифатена!";
 
+        $hub_listing = null;
         if ($reposting) {
             $hub_listing = $this->create_listing($request->all());
             $status_label = "Донацијата е успешно прифатена и објавена!";

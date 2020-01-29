@@ -94,19 +94,19 @@ class RegistrationReportController extends Controller
 
         $empty_donor_organizations_count = 0;
         foreach ($donor_organizations as $organization) {
-            if ($organization->donors->count() == 0) {
+            if ($organization->donors->where('status', 'active')->count() == 0) {
                 $empty_donor_organizations_count++;
             }
         }
         $empty_cso_organizations_count = 0;
         foreach ($cso_organizations as $organization) {
-            if ($organization->csos->count() == 0) {
+            if ($organization->csos->where('status', 'active')->count() == 0) {
                 $empty_cso_organizations_count++;
             }
         }
         $empty_hub_organizations_count = 0;
         foreach ($hub_organizations as $organization) {
-            if ($organization->hubs->count() == 0) {
+            if ($organization->hubs->where('status', 'active')->count() == 0) {
                 $empty_hub_organizations_count++;
             }
         }

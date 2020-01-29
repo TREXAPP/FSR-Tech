@@ -39,10 +39,9 @@ class CsoAcceptedListingsController extends Controller
     {
         $listing_offer = ListingOffer::where('offer_status', 'active')
                                     ->whereHas('hub_listing', function ($query) {
-                                        $query->where('cso_id', Auth::user()->id)
+                                        $query->where('hub_id', Auth::user()->id)
                                               ->where('status', 'active');
                                     })->find($listing_offer_id);
-
         $comments = CsoHubComment::where('listing_offer_id', $listing_offer_id)
                             ->where('status', 'active')
                             ->orderBy('created_at', 'ASC')->get();

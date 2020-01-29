@@ -51,7 +51,7 @@
 					<div id="location-name-{{$location->id}}" class="location-name">
 						<span class="location-listing-title two-col-layout-listing-title">{{$location->name}}</span>
 						<br>
-						<small>{{$location->donors->count()}} донатори и {{$location->csos->count()}} приматели</small>
+						<small>{{$location->donors->where('status', 'active')->count()}} донатори и {{$location->csos->where('status', 'active')->count()}} приматели</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
@@ -107,7 +107,7 @@
 							class="btn btn-success edit-location-button">Измени ги податоците</a>
 							<button id="delete-location-button-{{ $location->id }}" type="submit" data-toggle="modal" data-target="#delete-location-popup"
 								name="delete-location-button" class="btn btn-danger delete-location-button"
-								{{($location->csos->count() || $location->donors->count()) ? ' disabled' : '' }}>Избриши ја локацијата</button>
+								{{($location->csos->where('status', 'active')->count() || $location->donors->where('status', 'active')->count()) ? ' disabled' : '' }}>Избриши ја локацијата</button>
 							</div>
 			</div>
 

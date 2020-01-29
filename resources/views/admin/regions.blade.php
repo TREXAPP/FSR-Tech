@@ -51,7 +51,7 @@
 					<div id="region-name-{{$region->id}}" class="region-name">
 						<span class="region-listing-title two-col-layout-listing-title">{{$region->name}}</span>
 						<br>
-						<small>{{$region->locations->count()}} локации</small>
+						<small>{{$region->locations->where('status', 'active')->count()}} локации</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
@@ -97,7 +97,7 @@
 							class="btn btn-success edit-region-button">Измени ги податоците</a>
 							<button id="delete-region-button-{{ $region->id }}" type="submit" data-toggle="modal" data-target="#delete-region-popup"
 								name="delete-region-button" class="btn btn-danger delete-region-button"
-								{{($region->locations->count()) ? ' disabled' : '' }}>Избриши го регионот</button>
+								{{($region->locations->where('status', 'active')->count()) ? ' disabled' : '' }}>Избриши го регионот</button>
 							</div>
 			</div>
 

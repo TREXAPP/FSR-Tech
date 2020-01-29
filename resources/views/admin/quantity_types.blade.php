@@ -55,7 +55,7 @@
 					<div id="quantity-type-name-{{$quantity_type->id}}" class="quantity-type-name">
 						<span class="quantity-type-listing-title two-col-layout-listing-title">{{$quantity_type->description}} - {{$quantity_type->name}}</span>
 						<br>
-						<small>{{$quantity_type->products->count()}} производи</small>
+						<small>{{$quantity_type->products->where('status', 'active')->count()}} производи</small>
 					</div>
 					<div class="box-tools pull-right">
 						<span class="add-more">Повеќе...</span>
@@ -103,7 +103,7 @@
 							class="btn btn-success edit-quantity-type-button">Измени ги податоците</a>
 							<button id="delete-quantity-type-button-{{ $quantity_type->id }}" type="submit" data-toggle="modal" data-target="#delete-quantity-type-popup"
 								name="delete-quantity-type-button" class="btn btn-danger delete-quantity-type-button"
-								{{($quantity_type->products->count()) ? ' disabled' : '' }}>Избриши ја количината</button>
+								{{($quantity_type->products->where('status', 'active')->count()) ? ' disabled' : '' }}>Избриши ја количината</button>
 							</div>
 			</div>
 
